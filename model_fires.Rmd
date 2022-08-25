@@ -1,0 +1,29 @@
+---
+output: 
+  pdf_document: 
+    keep_tex: yes
+    includes:
+        in_header: ~/Desktop/csu/preamble_common.tex
+---
+
+## Overall model
+
+[counts | $\mu,\pi$] = $I_{[n=0]}(1 - \pi + \pi e^{-\mu}) + I_{[n>0]}\pi\frac{\mu^n e^{-\mu}}{n!}$  
+  
+## Parameters
+$\text{log}(\bm{\mu}) = \bm{\alpha}^{(\mu)} + \bmX\bmbeta^{(\mu)} + \bm{\Phi}^{(\mu)} + \log(\bma)$  
+  
+$\text{logit}(\bm{\pi}) = \bm{\alpha}^{(\pi)} + \bmX\bmbeta^{(\pi)} + \bm{\Phi}^{(\pi)}$  
+
+## Priors  
+$\bmbeta \sim N(\bm0, \bmV \otimes \bmU)$  
+$\bmV$ is spatial correlation matrix  
+$\bmU$ is covariance matrix for spline covariates; has AR(1) structure  
+  
+    
+
+$t^{th}$ column of $\bm{\Phi}$:  
+$\bm{\phi}_{t=1} \sim N(\bm0, (\tau(\bmD - \bmW))^{-1})$   
+$\bm{\phi}_t \sim N(\eta\bm{\phi}_{t-1}, (\tau(\bmD - \bmW))^{-1})$  
+$\bmD = 84 \times 84$ diagonal matrix, entries correspond to number of spatial neighbors for each spatial unit  
+$\bmW = 84 \times 84$ spatial adjacency matrix with nonzero elements only when unit i is a neighbor of unit j

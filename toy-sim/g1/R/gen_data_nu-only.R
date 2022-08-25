@@ -138,7 +138,7 @@ truth_nu <- ggplot(nu_effects, aes(x=linear, y=effect, group = region)) +
   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on nu")
 truth_nu
 
-nb <- read_rds('./data/processed/nb.rds')
+nb <- read_rds('./toy-sim/shared-data/nb.rds')
 ecoregions <- read_rds(file = "./toy-sim/shared-data/ecoregions.RDS")
 nb_agg <- aggregate(nb, ecoregions$NA_L3NAME)
 nbInfo <- nb2WB(nb_agg)

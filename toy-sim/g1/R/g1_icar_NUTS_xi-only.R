@@ -9,7 +9,6 @@ library(RColorBrewer)
 library(patchwork)
 library(classInt)
 library(spatialreg)
-rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 # generate toy data

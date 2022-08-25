@@ -199,7 +199,7 @@ for(i in 1:(t*r)) {
 # range(sigma_true)
 range(y)
 
-stan_d <- list(
+toy_data <- list(
   t = t,
   p = p,
   r = r,

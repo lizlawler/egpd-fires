@@ -16,7 +16,6 @@ options(mc.cores = parallel::detectCores())
 source("./toy-sim/g1/R/gen_data_nu-only.R")
 
 # run sampling
-toy_data <- stan_d
 egpd_init <- stan_model('./toy-sim/g1/stan/g1_icarphi_nu-only.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = toy_data, 

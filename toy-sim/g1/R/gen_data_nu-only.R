@@ -13,7 +13,7 @@ g1_random <- function(n = n, sigma = 1, xi = 0.5, kappa = 5) {
   return(g1_cdf_inv(u, sigma, xi, kappa))
 }
 
-t <- 500 # timepoints
+t <- 1000 # timepoints
 p <- 7 # parameters
 
 # create correlation matrix from 3 levels of relationships using real ecoregions
@@ -134,9 +134,9 @@ nu_effects <- t(df_nu) %>% as_tibble() %>%
   left_join(., X_long) %>%
   left_join(., mod_reg_key) %>% mutate(type = "truth")
 
-truth_nu <- ggplot(nu_effects, aes(x=linear, y=effect, group = region)) +
-  geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on nu")
-truth_nu
+# truth_nu <- ggplot(nu_effects, aes(x=linear, y=effect, group = region)) +
+#   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on nu")
+# truth_nu
 
 nb <- read_rds('./toy-sim/shared-data/nb.rds')
 ecoregions <- read_rds(file = "./toy-sim/shared-data/ecoregions.RDS")

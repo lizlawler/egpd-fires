@@ -23,17 +23,17 @@ egpd_fit <- sampling(egpd_init,
                      refresh = 50)
 
 # save traceplot
-MCMCtrace(egpd_fit, params = c("beta_kappa", "phi_nu", "rho1_nu", "rho2_nu"),
+MCMCtrace(egpd_fit, params = c("beta_nu", "phi_nu", "rho1_nu", "rho2_nu"),
           ind = TRUE,
-          gvals = c(toy_data$betas_nu, toy_data$phi_mat_nu, toy_data$rho1_nu,toy_data$rho2_nu),
+          gvals = c(toy_data$betas_nu, toy_data$phi_mat_nu, toy_data$rho1_nu, toy_data$rho2_nu),
           open_pdf = FALSE,
-          filename = paste0('./toy-sim/figures/g1_trace_',
+          filename = paste0('./toy-sim/figures/g1_trace-nu_',
                             format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))
 
 
 
 ## ------
-post <- rstan::extract(egpd_fit, pars = c("beta_nu"))
+post <- rstan::extract(egpd_fit, pars = c("beta_nu", "phi_nu"))
 median_nu <- apply(post$beta_nu, c(2,3), median)
 
 post_nu_effects_df <- matrix(NA, r, t)
@@ -59,13 +59,14 @@ ggsave(paste0('./toy-sim/figures/g1_post-effects-nu_',
 
 
 ## maps of phi -----
+ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)")
 pre_phi_nu <- phi_mat_nu %>% as_tibble() %>% 
   rename_with(., ~ reg_cols) %>%
   mutate(timepoint = 1:all_of(t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "phi_val", names_to = "region") %>%
   left_join(., mod_reg_key) %>% mutate(type = "truth")
 
-median_phi_nu <- apply(post_phi$phi_nu, c(2,3), median)
+median_phi_nu <- apply(post$phi_nu, c(2,3), median)
 post_phi_nu <- median_phi_nu %>% as_tibble() %>%
   rename_with(., ~ reg_cols) %>%
   mutate(timepoint = 1:all_of(t)) %>%
@@ -86,7 +87,7 @@ full_phi_onetime_nu <- ecoregions_geom %>%
   theme_minimal() + 
   theme(panel.grid.major = element_line(colour = "lightgrey"))
 
-ggsave(paste0('./toy-sim/figures/g1_phi-map_',
+ggsave(paste0('./toy-sim/figures/g1_phi-map-nu_',
               format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"),
               ".pdf"),
        plot=full_phi_onetime_nu,

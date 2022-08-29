@@ -7,13 +7,12 @@ library(spatialreg)
 library(extraDistr)
 
 
-t <- 200 # timepoints
+t <- 1000 # timepoints
 p <- 7 # parameters
 
 # create correlation matrix from 3 levels of relationships using real ecoregions
-load(file = "toy-sim/shared-data/region_key.RData")
+load(file = "./toy-sim/shared-data/region_key.RData")
 level1_all8and9 <- seq(8,9.9,0.1)
-# level1_all10and11 <- seq(10,11.9,0.1)
 
 mod_reg_key <- as_tibble(region_key) %>% 
   mutate(region = sprintf("reg%d", 1:84),
@@ -118,20 +117,10 @@ for(i in 1:r) {
   df_lambda[i,] <- X_full[i, , ] %*% betas_lambda[, i]
 }
 
-# X_long <- X %>% as_tibble() %>% mutate(time = c(1:t)) %>%
-#   rename_with(., ~ gsub("V", "reg", .x, fixed = TRUE)) %>%
-#   pivot_longer(cols = c(1:all_of(r)), values_to = "linear", names_to = "region")
-
 X_long <- X %>% as_tibble() %>%
   rename_with(., ~ reg_cols) %>% 
   mutate(time = c(1:t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "linear", names_to = "region")
-
-# lambda_effects <- t(df_lambda) %>% as_tibble() %>% mutate(time = c(1:t)) %>%
-#   rename_with(., ~ gsub("V", "reg", .x, fixed = TRUE)) %>%
-#   pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
-#   left_join(., X_long) %>%
-#   left_join(., mod_reg_key) %>% mutate(type = "truth")
 
 lambda_effects <- t(df_lambda) %>% as_tibble() %>% 
   rename_with(., ~ reg_cols) %>% 
@@ -140,17 +129,12 @@ lambda_effects <- t(df_lambda) %>% as_tibble() %>%
   left_join(., X_long) %>%
   left_join(., mod_reg_key) %>% mutate(type = "truth")
 
-truth_lambda <- ggplot(lambda_effects, aes(x=linear, y=effect, group = region)) +
-  geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on lambda")
-truth_lambda
-# ggsave(paste0('manuscript/scripts/toy_sim/g1/rep_summit/truth_lambda_', 
-#               format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"),
-#               ".pdf"), 
-#        plot=truth_lambda, 
-#        device = "pdf")
+# truth_lambda <- ggplot(lambda_effects, aes(x=linear, y=effect, group = region)) +
+#   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on lambda")
+# truth_lambda
 
-nb <- read_rds('~/Desktop/research/egpd-fires/data/processed/nb.rds')
-ecoregions <- read_rds(file = "toy-sim/shared-data/ecoregions.RDS")
+nb <- read_rds('./toy-sim/shared-data/nb.rds')
+ecoregions <- read_rds(file = "./toy-sim/shared-data/ecoregions.RDS")
 nb_agg <- aggregate(nb, ecoregions$NA_L3NAME)
 nbInfo <- nb2WB(nb_agg)
 nb_mat <- nb2mat(nb_agg, style = 'B')
@@ -191,7 +175,7 @@ y <- rep(NA, t*r)
 for(i in 1:(t*r)) y[i] <- rzip(1, lambda_true[i], pi)
 range(y)
 
-stan_d <- list(
+toy_data <- list(
   t = t,
   p = p,
   r = r,
@@ -224,4 +208,4 @@ stan_d <- list(
                phi_mat = phi_mat, tau = tau, eta = eta)
 )
 # toy_data_icarphi_st <- stan_d
-write_rds(stan_d, 'manuscript/scripts/toy_sim/zip/data/zip_reg10and11only_pi-const.rds')
+# write_rds(stan_d, 'manuscript/scripts/toy_sim/zip/data/zip_reg10and11only_pi-const.rds')

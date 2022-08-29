@@ -78,9 +78,6 @@ model {
   }
 
   // likelihood
-  // for (i in 1:(t*r)) {
-  //   target += poisson_lpmf(y[i] | lambda[i]);
-  // }
   for (i in 1:(t*r)) {
     if (y[i] == 0) {
       target += log_sum_exp(bernoulli_lpmf(1 | pi_val),

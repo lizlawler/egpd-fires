@@ -23,7 +23,7 @@ egpd_fit <- sampling(egpd_init,
                      refresh = 50)
 
 # save traceplot
-MCMCtrace(egpd_fit, params = c("beta_lambda", "phi", "rho1_nu", "rho2_nu"),
+MCMCtrace(egpd_fit, params = c("beta_lambda", "phi", "rho1", "rho2"),
           ind = TRUE,
           gvals = c(betas_lambda, phi_mat, rho1, rho2),
           open_pdf = FALSE,

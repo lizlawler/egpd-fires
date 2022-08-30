@@ -1,0 +1,81 @@
+---
+output: 
+  pdf_document: 
+    keep_tex: yes
+    includes:
+        in_header: ~/Desktop/csu/preamble_common.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  cache = TRUE,
+  tidy.opts=list(width.cutoff=60),
+  tidy=TRUE,
+  fig.align = "center",
+  out.width = "65%"
+)
+```
+
+### General Form of Distributions
+
+$$F(x) = G\{H_{\xi}{(\frac{x}{\sigma})} \} $$
+
+### Parametric Families  
+
+1. $G(v) = v^\kappa, \ \kappa > 0$ 
+$$F_1(x) = \{1 - [1 + \xi(\frac{x}{\sigma})]^{-1/\xi} \}^\kappa$$
+$$f_1(x) = \frac{\kappa}{\sigma}[1 + \xi (\frac{x}{\sigma})]^{-(1/\xi + 1)}\{1 - [1+\xi(\frac{x}{\sigma})]^{-1/\xi} \} ^{\kappa-1}$$
+```{r}
+
+
+
+g1_pdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
+  lpdf <- log(kappa) - log(sigma) - (1/xi + 1) * log(1 + xi * (x/sigma)) + 
+    (kappa-1) * log(1 - (1 + xi * (x/sigma))^(-1/xi))
+  return(exp(lpdf))
+}
+
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 1), xlim = c(0, 7.5))
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 2), xlim = c(0, 7.5), add = TRUE, col = 'blue')
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 5), xlim = c(0, 7.5), add = TRUE, col = 'red')
+```
+
+$$F^{-1}(u) = \frac{\sigma}{\xi} [(1-u^{1/\kappa})^{-\xi} - 1] $$
+```{r}
+g1_cdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
+  (1 - (1 + xi * (x/sigma))^(-1/xi))^kappa
+}
+
+g1_cdf_inv <- function(u, sigma = sigma, xi = xi, kappa = kappa) {
+  (sigma/xi) * ((1-u^(1/kappa))^-xi - 1)
+}
+
+u1000 <- runif(1000000)
+range(hist_cdf)
+```
+
+```{r}
+hist_cdf <- g1_cdf_inv(u1000, sigma = 1, xi = 0.5, kappa =2)
+hist(g1_cdf_inv(u1000, sigma = 1, xi = 0.5, kappa = 2), breaks = seq(0, max(hist_cdf) + 1, 0.1),  xlim = c(0,10), freq = FALSE)
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 2), xlim = c(0, 7.5), add = TRUE, col = 'red')
+
+```
+
+
+2. $G(v) = pv^{\kappa_1} + (1-p)v^{\kappa_2}, \ \kappa_1, \kappa_2 >0$
+3. $G(v) = 1-Q_\delta\{(1-v)^\delta\}, \ \delta > 0, \ \ Q_\delta \sim \text{Beta}(1/\delta, 2)$
+4. $G(v) = [1-Q_\delta\{(1-v)^\delta\}]^{\kappa/2}, \ \kappa, \delta > 0$
+
+
+### Burned area model
+
+[area | $\sigma^{(L)}, \xi^{(L)}$] = $G\{H_{\xi}{(\frac{x}{\sigma})} \}$
+  
+**Parameters**  
+$\text{log}(\bm{\sigma^{(L)}}) = \bm{\alpha} + \bmX_{s_i, t_i}\bmbeta + \Phi_{s_i,t_i}$  
+$\xi^{(GPD)} = 1/\xi^{(L)}$  
+$\sigma^{(GPD)} = \sigma^{(GPD)}/ \xi^{(L)}$
+ 

@@ -1,0 +1,143 @@
+---
+output: 
+  pdf_document: 
+    keep_tex: yes
+    includes:
+        in_header: ~/Desktop/csu/preamble_common.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  cache = TRUE,
+  tidy.opts=list(width.cutoff=60),
+  tidy=TRUE,
+  fig.align = "center",
+  out.width = "65%"
+)
+library(nimble)
+library(coda)
+library(tidyverse)
+library(LearnBayes)
+library(bayestestR)
+```
+
+### Results of EGPD model on Simulated data
+```{r}
+g1_cdf_inv <- function(u, sigma = sigma, xi = xi, kappa = kappa) {
+  (sigma/xi) * ((1-u^(1/kappa))^-xi - 1)
+}
+g1_random <- function(n = n, sigma = 1, xi = 0.5, kappa = 5) {
+  u <- runif(n)
+  return(g1_cdf_inv(u, sigma, xi, kappa))
+}
+```
+
+```{r}
+n <- 100
+kappa_true <- rexp(n, 1) + 1
+xi_true <- rbeta(n, 6, 2)
+sigma_true <- rexp(n, 1)
+y <- rep(NA, n)
+for(i in 1:n) {
+  y[i] <- g1_random(n = 1, sigma = sigma_true[i], xi = xi_true[i], kappa = kappa_true[i])
+}
+
+dEGPDpower <- nimbleFunction(
+  run = function(x = double(), sigma = double(), xi = double(), kappa = double(),
+                 log = logical(0, default = 1)) {
+    returnType(double())
+    logProb <- log(kappa) - log(sigma) - (1/xi + 1) * log(1 + xi * (x/sigma)) + (kappa-1) * log(1 - (1 + xi * (x/sigma))^(-1/xi))
+    return(logProb)
+  }
+)
+
+# function to assess performance of model on each parameter
+ci_perf <- function(matrix, true_vals, method, ci_level) {
+  hdi_list <- apply(matrix, 2, function(x) ci(x, method = method, ci = ci_level))
+  perf_tibble <- tibble(do.call(rbind.data.frame, hdi_list)) %>% 
+    select(-1) %>% add_column(truth = true_vals) %>% 
+    mutate(contained = CI_low <= truth & CI_high >= truth)
+  coverage <- perf_tibble %>% summarize(coverage = sum(contained)/nrow(.))
+  return(list(perf_tibble = perf_tibble, coverage = coverage))
+}
+```
+
+Misspecified model (wrong priors on three parameters)
+```{r}
+toy_egpd <- nimbleCode({
+
+  # likelihood
+  for(i in 1:n) {
+    sigma[i] ~ dnorm(0, 1)
+    xi[i] ~ dnorm(0, 1)
+    kappa[i] ~ dnorm(0, 1)
+    y[i] ~ dEGPDpower(sigma = abs(sigma[i]), xi = abs(xi[i]), kappa = abs(kappa[i]))
+    
+  }
+})
+
+constants <- list(n = n)
+data <- list(y = y)
+# Initializing using the true distributions (how data were simulated)
+inits <- list(kappa = rexp(n, 1) + 1, xi = rbeta(n, 6, 2), sigma = rexp(n, 1))
+toy_model <- nimbleModel(toy_egpd, constants = constants, data = data, inits = inits)
+
+conf_toyegpd <- configureMCMC(toy_model, useConjugacy = TRUE)
+mcmc_toyegpd <- buildMCMC(conf_toyegpd)
+comp_toyegpd <- compileNimble(toy_model, mcmc_toyegpd, resetFunctions = TRUE)
+samples <- runMCMC(mcmc = comp_toyegpd$mcmc_toyegpd, niter=10000, thin = 10, nchains = 5) %>% as.matrix()
+
+kappa_samples <- lapply(samples, function(x) as.mcmc(x[ , grep("kappa", colnames(x))]))
+sigma_samples <- lapply(samples, function(x) as.mcmc(x[ , grep("sigma", colnames(x))]))
+xi_samples <- lapply(samples, function(x) as.mcmc(x[ , grep("xi", colnames(x))]))
+
+lapply(kappa_samples, function(x) ci_perf(x, kappa_true, "HDI", 0.89)$coverage)
+lapply(sigma_samples, function(x) ci_perf(x, sigma_true, "HDI", 0.89)$coverage)
+lapply(xi_samples, function(x) ci_perf(x, xi_true, "HDI", 0.89)$coverage)
+
+misspec_samples <- samples
+```
+
+Correct priors 
+```{r}
+toy_egpd <- nimbleCode({
+
+  # likelihood
+  for(i in 1:n) {
+    sigma[i] ~ dexp(1)
+    xi[i] ~ dbeta(6, 2) 
+    kappa[i] ~ dexp(1)
+    y[i] ~ dEGPDpower(sigma = sigma[i], xi = xi[i], kappa = kappa[i])
+  }
+})
+constants <- list(n = n)
+data <- list(y = y)
+# Initializing using the true distributions (how data were simulated)
+inits <- list(kappa = rexp(n, 1) + 1, xi = rbeta(n, 6, 2), sigma = rexp(n,1))
+toy_model <- nimbleModel(toy_egpd, constants = constants, data = data, inits = inits)
+
+conf_toyegpd <- configureMCMC(toy_model, useConjugacy = TRUE)
+mcmc_toyegpd <- buildMCMC(conf_toyegpd)
+comp_toyegpd <- compileNimble(toy_model, mcmc_toyegpd, resetFunctions = TRUE)
+samples <- runMCMC(mcmc = comp_toyegpd$mcmc_toyegpd, niter=10000, thin = 10, nchains = 1) %>% as.matrix() %>% as.mcmc()
+
+kappa_samples <- lapply(correct_samples, function(x) as.mcmc(x[ , grep("kappa", colnames(x))]))
+sigma_samples <- lapply(samples, function(x) as.mcmc(x[ , grep("sigma", colnames(x))]))
+xi_samples <- lapply(samples, function(x) as.mcmc(x[ , grep("xi", colnames(x))]))
+
+lapply(kappa_samples, function(x) ci_perf(x, kappa_true, "HDI", 0.89)$coverage)
+lapply(sigma_samples, function(x) ci_perf(x, sigma_true, "HDI", 0.89)$coverage)
+lapply(xi_samples, function(x) ci_perf(x, xi_true, "HDI", 0.89)$coverage)
+
+correct_samples <- samples
+```
+
+
+Add in regression piece, on only kappa first
+```{r}
+
+```
+

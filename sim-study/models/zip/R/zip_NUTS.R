@@ -12,10 +12,10 @@ library(spatialreg)
 options(mc.cores = parallel::detectCores())
 
 # generate toy data
-source("./toy-sim/zip/R/zip_data.R")
+source("./sim-study/models/zip/R/zip_data.R")
 
 # run sampling
-egpd_init <- stan_model('./toy-sim/zip/stan/zip_icar.stan')
+egpd_init <- stan_model('./sim-study/models/zip/stan/zip_icar.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = toy_data, 
                      iter = 1000,
@@ -27,7 +27,7 @@ MCMCtrace(egpd_fit, params = c("beta_lambda", "phi", "rho1", "rho2"),
           ind = TRUE,
           gvals = c(betas_lambda, phi_mat, rho1, rho2),
           open_pdf = FALSE,
-          filename = paste0('./toy-sim/figures/zip_trace-lambda_',
+          filename = paste0('./sim-study/figures/zip_trace-lambda_',
                             format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))
 
 # pre and post effects plot
@@ -51,7 +51,7 @@ lambda_full <- rbind(lambda_effects, post_lambda) %>% mutate(type = factor(type,
 post_effects <- ggplot(lambda_full, aes(x=linear, y=effect, group = region)) + 
   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + 
   facet_grid(type ~ .)
-ggsave(paste0('./toy-sim/figures/zip_post-effects_',
+ggsave(paste0('./sim-study/figures/zip_post-effects_',
               format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"),
               ".pdf"),
        plot=post_effects,
@@ -86,7 +86,7 @@ full_phi_onetime <- ecoregions_geom %>%
   facet_grid(type ~ .) +
   theme_minimal() + 
   theme(panel.grid.major = element_line(colour = "lightgrey"))
-ggsave(paste0('./toy-sim/figures/zip_phi-map_',
+ggsave(paste0('./sim-study/figures/zip_phi-map_',
               format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"),
               ".pdf"),
        plot=full_phi_onetime,

@@ -151,3 +151,17 @@ Chain 3:  Elapsed Time: 21506.7 seconds (Warm-up)
 Chain 3:                23598.5 seconds (Sampling)
 Chain 3:                45105.3 seconds (Total)
 Chain 3: 
+Warning messages:
+1: There were 1500 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+https://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded 
+2: Examine the pairs() plot to diagnose sampling problems
+ 
+3: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#bulk-ess 
+4: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#tail-ess 
+Error in MCMCtrace(egpd_fit, params = c("beta_xi", "phi_xi", "rho1_xi",  : 
+  object 'rho1_xi' not found
+Execution halted

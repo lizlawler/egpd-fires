@@ -18,7 +18,7 @@ source("./sim-study/models/g1/R/g1_data_xi-only.R")
 egpd_init <- stan_model('./sim-study/models/g1/stan/g1_xi-only.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = toy_data, 
-                     iter = 200,
+                     iter = 1000,
                      chains = 3,
                      refresh = 50)
 

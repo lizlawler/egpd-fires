@@ -33,53 +33,7 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -231,6 +185,12 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \author{}
 \date{\vspace{-2.5em}}
@@ -255,8 +215,6 @@ Distributions}\label{general-form-of-distributions}}
   \[f_1(x) = \frac{\kappa}{\sigma}[1 + \xi (\frac{x}{\sigma})]^{-(1/\xi + 1)}\{1 - [1+\xi(\frac{x}{\sigma})]^{-1/\xi} \} ^{\kappa-1}\]
 \end{enumerate}
 
-\begin{center}\includegraphics[width=0.6\linewidth]{dist_sheet_files/figure-latex/unnamed-chunk-1-1} \end{center}
-
 \[F_1^{-1}(U) = \frac{\sigma}{\xi} [(1-U^{1/\kappa})^{-\xi} - 1]\]
 
 \begin{enumerate}
@@ -269,10 +227,6 @@ Distributions}\label{general-form-of-distributions}}
   \[f_2(x) = \frac{1}{\sigma}[1 + \xi (\frac{x}{\sigma})]^{-(1/\xi + 1)}\left(\kappa_1p\{1 - [1+\xi(\frac{x}{\sigma})]^{-1/\xi} \} ^{\kappa_1-1} + \kappa_2(1-p)\{1 - [1+\xi(\frac{x}{\sigma})]^{-1/\xi} \} ^{\kappa_2-1}\right)\]
 \end{enumerate}
 
-\begin{center}\includegraphics[width=0.6\linewidth]{dist_sheet_files/figure-latex/unnamed-chunk-4-1} \end{center}
-
-\pagebreak
-
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{2}
@@ -284,57 +238,7 @@ Distributions}\label{general-form-of-distributions}}
 
 \[f_3(x) = \frac{1 + \delta}{\delta\sigma}[1 + \xi (\frac{x}{\sigma})]^{-(1/\xi + 1)}\left(1 - [1+\xi(\frac{x}{\sigma})]^{-\delta/\xi} \right)\]
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{g3\_pdf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x, }\AttributeTok{sigma =}\NormalTok{ sigma, }\AttributeTok{xi =}\NormalTok{ xi, }\AttributeTok{delta =}\NormalTok{ delta) \{}
-\NormalTok{    lpdf }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ delta) }\SpecialCharTok{{-}} \FunctionTok{log}\NormalTok{(delta }\SpecialCharTok{*}\NormalTok{ sigma) }\SpecialCharTok{{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{xi }\SpecialCharTok{+} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*}
-        \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ xi }\SpecialCharTok{*}\NormalTok{ (x}\SpecialCharTok{/}\NormalTok{sigma)) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ xi }\SpecialCharTok{*}\NormalTok{ (x}\SpecialCharTok{/}\NormalTok{sigma))}\SpecialCharTok{\^{}}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{delta}\SpecialCharTok{/}\NormalTok{xi))}
-    \FunctionTok{return}\NormalTok{(}\FunctionTok{exp}\NormalTok{(lpdf))}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{curve}\NormalTok{(}\FunctionTok{g3\_pdf}\NormalTok{(x, }\AttributeTok{sigma =} \DecValTok{1}\NormalTok{, }\AttributeTok{xi =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{delta =} \DecValTok{25}\NormalTok{), }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}
-    \DecValTok{7}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{ylab =} \StringTok{"pdf"}\NormalTok{, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
-\FunctionTok{curve}\NormalTok{(}\FunctionTok{g3\_pdf}\NormalTok{(x, }\AttributeTok{sigma =} \DecValTok{1}\NormalTok{, }\AttributeTok{xi =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{delta =} \DecValTok{5}\NormalTok{), }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}
-    \DecValTok{7}\NormalTok{), }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
-\FunctionTok{curve}\NormalTok{(}\FunctionTok{g3\_pdf}\NormalTok{(x, }\AttributeTok{sigma =} \DecValTok{1}\NormalTok{, }\AttributeTok{xi =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{delta =} \DecValTok{3}\NormalTok{), }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}
-    \DecValTok{7}\NormalTok{), }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{col =} \StringTok{"green"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{center}\includegraphics[width=0.6\linewidth]{dist_sheet_files/figure-latex/unnamed-chunk-15-1} \end{center}
-
 \[F_3^{-1}(U) = \frac{\sigma}{\xi}\left([Q_\delta^{-1}\{1 - U\}]^{-\xi/\delta} - 1\right)\]
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{g3\_cdf\_inv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(u, }\AttributeTok{sigma =}\NormalTok{ sigma, }\AttributeTok{xi =}\NormalTok{ xi, }\AttributeTok{delta =}\NormalTok{ delta) \{}
-\NormalTok{    (sigma}\SpecialCharTok{/}\NormalTok{xi) }\SpecialCharTok{*}\NormalTok{ ((}\FunctionTok{qbeta}\NormalTok{((}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ u), (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{delta), }\DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{xi}\SpecialCharTok{/}\NormalTok{delta)) }\SpecialCharTok{{-}}
-        \DecValTok{1}\NormalTok{)}
-\NormalTok{\}}
-
-\NormalTok{g3\_rng }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n, }\AttributeTok{sigma =}\NormalTok{ sigma, }\AttributeTok{xi =}\NormalTok{ xi, }\AttributeTok{delta =}\NormalTok{ delta) \{}
-    \FunctionTok{g3\_cdf\_inv}\NormalTok{(}\FunctionTok{runif}\NormalTok{(n), sigma, xi, delta)}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\pagebreak
-
-\(\delta = 1\)
-
-\begin{center}\includegraphics[width=0.6\linewidth]{dist_sheet_files/figure-latex/unnamed-chunk-17-1} \end{center}
-
-\(\delta = 3\)
-
-\begin{center}\includegraphics[width=0.6\linewidth]{dist_sheet_files/figure-latex/unnamed-chunk-18-1} \end{center}
-
-\(\delta = 5\)
-
-\begin{center}\includegraphics[width=0.6\linewidth]{dist_sheet_files/figure-latex/unnamed-chunk-19-1} \end{center}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}

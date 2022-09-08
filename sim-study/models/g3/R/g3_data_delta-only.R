@@ -1,8 +1,9 @@
 library(readr)
-library(LearnBayes)
 library(Matrix)
 library(splines)
 library(tidyverse)
+library(spdep)
+library(spatialreg)
 
 g3_cdf_inv <- function(u, sigma = sigma, xi = xi, delta = delta) {
   (sigma/xi) * ((qbeta((1-u), (1/delta), 2)^(-xi/delta)) - 1)
@@ -12,21 +13,35 @@ g3_rng <- function(n, sigma = sigma, xi = xi, delta = delta) {
   g3_cdf_inv(runif(n), sigma, xi, delta)
 }
 
-n <- 2000
-r <- 10 # regions
+t <- 1000 # timepoints
 p <- 7 # parameters
 
 # create correlation matrix from 3 levels of relationships using real ecoregions
-load(file = "region_key.RData")
+load(file = "./sim-study/shared-data/region_key.RData")
+level1_all8and9 <- seq(8,9.9,0.1)
+
 mod_reg_key <- as_tibble(region_key) %>% 
   mutate(region = sprintf("reg%d", 1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE)) %>% 
-  select(3:5)
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE)) %>%
+  filter(NA_L2CODE %in% level1_all8and9)
+
+full_reg_key <- as_tibble(region_key) %>% 
+  mutate(region = sprintf("reg%d", 1:84),
+         NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE))
+
+# indices of selected regions, pulled from full region key
+idx <- which(full_reg_key$NA_L2CODE %in% mod_reg_key$NA_L2CODE)
+
+r <- dim(mod_reg_key)[1]
+reg_cols <- mod_reg_key$region
 level3 <- matrix(0, 84, 84)
 level2 <- matrix(0, 84, 84)
 level1 <- matrix(0, 84, 84)
-# rownames(corr_mat) <- region_key$NA_L3NAME
+
 for(i in 1:84) {
   for(j in 1:84) {
     if (region_key[j, "NA_L3CODE"] == region_key[i, "NA_L3CODE"]) {
@@ -43,15 +58,16 @@ for(i in 1:84) {
     }
   }
 }
-l3 <- level3[1:r, 1:r]
-l2 <- level2[1:r, 1:r]
-l1 <- level1[1:r, 1:r]
+l3 <- level3[idx, idx]
+l2 <- level2[idx, idx]
+l1 <- level1[idx, idx]
 rho1 <- 0.54; rho2 <- 0.45
 corr <- l3 + rho2 * l2 + rho1 * l1
 chol_corr <- chol(corr)
 
 # add in AR prior to betas -------
-bp <- runif(1)/2
+bp_delta <- runif(1)/2
+
 # create indicator matrices to create AR(1) covariance matrix for use in data generation and in stan model
 zeroes <- matrix(0, p, p)
 equal <- diag(p)
@@ -78,62 +94,113 @@ for(i in 3:p) { # indices 1 and 2 are for the intercept column and the linear co
     }
   }
 }
-cov_ar1 <- equal + bp * bp_lin + bp^2 * bp_square + bp^3 * bp_cube + bp^4 * bp_quart
-chol_ar1 <- chol(cov_ar1)
 
-# kron_cov <- cov_ar1 %x% corr
-# kron_chol <- chol(kron_cov)
+cov_ar1_delta <- equal + bp_delta * bp_lin + bp_delta^2 * bp_square + bp_delta^3 * bp_cube + bp_delta^4 * bp_quart
+chol_ar1_delta <- chol(cov_ar1_delta)
 
 # normal process --------
 Z_delta <- matrix(rnorm(r * p), r, p)
-# Z_nu <- matrix(rmnorm(r * p, mean = rep(0, r*p), varcov = diag(r * p)), p, r)
-# Z_xi <- matrix(rmnorm(r * p, mean = rep(0, r*p), varcov = diag(r * p)), p, r)
 
 # create betas from std normal with AR(1) covariance matrix and 4 region correlation matrix
-betas_delta <- t(t(chol_corr) %*% Z_delta %*% chol_ar1)
+betas_delta <- t(t(chol_corr) %*% Z_delta %*% chol_ar1_delta)
 
-genSpline <- function(x, n, df = 5, degree, theta) {
-  basis <- bs(x = x, df = df, degree = degree, 
-              Boundary.knots = range(x), intercept = FALSE)
-  full_design <- cbind(rep(1, n), x, basis)
-  return(list(full_design, full_design %*% theta))
+# addition of time component ------
+genSpline <- function(x, t, r, df = 5, degree) {
+  full_design <- array(NA, dim = c(r, t, df + 2))
+  for(i in 1:r) {
+    basis <- bs(x = x[, i], df = df, degree = degree, 
+                Boundary.knots = range(x[, i]), intercept = FALSE)    
+    full_design[i, ,] <- cbind(rep(1,t), x[, i], basis)
+  }
+  return(full_design)
 }
-X <- matrix(rnorm(n*1), n, 1)
-basis_df <- genSpline(X, n, df = 5, degree = 3, betas_delta)
 
-full_effects <- basis_df[[2]] %>% as_tibble() %>%
-  rename_with(., ~ gsub("V", "reg", .x, fixed = TRUE)) %>% 
-  mutate(design = as.vector(X)) %>% 
-  # change cols to appropriate number of regions; if 15 regions, make 1:15, etc
-  pivot_longer(cols = c(1:10), values_to = "effect", names_to = "region") %>%
-  left_join(., mod_reg_key)
+X <- matrix(rnorm(t*r), t, r)
+X_full <- genSpline(X, t, r, df = 5, degree = 3)
+df_delta <- matrix(NA, r, t)
+for(i in 1:r) {
+  df_delta[i,] <- X_full[i, , ] %*% betas_delta[, i]
+}
 
-truth_plot <- ggplot(full_effects, aes(x=design, y=effect, group = region)) + 
-  geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE))
-truth_plot
+X_long <- X %>% as_tibble() %>%
+  rename_with(., ~ reg_cols) %>% 
+  mutate(time = c(1:t)) %>%
+  pivot_longer(cols = c(1:all_of(r)), values_to = "linear", names_to = "region")
 
-X_final <- as.matrix(basis_df[[1]])
+delta_effects <- t(df_delta) %>% as_tibble() %>% 
+  rename_with(., ~ reg_cols) %>% 
+  mutate(time = c(1:t)) %>%
+  pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
+  left_join(., X_long) %>%
+  left_join(., mod_reg_key) %>% mutate(type = "truth")
 
-# betas_delta <- matrix(runif(p*r, -.25, 0.25), p, r)
-betas_nu <- matrix(runif(p*r, -.25, 0.25), p, r)
-betas_xi <- matrix(runif(p*r, -.25, .25), p, r)
+# truth_nu <- ggplot(xi_effects, aes(x=linear, y=effect, group = region)) +
+#   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on nu")
+# truth_nu
 
-delta_true <- c(exp(X_final %*% betas_delta/3))
-nu_true <- c(exp(X_final %*% betas_nu)) 
-xi_true <- c(exp(X_final %*% betas_xi)) 
+nb <- read_rds('./sim-study/shared-data/nb.rds')
+ecoregions <- read_rds(file = "./sim-study/shared-data/ecoregions.RDS")
+nb_agg <- aggregate(nb, ecoregions$NA_L3NAME)
+nbInfo <- nb2WB(nb_agg)
+nb_mat <- nb2mat(nb_agg, style = 'B')
 
-y <- rep(NA, n*r)
-sigma_true <- rep(NA, n*r)
-for(i in 1:(n*r)) {
+W <- nb_mat # unnormalized weight matrix
+D <- diag(nbInfo$num)
+
+smallD <- D[idx, idx]
+smallW <- W[idx, idx]
+tau <- rexp(1)
+eta <- runif(1)
+alpha <- 0.99
+phi_mat_delta <- matrix(NA, t, r)
+Q <- tau * (smallD - alpha * smallW)
+phi_mat_delta[1,] <- rnorm(rep(0,r), Q) # first timepoint
+for(i in 2:t) {
+  phi_mat_delta[i,] <- rnorm(eta * phi_mat_delta[i-1,], Q)
+}
+
+### generate neighborhood data for icar prior in stan
+listw <- nb2listw(nb_agg, style = 'B', zero.policy = TRUE)
+B <- as(listw, 'symmetricMatrix')
+smallB <- B[idx, idx]
+n_edges = length(smallB@i)
+node1 = smallB@i+1 # add one to offset zero-based index
+node2 = smallB@j+1
+
+betas_xi <- matrix(runif(p*r, -.25, 0.25), p, r)
+betas_nu <- matrix(runif(p*r, -.25, .25), p, r)
+reg_delta <- matrix(NA, r, t)
+reg_nu <- matrix(NA, r, t)
+reg_xi <- matrix(NA, r, t)
+
+for(i in 1:r) {
+  reg_delta[i,] <- X_full[i, , ] %*% betas_delta[, i]/3 + phi_mat_delta[,i]/15
+  reg_nu[i,] <- X_full[i, , ] %*% betas_nu[, i]/4 
+  reg_xi[i,] <- X_full[i, , ] %*% betas_xi[, i]/10 
+}
+range(exp(reg_delta))
+range(exp(reg_nu))
+range(exp(reg_xi))
+delta_true <- c(exp(reg_delta))
+nu_true <- c(exp(reg_nu))
+xi_true <- c(exp(reg_xi))
+
+y <- rep(NA, t*r)
+sigma_true <- rep(NA, t*r)
+for(i in 1:(t*r)) {
   sigma_true[i] <- nu_true[i]/(1 + xi_true[i])
-  y[i] <- g3_rng(1, sigma = sigma_true[i], xi = xi_true[i], delta = delta_true[i])
+  y[i] <- g3_rng(n = 1, sigma = sigma_true[i], xi = xi_true[i], delta = delta_true[i])
+  if (y[i] == 0) {
+    y[i] = y[i] + 1e-10
+  } else {
+    y[i] = y[i]
+  }
 }
-
+# range(sigma_true)
 range(y)
-range(delta_true)
 
-stan_d <- list(
-  n = n,
+toy_data <- list(
+  t = t,
   p = p,
   r = r,
   
@@ -150,16 +217,17 @@ stan_d <- list(
   bp_quart = bp_quart,
   
   # data
-  X = X_final,
+  X = X_full,
   y = y,
-
   
-  # true parameters to use in diagnostics post sampling
-  truth = list(betas_delta = betas_delta, betas_nu = betas_nu, betas_xi = betas_xi,
-               rho1 = rho1, rho2 = rho2,
-               bp = bp)
+  N_edges = n_edges,
+  node1 = node1,
+  node2 = node2
+  
+  #   true parameters to use in diagnostics post sampling
+  # truth = list(betas_xi = betas_xi, 
+  #              phi_mat_xi = phi_mat_xi,
+  #              rho1_xi = rho1,
+  #              rho2_xi = rho2)
 )
-
-toy_data_g3_corr_ar1_10reg <- stan_d
-write_rds(toy_data_g3_corr_ar1_10reg, 'manuscript/scripts/toy_sim/g3/data/toy_data_g3_corr_ar1_10reg.rds')
-
+write_rds(toy_data, 'sim-study/models/g3/data/g3_delta-only.rds')

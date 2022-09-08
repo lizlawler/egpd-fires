@@ -231,4 +231,4 @@ toy_data <- list(
   #              bp_lambda = bp_lambda, 
   #              phi_mat = phi_mat, tau = tau, eta = eta)
 )
-write_rds(toy_data, 'sim-study/models/zip/data/zip_xi-only.rds')
+write_rds(toy_data, 'sim-study/models/zip/data/zip_lambda-pi.rds')

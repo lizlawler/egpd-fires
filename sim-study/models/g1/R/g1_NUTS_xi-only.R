@@ -22,15 +22,7 @@ egpd_fit <- sampling(egpd_init,
                      chains = 3,
                      refresh = 50)
 
-# save traceplot
-MCMCtrace(egpd_fit, params = c("beta_xi", "phi_xi", "rho1_xi", "rho2_xi"),
-          ind = TRUE,
-          gvals = c(betas_xi, phi_mat_xi, rho1_xi, rho2_xi),
-          open_pdf = FALSE,
-          filename = paste0('./sim-study/figures/g1/trace/g1_trace-xi_',
-                            format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))
-
-
+saveRDS(egpd_fit, file = "./sim-study/models/g1/stan-fits/g1_xi-only.RDS")
 
 ## ------
 post <- rstan::extract(egpd_fit, pars = c("beta_xi", "phi_xi"))
@@ -93,3 +85,10 @@ ggsave(paste0('./sim-study/figures/g1/maps/g1_phi-map-xi_',
        plot=full_phi_onetime_xi,
        device = "pdf")
 
+# save traceplot-------
+MCMCtrace(egpd_fit, params = c("beta_xi", "phi_xi", "rho1_xi", "rho2_xi"),
+          ind = TRUE,
+          gvals = c(betas_xi, phi_mat_xi, rho1, rho2),
+          open_pdf = FALSE,
+          filename = paste0('./sim-study/figures/g1/trace/g1_trace-xi_',
+                            format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))

@@ -230,3 +230,4 @@ toy_data <- list(
                rho1_xi = rho1,
                rho2_xi = rho2)
 )
+write_rds(toy_data, 'sim-study/models/g1/data/g1_xi-only.rds')

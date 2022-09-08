@@ -63,6 +63,8 @@ chol_corr <- chol(corr)
 
 # add in AR prior to betas -------
 bp_lambda <- runif(1)/2
+bp_pi <- runif(1)/2
+
 
 # create indicator matrices to create AR(1) covariance matrix for use in data generation and in stan model
 zeroes <- matrix(0, p, p)
@@ -92,12 +94,15 @@ for(i in 3:p) { # indices 1 and 2 are for the intercept column and the linear co
 }
 cov_ar1_lambda <- equal + bp_lambda * bp_lin + bp_lambda^2 * bp_square + bp_lambda^3 * bp_cube + bp_lambda^4 * bp_quart
 chol_ar1_lambda <- chol(cov_ar1_lambda)
-
+cov_ar1_pi <- equal + bp_pi * bp_lin + bp_pi^2 * bp_square + bp_pi^3 * bp_cube + bp_pi^4 * bp_quart
+chol_ar1_pi <- chol(cov_ar1_pi)
 # normal process --------
 Z_lambda <- matrix(rnorm(r * p), r, p)
+Z_pi <- matrix(rnorm(r * p), r, p)
 
 # create betas from std normal with AR(1) covariance matrix and 4 region correlation matrix
 betas_lambda <- t(t(chol_corr) %*% Z_lambda %*% chol_ar1_lambda)
+betas_pi <- t(t(chol_corr) %*% Z_pi %*% chol_ar1_pi)
 
 # addition of time component ------
 genSpline <- function(x, t, r, df = 5, degree) {
@@ -129,6 +134,19 @@ lambda_effects <- t(df_lambda) %>% as_tibble() %>%
   left_join(., X_long) %>%
   left_join(., mod_reg_key) %>% mutate(type = "truth")
 
+df_pi <- matrix(NA, r, t)
+for(i in 1:r) {
+  df_pi[i,] <- X_full[i, , ] %*% betas_pi[, i]
+}
+
+pi_effects <- t(df_pi) %>% as_tibble() %>% 
+  rename_with(., ~ reg_cols) %>% 
+  mutate(time = c(1:t)) %>%
+  pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
+  left_join(., X_long) %>%
+  left_join(., mod_reg_key) %>% mutate(type = "truth")
+
+
 # truth_lambda <- ggplot(lambda_effects, aes(x=linear, y=effect, group = region)) +
 #   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on lambda")
 # truth_lambda
@@ -147,11 +165,14 @@ smallW <- W[idx, idx]
 tau <- rexp(1)
 eta <- runif(1)
 alpha <- 0.99
-phi_mat <- matrix(NA, t, r)
+phi_mat_lambda <- matrix(NA, t, r)
+phi_mat_pi <- matrix(NA, t, r)
 Q <- tau * (smallD - alpha * smallW)
-phi_mat[1,] <- rnorm(rep(0,r), Q) # one timepoint
+phi_mat_lambda[1,] <- rnorm(rep(0,r), Q) # one timepoint
+phi_mat_pi[1,] <- rnorm(rep(0,r), Q) # one timepoint
 for(i in 2:t) {
-  phi_mat[i,] <- rnorm(eta * phi_mat[i-1,], Q)
+  phi_mat_lambda[i,] <- rnorm(eta * phi_mat_lambda[i-1,], Q)
+  phi_mat_pi[i,] <- rnorm(eta * phi_mat_pi[i-1,], Q)
 }
 
 ### generate neighborhood data for icar prior in stan
@@ -163,16 +184,19 @@ node1 = smallB@i+1 # add one to offset zero-based index
 node2 = smallB@j+1
 
 reg_lambda <- matrix(NA, r, t)
+reg_pi <- matrix(NA, r, t)
 for(i in 1:r) {
-  reg_lambda[i,] <- X_full[i, , ] %*% betas_lambda[, i]/5 + phi_mat[, i]/10
+  reg_lambda[i,] <- X_full[i, , ] %*% betas_lambda[, i]/5 + phi_mat_lambda[, i]/10
+  reg_pi[i,] <- X_full[i, , ] %*% betas_pi[, i]/5 + phi_mat_pi[, i]/10
 }
-range(c(exp(reg_lambda)))
+expit <- function(x) exp(x)/(1 + exp(x))
+range(exp(reg_lambda))
+range(expit(reg_pi))
 lambda_true <- c(exp(reg_lambda))
-# y <- rep(NA, t*r)
-# for(i in 1:(t*r)) y[i] <- rpois(1, lambda_true[i])
-pi <- 0.1
+pi_true <- c(expit(reg_pi))
+
 y <- rep(NA, t*r)
-for(i in 1:(t*r)) y[i] <- rzip(1, lambda_true[i], pi)
+for(i in 1:(t*r)) y[i] <- rzip(1, lambda_true[i], pi_true[i])
 range(y)
 
 toy_data <- list(
@@ -195,17 +219,16 @@ toy_data <- list(
   # data
   X = X_full,
   y = y,
-  pi_val = pi,
+  # pi_val = pi,
   
   N_edges = n_edges,
   node1 = node1,
-  node2 = node2,
+  node2 = node2
   
   #   true parameters to use in diagnostics post sampling
-  truth = list(betas_lambda = betas_lambda, 
-               rho1 = rho1, rho2 = rho2, 
-               bp_lambda = bp_lambda, 
-               phi_mat = phi_mat, tau = tau, eta = eta)
+  # truth = list(betas_lambda = betas_lambda, 
+  #              rho1 = rho1, rho2 = rho2, 
+  #              bp_lambda = bp_lambda, 
+  #              phi_mat = phi_mat, tau = tau, eta = eta)
 )
-# toy_data_icarphi_st <- stan_d
-# write_rds(stan_d, 'manuscript/scripts/toy_sim/zip/data/zip_reg10and11only_pi-const.rds')
+write_rds(toy_data, 'sim-study/models/zip/data/zip_xi-only.rds')

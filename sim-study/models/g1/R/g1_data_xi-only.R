@@ -188,7 +188,7 @@ xi_true <- c(exp(reg_xi))
 y <- rep(NA, t*r)
 sigma_true <- rep(NA, t*r)
 for(i in 1:(t*r)) {
-  sigma_true[i] <- xi_true[i]/(1 + xi_true[i])
+  sigma_true[i] <- nu_true[i]/(1 + xi_true[i])
   y[i] <- g1_random(n = 1, sigma = sigma_true[i], xi = xi_true[i], kappa = kappa_true[i])
   if (y[i] == 0) {
     y[i] = y[i] + 1e-10

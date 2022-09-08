@@ -18,8 +18,8 @@ source("./sim-study/models/g3/R/g3_data_nu-only.R")
 egpd_init <- stan_model('./sim-study/models/g3/stan/g3_nu-only.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = toy_data, 
-                     iter = 500,
-                     chains = 1,
+                     iter = 1000,
+                     chains = 3,
                      refresh = 50)
 
 saveRDS(egpd_fit, file = "./sim-study/models/g3/stan-fits/g3_nu-only.RDS")

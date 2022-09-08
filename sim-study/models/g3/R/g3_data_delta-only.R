@@ -4,7 +4,6 @@ library(Matrix)
 library(splines)
 library(tidyverse)
 
-
 g3_cdf_inv <- function(u, sigma = sigma, xi = xi, delta = delta) {
   (sigma/xi) * ((qbeta((1-u), (1/delta), 2)^(-xi/delta)) - 1)
 }

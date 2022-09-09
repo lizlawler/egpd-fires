@@ -127,3 +127,49 @@ Chain 1: Iteration: 800 / 1000 [ 80%]  (Sampling)
 Chain 3: Iteration: 850 / 1000 [ 85%]  (Sampling)
 Chain 2: Iteration: 850 / 1000 [ 85%]  (Sampling)
 Chain 1: Iteration: 850 / 1000 [ 85%]  (Sampling)
+Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
+Chain 2: Iteration: 950 / 1000 [ 95%]  (Sampling)
+Chain 3: Iteration: 950 / 1000 [ 95%]  (Sampling)
+Chain 1: Iteration: 950 / 1000 [ 95%]  (Sampling)
+Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 26824.3 seconds (Warm-up)
+Chain 2:                30989.2 seconds (Sampling)
+Chain 2:                57813.4 seconds (Total)
+Chain 2: 
+Chain 3: 
+Chain 3:  Elapsed Time: 26796.1 seconds (Warm-up)
+Chain 3:                31042.5 seconds (Sampling)
+Chain 3:                57838.6 seconds (Total)
+Chain 3: 
+Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 27072 seconds (Warm-up)
+Chain 1:                31620.9 seconds (Sampling)
+Chain 1:                58692.9 seconds (Total)
+Chain 1: 
+Warning messages:
+1: There were 1500 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+https://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded 
+2: Examine the pairs() plot to diagnose sampling problems
+ 
+3: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#bulk-ess 
+4: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#tail-ess 
+Joining, by = c("time", "region")
+Joining, by = "region"
+Saving 7 x 7 in image
+Joining, by = "region"
+Joining, by = "region"
+Joining, by = c("NA_L3CODE", "NA_L3NAME", "NA_L2CODE", "NA_L1CODE")
+Saving 7 x 7 in image
+Error in grDevices::pdf(file = filename, ..., version = version) : 
+  cannot open file './sim-study/figures/g3/maps/g3_phi-map-nu_08Sep2022_1535.pdf'
+Calls: ggsave -> dev -> <Anonymous>
+Execution halted

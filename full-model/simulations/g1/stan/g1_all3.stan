@@ -31,7 +31,7 @@ data {
   matrix[p, p] bp_quart;
 }
 
-// should consider transforming X and y so they're centered and scaled
+// may want to add "transformed data" block to standardize X and y; remember that "./" us elementwise division
 
 parameters {
   vector[r] phi_init_kappa[t];

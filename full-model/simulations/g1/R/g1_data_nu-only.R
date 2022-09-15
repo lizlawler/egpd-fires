@@ -5,12 +5,12 @@ library(tidyverse)
 library(spdep)
 library(spatialreg)
 
-g3_cdf_inv <- function(u, sigma = sigma, xi = xi, delta = delta) {
-  (sigma/xi) * ((qbeta((1-u), (1/delta), 2)^(-xi/delta)) - 1)
+g1_cdf_inv <- function(u, sigma = sigma, xi = xi, kappa = kappa) {
+  (sigma/xi) * ((1-u^(1/kappa))^-xi - 1)
 }
-
-g3_rng <- function(n, sigma = sigma, xi = xi, delta = delta) {
-  g3_cdf_inv(runif(n), sigma, xi, delta)
+g1_random <- function(n = n, sigma = 1, xi = 0.5, kappa = 5) {
+  u <- runif(n)
+  return(g1_cdf_inv(u, sigma, xi, kappa))
 }
 
 t <- 1000 # timepoints
@@ -66,7 +66,7 @@ corr <- l3 + rho2 * l2 + rho1 * l1
 chol_corr <- chol(corr)
 
 # add in AR prior to betas -------
-bp_delta <- runif(1)/2
+bp_nu <- runif(1)/2
 
 # create indicator matrices to create AR(1) covariance matrix for use in data generation and in stan model
 zeroes <- matrix(0, p, p)
@@ -95,14 +95,14 @@ for(i in 3:p) { # indices 1 and 2 are for the intercept column and the linear co
   }
 }
 
-cov_ar1_delta <- equal + bp_delta * bp_lin + bp_delta^2 * bp_square + bp_delta^3 * bp_cube + bp_delta^4 * bp_quart
-chol_ar1_delta <- chol(cov_ar1_delta)
+cov_ar1_nu <- equal + bp_nu * bp_lin + bp_nu^2 * bp_square + bp_nu^3 * bp_cube + bp_nu^4 * bp_quart
+chol_ar1_nu <- chol(cov_ar1_nu)
 
 # normal process --------
-Z_delta <- matrix(rnorm(r * p), r, p)
+Z_nu <- matrix(rnorm(r * p), r, p)
 
 # create betas from std normal with AR(1) covariance matrix and 4 region correlation matrix
-betas_delta <- t(t(chol_corr) %*% Z_delta %*% chol_ar1_delta)
+betas_nu <- t(t(chol_corr) %*% Z_nu %*% chol_ar1_nu)
 
 # addition of time component ------
 genSpline <- function(x, t, r, df = 5, degree) {
@@ -117,9 +117,9 @@ genSpline <- function(x, t, r, df = 5, degree) {
 
 X <- matrix(rnorm(t*r), t, r)
 X_full <- genSpline(X, t, r, df = 5, degree = 3)
-df_delta <- matrix(NA, r, t)
+df_nu <- matrix(NA, r, t)
 for(i in 1:r) {
-  df_delta[i,] <- X_full[i, , ] %*% betas_delta[, i]
+  df_nu[i,] <- X_full[i, , ] %*% betas_nu[, i]
 }
 
 X_long <- X %>% as_tibble() %>%
@@ -127,16 +127,16 @@ X_long <- X %>% as_tibble() %>%
   mutate(time = c(1:t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "linear", names_to = "region")
 
-delta_effects <- t(df_delta) %>% as_tibble() %>% 
+nu_effects <- t(df_nu) %>% as_tibble() %>% 
   rename_with(., ~ reg_cols) %>% 
   mutate(time = c(1:t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
   left_join(., X_long) %>%
   left_join(., mod_reg_key) %>% mutate(type = "truth")
 
-truth_delta <- ggplot(delta_effects, aes(x=linear, y=effect, group = region)) +
-  geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on delta")
-truth_delta 
+# truth_nu <- ggplot(nu_effects, aes(x=linear, y=effect, group = region)) +
+#   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + labs(title = "Regression on nu")
+# truth_nu
 
 nb <- read_rds('./sim-study/shared-data/nb.rds')
 ecoregions <- read_rds(file = "./sim-study/shared-data/ecoregions.RDS")
@@ -152,11 +152,11 @@ smallW <- W[idx, idx]
 tau <- rexp(1)
 eta <- runif(1)
 alpha <- 0.99
-phi_mat_delta <- matrix(NA, t, r)
+phi_mat_nu <- matrix(NA, t, r)
 Q <- tau * (smallD - alpha * smallW)
-phi_mat_delta[1,] <- rnorm(rep(0,r), Q) # first timepoint
+phi_mat_nu[1,] <- rnorm(rep(0,r), Q) # first timepoint
 for(i in 2:t) {
-  phi_mat_delta[i,] <- rnorm(eta * phi_mat_delta[i-1,], Q)
+  phi_mat_nu[i,] <- rnorm(eta * phi_mat_nu[i-1,], Q)
 }
 
 ### generate neighborhood data for icar prior in stan
@@ -167,21 +167,21 @@ n_edges = length(smallB@i)
 node1 = smallB@i+1 # add one to offset zero-based index
 node2 = smallB@j+1
 
-betas_xi <- matrix(runif(p*r, -.25, 0.25), p, r)
-betas_nu <- matrix(runif(p*r, -.25, .25), p, r)
-reg_delta <- matrix(NA, r, t)
+betas_kappa <- matrix(runif(p*r, -.25, 0.25), p, r)
+betas_xi <- matrix(runif(p*r, -.25, .25), p, r)
+reg_kappa <- matrix(NA, r, t)
 reg_nu <- matrix(NA, r, t)
 reg_xi <- matrix(NA, r, t)
 
 for(i in 1:r) {
-  reg_delta[i,] <- X_full[i, , ] %*% betas_delta[, i]/3 + phi_mat_delta[,i]/15
-  reg_nu[i,] <- X_full[i, , ] %*% betas_nu[, i]/4 
-  reg_xi[i,] <- X_full[i, , ] %*% betas_xi[, i]/10 
+  reg_kappa[i,] <- X_full[i, , ] %*% betas_kappa[, i]
+  reg_nu[i,] <- X_full[i, , ] %*% betas_nu[, i]/4 + phi_mat_nu[,i]/10
+  reg_xi[i,] <- X_full[i, , ] %*% betas_xi[, i]/8
 }
-range(exp(reg_delta))
+range(exp(reg_kappa))
 range(exp(reg_nu))
 range(exp(reg_xi))
-delta_true <- c(exp(reg_delta))
+kappa_true <- c(exp(reg_kappa))
 nu_true <- c(exp(reg_nu))
 xi_true <- c(exp(reg_xi))
 
@@ -189,7 +189,7 @@ y <- rep(NA, t*r)
 sigma_true <- rep(NA, t*r)
 for(i in 1:(t*r)) {
   sigma_true[i] <- nu_true[i]/(1 + xi_true[i])
-  y[i] <- g3_rng(n = 1, sigma = sigma_true[i], xi = xi_true[i], delta = delta_true[i])
+  y[i] <- g1_random(n = 1, sigma = sigma_true[i], xi = xi_true[i], kappa = kappa_true[i])
   if (y[i] == 0) {
     y[i] = y[i] + 1e-10
   } else {
@@ -222,12 +222,11 @@ toy_data <- list(
   
   N_edges = n_edges,
   node1 = node1,
-  node2 = node2
+  node2 = node2,
   
   #   true parameters to use in diagnostics post sampling
-  # truth = list(betas_xi = betas_xi, 
-  #              phi_mat_xi = phi_mat_xi,
-  #              rho1_xi = rho1,
-  #              rho2_xi = rho2)
+  truth = list(betas_nu = betas_nu, 
+               phi_mat_nu = phi_mat_nu,
+               rho1_nu = rho1,
+               rho2_nu = rho2)
 )
-write_rds(toy_data, 'sim-study/models/g3/data/g3_delta-only.rds')

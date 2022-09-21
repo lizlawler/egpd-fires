@@ -18,8 +18,8 @@ source("./sim-study/models/g1/R/g1_data_all3.R")
 egpd_init <- stan_model('./sim-study/models/g1/stan/g1_all3.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = toy_data, 
-                     iter = 1000,
-                     chains = 3,
+                     iter = 200,
+                     chains = 1,
                      refresh = 50)
 # save MCMC object in case below dx plots don't save properly
 saveRDS(egpd_fit, file = "./sim-study/models/g1/stan-fits/g1_all3.RDS")

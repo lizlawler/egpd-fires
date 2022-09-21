@@ -13,7 +13,7 @@ g1_random <- function(n = n, sigma = 1, xi = 0.5, kappa = 5) {
   return(g1_cdf_inv(u, sigma, xi, kappa))
 }
 
-t <- 500 # timepoints
+t <- 200 # timepoints
 p <- 7 # parameters
 
 # create correlation matrix from 3 levels of relationships using real ecoregions
@@ -228,9 +228,9 @@ for(i in 1:(t*r)) {
 range(y)
 
 toy_data <- list(
-  t = t,
+  T = t,
   p = p,
-  r = r,
+  R = r,
   
   # indicator matrices for region correlation
   l3 = l3,
@@ -248,15 +248,17 @@ toy_data <- list(
   X = X_full,
   y = y,
   
-  N_edges = n_edges,
+  n_edges = n_edges,
   node1 = node1,
   node2 = node2,
   
+  M = 3
+  
   #   true parameters to use in diagnostics post sampling
-  truth = list(betas_kappa = betas_kappa,
-               betas_nu = betas_nu,
-               betas_xi = betas_xi,
-               phi_mat_kappa = phi_mat_kappa,
-               phi_mat_nu = phi_mat_nu,
-               phi_mat_xi = phi_mat_xi)
+  # truth = list(betas_kappa = betas_kappa,
+  #              betas_nu = betas_nu,
+  #              betas_xi = betas_xi,
+  #              phi_mat_kappa = phi_mat_kappa,
+  #              phi_mat_nu = phi_mat_nu,
+  #              phi_mat_xi = phi_mat_xi)
 )

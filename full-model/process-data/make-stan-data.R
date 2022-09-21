@@ -25,6 +25,7 @@ B <- as(listw, 'symmetricMatrix')
 # B is suitable for building N, N_edges, node1, and node2
 # following http://mc-stan.org/users/documentation/case-studies/icar_stan.html
 
+
 ecoregion_df <- as(ecoregions, "Spatial") %>%
   data.frame
 
@@ -34,9 +35,11 @@ area_df <- ecoregion_df %>%
   group_by(NA_L3NAME) %>%
   summarize(area = sum(Shape_Area))
 
+burn_df <- mtbs %>% arrange(NA_L3NAME, ym)
+
 count_df <- count_df %>%
   left_join(area_df) %>%
-  arrange(ym, NA_L3NAME)
+  arrange(NA_L3NAME, ym)
 
 er_df <- dplyr::distinct(data.frame(ecoregions),
                        NA_L3NAME, NA_L2NAME, NA_L1NAME,
@@ -54,8 +57,7 @@ st_covs <- ecoregion_summaries %>%
   left_join(area_df) %>%
   droplevels %>%
   mutate(er_ym = paste(NA_L3NAME, ym, sep = "_")) %>%
-  arrange(ym, NA_L3NAME) %>% 
-  filter(year <= 2005) # REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
+  arrange(NA_L3NAME, ym)  # REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
 
 assert_that(length(setdiff(st_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
 assert_that(!anyDuplicated(st_covs))
@@ -70,7 +72,12 @@ train_counts <- count_df %>%
   filter(year < cutoff_year) %>%
   left_join(st_covs)
 
-train_burns <- mtbs %>%
+
+test <- burn_df %>%
+  filter(FIRE_YEAR < cutoff_year) %>%
+  left_join(st_covs)
+
+train_burns <- burn_df %>%
   filter(FIRE_YEAR < cutoff_year) %>%
   left_join(st_covs)
 
@@ -116,141 +123,179 @@ for (i in seq_along(vars)) {
 X_bs_df <- bind_cols(X_bs_df)
 assert_that(!any(is.na(X_bs_df)))
 
-X <- X_bs_df %>% mutate(NA_L3NAME = st_covs$NA_L3NAME) %>% mutate(intercept = 1, .before = lin_log_housing_density)
+X_full <- X_bs_df %>% mutate(NA_L3NAME = st_covs$NA_L3NAME) %>% mutate(intercept = 1, .before = lin_log_housing_density)
 
-# design matrix for training counts
+# design matrix for training counts ------
 # is a subset of the rows of X, based on which rows show up in train_counts
-eps_idx_train <- match(train_counts$er_ym, st_covs$er_ym)
-X_tc <- X[eps_idx_train, ]
+count_idx_train <- match(train_counts$er_ym, st_covs$er_ym)
+X_tc <- X_full[count_idx_train, ]
 assert_that(identical(nrow(X_tc), nrow(train_counts)))
+st_covs_tc <- st_covs[count_idx_train, ]
+st_covs_tc_er <- split(st_covs_tc, st_covs_tc$NA_L3NAME)
 
-eps_idx_future <- setdiff(1:nrow(st_covs), eps_idx_train)
-assert_that(all(diff(eps_idx_train) == 1))
-assert_that(all(diff(eps_idx_future) == 1))
-assert_that(eps_idx_train[length(eps_idx_train)] + 1 == eps_idx_future[1])
+count_idx_future <- setdiff(1:nrow(st_covs), count_idx_train)
+assert_that(all(st_covs_tc$er_ym == train_counts$er_ym))
 
-# design matrix for training burn areas
+# design matrix for training burn areas -------
 # is a subset of X, based on which unique rows are in train_burns
 train_burn_covs <- train_burns %>%
   distinct(er_ym, .keep_all = TRUE)
 
 # train_burn_covs has no duplicate er_ym's: should be fewer rows than train_burns
 assert_that(nrow(train_burn_covs) < nrow(train_burns))
-tb_idx <- match(train_burn_covs$er_ym, st_covs$er_ym) # get indices of st_covs that match train_burns
-X_tb <- X[tb_idx, ]
-st_covs_tb <- st_covs[tb_idx, ]
+burn_idx_train <- match(train_burn_covs$er_ym, st_covs$er_ym) # get indices of st_covs that match train_burns
+X_tb <- X_full[burn_idx_train, ]
+st_covs_tb <- st_covs[burn_idx_train, ]
 st_covs_tb_er <- split(st_covs_tb, st_covs_tb$NA_L3NAME)
 st_covs_tb_er_df <- bind_rows(st_covs_tb_er)
 # indices of X_tb matched with the appropriate burn areas
+train_burns_er <- split(train_burns, train_burns$NA_L3NAME)
+assert_that(all(diff(rank(names(train_burns_er))) == 1))
+# grab indices of design matrix to relate back to each burn area; to use in broadcasting of parameters in stan
 burns_to_covar_idx <- match(train_burns$er_ym, st_covs_tb_er_df$er_ym) 
 assert_that(all(train_burns$er_ym == st_covs_tb_er_df$er_ym[burns_to_covar_idx]))
 assert_that(identical(nrow(X_tb), nrow(train_burn_covs)))
-# 69 indices for ecoregions that have burn areas (to use for residual offset (phi))
+# indices for ecoregions that have non-zero burn areas (to use for residual offset (phi))
 burn_er_idx <- match(sort(unique(st_covs_tb_er_df$NA_L3NAME)), sort(unique(st_covs$NA_L3NAME)))
 
-# indices to match epsilon parameters for burn areas to those computed for counts (I think epsilon is Josephs' shared random effect)
-burn_eps_idx <- match(train_burn_covs$er_ym, train_counts$er_ym)
-assert_that(train_burn_covs$er_ym[1] == train_counts$er_ym[burn_eps_idx[1]])
+# grab timepoints appropriately to use for phi (timepoint indices are relative to ALL timepoints included in count model, this is NOT for matching a timepoint to the design matrix of the burns)
+time_idx <- mapply(function(x, y) match(x$er_ym, y$er_ym), st_covs_tb_er, st_covs_tc_er[burn_er_idx])
+assert_that(all(unlist(lapply(time_idx, function(x) assert_that(all(diff(x) > 0))))) == TRUE) # check that each region is organized in time order (for simplicity later on)
+time_idx_vec <- as.numeric(unlist(time_idx))
 
-# indices to match each fire event to a row in the design matrix for burns
-burn_idx <- match(train_burns$er_ym, train_burn_covs$er_ym)
-test <- lapply(st_covs_tb_er, function(x) which(train_burns$er_ym %in% x$er_ym))
-assert_that(all(train_burns$er_ym == test$er_ym[test_idx]))
-# check to make sure the indices were correct
-assert_that(max(burn_idx) <= nrow(st_covs))
-assert_that(all(train_burn_covs$NA_L3NAME[burn_idx] == train_burns$NA_L3NAME))
-assert_that(all(train_burn_covs$ym[burn_idx] == train_burns$ym))
+# ensure segmenting ecoregion data correctly from one large dataframe (since stan needs declared data structures; these data are ragged)
+segment_length_train <- as.numeric(unlist(lapply(st_covs_tb_er, function(x) dim(x)[1])))
+X_tb_er <- split(X_tb, X_tb$NA_L3NAME)
+assert_that(all(diff(rank(names(X_tb_er))) == 1)) # make sure the list is in alphabetical order, to remove NA_L3NAME next
+X_tb_er <- lapply(X_tb_er, function(x) select(x, -NA_L3NAME))
+X_tb_er_df <- bind_rows(X_tb_er) # create one full dataframe to feed to stan
+pos <- 1
+X_tb_check <- list()
+time_check <- list()
+for(i in seq_along(segment_length_train)) {
+  X_tb_check[[i]] <- X_tb_er_df[pos:(segment_length_train[i] + pos - 1), ]
+  time_check[[i]] <- time_idx_vec[pos:(segment_length_train[i] + pos - 1)]
+  pos = pos + segment_length_train[i]
+}
+# check that segmenting worked properly
+assert_that(all(mapply(function(x, y) identical(x, y), X_tb_check, X_tb_er)) == TRUE)
+assert_that(all(unlist(mapply(function(x, y) x == y, time_check, time_idx))) == TRUE)
 
-# split 3 design matrices (full, training burns, training counts) by regions, for use in stan model
-X_full_er_list <- lapply(split(X, X$NA_L3NAME), function(x) select(x, -NA_L3NAME))
-X_full_er_array <- array(as.numeric(unlist(X_full_er_list)), dim = c(84, 264, 37))
+# repeat process for full dataset and the holdout data
+# burn_covs <- burn_df %>% distinct(er_ym, .keep_all = TRUE)
 
-X_tb_er <- apply(split(X_tb, X_tb$NA_L3NAME), function(x) select(x, -NA_L3NAME))
-X_tc_er <- lapply(split(X_tc, X_tc$NA_L3NAME), function(x) select(x, -NA_L3NAME))
-test <- split(st_covs, st_covs$NA_L3NAME)
+# generate correlation matrix indicators
+# create correlation matrix from 3 levels of relationships using real ecoregions
+load(file = "./sim-study/shared-data/region_key.RData")
 
-lapply(split(train_burn_covs, train_burn_covs$NA_L3NAME), function(x) dim(x)[1])
+mod_reg_key <- as_tibble(region_key) %>% 
+  mutate(region = c(1:84),
+         NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE)) %>%
+  filter(region %in% burn_er_idx)
 
+# full_reg_key <- as_tibble(region_key) %>% 
+#   mutate(region = c(1:84),
+#          NA_L2CODE = as.factor(NA_L2CODE),
+#          NA_L1CODE = as.factor(NA_L1CODE),
+#          NA_L3CODE = as.factor(NA_L3CODE))
+# 
+# # indices of selected regions, pulled from full region key
+# idx <- which(full_reg_key$NA_L3CODE %in% mod_reg_key$NA_L3CODE)
+level3 <- matrix(0, 84, 84)
+level2 <- matrix(0, 84, 84)
+level1 <- matrix(0, 84, 84)
 
-#rm(X)
-# rm(X_tc)
-# rm(X_tb)
-gc()
+for(i in 1:84) {
+  for(j in 1:84) {
+    if (region_key[j, "NA_L3CODE"] == region_key[i, "NA_L3CODE"]) {
+      level3[i, j] = 1 # i = j, diagonal of 1s
+    } else if (region_key[j, "NA_L2CODE"] == region_key[i, "NA_L2CODE"]) {
+      level1[i, j] = 1 # indicator for correlation at level 1
+      level2[i, j] = 1 # indicator for correlation at level 2
+    } else if (region_key[j, "NA_L1CODE"] == region_key[i, "NA_L1CODE"]) {
+      level1[i, j] = 1 # indicator for correlation at level 1
+    } else {
+      level3[i, j] = 0
+      level1[i, j] = 0
+      level2[i, j] = 0
+    }
+  }
+}
+l3 <- level3[burn_er_idx, burn_er_idx]
+l2 <- level2[burn_er_idx, burn_er_idx]
+l1 <- level1[burn_er_idx, burn_er_idx]
 
-assert_that(identical(unique(area_df$NA_L3NAME),
-                      unique(st_covs$NA_L3NAME)))
-assert_that(identical(levels(factor(area_df$NA_L3NAME)),
-                      levels(factor(st_covs$NA_L3NAME))))
+# generate AR(1) indicator matrices for use in covariance matrix in stan
+p <- ncol(X_tb_er_df)
+zeroes <- matrix(0, p, p)
+equal <- diag(p)
+bp_lin <- zeroes
+bp_square <- zeroes
+bp_cube <- zeroes
+bp_quart <- zeroes
+cov_vec_idx <- c(3:7, 9:13, 15:19, 21:25, 27:31, 33:37) # 1st element is global intercept; 2, 8, 14, 20, 26, and 32 are the linear terms of each of the 6 covariates
 
+for(i in cov_vec_idx) {
+  for(j in cov_vec_idx) {
+    if (i + 1 == j | i - 1 == j) {
+      bp_lin[i, j] = 1
+    } else if (i + 2 == j | i - 2 == j) {
+      bp_square[i, j] = 1
+    } else if (i + 3 == j | i - 3 == j) {
+      bp_cube[i, j] = 1
+    } else if (i + 4 == j | i - 4 == j) {
+      bp_quart[i, j] = 1
+    } else {
+      bp_lin[i, j] = 0
+      bp_square[i, j] = 0
+      bp_cube[i, j] = 0
+      bp_quart[i, j] = 0
+    }
+  }
+}
 
 
 # Bundle up data into a list too pass to Stan -----------------------------
 min_size <- 1e3
 stan_data <- list(
-  N = N,
+  R = 84, # total number of regions
   T = T,
-  p = length(colnamesX),
+  p = p,
+  M = 3, # of params based on data in egpd density
   
-  n_count = nrow(train_counts),
-  counts = train_counts$n_fire,
+  # indicator matrices for region correlation
+  l3 = l3,
+  l2 = l2,
+  l1 = l1,
   
-  log_area = log(area_df$area * 1e-11) / 2,
-  er_idx_train = as.numeric(factor(train_counts$NA_L3NAME,
-                                   levels = levels(factor(area_df$NA_L3NAME)))),
-  er_idx_full = as.numeric(factor(st_covs$NA_L3NAME)),
-  
-  n_fire = nrow(train_burns),
-  sizes = train_burns$BurnBndAc - min_size,
-  burn_idx = burn_idx,
-  
-  n_w = length(sparse_X$w),
-  w = sparse_X$w,
-  v = sparse_X$v,
-  u = sparse_X$u,
-  
-  # sparse design matrix for training counts
-  n_w_tc = length(sparse_X_tc$w),
-  w_tc = sparse_X_tc$w,
-  v_tc = sparse_X_tc$v,
-  n_u_tc = length(sparse_X_tc$u),
-  u_tc = sparse_X_tc$u,
-  
-  # sparse design matrix for training burns
-  n_w_tb = length(sparse_X_tb$w),
-  w_tb = sparse_X_tb$w,
-  v_tb = sparse_X_tb$v,
-  n_u_tb = length(sparse_X_tb$u),
-  u_tb = sparse_X_tb$u,
-  
-  burn_eps_idx = burn_eps_idx,
-  
-  # M = 1,
-  # slab_df = 5,
-  # slab_scale = 2,
-  # 
-  # eps_idx_train = eps_idx_train,
-  # eps_idx_future = eps_idx_future,
-  # size_threshold = 0,
-  # 
-  # n_holdout_c = length(holdout_c_idx),
-  # holdout_c_idx = holdout_c_idx,
-  # holdout_c = holdout_counts$n_fire,
-  # 
-  # n_holdout_b = length(holdout_b_idx),
-  # holdout_b_idx = holdout_b_idx,
-  # holdout_b = holdout_burns$BurnBndAc - min_size,
-  
-  min_size = min_size,
+  # indicator matrices for AR(1) process
+  equal = equal,
+  bp_lin = bp_lin,
+  bp_square = bp_square,
+  bp_cube = bp_cube,
+  bp_quart = bp_quart,
   
   n_edges = length(B@i),
   node1 = B@i + 1, # add one to offset zero-based index
   node2 = B@j + 1,
-  tb_idx = tb_idx, 
-  cutoff_year = cutoff_year
+  
+  # training data
+  burn_er = length(burn_er_idx), # number of regions that have nonzero burn areas in training dataset
+  burn_er_idx = burn_er_idx,
+  time_idx_er = time_idx_vec,
+  burn_train = nrow(train_burns), # number  of observations in training dataset
+  burn_size = train_burns$BurnBndAc,
+  cov_rows = nrow(X_tb_er_df), # number of unique covariates
+  X = X_tb_er_df,
+  rows_X = seq(nrow(X_tb_er_df)),
+  segment_length = segment_length_train,
+  burns_to_covar_idx = burns_to_covar_idx
 )
 
 # assert that there are no missing values in stan_d
-assert_that(!any(lapply(stan_d, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data, function(x) any(is.na(x))) %>% unlist))
 
 zi_d <- stan_d
 zi_d$M <- 2

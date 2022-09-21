@@ -18,18 +18,11 @@ source("./sim-study/models/g1/R/g1_data_all3.R")
 egpd_init <- stan_model('./sim-study/models/g1/stan/g1_all3.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = toy_data, 
-                     iter = 200,
-                     chains = 1,
+                     iter = 1000,
+                     chains = 3,
                      refresh = 50)
 # save MCMC object in case below dx plots don't save properly
-saveRDS(egpd_fit, file = "./sim-study/models/g1/stan-fits/g1_all3.RDS")
-
-MCMCtrace(egpd_fit, params = c("beta_kappa", "beta_nu", "beta_xi", "phi_kappa", "phi_nu", "phi_xi"),
-          ind = TRUE,
-          gvals = c(betas_kappa, betas_nu, phi_mat_kappa, phi_mat_nu),
-          open_pdf = FALSE,
-          filename = paste0('./sim-study/figures/g1/trace/g1_trace_all3_',
-                            format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))
+saveRDS(egpd_fit, file = "./sim-study/models/g1/stan-fits/g1_all3_with-matnorm.RDS")
 
 # effects plot of comparison --------
 post <- rstan::extract(egpd_fit, pars = c("beta_kappa", "beta_nu", "phi_kappa", "phi_nu"))
@@ -148,3 +141,11 @@ ggsave(paste0('./sim-study/figures/g1/maps/g1_phi-map_kappa-nu-sim_nu_',
               ".pdf"),
        plot=full_phi_onetime_nu,
        device = "pdf")
+
+# trace plot ------
+MCMCtrace(egpd_fit, params = c("rho1_kappa", "rho2_kappa", "rho1_nu", "rho2_nu", "rho1_xi", "rho2_xi"),
+          ind = TRUE,
+          gvals = c(rho1_kappa, rho2_kappa, rho1_nu, rho2_nu, rho1_xi, rho2_xi),
+          open_pdf = FALSE,
+          filename = paste0('./sim-study/figures/g1/trace/g1_trace_all3_rhos',
+                            format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))

@@ -57,7 +57,9 @@ st_covs <- ecoregion_summaries %>%
   left_join(area_df) %>%
   droplevels %>%
   mutate(er_ym = paste(NA_L3NAME, ym, sep = "_")) %>%
-  arrange(NA_L3NAME, ym)  # REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
+  arrange(NA_L3NAME, ym) %>%
+  filter(year < 2000)
+# REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
 
 assert_that(length(setdiff(st_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
 assert_that(!anyDuplicated(st_covs))
@@ -71,28 +73,35 @@ cutoff_year <- 2000
 train_counts <- count_df %>%
   filter(year < cutoff_year) %>%
   left_join(st_covs)
+# 
+# test <- burn_df %>%
+#   filter(FIRE_YEAR < cutoff_year) %>%
+#   left_join(st_covs)
 
-
-test <- burn_df %>%
+# including missing data
+train_burns_full <- burn_df %>%
   filter(FIRE_YEAR < cutoff_year) %>%
-  left_join(st_covs)
+  right_join(st_covs) %>% arrange(NA_L3NAME, ym)
 
-train_burns <- burn_df %>%
+train_burns_obs <- burn_df %>%
   filter(FIRE_YEAR < cutoff_year) %>%
-  left_join(st_covs)
+  left_join(st_covs) %>% arrange(NA_L3NAME, ym)
 
-upper_cutoff <- 2005 # REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
-holdout_counts <- count_df %>%
-  filter(year >= cutoff_year & year <= upper_cutoff)
-
-holdout_c_idx <- match(holdout_counts$er_ym, st_covs$er_ym)
-
-holdout_burns <-  mtbs %>%
-  filter(FIRE_YEAR >= cutoff_year & FIRE_YEAR <= upper_cutoff) %>%
-  left_join(st_covs)
-
-holdout_b_idx <- match(holdout_burns$er_ym, holdout_counts$er_ym)
-
+# upper_cutoff <- 2005 # REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
+# holdout_counts <- count_df %>%
+#   filter(year >= cutoff_year & year <= upper_cutoff)
+# 
+# holdout_c_idx <- match(holdout_counts$er_ym, st_covs$er_ym)
+# 
+# holdout_burns_miss <-  burn_df %>%
+#   filter(FIRE_YEAR >= cutoff_year & FIRE_YEAR <= upper_cutoff) %>%
+#   left_join(st_covs)
+# 
+# holdout_burns_obs <-  burn_df %>%
+#   filter(FIRE_YEAR >= cutoff_year & FIRE_YEAR <= upper_cutoff) %>%
+#   left_join(st_covs)
+# 
+# holdout_b_idx <- match(holdout_burns$er_ym, holdout_counts$er_ym)
 
 # this data frame has no duplicate ecoregion X timestep combos
 N <- length(unique(st_covs$NA_L3NAME))
@@ -127,60 +136,72 @@ X_full <- X_bs_df %>% mutate(NA_L3NAME = st_covs$NA_L3NAME) %>% mutate(intercept
 
 # design matrix for training counts ------
 # is a subset of the rows of X, based on which rows show up in train_counts
-count_idx_train <- match(train_counts$er_ym, st_covs$er_ym)
-X_tc <- X_full[count_idx_train, ]
-assert_that(identical(nrow(X_tc), nrow(train_counts)))
-st_covs_tc <- st_covs[count_idx_train, ]
-st_covs_tc_er <- split(st_covs_tc, st_covs_tc$NA_L3NAME)
-
-count_idx_future <- setdiff(1:nrow(st_covs), count_idx_train)
-assert_that(all(st_covs_tc$er_ym == train_counts$er_ym))
+# count_idx_train <- match(train_counts$er_ym, st_covs$er_ym)
+# X_tc <- X_full[count_idx_train, ]
+# assert_that(identical(nrow(X_tc), nrow(train_counts)))
+# st_covs_tc <- st_covs[count_idx_train, ]
+# st_covs_tc_er <- split(st_covs_tc, st_covs_tc$NA_L3NAME)
+# 
+# count_idx_future <- setdiff(1:nrow(st_covs), count_idx_train)
+# assert_that(all(st_covs_tc$er_ym == train_counts$er_ym))
 
 # design matrix for training burn areas -------
 # is a subset of X, based on which unique rows are in train_burns
-train_burn_covs <- train_burns %>%
-  distinct(er_ym, .keep_all = TRUE)
+# train_burn_covs <- train_burns %>%
+#   distinct(er_ym, .keep_all = TRUE)
 
 # train_burn_covs has no duplicate er_ym's: should be fewer rows than train_burns
-assert_that(nrow(train_burn_covs) < nrow(train_burns))
-burn_idx_train <- match(train_burn_covs$er_ym, st_covs$er_ym) # get indices of st_covs that match train_burns
-X_tb <- X_full[burn_idx_train, ]
-st_covs_tb <- st_covs[burn_idx_train, ]
-st_covs_tb_er <- split(st_covs_tb, st_covs_tb$NA_L3NAME)
-st_covs_tb_er_df <- bind_rows(st_covs_tb_er)
-# indices of X_tb matched with the appropriate burn areas
-train_burns_er <- split(train_burns, train_burns$NA_L3NAME)
-assert_that(all(diff(rank(names(train_burns_er))) == 1))
-# grab indices of design matrix to relate back to each burn area; to use in broadcasting of parameters in stan
-burns_to_covar_idx <- match(train_burns$er_ym, st_covs_tb_er_df$er_ym) 
-assert_that(all(train_burns$er_ym == st_covs_tb_er_df$er_ym[burns_to_covar_idx]))
-assert_that(identical(nrow(X_tb), nrow(train_burn_covs)))
-# indices for ecoregions that have non-zero burn areas (to use for residual offset (phi))
-burn_er_idx <- match(sort(unique(st_covs_tb_er_df$NA_L3NAME)), sort(unique(st_covs$NA_L3NAME)))
+# assert_that(nrow(train_burn_covs) < nrow(train_burns))
+burn_idx_train_obs <- match(train_burns_obs$er_ym, st_covs$er_ym) # get indices of st_covs that match observed values only
+burn_idx_train_full <- match(train_burns_full$er_ym, st_covs$er_ym) # get indices of st_covs that match all values
+burn_idx_train_miss <- setdiff(burn_idx_train_full, burn_idx_train_obs) # get indices of st_covs that match missing values only
+assert_that(all(st_covs$er_ym[burn_idx_train_full] == train_burns_full$er_ym))
+assert_that(all(st_covs$er_ym[burn_idx_train_obs] == train_burns_obs$er_ym))
 
-# grab timepoints appropriately to use for phi (timepoint indices are relative to ALL timepoints included in count model, this is NOT for matching a timepoint to the design matrix of the burns)
-time_idx <- mapply(function(x, y) match(x$er_ym, y$er_ym), st_covs_tb_er, st_covs_tc_er[burn_er_idx])
-assert_that(all(unlist(lapply(time_idx, function(x) assert_that(all(diff(x) > 0))))) == TRUE) # check that each region is organized in time order (for simplicity later on)
-time_idx_vec <- as.numeric(unlist(time_idx))
-
-# ensure segmenting ecoregion data correctly from one large dataframe (since stan needs declared data structures; these data are ragged)
-segment_length_train <- as.numeric(unlist(lapply(st_covs_tb_er, function(x) dim(x)[1])))
-X_tb_er <- split(X_tb, X_tb$NA_L3NAME)
-assert_that(all(diff(rank(names(X_tb_er))) == 1)) # make sure the list is in alphabetical order, to remove NA_L3NAME next
-X_tb_er <- lapply(X_tb_er, function(x) select(x, -NA_L3NAME))
-X_tb_er_df <- bind_rows(X_tb_er) # create one full dataframe to feed to stan
-pos <- 1
-X_tb_check <- list()
-time_check <- list()
-for(i in seq_along(segment_length_train)) {
-  X_tb_check[[i]] <- X_tb_er_df[pos:(segment_length_train[i] + pos - 1), ]
-  time_check[[i]] <- time_idx_vec[pos:(segment_length_train[i] + pos - 1)]
-  pos = pos + segment_length_train[i]
+# split X into 84 matrices that are 192 x 37:
+X_list <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+X_array <- array(NA, dim = c(84, T, 37))
+for(i in 1:84) {
+  X_array[i, ,] <- as.matrix(X_list[[i]])
 }
-# check that segmenting worked properly
-assert_that(all(mapply(function(x, y) identical(x, y), X_tb_check, X_tb_er)) == TRUE)
-assert_that(all(unlist(mapply(function(x, y) x == y, time_check, time_idx))) == TRUE)
 
+# X_tb <- X_full[burn_idx_train, ]
+# st_covs_tb <- st_covs[burn_idx_train, ]
+# st_covs_tb_er <- split(st_covs_tb, st_covs_tb$NA_L3NAME)
+# st_covs_tb_er_df <- bind_rows(st_covs_tb_er)
+# # indices of X_tb matched with the appropriate burn areas
+# train_burns_er <- split(train_burns, train_burns$NA_L3NAME)
+# assert_that(all(diff(rank(names(train_burns_er))) == 1))
+# # grab indices of design matrix to relate back to each burn area; to use in broadcasting of parameters in stan
+# burns_to_covar_idx <- match(train_burns$er_ym, st_covs_tb_er_df$er_ym) 
+# assert_that(all(train_burns$er_ym == st_covs_tb_er_df$er_ym[burns_to_covar_idx]))
+# assert_that(identical(nrow(X_tb), nrow(train_burn_covs)))
+# # indices for ecoregions that have non-zero burn areas (to use for residual offset (phi))
+# burn_er_idx <- match(sort(unique(st_covs_tb_er_df$NA_L3NAME)), sort(unique(st_covs$NA_L3NAME)))
+# 
+# # grab timepoints appropriately to use for phi (timepoint indices are relative to ALL timepoints included in count model, this is NOT for matching a timepoint to the design matrix of the burns)
+# time_idx <- mapply(function(x, y) match(x$er_ym, y$er_ym), st_covs_tb_er, st_covs_tc_er[burn_er_idx])
+# assert_that(all(unlist(lapply(time_idx, function(x) assert_that(all(diff(x) > 0))))) == TRUE) # check that each region is organized in time order (for simplicity later on)
+# time_idx_vec <- as.numeric(unlist(time_idx))
+# 
+# # ensure segmenting ecoregion data correctly from one large dataframe (since stan needs declared data structures; these data are ragged)
+# segment_length_train <- as.numeric(unlist(lapply(st_covs_tb_er, function(x) dim(x)[1])))
+# X_tb_er <- split(X_tb, X_tb$NA_L3NAME)
+# assert_that(all(diff(rank(names(X_tb_er))) == 1)) # make sure the list is in alphabetical order, to remove NA_L3NAME next
+# X_tb_er <- lapply(X_tb_er, function(x) select(x, -NA_L3NAME))
+# X_tb_er_df <- bind_rows(X_tb_er) # create one full dataframe to feed to stan
+# pos <- 1
+# X_tb_check <- list()
+# time_check <- list()
+# for(i in seq_along(segment_length_train)) {
+#   X_tb_check[[i]] <- X_tb_er_df[pos:(segment_length_train[i] + pos - 1), ]
+#   time_check[[i]] <- time_idx_vec[pos:(segment_length_train[i] + pos - 1)]
+#   pos = pos + segment_length_train[i]
+# }
+# # check that segmenting worked properly
+# assert_that(all(mapply(function(x, y) identical(x, y), X_tb_check, X_tb_er)) == TRUE)
+# assert_that(all(unlist(mapply(function(x, y) x == y, time_check, time_idx))) == TRUE)
+# 
 # repeat process for full dataset and the holdout data
 # burn_covs <- burn_df %>% distinct(er_ym, .keep_all = TRUE)
 
@@ -192,8 +213,7 @@ mod_reg_key <- as_tibble(region_key) %>%
   mutate(region = c(1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
          NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE)) %>%
-  filter(region %in% burn_er_idx)
+         NA_L3CODE = as.factor(NA_L3CODE))
 
 # full_reg_key <- as_tibble(region_key) %>% 
 #   mutate(region = c(1:84),
@@ -223,12 +243,12 @@ for(i in 1:84) {
     }
   }
 }
-l3 <- level3[burn_er_idx, burn_er_idx]
-l2 <- level2[burn_er_idx, burn_er_idx]
-l1 <- level1[burn_er_idx, burn_er_idx]
+l3 <- level3
+l2 <- level2
+l1 <- level1
 
 # generate AR(1) indicator matrices for use in covariance matrix in stan
-p <- ncol(X_tb_er_df)
+p <- ncol(X_array[1, ,])
 zeroes <- matrix(0, p, p)
 equal <- diag(p)
 bp_lin <- zeroes
@@ -263,7 +283,10 @@ stan_data <- list(
   R = 84, # total number of regions
   T = T,
   p = p,
-  M = 3, # of params based on data in egpd density
+  N_obs = length(burn_idx_train_obs),
+  N_miss = length(burn_idx_train_miss),
+  N = length(burn_idx_train_full),
+  # M = 3, # of params based on data in egpd density
   
   # indicator matrices for region correlation
   l3 = l3,
@@ -282,16 +305,11 @@ stan_data <- list(
   node2 = B@j + 1,
   
   # training data
-  burn_er = length(burn_er_idx), # number of regions that have nonzero burn areas in training dataset
-  burn_er_idx = burn_er_idx,
-  time_idx_er = time_idx_vec,
-  burn_train = nrow(train_burns), # number  of observations in training dataset
-  burn_size = train_burns$BurnBndAc,
-  cov_rows = nrow(X_tb_er_df), # number of unique covariates
-  X = X_tb_er_df,
-  rows_X = seq(nrow(X_tb_er_df)),
-  segment_length = segment_length_train,
-  burns_to_covar_idx = burns_to_covar_idx
+  X = X_array,
+  y_obs = train_burns_obs$BurnBndAc - min_size,
+  ii_obs = burn_idx_train_obs,
+  ii_miss = burn_idx_train_miss,
+  ii_full = burn_idx_train_full
 )
 
 # assert that there are no missing values in stan_d

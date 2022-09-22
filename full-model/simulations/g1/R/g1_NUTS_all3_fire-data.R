@@ -12,9 +12,7 @@ library(spatialreg)
 options(mc.cores = parallel::detectCores())
 
 # run sampling
-egpd_init <- stan_model('./full-model/simulations/g1/stan/g1_all3_withdim.stan')
-# init_list <- list(rho1 = runif(3, 0, 0.6)/2, rho2 = runif(3, 0, 0.45)/2)
-# init_ll <- rep(list(init_list), 3)
+egpd_init <- stan_model('./full-model/simulations/g1/stan/g1_all3_matnorm.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
                      iter = 1000,
@@ -23,9 +21,9 @@ egpd_fit <- sampling(egpd_init,
                      refresh = 50)
 
 # save MCMC object in case below dx plots don't save properly
-saveRDS(egpd_fit, file = "./sim-study/models/g1/stan-fits/g1_kappa-only.RDS")
+saveRDS(egpd_fit, file = "./full-model/simulations/g1/stan-fits/g1_all3_matnorm.RDS")
 
-MCMCtrace(egpd_fit, params = c("beta", "phi", "rho1", "rho2"), ind = TRUE)
+MCMCtrace(egpd_fit, params = c("beta_kappa"), ind = TRUE)
 
 # save traceplot
 # MCMCtrace(egpd_fit, params = c("beta_xi", "phi_xi", "rho1_xi", "rho2_xi"),

@@ -110,9 +110,9 @@ Z_nu <- matrix(rnorm(r * p), r, p)
 Z_xi <- matrix(rnorm(r * p), r, p)
 
 # create betas from std normal with AR(1) covariance matrix and 4 region correlation matrix
-betas_kappa <- t(t(chol_corr) %*% Z_kappa %*% chol_ar1_kappa)
-betas_nu <- t(t(chol_corr) %*% Z_nu %*% chol_ar1_nu)
-betas_xi <- t(t(chol_corr) %*% Z_xi %*% chol_ar1_xi)
+betas_kappa <- t(chol_corr) %*% Z_kappa %*% chol_ar1_kappa
+betas_nu <- t(chol_corr) %*% Z_nu %*% chol_ar1_nu
+betas_xi <- t(chol_corr) %*% Z_xi %*% chol_ar1_xi
 
 # addition of time component ------
 genSpline <- function(x, t, r, df = 5, degree) {
@@ -131,9 +131,9 @@ df_kappa <- matrix(NA, r, t)
 df_nu <- matrix(NA, r, t)
 df_xi <- matrix(NA, r, t)
 for(i in 1:r) {
-  df_kappa[i,] <- X_full[i, , ] %*% betas_kappa[, i]
-  df_nu[i,] <- X_full[i, , ] %*% betas_nu[, i]
-  df_xi[i,] <- X_full[i, , ] %*% betas_xi[, i]
+  df_kappa[i,] <- X_full[i, , ] %*% betas_kappa[i, ]
+  df_nu[i,] <- X_full[i, , ] %*% betas_nu[i, ]
+  df_xi[i,] <- X_full[i, , ] %*% betas_xi[i, ]
 }
 
 X_long <- X %>% as_tibble() %>%
@@ -202,9 +202,9 @@ reg_nu <- matrix(NA, r, t)
 reg_xi <- matrix(NA, r, t)
 
 for(i in 1:r) {
-  reg_kappa[i,] <- X_full[i, , ] %*% betas_kappa[, i]/4 + phi_mat_kappa[,i]/10
-  reg_nu[i,] <- X_full[i, , ] %*% betas_nu[, i]/4 + phi_mat_nu[,i]/10
-  reg_xi[i,] <- X_full[i, , ] %*% betas_xi[, i]/8 + phi_mat_xi[,i]/10
+  reg_kappa[i,] <- X_full[i, , ] %*% betas_kappa[i, ]/4 + phi_mat_kappa[,i]/10
+  reg_nu[i,] <- X_full[i, , ] %*% betas_nu[i, ]/4 + phi_mat_nu[,i]/10
+  reg_xi[i,] <- X_full[i, , ] %*% betas_xi[i, ]/8 + phi_mat_xi[,i]/10
 }
 range(exp(reg_kappa))
 range(exp(reg_nu))
@@ -250,9 +250,7 @@ toy_data <- list(
   
   n_edges = n_edges,
   node1 = node1,
-  node2 = node2,
-  
-  M = 3
+  node2 = node2
   
   #   true parameters to use in diagnostics post sampling
   # truth = list(betas_kappa = betas_kappa,

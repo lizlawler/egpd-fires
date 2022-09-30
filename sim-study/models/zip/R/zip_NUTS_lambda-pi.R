@@ -21,7 +21,7 @@ source("./sim-study/models/zip/R/zip_data_lambda-pi.R")
 egpd_init <- stan_model('./sim-study/models/zip/stan/zip_lambda-pi.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = toy_data, 
-                     iter = 1000,
+                     iter = 1500,
                      chains = 3,
                      refresh = 50)
 

@@ -11,16 +11,20 @@ library(classInt)
 library(spatialreg)
 options(mc.cores = parallel::detectCores())
 
-# generate toy data
-source("./sim-study/models/zip/R/zip_data_lambda-pi.R")
-
 # run sampling
-egpd_init <- stan_model('./sim-study/models/zip/stan/zip_lambda-pi.stan')
+egpd_init <- stan_model('./full-model/simulations/zip/stan/zip_lambda-pi.stan')
 egpd_fit <- sampling(egpd_init, 
-                     data = toy_data, 
+                     data = stan_data, 
                      iter = 1000,
                      chains = 3,
+                     init_r = 0.01,
                      refresh = 50)
+
+MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+          ind = TRUE)
+
+MCMCtrace(egpd_fit, params = c("beta_lambda", "beta_pi", "phi_lambda", "phi_pi"),
+          ind = TRUE)
 
 saveRDS(egpd_fit, file = "./sim-study/models/zip/stan-fits/zip_lambda-pi.RDS")
 

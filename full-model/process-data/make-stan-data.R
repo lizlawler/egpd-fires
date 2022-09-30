@@ -58,7 +58,7 @@ st_covs <- ecoregion_summaries %>%
   droplevels %>%
   mutate(er_ym = paste(NA_L3NAME, ym, sep = "_")) %>%
   arrange(NA_L3NAME, ym) %>%
-  filter(year < 2000)
+  filter(year < 2005)
 # REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
 
 assert_that(length(setdiff(st_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
@@ -73,19 +73,15 @@ cutoff_year <- 2000
 train_counts <- count_df %>%
   filter(year < cutoff_year) %>%
   left_join(st_covs)
-# 
-# test <- burn_df %>%
-#   filter(FIRE_YEAR < cutoff_year) %>%
-#   left_join(st_covs)
 
 # including missing data
-train_burns_full <- burn_df %>%
-  filter(FIRE_YEAR < cutoff_year) %>%
-  right_join(st_covs) %>% arrange(NA_L3NAME, ym)
-
-train_burns_obs <- burn_df %>%
-  filter(FIRE_YEAR < cutoff_year) %>%
-  left_join(st_covs) %>% arrange(NA_L3NAME, ym)
+# train_burns_full <- burn_df %>%
+#   filter(FIRE_YEAR < cutoff_year) %>%
+#   right_join(st_covs) %>% arrange(NA_L3NAME, ym)
+# 
+# train_burns_obs <- burn_df %>%
+#   filter(FIRE_YEAR < cutoff_year) %>%
+#   left_join(st_covs) %>% arrange(NA_L3NAME, ym)
 
 # upper_cutoff <- 2005 # REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
 # holdout_counts <- count_df %>%
@@ -136,9 +132,29 @@ X_full <- X_bs_df %>% mutate(NA_L3NAME = st_covs$NA_L3NAME) %>% mutate(intercept
 
 # design matrix for training counts ------
 # is a subset of the rows of X, based on which rows show up in train_counts
-# count_idx_train <- match(train_counts$er_ym, st_covs$er_ym)
-# X_tc <- X_full[count_idx_train, ]
-# assert_that(identical(nrow(X_tc), nrow(train_counts)))
+count_idx_train <- match(train_counts$er_ym, st_covs$er_ym)
+assert_that(all(diff(count_idx_train)) == 1)
+X_tc <- X_full[count_idx_train, ]
+assert_that(identical(nrow(X_tc), nrow(train_counts)))
+assert_that(all(st_covs[count_idx_train,]$er_ym == train_counts$er_ym))
+
+# split X into 84 matrices that are 192 x 37
+X_list_tc <- lapply(split(X_tc, X_tc$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+T_tc <- nrow(X_list_tc[[1]])
+X_array_tc <- array(NA, dim = c(84, T_tc, 37))
+for(i in 1:84) {
+  X_array_tc[i, ,] <- as.matrix(X_list_tc[[i]])
+}
+
+# ensure that split data frames are still in correct order
+assert_that(all(bind_rows(X_list_tc) == X_full[count_idx_train,-38]))
+assert_that(all(X_full[count_idx_train, "NA_L3NAME"] == st_covs[count_idx_train, "NA_L3NAME"]))
+iden_vec <- c()
+for(i in 1:84) {
+  iden_vec[i] <- all(X_array_tc[i,,] == X_list_tc[[i]])
+}
+assert_that(all(iden_vec) == TRUE)
+
 # st_covs_tc <- st_covs[count_idx_train, ]
 # st_covs_tc_er <- split(st_covs_tc, st_covs_tc$NA_L3NAME)
 # 
@@ -152,18 +168,18 @@ X_full <- X_bs_df %>% mutate(NA_L3NAME = st_covs$NA_L3NAME) %>% mutate(intercept
 
 # train_burn_covs has no duplicate er_ym's: should be fewer rows than train_burns
 # assert_that(nrow(train_burn_covs) < nrow(train_burns))
-burn_idx_train_obs <- match(train_burns_obs$er_ym, st_covs$er_ym) # get indices of st_covs that match observed values only
-burn_idx_train_full <- match(train_burns_full$er_ym, st_covs$er_ym) # get indices of st_covs that match all values
-burn_idx_train_miss <- setdiff(burn_idx_train_full, burn_idx_train_obs) # get indices of st_covs that match missing values only
-assert_that(all(st_covs$er_ym[burn_idx_train_full] == train_burns_full$er_ym))
-assert_that(all(st_covs$er_ym[burn_idx_train_obs] == train_burns_obs$er_ym))
-
-# split X into 84 matrices that are 192 x 37:
-X_list <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
-X_array <- array(NA, dim = c(84, T, 37))
-for(i in 1:84) {
-  X_array[i, ,] <- as.matrix(X_list[[i]])
-}
+# burn_idx_train_obs <- match(train_burns_obs$er_ym, st_covs$er_ym) # get indices of st_covs that match observed values only
+# burn_idx_train_full <- match(train_burns_full$er_ym, st_covs$er_ym) # get indices of st_covs that match all values
+# burn_idx_train_miss <- setdiff(burn_idx_train_full, burn_idx_train_obs) # get indices of st_covs that match missing values only
+# assert_that(all(st_covs$er_ym[burn_idx_train_full] == train_burns_full$er_ym))
+# assert_that(all(st_covs$er_ym[burn_idx_train_obs] == train_burns_obs$er_ym))
+# 
+# # split X into 84 matrices that are 192 x 37:
+# X_list <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+# X_array <- array(NA, dim = c(84, T, 37))
+# for(i in 1:84) {
+#   X_array[i, ,] <- as.matrix(X_list[[i]])
+# }
 
 # X_tb <- X_full[burn_idx_train, ]
 # st_covs_tb <- st_covs[burn_idx_train, ]
@@ -248,7 +264,7 @@ l2 <- level2
 l1 <- level1
 
 # generate AR(1) indicator matrices for use in covariance matrix in stan
-p <- ncol(X_array[1, ,])
+p <- ncol(X_array_tc[1, ,])
 zeroes <- matrix(0, p, p)
 equal <- diag(p)
 bp_lin <- zeroes
@@ -283,9 +299,10 @@ stan_data <- list(
   R = 84, # total number of regions
   T = T,
   p = p,
-  N_obs = length(burn_idx_train_obs),
-  N_miss = length(burn_idx_train_miss),
-  N = length(burn_idx_train_full),
+  N = length(train_counts$n_fire),
+  # N_obs = length(burn_idx_train_obs),
+  # N_miss = length(burn_idx_train_miss),
+  # N = length(burn_idx_train_full),
   # M = 3, # of params based on data in egpd density
   
   # indicator matrices for region correlation
@@ -306,10 +323,7 @@ stan_data <- list(
   
   # training data
   X = X_array,
-  y_obs = train_burns_obs$BurnBndAc - min_size,
-  ii_obs = burn_idx_train_obs,
-  ii_miss = burn_idx_train_miss,
-  ii_full = burn_idx_train_full
+  y = train_counts$n_fire
 )
 
 # assert that there are no missing values in stan_d

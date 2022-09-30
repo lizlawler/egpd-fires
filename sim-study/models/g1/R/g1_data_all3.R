@@ -14,7 +14,7 @@ g1_random <- function(n = n, sigma = 1, xi = 0.5, kappa = 5) {
 }
 
 t <- 200 # timepoints
-p <- 7 # parameters
+p <- 37 # parameters
 
 # create correlation matrix from 3 levels of relationships using real ecoregions
 load(file = "./sim-study/shared-data/region_key.RData")

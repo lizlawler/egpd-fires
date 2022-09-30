@@ -11,6 +11,9 @@ library(classInt)
 library(spatialreg)
 options(mc.cores = parallel::detectCores())
 
+# start time, for identification purposes later
+st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
+
 # generate toy data
 source("./sim-study/models/zip/R/zip_data_lambda-pi.R")
 
@@ -22,7 +25,19 @@ egpd_fit <- sampling(egpd_init,
                      chains = 3,
                      refresh = 50)
 
-saveRDS(egpd_fit, file = "./sim-study/models/zip/stan-fits/zip_lambda-pi.RDS")
+end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
+
+saveRDS(egpd_fit, file = paste0("./sim-study/models/zip/stan-fits/zip_lambda-pi_", st_time, "_", end_time, ".RDS"))
+
+saveRDS(toy_data, file = paste0("./sim-study/models/zip/data/zip_lambda-pi_", st_time, "_", end_time, ".RDS"))
+
+MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+          ind = TRUE,
+          gvals = c(0.54, 0.45, 0.54, 0.45),
+          open_pdf = FALSE,
+          filename = paste0('./sim-study/figures/zip/trace/zip_trace-lambda-pi_', st_time, "_", end_time, ".pdf"))
+
+quit(save = "no")
 
 # pre and post effects plots ---------
 post <- rstan::extract(egpd_fit, pars = c('beta_lambda', 'beta_pi', 'phi_lambda', 'phi_pi'))
@@ -158,3 +173,6 @@ MCMCtrace(egpd_fit, params = c("beta_lambda", "beta_pi", "phi_lambda", "phi_pi")
           filename = paste0('./sim-study/figures/zip/trace/zip_trace-lambda-pi',
                             format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))
 
+
+MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+          ind = TRUE)

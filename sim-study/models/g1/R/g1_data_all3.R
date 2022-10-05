@@ -13,8 +13,8 @@ g1_random <- function(n = n, sigma = 1, xi = 0.5, kappa = 5) {
   return(g1_cdf_inv(u, sigma, xi, kappa))
 }
 
-t <- 200 # timepoints
-p <- 37 # parameters
+t <- 500 # timepoints
+p <- 7 # parameters
 
 # create correlation matrix from 3 levels of relationships using real ecoregions
 load(file = "./sim-study/shared-data/region_key.RData")
@@ -105,14 +105,14 @@ cov_ar1_xi <- equal + bp_xi * bp_lin + bp_xi^2 * bp_square + bp_xi^3 * bp_cube +
 chol_ar1_xi <- chol(cov_ar1_xi)
 
 # normal process --------
-Z_kappa <- matrix(rnorm(r * p), r, p)
-Z_nu <- matrix(rnorm(r * p), r, p)
-Z_xi <- matrix(rnorm(r * p), r, p)
+Z_kappa <- matrix(rnorm(r * p), p, r)
+Z_nu <- matrix(rnorm(r * p), p, r)
+Z_xi <- matrix(rnorm(r * p), p, r)
 
 # create betas from std normal with AR(1) covariance matrix and 4 region correlation matrix
-betas_kappa <- t(chol_corr) %*% Z_kappa %*% chol_ar1_kappa
-betas_nu <- t(chol_corr) %*% Z_nu %*% chol_ar1_nu
-betas_xi <- t(chol_corr) %*% Z_xi %*% chol_ar1_xi
+betas_kappa <- t(chol_ar1_kappa) %*% Z_kappa %*% chol_corr
+betas_nu <- t(chol_ar1_nu) %*% Z_nu %*% chol_corr
+betas_xi <- t(chol_ar1_xi) %*% Z_xi %*% chol_corr
 
 # addition of time component ------
 genSpline <- function(x, t, r, df = 5, degree) {
@@ -131,9 +131,9 @@ df_kappa <- matrix(NA, r, t)
 df_nu <- matrix(NA, r, t)
 df_xi <- matrix(NA, r, t)
 for(i in 1:r) {
-  df_kappa[i,] <- X_full[i, , ] %*% betas_kappa[i, ]
-  df_nu[i,] <- X_full[i, , ] %*% betas_nu[i, ]
-  df_xi[i,] <- X_full[i, , ] %*% betas_xi[i, ]
+  df_kappa[i,] <- X_full[i, , ] %*% betas_kappa[, i]
+  df_nu[i,] <- X_full[i, , ] %*% betas_nu[, i]
+  df_xi[i,] <- X_full[i, , ] %*% betas_xi[, i]
 }
 
 X_long <- X %>% as_tibble() %>%
@@ -148,6 +148,9 @@ kappa_effects <- t(df_kappa) %>% as_tibble() %>%
   left_join(., X_long) %>%
   left_join(., mod_reg_key) %>% mutate(type = "truth")
 
+ggplot(kappa_effects, aes(x=linear, y=effect, group = region)) + 
+  geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE))
+
 nu_effects <- t(df_nu) %>% as_tibble() %>% 
   rename_with(., ~ reg_cols) %>% 
   mutate(time = c(1:t)) %>%
@@ -155,12 +158,18 @@ nu_effects <- t(df_nu) %>% as_tibble() %>%
   left_join(., X_long) %>%
   left_join(., mod_reg_key) %>% mutate(type = "truth")
 
+ggplot(nu_effects, aes(x=linear, y=effect, group = region)) + 
+  geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE))
+
 xi_effects <- t(df_xi) %>% as_tibble() %>% 
   rename_with(., ~ reg_cols) %>% 
   mutate(time = c(1:t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
   left_join(., X_long) %>%
   left_join(., mod_reg_key) %>% mutate(type = "truth")
+
+ggplot(xi_effects, aes(x=linear, y=effect, group = region)) + 
+  geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE))
 
 nb <- read_rds('./sim-study/shared-data/nb.rds')
 ecoregions <- read_rds(file = "./sim-study/shared-data/ecoregions.RDS")
@@ -197,14 +206,14 @@ n_edges = length(smallB@i)
 node1 = smallB@i+1 # add one to offset zero-based index
 node2 = smallB@j+1
 
-reg_kappa <- matrix(NA, r, t)
-reg_nu <- matrix(NA, r, t)
-reg_xi <- matrix(NA, r, t)
+reg_kappa <- matrix(NA, t, r)
+reg_nu <- matrix(NA, t, r)
+reg_xi <- matrix(NA, t, r)
 
 for(i in 1:r) {
-  reg_kappa[i,] <- X_full[i, , ] %*% betas_kappa[i, ]/4 + phi_mat_kappa[,i]/10
-  reg_nu[i,] <- X_full[i, , ] %*% betas_nu[i, ]/4 + phi_mat_nu[,i]/10
-  reg_xi[i,] <- X_full[i, , ] %*% betas_xi[i, ]/8 + phi_mat_xi[,i]/10
+  reg_kappa[,i] <- X_full[i, , ] %*% betas_kappa[, i]/4 + phi_mat_kappa[,i]/10
+  reg_nu[,i] <- X_full[i, , ] %*% betas_nu[, i]/4 + phi_mat_nu[,i]/10
+  reg_xi[,i] <- X_full[i, , ] %*% betas_xi[, i]/8 + phi_mat_xi[,i]/10
 }
 range(exp(reg_kappa))
 range(exp(reg_nu))

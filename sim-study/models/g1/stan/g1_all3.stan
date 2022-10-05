@@ -6,14 +6,14 @@ functions {
     return lpdf;
   }
   
-  real matnormal_lpdf(matrix y, matrix u, matrix v) {
+  real matnormal_lpdf(matrix y, matrix cov, matrix corr) {
     real lpdf;
-    real n;
+    real r;
     real p;
-    n = rows(u);
-    p = rows(v);
-    lpdf = -(n*p/2) * log(2 * pi()) - (n/2)*log_determinant(v) - (p/2)*log_determinant(u) -
-          0.5 * trace(mdivide_right_spd(mdivide_left_spd(v, y'), u) * y);
+    r = rows(corr);
+    p = rows(cov);
+    lpdf = -(r*p/2) * log(2 * pi()) - (p/2)*log_determinant(corr) - (r/2)*log_determinant(cov) -
+          0.5 * trace(mdivide_right_spd(mdivide_left_spd(corr, y'), cov) * y);
     return lpdf;
   }
 }
@@ -48,9 +48,9 @@ parameters {
   vector[R] phi_init_kappa[T];
   vector[R] phi_init_nu[T];
   vector[R] phi_init_xi[T];
-  matrix[R, p] beta_kappa;
-  matrix[R, p] beta_nu;
-  matrix[R, p] beta_xi;
+  matrix[p, R] beta_kappa;
+  matrix[p, R] beta_nu;
+  matrix[p, R] beta_xi;
   real<lower = 0> tau_init_kappa;
   real<lower = 0> tau_init_nu;
   real<lower = 0> tau_init_xi;
@@ -72,9 +72,9 @@ transformed parameters {
   matrix[T, R] phi_kappa;
   matrix[T, R] phi_nu;
   matrix[T, R] phi_xi;
-  matrix[R, T] reg_kappa;
-  matrix[R, T] reg_nu;
-  matrix[R, T] reg_xi;
+  matrix[T, R] reg_kappa;
+  matrix[T, R] reg_nu;
+  matrix[T, R] reg_xi;
 
   real<lower=0, upper = bp_init_kappa/2> bp_kappa = bp_init_kappa/2;
   real<lower=0, upper = bp_init_nu/2> bp_nu = bp_init_nu/2;
@@ -107,9 +107,9 @@ transformed parameters {
   }
   
   for (i in 1:R) {
-    reg_kappa[i, ] = (X[i] * beta_kappa[i, ]'/4 + phi_kappa[, i]/10)';
-    reg_nu[i, ] = (X[i] * beta_nu[i, ]'/4 + phi_nu[, i]/10)';
-    reg_xi[i, ] = (X[i] * beta_xi[i, ]'/8 + phi_xi[, i]/15)';
+    reg_kappa[, i] = X[i] * beta_kappa[, i]/4 + phi_kappa[, i]/10;
+    reg_nu[, i] = X[i] * beta_nu[, i]/4 + phi_nu[, i]/10;
+    reg_xi[, i] = X[i] * beta_xi[, i]/8 + phi_xi[, i]/15;
   }
 
   kappa = to_vector(exp(reg_kappa));
@@ -131,9 +131,9 @@ model {
   rho1_xi ~ beta(1.5, 4);
   rho2_xi ~ beta(3, 4);
   
-  target += matnormal_lpdf(beta_kappa | corr_kappa, cov_ar1_kappa);
-  target += matnormal_lpdf(beta_nu | corr_nu, cov_ar1_nu);
-  target += matnormal_lpdf(beta_xi | corr_xi, cov_ar1_xi);
+  target += matnormal_lpdf(beta_kappa | cov_ar1_kappa, corr_kappa);
+  target += matnormal_lpdf(beta_nu | cov_ar1_nu, corr_nu);
+  target += matnormal_lpdf(beta_xi | cov_ar1_xi, corr_xi);
   
   // IAR prior
   eta_kappa ~ beta(2,8);

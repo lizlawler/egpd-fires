@@ -42,7 +42,7 @@ median_xi <- apply(post$beta_nu, c(2,3), median)
 
 post_kappa_effects_df <- matrix(NA, r, t)
 for(i in 1:r) {
-  post_kappa_effects_df[i,] <- X_full[i, , ] %*% median_kappa[i, ]
+  post_kappa_effects_df[i,] <- X_full[i, , ] %*% median_kappa[, i]
 }
 
 post_kappa <- t(post_kappa_effects_df) %>% as_tibble() %>% 
@@ -51,10 +51,17 @@ post_kappa <- t(post_kappa_effects_df) %>% as_tibble() %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
   left_join(., X_long) %>%
   left_join(., mod_reg_key) %>% mutate(type = "sim")
-kappa_full <- rbind(kappa_effects, post_kappa) %>% mutate(type = factor(type, levels = c("truth", "sim")))
+kappa_full <- rbind(kappa_effects, post_kappa) %>% 
+  mutate(type = case_when(type == 'truth' ~ 'Truth',
+                          type == 'sim' ~ 'Simulated'),
+         type = factor(type, levels = c("Truth", "Simulated")))
 post_effects_kappa <- ggplot(kappa_full, aes(x=linear, y=effect, group = region)) + 
   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + 
-  facet_grid(type ~ .)
+  facet_grid(. ~ type) + xlab("Linear term") + ylab("Partial effect") +
+  guides(color = guide_legend("Level 2 region"),
+         linetype = guide_legend("Level 1 region")) +
+  theme_minimal()
+ggsave("effects_plot_minimal.png", type = "cairo")
 ggsave(paste0('./sim-study/figures/g1/effects/g1_post-effects_kappa-nu-sim_kappa_',
               format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"),
               ".pdf"),
@@ -63,7 +70,7 @@ ggsave(paste0('./sim-study/figures/g1/effects/g1_post-effects_kappa-nu-sim_kappa
 
 post_nu_effects_df <- matrix(NA, r, t)
 for(i in 1:r) {
-  post_nu_effects_df[i,] <- X_full[i, , ] %*% median_nu[i, ]
+  post_nu_effects_df[i,] <- X_full[i, , ] %*% median_nu[,i]
 }
 
 post_nu <- t(post_nu_effects_df) %>% as_tibble() %>% 

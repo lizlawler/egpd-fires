@@ -11,7 +11,6 @@ functions{
   }
 }
 
-
 data {
   int<lower = 1> p; // # of parameters
   int<lower = 1> T; // # of timepoints

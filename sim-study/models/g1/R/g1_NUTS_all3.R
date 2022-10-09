@@ -57,11 +57,11 @@ kappa_full <- rbind(kappa_effects, post_kappa) %>%
          type = factor(type, levels = c("Truth", "Simulated")))
 post_effects_kappa <- ggplot(kappa_full, aes(x=linear, y=effect, group = region)) + 
   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + 
-  facet_grid(. ~ type) + xlab("Linear term") + ylab("Partial effect") +
-  guides(color = guide_legend("Level 2 region"),
-         linetype = guide_legend("Level 1 region")) +
-  theme_minimal()
-ggsave("effects_plot_minimal.png", type = "cairo")
+  facet_grid(. ~ type) + xlab("Linear term") + ylab(expression("Partial effect on"~kappa)) +
+  guides(color = guide_legend("Level 2"),
+         linetype = guide_legend("Level 1")) +
+  theme_classic()
+ggsave("effects_plot_classic_v3.png", dpi = 700, type = "cairo")
 ggsave(paste0('./sim-study/figures/g1/effects/g1_post-effects_kappa-nu-sim_kappa_',
               format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"),
               ".pdf"),

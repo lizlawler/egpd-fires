@@ -1,3 +1,6 @@
+rm(list = setdiff(ls(), "stan_data"))
+gc()
+
 library(readr)
 library(rstan)
 library(MCMCvis)
@@ -11,22 +14,58 @@ library(classInt)
 library(spatialreg)
 options(mc.cores = parallel::detectCores())
 
+
+# start time, for identification purposes later
+st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
+
 # run sampling
-egpd_init <- stan_model('./full-model/simulations/zip/stan/zip_lambda-pi.stan')
+egpd_init <- stan_model('./full-model/simulations/zip/stan/zip_lambda-pi_fires.stan')
+beta_rho_inits <- list(beta_lambda = matrix(0, 37, 84), beta_pi = matrix(0, 37, 84), rho1_lambda = 0.54, rho2_lambda = 0.45, rho1_pi = 0.54, rho2_pi = 0.45)
+inits_list3 <- rep(list(beta_rho_inits), 3)
 egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
                      iter = 1000,
                      chains = 3,
-                     init_r = 0.01,
+                     init = inits_list3,
                      refresh = 50)
 
+end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
+
+saveRDS(egpd_fit, file = paste0("./full-model/simulations/zip/stan-fits/zip_lambda-pi_fires", st_time, "_", end_time, ".RDS"))
+
+# saveRDS(count_data, file = paste0("./sim-study/models/zip/data/zip_lambda-pi_", st_time, "_", end_time, ".RDS"))
+
 MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
-          ind = TRUE)
+          ind = TRUE,
+          open_pdf = FALSE,
+          filename = paste0('./full-model/figures/zip/trace/zip_trace-lambda-pi_fires', st_time, "_", end_time, ".pdf"))
 
-MCMCtrace(egpd_fit, params = c("beta_lambda", "beta_pi", "phi_lambda", "phi_pi"),
-          ind = TRUE)
+# run for 2000 iterations to compare the two
+gc()
+st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
+egpd_fit_2000 <- sampling(egpd_init, 
+                     data = stan_data, 
+                     iter = 2000,
+                     chains = 3,
+                     init = inits_list3,
+                     refresh = 50)
+end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
+saveRDS(egpd_fit_2000, file = paste0("./full-model/simulations/zip/stan-fits/zip_lambda-pi_fires_2000iter", st_time, "_", end_time, ".RDS"))
+MCMCtrace(egpd_fit_2000, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+          ind = TRUE,
+          open_pdf = FALSE,
+          filename = paste0('./full-model/figures/zip/trace/zip_trace-lambda-pi_fires_2000iter', st_time, "_", end_time, ".pdf"))
 
-saveRDS(egpd_fit, file = "./sim-study/models/zip/stan-fits/zip_lambda-pi.RDS")
+quit(save = "no")
+
+
+# MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+#           ind = TRUE)
+# 
+# MCMCtrace(egpd_fit, params = c("beta_lambda", "beta_pi", "phi_lambda", "phi_pi"),
+#           ind = TRUE)
+
+# saveRDS(egpd_fit, file = "./sim-study/models/zip/stan-fits/zip_lambda-pi.RDS")
 
 # pre and post effects plots ---------
 post <- rstan::extract(egpd_fit, pars = c('beta_lambda', 'beta_pi', 'phi_lambda', 'phi_pi'))

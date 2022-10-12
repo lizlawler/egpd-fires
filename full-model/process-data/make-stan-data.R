@@ -67,7 +67,7 @@ st_covs$id <- 1:nrow(st_covs)
 
 
 # Create training sets, including years from 1984 to cutoff_year - 1
-cutoff_year <- 2000
+cutoff_year <- 2005
 # remember to change "2016" (or "upper_cutoff" to whatever data is most current
 
 train_counts <- count_df %>%
@@ -225,20 +225,12 @@ assert_that(all(iden_vec) == TRUE)
 # create correlation matrix from 3 levels of relationships using real ecoregions
 load(file = "./sim-study/shared-data/region_key.RData")
 
-mod_reg_key <- as_tibble(region_key) %>% 
+full_reg_key <- as_tibble(region_key) %>% 
   mutate(region = c(1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
          NA_L1CODE = as.factor(NA_L1CODE),
          NA_L3CODE = as.factor(NA_L3CODE))
 
-# full_reg_key <- as_tibble(region_key) %>% 
-#   mutate(region = c(1:84),
-#          NA_L2CODE = as.factor(NA_L2CODE),
-#          NA_L1CODE = as.factor(NA_L1CODE),
-#          NA_L3CODE = as.factor(NA_L3CODE))
-# 
-# # indices of selected regions, pulled from full region key
-# idx <- which(full_reg_key$NA_L3CODE %in% mod_reg_key$NA_L3CODE)
 level3 <- matrix(0, 84, 84)
 level2 <- matrix(0, 84, 84)
 level1 <- matrix(0, 84, 84)
@@ -297,7 +289,7 @@ for(i in cov_vec_idx) {
 min_size <- 1e3
 stan_data <- list(
   R = 84, # total number of regions
-  T = T,
+  T = T_tc,
   p = p,
   N = length(train_counts$n_fire),
   # N_obs = length(burn_idx_train_obs),
@@ -322,7 +314,7 @@ stan_data <- list(
   node2 = B@j + 1,
   
   # training data
-  X = X_array,
+  X = X_array_tc,
   y = train_counts$n_fire
 )
 

@@ -16,11 +16,13 @@ options(mc.cores = parallel::detectCores())
 
 
 # start time, for identification purposes later
-st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
+st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
+stan_data <- readRDS(file = "full-model/simulations/zip/data/stan_data.RDS")
 
 # run sampling
 egpd_init <- stan_model('./full-model/simulations/zip/stan/zip_lambda-pi_fires.stan')
-beta_rho_inits <- list(beta_lambda = matrix(0, 37, 84), beta_pi = matrix(0, 37, 84), rho1_lambda = 0.54, rho2_lambda = 0.45, rho1_pi = 0.54, rho2_pi = 0.45)
+beta_rho_inits <- list(beta_lambda = matrix(0, 37, 84), beta_pi = matrix(0, 37, 84), 
+                       rho1_lambda = 0.54, rho2_lambda = 0.45, rho1_pi = 0.54, rho2_pi = 0.45)
 inits_list3 <- rep(list(beta_rho_inits), 3)
 egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
@@ -41,6 +43,7 @@ MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi
           filename = paste0('./full-model/figures/zip/trace/zip_trace-lambda-pi_fires', st_time, "_", end_time, ".pdf"))
 
 # run for 2000 iterations to compare the two
+rm(list = setdiff(ls(), c("stan_data", "egpd_init", "inits_list3")))
 gc()
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
 egpd_fit_2000 <- sampling(egpd_init, 

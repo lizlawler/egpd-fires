@@ -74,6 +74,11 @@ train_counts <- count_df %>%
   filter(year < cutoff_year) %>%
   left_join(st_covs)
 
+# reg_zeroes <- split(train_counts, train_counts$NA_L3NAME) %>%
+#   lapply(., function(x) sum(x$n_fire == 0)/length(x$n_fire)) %>%
+#   unlist()
+# 
+# saveRDS(reg_zeroes, file = "sim-study/shared-data/zeroes-by-region.RDS")
 # including missing data
 # train_burns_full <- burn_df %>%
 #   filter(FIRE_YEAR < cutoff_year) %>%
@@ -147,6 +152,13 @@ for(i in 1:84) {
 }
 
 # ensure that split data frames are still in correct order
+# assert_that(all(bind_rows(X_list_tc)$lin_log_housing_density == log(train_counts$housing_density)))
+# assert_that(all(bind_rows(X_list_tc)$lin_vs == train_counts$vs))
+# assert_that(all(bind_rows(X_list_tc)$lin_pr == train_counts$pr))
+# assert_that(all(bind_rows(X_list_tc)$lin_vs == train_counts$vs))
+# assert_that(all(bind_rows(X_list_tc)$lin_prev_12mo_precip == train_counts$prev_12mo_precip))
+# assert_that(all(bind_rows(X_list_tc)$lin_tmmx == train_counts$tmmx))
+# assert_that(all(bind_rows(X_list_tc)$lin_rmin == train_counts$rmin))
 assert_that(all(bind_rows(X_list_tc) == X_full[count_idx_train,-38]))
 assert_that(all(X_full[count_idx_train, "NA_L3NAME"] == st_covs[count_idx_train, "NA_L3NAME"]))
 iden_vec <- c()
@@ -284,6 +296,13 @@ for(i in cov_vec_idx) {
   }
 }
 
+# reg_zeroes <- split(train_counts, train_counts$NA_L3NAME) %>% 
+#   lapply(., function(x) sum(x$n_fire == 0)/length(x$n_fire)) %>%
+#   unlist() - 0.1
+
+count_matrix <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) x$n_fire) %>% 
+  bind_cols() %>% 
+  as.matrix()
 
 # Bundle up data into a list too pass to Stan -----------------------------
 min_size <- 1e3
@@ -315,7 +334,8 @@ stan_data <- list(
   
   # training data
   X = X_array_tc,
-  y = train_counts$n_fire
+  y = count_matrix
+  # zero_prob = reg_zeroes
 )
 
 # assert that there are no missing values in stan_d

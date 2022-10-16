@@ -1,5 +1,5 @@
-rm(list = setdiff(ls(), "stan_data"))
-gc()
+# rm(list = setdiff(ls(), "stan_data"))
+# gc()
 
 library(readr)
 library(rstan)
@@ -17,27 +17,33 @@ options(mc.cores = parallel::detectCores())
 
 # start time, for identification purposes later
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
-stan_data <- readRDS(file = "full-model/simulations/zip/data/stan_data.RDS")
+stan_data <- readRDS(file = "full-model/simulations/zip/data/stan_data_counts-matrix.RDS")
 
 # run sampling
 egpd_init <- stan_model('./full-model/simulations/zip/stan/zip_lambda-pi_fires.stan')
-beta_rho_inits <- list(beta_lambda = matrix(0, 37, 84), beta_pi = matrix(0, 37, 84), 
-                       rho1_lambda = 0.54, rho2_lambda = 0.45, rho1_pi = 0.54, rho2_pi = 0.45)
-inits_list3 <- rep(list(beta_rho_inits), 3)
+# beta_rho_inits <- list(beta_lambda = matrix(0, 37, 84), beta_pi = matrix(0, 37, 84), 
+#                        rho1_lambda = 0.54, rho2_lambda = 0.45, rho1_pi = 0.54, rho2_pi = 0.45)
+# inits_list3 <- rep(list(beta_rho_inits), 3)
+# egpd_vb <- vb(egpd_init, data = stan_data, init_r = 0.1)
+
 egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
-                     iter = 1000,
+                     iter = 2000,
                      chains = 3,
-                     init = inits_list3,
-                     refresh = 50)
+                     init_r = 0.01,
+                     refresh = 50,
+                     control = list(adapt_delta = 0.99),
+                     diagnostic_file = "full-model/output/zip_fires_OG_small-step_2000_diag.csv")
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
-saveRDS(egpd_fit, file = paste0("./full-model/simulations/zip/stan-fits/zip_lambda-pi_fires", st_time, "_", end_time, ".RDS"))
+saveRDS(egpd_fit, 
+        file = paste0("./full-model/simulations/zip/stan-fits/zip_lambda-pi_fires_OG_small-step_2000", 
+                      st_time, "_", end_time, ".RDS"))
 
 # saveRDS(count_data, file = paste0("./sim-study/models/zip/data/zip_lambda-pi_", st_time, "_", end_time, ".RDS"))
 
-MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda"),
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/zip/trace/zip_trace-lambda-pi_fires', st_time, "_", end_time, ".pdf"))
@@ -202,5 +208,13 @@ MCMCtrace(egpd_fit, params = c("beta_lambda", "beta_pi", "phi_lambda", "phi_pi")
           gvals = c(betas_lambda, phi_mat, rho1, rho2),
           open_pdf = FALSE,
           filename = paste0('./sim-study/figures/zip/trace/zip_trace-lambda-pi',
+                            format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))
+
+
+egpd_fit <- readRDS("full-model/simulations/zip/stan-fits/zip_lambda-pi_fires_2000iter12Oct2022_1211_1731.RDS")
+MCMCtrace(egpd_fit, params = c("beta_lambda", "beta_pi", "phi_lambda", "phi_pi"),
+          ind = TRUE,
+          open_pdf = FALSE,
+          filename = paste0('./full-model/figures/zip/trace/zip_lambda-pi_betas-phis_',
                             format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))
 

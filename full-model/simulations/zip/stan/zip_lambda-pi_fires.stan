@@ -15,7 +15,6 @@ data {
   int<lower = 1> p; // # of parameters
   int<lower = 1> T; // # of timepoints
   int<lower = 1> R; // # of regions
-  int<lower = 1> N; // total # of observations (TxR)
   int<lower=0> n_edges;
   int<lower=1, upper = R> node1[n_edges];  // node1[i] adjacent to node2[i]
   int<lower=1, upper = R> node2[n_edges];  // and node1[i] < node2[i]

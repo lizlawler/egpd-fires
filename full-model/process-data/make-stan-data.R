@@ -57,8 +57,10 @@ st_covs <- ecoregion_summaries %>%
   left_join(area_df) %>%
   droplevels %>%
   mutate(er_ym = paste(NA_L3NAME, ym, sep = "_")) %>%
-  arrange(NA_L3NAME, ym) %>%
-  filter(year < 2005)
+  arrange(NA_L3NAME, ym) 
+
+# %>%
+#   filter(year < 2005)
 # REMOVE THIS LINE WHEN RUNNING ON FULL DATASET
 
 assert_that(length(setdiff(st_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
@@ -70,9 +72,12 @@ st_covs$id <- 1:nrow(st_covs)
 cutoff_year <- 2005
 # remember to change "2016" (or "upper_cutoff" to whatever data is most current
 
+# train_counts <- count_df %>%
+#   filter(year < cutoff_year) %>%
+#   left_join(st_covs)
+
 train_counts <- count_df %>%
-  filter(year < cutoff_year) %>%
-  left_join(st_covs)
+  inner_join(st_covs)
 
 # reg_zeroes <- split(train_counts, train_counts$NA_L3NAME) %>%
 #   lapply(., function(x) sum(x$n_fire == 0)/length(x$n_fire)) %>%
@@ -134,10 +139,12 @@ X_bs_df <- bind_cols(X_bs_df)
 assert_that(!any(is.na(X_bs_df)))
 
 X_full <- X_bs_df %>% mutate(NA_L3NAME = st_covs$NA_L3NAME) %>% mutate(intercept = 1, .before = lin_log_housing_density)
+X_full <- X_bs_df %>% mutate(er_ym = st_covs$er_ym, NA_L3NAME = st_covs$NA_L3NAME) %>% 
+  mutate(intercept = 1, .before = lin_log_housing_density)
 
 # design matrix for training counts ------
 # is a subset of the rows of X, based on which rows show up in train_counts
-count_idx_train <- match(train_counts$er_ym, st_covs$er_ym)
+count_idx_train <- match(train_counts$er_ym, X_full$er_ym)
 assert_that(all(diff(count_idx_train)) == 1)
 X_tc <- X_full[count_idx_train, ]
 assert_that(identical(nrow(X_tc), nrow(train_counts)))
@@ -145,11 +152,21 @@ assert_that(all(st_covs[count_idx_train,]$er_ym == train_counts$er_ym))
 
 # split X into 84 matrices that are 192 x 37
 X_list_tc <- lapply(split(X_tc, X_tc$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+nfire_list <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
+assert_that(all(mapply(function(x, y) identical(x$er_ym, y$er_ym), X_list_tc, nfire_list)) == TRUE)
 T_tc <- nrow(X_list_tc[[1]])
+X_list_tc <- lapply(X_list_tc, function(x) select(x, -er_ym))
 X_array_tc <- array(NA, dim = c(84, T_tc, 37))
 for(i in 1:84) {
   X_array_tc[i, ,] <- as.matrix(X_list_tc[[i]])
 }
+
+nfire_matrix <- matrix(unlist(lapply(nfire_list, function(x) select(x, n_fire))), nrow(nfire_list[[1]]), 84)
+iden_vec <- c()
+for(i in 1:84) {
+  iden_vec[i] <- all(nfire_matrix[, i] == nfire_list[[i]]$n_fire)
+}
+assert_that(all(iden_vec) == TRUE)
 
 # ensure that split data frames are still in correct order
 # assert_that(all(bind_rows(X_list_tc)$lin_log_housing_density == log(train_counts$housing_density)))
@@ -296,13 +313,12 @@ for(i in cov_vec_idx) {
   }
 }
 
-# reg_zeroes <- split(train_counts, train_counts$NA_L3NAME) %>% 
-#   lapply(., function(x) sum(x$n_fire == 0)/length(x$n_fire)) %>%
-#   unlist() - 0.1
+reg_zeroes <- lapply(nfire_list, function(x) sum(x$n_fire == 0)/length(x$n_fire)) %>%
+  unlist() - 0.1
 
-count_matrix <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) x$n_fire) %>% 
-  bind_cols() %>% 
-  as.matrix()
+# count_matrix <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) x$n_fire) %>% 
+#   bind_cols() %>% 
+#   as.matrix()
 
 # Bundle up data into a list too pass to Stan -----------------------------
 min_size <- 1e3
@@ -310,7 +326,6 @@ stan_data <- list(
   R = 84, # total number of regions
   T = T_tc,
   p = p,
-  N = length(train_counts$n_fire),
   # N_obs = length(burn_idx_train_obs),
   # N_miss = length(burn_idx_train_miss),
   # N = length(burn_idx_train_full),
@@ -334,12 +349,14 @@ stan_data <- list(
   
   # training data
   X = X_array_tc,
-  y = count_matrix
-  # zero_prob = reg_zeroes
+  y = nfire_matrix,
+  zero_prob = reg_zeroes
 )
 
 # assert that there are no missing values in stan_d
 assert_that(!any(lapply(stan_data, function(x) any(is.na(x))) %>% unlist))
+
+saveRDS(stan_data, file = "full-model/simulations/zip/data/stan_data_396_inc-zero-prob.RDS")
 
 zi_d <- stan_d
 zi_d$M <- 2

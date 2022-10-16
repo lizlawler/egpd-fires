@@ -35,8 +35,22 @@ plot(nondiv_samples$rho1_pi, nondiv_samples$rho2_pi,
 points(div_samples$rho1_pi, div_samples$rho2_pi,
        col="green", pch=16, cex=0.8)
 
-plot(nondiv_samples$rho1_lambda[1:500], nondiv_samples$rho2_lambda[1:500],
+
+plot(nondiv_samples$rho1_lambda, nondiv_samples$`beta_lambda[1,1]`,
      col=c_dark_trans, pch = 16, cex = 0.8,
-     xlab = "rho1", ylab = "rho2")
-points(div_samples$rho1_lambda, div_samples$rho2_lambda,
+     xlab = "rho1", ylab = "beta[1,1]")
+points(div_samples$rho1_lambda, div_samples$`beta_lambda[1,1]`,
+       col="green", pch=16, cex=0.8)
+
+
+plot(nondiv_samples$rho1_pi, nondiv_samples$`beta_pi[1,1]`,
+     col=c_dark_trans, pch = 16, cex = 0.8,
+     xlab = "rho1", ylab = "beta[1,1]")
+points(div_samples$rho1_pi, div_samples$`beta_pi[1,1]`,
+       col="green", pch=16, cex=0.8)
+
+plot(nondiv_samples$rho1_lambda,
+     col=c_dark_trans, pch = 16, cex = 0.8,
+     xlab = "Iteration", ylab = "rho1")
+points(div_samples$rho1_lambda,
        col="green", pch=16, cex=0.8)

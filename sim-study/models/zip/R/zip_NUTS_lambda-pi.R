@@ -1,3 +1,4 @@
+gc()
 library(readr)
 library(rstan)
 library(MCMCvis)
@@ -19,9 +20,11 @@ source("./sim-study/models/zip/R/zip_data_lambda-pi.R")
 
 # run sampling
 egpd_init <- stan_model('./sim-study/models/zip/stan/zip_lambda-pi.stan')
+# egpd_vb <- vb(egpd_init, toy_data)
+
 egpd_fit <- sampling(egpd_init, 
                      data = toy_data, 
-                     iter = 2000,
+                     iter = 1000,
                      chains = 3,
                      refresh = 50)
 
@@ -30,6 +33,9 @@ end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 saveRDS(egpd_fit, file = paste0("./sim-study/models/zip/stan-fits/zip_lambda-pi_", st_time, "_", end_time, ".RDS"))
 
 saveRDS(toy_data, file = paste0("./sim-study/models/zip/data/zip_lambda-pi_", st_time, "_", end_time, ".RDS"))
+
+MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+          ind = TRUE)
 
 MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
           ind = TRUE,
@@ -44,21 +50,21 @@ post <- rstan::extract(egpd_fit, pars = c('beta_lambda', 'beta_pi', 'phi_lambda'
 
 ## lambda ----
 median_lambda <- apply(post$beta_lambda, c(2,3), median)
-post_lambda_effects_df <- matrix(NA, r, t)
+post_lambda_effects_df_v1 <- matrix(NA, r, t)
 for(i in 1:r) {
-  post_lambda_effects_df[i,] <- X_full[i, , ] %*% median_lambda[, i]
+  post_lambda_effects_df_v1[i,] <- X_full[i, , 1:7] %*% median_lambda[1:7, i]
 }
 
-post_lambda <- t(post_lambda_effects_df) %>% as_tibble() %>% 
+post_lambda_v1 <- t(post_lambda_effects_df_v1) %>% as_tibble() %>%
   rename_with(., ~ reg_cols) %>% 
   mutate(time = c(1:t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
-  left_join(., X_long) %>%
-  left_join(., mod_reg_key) %>% mutate(type = "sim")
+  left_join(., X_long_v1) %>%
+  left_join(., full_reg_key) %>% mutate(type = "sim")
 
-lambda_full <- rbind(lambda_effects, post_lambda) %>% mutate(type = factor(type, levels = c("truth", "sim")))
+lambda_full_v1 <- rbind(lambda_effects_v1, post_lambda_v1) %>% mutate(type = factor(type, levels = c("truth", "sim")))
 
-post_effects <- ggplot(lambda_full, aes(x=linear, y=effect, group = region)) + 
+post_effects_v1 <- ggplot(lambda_full_v1, aes(x=linear, y=effect, group = region)) + 
   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + 
   facet_grid(type ~ .)
 ggsave(paste0('./sim-study/figures/zip/effects/zip_lambda-pi_lambda-effects',

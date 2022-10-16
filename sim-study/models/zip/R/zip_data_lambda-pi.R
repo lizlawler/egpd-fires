@@ -7,19 +7,19 @@ library(spatialreg)
 library(extraDistr)
 
 
-t <- 200 # timepoints
+t <- 300 # timepoints
 p <- 37 # parameters
 
 # create correlation matrix from 3 levels of relationships using real ecoregions
 load(file = "./sim-study/shared-data/region_key.RData")
-level1_all8and9 <- seq(8,9.9,0.1)
+# level1_all8and9 <- seq(8,9.9,0.1)
 
-mod_reg_key <- as_tibble(region_key) %>% 
-  mutate(region = sprintf("reg%d", 1:84),
-         NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE)) %>%
-  filter(NA_L2CODE %in% level1_all8and9)
+# mod_reg_key <- as_tibble(region_key) %>% 
+#   mutate(region = sprintf("reg%d", 1:84),
+#          NA_L2CODE = as.factor(NA_L2CODE),
+#          NA_L1CODE = as.factor(NA_L1CODE),
+#          NA_L3CODE = as.factor(NA_L3CODE)) %>%
+#   filter(NA_L2CODE %in% level1_all8and9)
 
 full_reg_key <- as_tibble(region_key) %>% 
   mutate(region = sprintf("reg%d", 1:84),
@@ -32,8 +32,9 @@ idx <- which(full_reg_key$NA_L2CODE %in% mod_reg_key$NA_L2CODE)
 
 # %>%
 #   filter(NA_L2CODE == 9.4 | NA_L2CODE == 8.3 | NA_L2CODE == 8.4)
-r <- dim(mod_reg_key)[1]
-reg_cols <- mod_reg_key$region
+# r <- dim(mod_reg_key)[1]
+r <- dim(full_reg_key)[1]
+reg_cols <- full_reg_key$region
 level3 <- matrix(0, 84, 84)
 level2 <- matrix(0, 84, 84)
 level1 <- matrix(0, 84, 84)
@@ -54,9 +55,13 @@ for(i in 1:84) {
     }
   }
 }
-l3 <- level3[idx, idx]
-l2 <- level2[idx, idx]
-l1 <- level1[idx, idx]
+# l3 <- level3[idx, idx]
+# l2 <- level2[idx, idx]
+# l1 <- level1[idx, idx]
+
+l3 <- level3
+l2 <- level2
+l1 <- level1
 rho1 <- 0.54; rho2 <- 0.45
 corr <- l3 + rho2 * l2 + rho1 * l1
 chol_corr <- chol(corr)
@@ -187,7 +192,7 @@ lambda_effects_v1 <- t(df_lambda_v1) %>% as_tibble() %>%
   mutate(time = c(1:t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
   left_join(., X_long_v1) %>%
-  left_join(., mod_reg_key) %>% mutate(type = "truth")
+  left_join(., full_reg_key) %>% mutate(type = "truth")
 
 lambda_effects_v2 <- t(df_lambda_v2) %>% as_tibble() %>% 
   rename_with(., ~ reg_cols) %>% 
@@ -238,8 +243,10 @@ nb_mat <- nb2mat(nb_agg, style = 'B')
 W <- nb_mat # unnormalized weight matrix
 D <- diag(nbInfo$num)
 
-smallD <- D[idx, idx]
-smallW <- W[idx, idx]
+# smallD <- D[idx, idx]
+# smallW <- W[idx, idx]
+smallD <- D
+smallW <- W
 tau <- rexp(1)
 eta <- runif(1)
 alpha <- 0.99
@@ -256,7 +263,8 @@ for(i in 2:t) {
 ### generate neighborhood data for icar prior in stan
 listw <- nb2listw(nb_agg, style = 'B', zero.policy = TRUE)
 B <- as(listw, 'symmetricMatrix')
-smallB <- B[idx, idx]
+# smallB <- B[idx, idx]
+smallB <- B
 n_edges = length(smallB@i)
 node1 = smallB@i+1 # add one to offset zero-based index
 node2 = smallB@j+1
@@ -270,11 +278,18 @@ for(i in 1:r) {
 expit <- function(x) exp(x)/(1 + exp(x))
 range(exp(reg_lambda))
 range(expit(reg_pi))
-lambda_true <- c(exp(reg_lambda))
-pi_true <- c(expit(reg_pi))
+lambda_true <- exp(reg_lambda)
+pi_true <- expit(reg_pi)
+# use empirical values by region for zero prob; generated in "make-stan-data" script, line 77
+class(reg_zeroes)
 
-y <- rep(NA, t*r)
-for(i in 1:(t*r)) y[i] <- rzip(1, lambda_true[i], pi_true[i])
+y <- matrix(rep(NA, t*r), nrow = t, ncol = r)
+for(i in 1:r) {
+  for(j in 1:t) {
+    y[j, i] <- rzip(1, lambda_true[j, i], reg_zeroes[i])
+  }
+}
+# for(i in 1:(t*r)) y[i] <- rzip(1, lambda_true[i], pi_true[i])
 range(y)
 
 toy_data <- list(

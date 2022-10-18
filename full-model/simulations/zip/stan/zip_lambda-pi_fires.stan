@@ -21,6 +21,7 @@ data {
   
   matrix[T, p] X[R]; // design matrix; 1-D array of size r with matrices t x p; this indexing is deprecated in version 2.32 and above
   int<lower = 0> y[T, R]; // response data
+  real area_offset[R]; // known offset vector of areas
   
   // indicator matrices for ecoregions
   matrix[R, R] l3;
@@ -56,10 +57,10 @@ parameters {
 transformed parameters {
   matrix[T, R] phi_lambda;
   matrix[T, R] phi_pi;
-  matrix[T, R] reg_lambda;
-  matrix[T, R] reg_pi;
-  matrix<lower = 0> [T,R] lambda;
-  matrix<lower = 0, upper = 1> [T,R] pi_param;
+  // matrix[T, R] reg_lambda;
+  // matrix[T, R] reg_pi;
+  matrix[T,R] lambda;
+  matrix[T,R] pi_param;
   
   real<lower=0, upper = bp_init_lambda/2> bp_lambda = bp_init_lambda/2;
   real<lower=0, upper = tau_init_lambda/2> tau_lambda = tau_init_lambda/2;
@@ -79,12 +80,12 @@ transformed parameters {
   }
   
   for (i in 1:R) {
-    reg_lambda[, i] = X[i] * beta_lambda[, i]/10 + phi_lambda[, i]/15;
-    reg_pi[, i] = X[i] * beta_pi[, i]/5 + phi_pi[, i]/10;
+    lambda[, i] = X[i] * beta_lambda[, i] + phi_lambda[, i] + area_offset[i];
+    pi_param[, i] = X[i] * beta_pi[, i] + phi_pi[, i];
   }
-
-  lambda = exp(reg_lambda);
-  pi_param = inv_logit(reg_pi);
+// 
+//   lambda = exp(reg_lambda);
+//   pi_param = inv_logit(reg_pi);
 }
 
 model {
@@ -116,12 +117,12 @@ model {
   for (i in 1:R) {
     for (j in 1:T) {
        if (y[j, i] == 0) {
-        target += log_sum_exp(bernoulli_lpmf(1 | pi_param[j, i]),
-                            bernoulli_lpmf(0 | pi_param[j, i])
-                            + poisson_lpmf(y[j, i] | lambda[j, i]));
+        target += log_sum_exp(bernoulli_logit_lpmf(1 | pi_param[j, i]),
+                            bernoulli_logit_lpmf(0 | pi_param[j, i])
+                            + poisson_log_lpmf(y[j, i] | lambda[j, i]));
       } else {
-        target += bernoulli_lpmf(0 | pi_param[j, i])
-                + poisson_lpmf(y[j, i] | lambda[j, i]);
+        target += bernoulli_logit_lpmf(0 | pi_param[j, i])
+                + poisson_log_lpmf(y[j, i] | lambda[j, i]);
       }
     }
   }

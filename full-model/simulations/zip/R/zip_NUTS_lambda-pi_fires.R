@@ -17,81 +17,69 @@ options(mc.cores = parallel::detectCores())
 
 # start time, for identification purposes later
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
-stan_data <- readRDS(file = "full-model/simulations/zip/data/stan_data_counts-matrix.RDS")
+stan_data <- readRDS(file = "full-model/simulations/zip/data/stan_data_area-offset_std.RDS")
 
 # run sampling
 egpd_init <- stan_model('./full-model/simulations/zip/stan/zip_lambda-pi_fires.stan')
-# beta_rho_inits <- list(beta_lambda = matrix(0, 37, 84), beta_pi = matrix(0, 37, 84), 
-#                        rho1_lambda = 0.54, rho2_lambda = 0.45, rho1_pi = 0.54, rho2_pi = 0.45)
-# inits_list3 <- rep(list(beta_rho_inits), 3)
-# egpd_vb <- vb(egpd_init, data = stan_data, init_r = 0.1)
-
 egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
                      iter = 2000,
                      chains = 3,
-                     init_r = 0.01,
-                     refresh = 50,
-                     control = list(adapt_delta = 0.99),
-                     diagnostic_file = "full-model/output/zip_fires_OG_small-step_2000_diag.csv")
+                     refresh = 50)
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
 saveRDS(egpd_fit, 
-        file = paste0("./full-model/simulations/zip/stan-fits/zip_lambda-pi_fires_OG_small-step_2000", 
-                      st_time, "_", end_time, ".RDS"))
+        file = paste0("./full-model/simulations/zip/stan-fits/zip_lambda-pi_fires_area-offset_std_", 
+                      st_time, "_", ".RDS"))
 
 # saveRDS(count_data, file = paste0("./sim-study/models/zip/data/zip_lambda-pi_", st_time, "_", end_time, ".RDS"))
+
+MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+          ind = TRUE)
+
+MCMCtrace(egpd_fit, params = c("beta_lambda"),
+          ind = TRUE)
 
 MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda"),
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/zip/trace/zip_trace-lambda-pi_fires', st_time, "_", end_time, ".pdf"))
 
-# run for 2000 iterations to compare the two
-rm(list = setdiff(ls(), c("stan_data", "egpd_init", "inits_list3")))
-gc()
-st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
-egpd_fit_2000 <- sampling(egpd_init, 
-                     data = stan_data, 
-                     iter = 2000,
-                     chains = 3,
-                     init = inits_list3,
-                     refresh = 50)
-end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
-saveRDS(egpd_fit_2000, file = paste0("./full-model/simulations/zip/stan-fits/zip_lambda-pi_fires_2000iter", st_time, "_", end_time, ".RDS"))
-MCMCtrace(egpd_fit_2000, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
-          ind = TRUE,
-          open_pdf = FALSE,
-          filename = paste0('./full-model/figures/zip/trace/zip_trace-lambda-pi_fires_2000iter', st_time, "_", end_time, ".pdf"))
-
-quit(save = "no")
-
-
-# MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
-#           ind = TRUE)
-# 
-# MCMCtrace(egpd_fit, params = c("beta_lambda", "beta_pi", "phi_lambda", "phi_pi"),
-#           ind = TRUE)
-
-# saveRDS(egpd_fit, file = "./sim-study/models/zip/stan-fits/zip_lambda-pi.RDS")
-
 # pre and post effects plots ---------
 post <- rstan::extract(egpd_fit, pars = c('beta_lambda', 'beta_pi', 'phi_lambda', 'phi_pi'))
 
 ## lambda ----
+
+X <- stan_data$X
 median_lambda <- apply(post$beta_lambda, c(2,3), median)
-post_lambda_effects_df <- matrix(NA, r, t)
+r <- 84
+t <- 252
+post_lambda_effects_df_v5 <- matrix(NA, r, t)
 for(i in 1:r) {
-  post_lambda_effects_df[i,] <- X_full[i, , ] %*% median_lambda[, i]
+  post_lambda_effects_df_v5[i,] <- X[i, , c(1,26:31)] %*% median_lambda[c(1,26:31), i]
 }
 
-post_lambda <- t(post_lambda_effects_df) %>% as_tibble() %>% 
+X_new <- list()
+for(i in 1:r) {
+  X_new[[i]] <- X[i,,] %>% as_tibble() %>% 
+    mutate(region = reg_cols[i], 
+           time = c(1:t))
+}
+
+X_long_v1 <- X_new %>% bind_rows() %>% select(c(V2, region, time)) %>% rename(linear = V2)
+X_long_v2 <- X_new %>% bind_rows() %>% select(c(V8, region, time)) %>% rename(linear = V8)
+X_long_v5 <- X_new %>% bind_rows() %>% select(c(V26, region, time)) %>% rename(linear = V26)
+
+post_lambda_v5 <- t(post_lambda_effects_df_v5) %>% as_tibble() %>% 
   rename_with(., ~ reg_cols) %>% 
   mutate(time = c(1:t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
-  left_join(., X_long) %>%
-  left_join(., mod_reg_key) %>% mutate(type = "sim")
+  left_join(., X_long_v5) %>%
+  left_join(., full_reg_key) %>% mutate(type = "sim")
+
+ggplot(post_lambda_v5, aes(x=linear, y = effect, group = region)) +
+  geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE))
 
 lambda_full <- rbind(lambda_effects, post_lambda) %>% mutate(type = factor(type, levels = c("truth", "sim")))
 

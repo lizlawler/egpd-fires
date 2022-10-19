@@ -11,30 +11,36 @@ library(classInt)
 library(spatialreg)
 options(mc.cores = parallel::detectCores())
 
+st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
 # run sampling
 stan_data <- readRDS("./full-model/simulations/g1/data/burns_sliced-index_std.RDS")
 egpd_init <- stan_model('./full-model/simulations/g1/stan/g1_all3_matnorm_fires.stan')
-y_init <- rep(0.00001, stan_data$N_mis)
-egpd_fit_burns <- sampling(egpd_init, 
+n_chains <- 3
+y_init <- list(y = rep(0.00001, stan_data$N_all))
+y_init_chains <- rep(list(y_init), n_chains)
+egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
                      iter = 1000,
-                     chains = 1,
-                     init = list(list(y = y_init)),
+                     chains = n_chains,
+                     init = y_init_chains,
                      init_r = 0.01,
                      refresh = 50)
 
-# save MCMC object in case below dx plots don't save properly
-saveRDS(egpd_fit_burns, file = "./full-model/simulations/g1/stan-fits/g1_all3_matnorm.RDS")
+end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
-MCMCtrace(egpd_fit_burns, params = c("rho1_kappa", "rho2_kappa"), ind = TRUE)
+# save MCMC object in case below dx plots don't save properly
+saveRDS(egpd_fit, 
+        file = paste0("./full-model/simulations/g1/stan-fits/burns_sliced-index_std_", 
+                      st_time, "_", end_time, ".RDS"))
 
 # save traceplot
-# MCMCtrace(egpd_fit, params = c("beta_xi", "phi_xi", "rho1_xi", "rho2_xi"),
-#           ind = TRUE,
-#           gvals = c(betas_xi, phi_mat_xi, rho1_xi, rho2_xi),
-#           open_pdf = FALSE,
-#           filename = paste0('./sim-study/figures/g1/trace/g1_trace-xi_',
-#                             format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M"), ".pdf"))
+MCMCtrace(egpd_fit, params = c("rho1_kappa", "rho2_kappa", "beta_kappa"),
+          ind = TRUE,
+          open_pdf = FALSE,
+          filename = paste0('./full-model/figures/g1/trace/trace_burns_sliced-index_std_',
+                            st_time, "_", end_time, ".pdf"))
+
+quit()
 
 
 

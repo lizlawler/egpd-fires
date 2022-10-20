@@ -30,10 +30,10 @@ egpd_fit <- sampling(egpd_init,
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
 saveRDS(egpd_fit, 
-        file = paste0("./full-model/fire-sims/counts/zinb/stan-fits/zinb_2000iter_logscores_", 
+        file = paste0("./full-model/fire-sims/counts/zinb/stan-fits/zinb_byER_2000iter_logscores_", 
                       st_time, "_", end_time, ".RDS"))
 
-MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi", "rho1_delta", "rho2_delta"),
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/zinb/trace/zinb_fires_2000iter_lambda-pi', st_time, "_", end_time, ".pdf"))

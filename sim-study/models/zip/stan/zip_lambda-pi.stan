@@ -93,10 +93,10 @@ model {
   bp_init_lambda ~ uniform(0, 1);
   bp_init_pi ~ uniform(0, 1);
   
-  rho1_lambda ~ beta(1.5, 4);
-  rho2_lambda ~ beta(3, 4);
-  rho1_pi ~ beta(1.5, 4);
-  rho2_pi ~ beta(3, 4);
+  rho1_lambda ~ beta(3, 4);
+  rho2_lambda ~ beta(1.5, 4);
+  rho1_pi ~ beta(3, 4);
+  rho2_pi ~ beta(1.5, 4);
   
   target += matnormal_lpdf(beta_lambda | cov_ar1_lambda, corr_lambda);
   target += matnormal_lpdf(beta_pi | cov_ar1_pi, corr_pi);

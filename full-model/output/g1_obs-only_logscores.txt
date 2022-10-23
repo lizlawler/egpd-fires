@@ -1,0 +1,73 @@
+Loading required package: StanHeaders
+Loading required package: ggplot2
+rstan (Version 2.21.7, GitRev: 2e1f913d3ca3)
+For execution on a local, multicore CPU with excess RAM we recommend calling
+options(mc.cores = parallel::detectCores()).
+To avoid recompilation of unchanged Stan programs, we recommend calling
+rstan_options(auto_write = TRUE)
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+✔ purrr   0.3.4      ✔ forcats 0.5.2 
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ tidyr::extract() masks rstan::extract()
+✖ dplyr::filter()  masks stats::filter()
+✖ dplyr::lag()     masks stats::lag()
+Loading required package: sp
+Loading required package: spData
+To access larger datasets in this package, install the spDataLarge
+package with: `install.packages('spDataLarge',
+repos='https://nowosad.github.io/drat/', type='source')`
+Loading required package: sf
+Linking to GEOS 3.10.2, GDAL 3.4.2, PROJ 8.2.1; sf_use_s2() is TRUE
+Loading required package: Matrix
+
+Attaching package: ‘Matrix’
+
+The following objects are masked from ‘package:tidyr’:
+
+    expand, pack, unpack
+
+
+Attaching package: ‘spatialreg’
+
+The following objects are masked from ‘package:spdep’:
+
+    get.ClusterOption, get.coresOption, get.mcOption,
+    get.VerboseOption, get.ZeroPolicyOption, set.ClusterOption,
+    set.coresOption, set.mcOption, set.VerboseOption,
+    set.ZeroPolicyOption
+
+
+SAMPLING FOR MODEL 'g1_fires_obs-only' NOW (CHAIN 1).
+
+SAMPLING FOR MODEL 'g1_fires_obs-only' NOW (CHAIN 3).
+
+SAMPLING FOR MODEL 'g1_fires_obs-only' NOW (CHAIN 2).
+Chain 3: 
+Chain 3: Gradient evaluation took 0.050347 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 503.47 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 1: 
+Chain 1: Gradient evaluation took 0.048658 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 486.58 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 2: 
+Chain 2: Gradient evaluation took 0.051158 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 511.58 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 3: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 1: Iteration:   1 / 1000 [  0%]  (Warmup)
+Chain 2: Iteration:   1 / 1000 [  0%]  (Warmup)
+Error in FUN(X[[i]], ...) : 
+  trying to get slot "mode" from an object of a basic class ("NULL") with no slots
+Calls: sampling -> sampling -> .local -> sapply -> lapply -> FUN
+In addition: Warning message:
+In mccollect(jobs) : 3 parallel jobs did not deliver results
+Execution halted

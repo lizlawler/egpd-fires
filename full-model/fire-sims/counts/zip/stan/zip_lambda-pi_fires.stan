@@ -26,9 +26,9 @@ data {
   real area_offset[r]; // known offset vector of areas
   
   // holdout dataset
-  int<lower = 1> t_ho; // # of holdout timepoints
-  int<lower = 1> idx_hold_er[t_ho]; // vector of indices for holdout data timepoints
-  int<lower = 0> y_hold[t_ho, r]; // response data
+  int<lower = 1> t_hold; // # of holdout timepoints
+  int<lower = 1> idx_hold_er[t_hold]; // vector of indices for holdout data timepoints
+  int<lower = 0> y_hold[t_hold, r]; // response data
   
   // full dataset
   int<lower = 1> t_all; // # timepoints in entire dataset
@@ -111,7 +111,7 @@ model {
   tau_init_pi ~ exponential(1);
   eta_lambda ~ beta(2,8);
   eta_pi ~ beta(2,8);
-  for (j in 1:t_tc) {
+  for (j in 1:t_all) {
     target += -.5 * dot_self(phi_init_lambda[j][node1] - phi_init_lambda[j][node2]);
     sum(phi_init_lambda[j]) ~ normal(0, 0.001*r);
     target += -.5 * dot_self(phi_init_pi[j][node1] - phi_init_pi[j][node2]);
@@ -136,10 +136,10 @@ model {
 generated quantities {
   matrix[t_all, r] lambda_full;  
   matrix[t_all, r] pi_param_full; 
-  matrix[t_ho, r] lambda_hold;  
-  matrix[t_ho, r] pi_param_hold;
+  matrix[t_hold, r] lambda_hold;  
+  matrix[t_hold, r] pi_param_hold;
   
-  matrix[t_ho, r] holdout_loglik;
+  matrix[t_hold, r] holdout_loglik;
   matrix[t_tc, r] train_loglik;
  
   // expected values of parameters based on all timepoints, then cut to only be holdout parameters
@@ -166,7 +166,7 @@ generated quantities {
   
   // holdout log-likelihood
   for (i in 1:r) {
-    for (j in 1:t_ho) {
+    for (j in 1:t_hold) {
        if (y_hold[j, i] == 0) {
         holdout_loglik[j, i] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_param_hold[j, i]),
                              bernoulli_logit_lpmf(0 | pi_param_hold[j, i])

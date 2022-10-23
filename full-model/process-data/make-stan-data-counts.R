@@ -73,10 +73,11 @@ train_counts <- count_df %>%
   left_join(st_covs)
 
 holdout_counts <- count_df %>%
-  filter(year >= cutoff_year)
+  filter(year >= cutoff_year) %>%
+  left_join(st_covs)
 
-idx_count_ho <- match(holdout_counts$er_ym, st_covs$er_ym)
-assert_that(all(holdout_counts$er_ym == st_covs[holdout_c_idx, ]$er_ym))
+idx_count_hold <- match(holdout_counts$er_ym, st_covs$er_ym)
+assert_that(all(holdout_counts$er_ym == st_covs[idx_count_hold, ]$er_ym))
 
 # this data frame has no duplicate ecoregion X timestep combos
 N <- length(unique(st_covs$NA_L3NAME))
@@ -108,30 +109,25 @@ X_bs_df <- bind_cols(X_bs_df)
 assert_that(!any(is.na(X_bs_df)))
 
 # X_full <- X_bs_df %>% mutate(NA_L3NAME = st_covs$NA_L3NAME) %>% mutate(intercept = 1, .before = lin_log_housing_density)
-X_full <- X_bs_df %>% mutate(er_ym = st_covs$er_ym, NA_L3NAME = st_covs$NA_L3NAME) %>% 
+X_full <- X_bs_df %>% mutate(er_ym = st_covs$er_ym, NA_L3NAME = st_covs$NA_L3NAME, year = st_covs$year) %>% 
   mutate(intercept = 1, .before = lin_log_housing_density)
 
-# design matrix for training counts ------
-# is a subset of the rows of X, based on which rows show up in train_counts
-idx_count_train <- match(train_counts$er_ym, X_full$er_ym)
-assert_that(all(diff(idx_count_train)) == 1)
-X_tc <- X_full[idx_count_train, ]
-assert_that(identical(nrow(X_tc), nrow(train_counts)))
-assert_that(all(X_tc$er_ym == train_counts$er_ym))
-assert_that(all(X_full[holdout_c_idx,]$er_ym == holdout_counts$er_ym))
+# split into regional design matrices (including all timepoints), then standardize the data, then cut to training data
+# function to standardize design matrices
+std_data <- function(x) {
+  if(sd(x) != 0) {
+    return((x-mean(x))/sd(x)) # don't want to divide by zero for any columns where all values are the same
+  } else {
+    return(x)
+  }
+}
+X_list_full <- split(X_full, X_full$NA_L3NAME)
+X_list_full_std <- lapply(X_list_full, function(x) cbind(apply(x[,1:37], 2, std_data), x[38:40]))
+X_list_tc <- lapply(X_list_full_std, function(x) filter(x, year < cutoff_year))
 
-# split training X into 84 matrices that are t_tc x 37
-X_list_tc <- lapply(split(X_tc, X_tc$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+# pull matrix of training counts and make sure it matches training covariates
 nfire_list_tc <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
 assert_that(all(mapply(function(x, y) identical(x$er_ym, y$er_ym), X_list_tc, nfire_list_tc)) == TRUE)
-t_tc <- nrow(X_list_tc[[1]])
-X_list_tc <- lapply(X_list_tc, function(x) select(x, -er_ym))
-X_array_tc <- array(NA, dim = c(84, t_tc, 37))
-for(i in 1:84) {
-  X_array_tc[i, ,] <- as.matrix(X_list_tc[[i]])
-}
-assert_that(all(bind_rows(X_list_tc) == X_full[idx_count_train,-c(38:39)]))
-
 nfire_matrix_tc <- matrix(unlist(lapply(nfire_list_tc, function(x) select(x, n_fire))), nrow(nfire_list_tc[[1]]), 84)
 iden_vec <- c()
 for(i in 1:84) {
@@ -139,30 +135,28 @@ for(i in 1:84) {
 }
 assert_that(all(iden_vec) == TRUE)
 
+# pull matrix of holdout counts
+nfire_list_hold <- lapply(split(holdout_counts, holdout_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
+idx_count_hold <- match(nfire_list_hold[[1]]$er_ym, X_list_full_std[[1]]$er_ym)
+assert_that(all(mapply(function(x, y) identical(x[idx_count_hold,]$er_ym, y$er_ym), X_list_full_std, nfire_list_hold)) == TRUE)
+nfire_matrix_hold <- matrix(unlist(lapply(nfire_list_hold, function(x) select(x, n_fire))), nrow(nfire_list_hold[[1]]), 84)
 iden_vec <- c()
 for(i in 1:84) {
-  iden_vec[i] <- all(X_array_tc[i,,] == X_list_tc[[i]])
+  iden_vec[i] <- all(nfire_matrix_hold[, i] == nfire_list_hold[[i]]$n_fire)
 }
 assert_that(all(iden_vec) == TRUE)
 
-# split full X matrix into 84 matrices that are t_all x 37
-X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
-t_all <- nrow(X_list_full[[1]])
-X_list_full <- lapply(X_list_full, function(x) select(x, -er_ym))
+# reshape design matrices into arrays for stan model
+X_list_tc <- lapply(X_list_tc, function(x) select(x, -c(er_ym, NA_L3NAME, year)))
+X_list_full_std <- lapply(X_list_full_std, function(x) select(x, -c(er_ym, NA_L3NAME, year)))
+t_tc <- nrow(X_list_tc[[1]])
+t_all <- nrow(X_list_full_std[[1]])
+X_array_tc <- array(NA, dim = c(84, t_tc, 37))
 X_array_full <- array(NA, dim = c(84, t_all, 37))
 for(i in 1:84) {
-  X_array_full[i, ,] <- as.matrix(X_list_full[[i]])
+  X_array_tc[i, ,] <- as.matrix(X_list_tc[[i]])
+  X_array_full[i, ,] <- as.matrix(X_list_full_std[[i]])
 }
-assert_that(all(bind_rows(X_list_full) == X_full[,-c(38:39)]))
-idx_tc_by_er <- 1:t_tc
-assert_that(all(X_list_tc[[1]] == X_list_full[[1]][idx_tc_by_er,]))
-idx_holdout_by_er <- setdiff(1:t_all, idx_tc_by_er)
-
-# grab holdout counts
-X_list_ho <- lapply(split(X_full[idx_count_ho,], X_full[idx_count_ho,]$NA_L3NAME), function(x) select(x, -NA_L3NAME))
-nfire_list_ho <- lapply(split(holdout_counts, holdout_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
-assert_that(all(mapply(function(x, y) identical(x$er_ym, y$er_ym), X_list_ho, nfire_list_ho)) == TRUE)
-nfire_matrix_ho <- matrix(unlist(lapply(nfire_list_ho, function(x) select(x, n_fire))), nrow(nfire_list_ho[[1]]), 84)
 
 # generate correlation matrix indicators
 # create correlation matrix from 3 levels of relationships using real ecoregions
@@ -194,9 +188,6 @@ for(i in 1:84) {
     }
   }
 }
-l3 <- level3
-l2 <- level2
-l1 <- level1
 
 # generate AR(1) indicator matrices for use in covariance matrix in stan
 p <- ncol(X_array_tc[1, ,])
@@ -227,23 +218,6 @@ for(i in cov_vec_idx) {
   }
 }
 
-# standardize design matrix
-std_data <- function(x) {
-  if(sd(x) != 0) {
-    return((x-mean(x))/sd(x)) # don't want to divide by zero for any columns where all values are the same
-  } else {
-    return(x)
-  }
-}
-
-X_std_array_tc <- array(NA, dim = c(84, t_tc, 37))
-X_std_array_full <- array(NA, dim = c(84, t_all, 37))
-for(i in 1:84) {
-  X_std_array_tc[i, ,] <- apply(X_array_tc[i, ,], 2, std_data)
-  X_std_array_full[i, ,] <- apply(X_array_full[i, ,], 2, std_data)
-}
-
-
 
 # Bundle up data into a list too pass to Stan -----------------------------
 # min_size <- 1e3
@@ -253,24 +227,24 @@ stan_data <- list(
   
   # all data
   t_all = t_all,
-  X_all_tmpt = X_std_array_full,
+  X_all_tmpt = X_array_full,
   area_offset = log(area_df$area * 1e-11) / 2,
   
   # training data
   t_tc = t_tc,
-  X_tc = X_std_array,
+  X_tc = X_array_tc,
   y_tc = nfire_matrix_tc,
-  idx_tc_er = idx_tc_by_er,
+  idx_tc_er = 1:t_tc,
 
   # holdout data
-  t_ho = t_all - t_tc,
-  y_hold = nfire_matrix_ho,
-  idx_hold_er = idx_holdout_by_er,
+  t_hold = t_all - t_tc,
+  y_hold = nfire_matrix_hold,
+  idx_hold_er = idx_count_hold,
   
   # indicator matrices for region correlation
-  l3 = l3,
-  l2 = l2,
-  l1 = l1,
+  l3 = level3,
+  l2 = level2,
+  l1 = level1,
   
   # indicator matrices for AR(1) process
   equal = equal,

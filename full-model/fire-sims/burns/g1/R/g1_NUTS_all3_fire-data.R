@@ -13,8 +13,8 @@ options(mc.cores = parallel::detectCores())
 
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
 # run sampling
-stan_data <- readRDS("./full-model/simulations/g1/data/burns_sliced-index_std.RDS")
-egpd_init <- stan_model('./full-model/simulations/g1/stan/g1_all3_matnorm_fires.stan')
+stan_data <- readRDS("./full-model/fire-sims/burns/data/burns_sliced-index_Xstd_ystd.RDS")
+egpd_init <- stan_model('./full-model/fire-sims/burns/g1/stan/g1_all3_matnorm_fires.stan')
 n_chains <- 3
 y_init <- list(y = rep(0.00001, stan_data$N_all))
 y_init_chains <- rep(list(y_init), n_chains)
@@ -30,8 +30,10 @@ end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
 # save MCMC object in case below dx plots don't save properly
 saveRDS(egpd_fit, 
-        file = paste0("./full-model/simulations/g1/stan-fits/burns_sliced-index_std_", 
+        file = paste0("./full-model/fire-sims/burns/g1/stan-fits/burns_sliced-index_stdX_stdY_", 
                       st_time, "_", end_time, ".RDS"))
+
+MCMCtrace(egpd_fit, params = c("beta_kappa"), ind = TRUE)
 
 # save traceplot
 MCMCtrace(egpd_fit, params = c("rho1_kappa", "rho2_kappa", "beta_kappa"),

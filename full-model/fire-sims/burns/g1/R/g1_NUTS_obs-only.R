@@ -13,13 +13,12 @@ options(mc.cores = parallel::detectCores())
 
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
 # run sampling
-stan_data <- readRDS("./full-model/fire-sims/burns/data/burns_sliced-index_logscore.RDS")
+stan_data <- readRDS("./full-model/fire-sims/burns/data/burns_X-YJtrans_sqrtY.RDS")
 egpd_init <- stan_model('./full-model/fire-sims/burns/g1/stan/g1_fires_obs-only.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
                      iter = 1000,
                      chains = 3,
-                     init_r = 0.01,
                      refresh = 50)
 
 # n_chains <- 3
@@ -37,32 +36,32 @@ end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
 # save MCMC object in case below dx plots don't save properly
 saveRDS(egpd_fit, 
-        file = paste0("./full-model/fire-sims/burns/g1/stan-fits/g1_burns_obs-only_logscore_", 
+        file = paste0("./full-model/fire-sims/burns/g1/stan-fits/g1_burns_obs-only_X-YJtrans_logscore_", 
                       st_time, "_", end_time, ".RDS"))
 
 # save traceplot
 MCMCtrace(egpd_fit, params = c("rho1_kappa", "rho2_kappa", "rho1_nu", "rho2_nu", "rho1_xi", "rho2_xi"),
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_rhos_',
+          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_X-YJtrans_rhos_',
                             st_time, "_", end_time, ".pdf"))
 
 MCMCtrace(egpd_fit, params = c("beta_kappa", "phi_kappa"),
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_KAPPA_',
+          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_X-YJtrans_KAPPA_',
                             st_time, "_", end_time, ".pdf"))
 
 MCMCtrace(egpd_fit, params = c("beta_nu", "phi_nu"),
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_NU_',
+          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_X-YJtrans_NU_',
                             st_time, "_", end_time, ".pdf"))
 
 MCMCtrace(egpd_fit, params = c("beta_xi", "phi_xi"),
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_XI_',
+          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_X-YJtrans_XI_',
                             st_time, "_", end_time, ".pdf"))
 
 quit()

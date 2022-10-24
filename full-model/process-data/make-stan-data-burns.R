@@ -87,6 +87,7 @@ T <- length(unique(st_covs$ym))
 assert_that(identical(nrow(st_covs), N * T))
 
 # Create b-splines for climate vars
+library(cellWise)
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',
           'rmin')
@@ -94,16 +95,19 @@ vars <- c('log_housing_density', 'vs',
 df_each <- 5
 deg_each <- 3
 X_bs <- list()
+X_lin <- list()
 X_bs_df <- list()
 for (i in seq_along(vars)) {
   varname <- paste("lin", vars[i], sep = "_")
-  X_bs[[i]] <- bs(x = st_covs[[vars[i]]], df = df_each, degree = deg_each, 
-                  Boundary.knots = range(st_covs[[vars[i]]]), intercept = FALSE)
+  # incorporate data normalization HERE and then create splines
+  X_lin[[i]] <- transfo(st_covs[[vars[i]]], type = "YJ")$Zt
+  X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each, 
+                  Boundary.knots = range(X_lin[[i]]), intercept = FALSE)
 
   X_bs_df[[i]] <- X_bs[[i]] %>% as_tibble()
   names(X_bs_df[[i]]) <- paste('bs', vars[[i]], 1:df_each, sep = '_')
   X_bs_df[[i]] <- X_bs_df[[i]] %>%
-    mutate(!!varname := st_covs[[vars[i]]]) %>%
+    mutate(!!varname := X_lin[[i]]) %>%
     relocate(!!varname, before = where(is.character))
 }
 X_bs_df <- bind_cols(X_bs_df)
@@ -136,34 +140,23 @@ burn_hold_obs <- sqrt(holdout_burns_full$BurnBndAc[idx_hold_obs])
 assert_that(all(!is.na(burn_hold_obs)))
 hist(burn_hold_obs)
 
-# function to standardize design matrices
-std_data <- function(x) {
-  if(sd(x) != 0) {
-    return((x-mean(x))/sd(x)) # don't want to divide by zero for any columns where all values are the same
-  } else {
-    return(x)
-  }
-}
 
-# first, split X_full into 84 design matrices
-# then, standardize each regions design matrix
+# plit X_full and X_tb into list of 84 design matrices, then reshape to an array for stan model
 X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
 assert_that(all(bind_rows(X_list_full)$er_ym == X_full$er_ym))
-design_train_idx <- which(X_list_full[[1]]$year < cutoff_year)
 X_list_full <- lapply(X_list_full, function(x) select(x, -c(year, er_ym)))
-X_list_full_std <- lapply(X_list_full, function(df) apply(df, 2, std_data))
-
-# last, split into training and also keep full (for predictive effect in log scores)
-X_list_tb <- lapply(X_list_full_std, function(x) x[design_train_idx,])
+X_list_tb <- lapply(split(X_tb, X_tb$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+assert_that(all(bind_rows(X_list_tb)$er_ym == X_tb$er_ym))
+X_list_tb <- lapply(X_list_tb, function(x) select(x, -er_ym))
 
 # reshape each for use in the stan model
 t_tb <- nrow(X_list_tb[[1]])
-t_all <- nrow(X_list_full_std[[1]])
+t_all <- nrow(X_list_full[[1]])
 X_array_tb <- array(NA, dim = c(84, t_tb, 37))
 X_array_full <- array(NA, dim = c(84, t_all, 37))
 for(i in 1:84) {
   X_array_tb[i, ,] <- as.matrix(X_list_tb[[i]])
-  X_array_full[i, ,] <- as.matrix(X_list_full_std[[i]])
+  X_array_full[i, ,] <- as.matrix(X_list_full[[i]])
 }
 
 # generate correlation matrix indicator matrices (three total, one for each level of ecoregion)
@@ -272,7 +265,7 @@ stan_data <- list(
 # assert that there are no missing values in stan_d
 assert_that(!any(lapply(stan_data, function(x) any(is.na(x))) %>% unlist))
 
-saveRDS(stan_data, file = "full-model/fire-sims/burns/data/burns_sliced-index_logscore.RDS")
+saveRDS(stan_data, file = "full-model/fire-sims/burns/data/burns_X-YJtrans_sqrtY.RDS")
 
 zi_d <- stan_d
 zi_d$M <- 2

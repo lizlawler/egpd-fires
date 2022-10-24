@@ -39,12 +39,12 @@ data {
   matrix[t_tb, p] X_tb[r]; // design matrix; 1-D array of size r with matrices t x p; this indexing is deprecated in version 2.32 and above
   real<lower = 0> y_tb_obs[N_tb_obs]; // response data
   
-  // holdout dataset
-  int<lower = 1> N_hold_obs; 
-  int<lower = 1> N_hold_all; // includes 'missing' and observed
-  int<lower = 1> ii_hold_obs[N_hold_obs]; // vector of indices for holdout data timepoints
-  int<lower = 1> ii_hold_all[N_hold_all]; // vector of indices for broadcasting to entire holdout dataset
-  real<lower = 0> y_hold_obs[N_hold_obs]; // response data
+  // // holdout dataset
+  // int<lower = 1> N_hold_obs; 
+  // int<lower = 1> N_hold_all; // includes 'missing' and observed
+  // int<lower = 1> ii_hold_obs[N_hold_obs]; // vector of indices for holdout data timepoints
+  // int<lower = 1> ii_hold_all[N_hold_all]; // vector of indices for broadcasting to entire holdout dataset
+  // real<lower = 0> y_hold_obs[N_hold_obs]; // response data
   
   // full covariate data
   matrix[t_all, p] X_all_tmpt[r]; // design matrix; 1-D array of size r with matrices t x p; this indexing is deprecated in version 2.32 and above
@@ -60,7 +60,6 @@ data {
   matrix[p, p] bp_square;
   matrix[p, p] bp_cube;
   matrix[p, p] bp_quart;
-
 }
 
 parameters {
@@ -181,50 +180,46 @@ model {
   }
 }
 
-generated quantities {
-  vector<lower = 0>[N_tb_obs] kappa_train;
-  vector<lower = 0>[N_tb_obs] xi_train;
-  vector<lower = 0>[N_tb_obs] sigma_train;
-  
-  matrix[t_all, r] reg_kappa_full;  
-  matrix[t_all, r] reg_nu_full; 
-  matrix[t_all, r] reg_xi_full; 
-  
-  vector<lower = 0>[N_hold_obs] kappa_hold;
-  vector<lower = 0>[N_hold_obs] nu_hold;
-  vector<lower = 0>[N_hold_obs] xi_hold;
-  vector<lower = 0>[N_hold_obs] sigma_hold;
-  
-  real holdout_loglik[N_hold_obs];
-  real train_loglik[N_tb_obs];
- 
-  kappa_train = kappa[ii_tb_obs];
-  xi_train = xi[ii_tb_obs];
-  sigma_train = sigma[ii_tb_obs];
- 
-  // expected values of EGPD components based on all timepoints, then cut to only be holdout timepoints
-  for (i in 1:r) {
-    reg_kappa_full[, i] = X_all_tmpt[i] * beta_kappa[, i] + phi_kappa[, i];
-    reg_nu_full[, i] = X_all_tmpt[i] * beta_nu[, i] + phi_nu[, i];
-    reg_xi_full[, i] = X_all_tmpt[i] * beta_xi[, i] + phi_xi[, i];
-  }
-  
-  kappa_hold = exp(to_vector(reg_kappa_full))[ii_hold_all][ii_hold_obs];
-  nu_hold = exp(to_vector(reg_nu_full))[ii_hold_all][ii_hold_obs];
-  xi_hold = exp(to_vector(reg_xi_full))[ii_hold_all][ii_hold_obs];
-  sigma_hold = nu_hold ./ (1 + xi_hold);
-  
-  // training log-likelihood
-  for (k in 1:N_tb_obs) {
-    train_loglik[k] = egpd_g1_lpdf(y_tb_obs[k] | sigma_train[k], xi_train[k], kappa_train[k]);
-  }
-  
-  // holdout log-likelihood
-  for (k in 1:N_hold_obs) {
-    holdout_loglik[k] = egpd_g1_lpdf(y_hold_obs[k] | sigma_hold[k], xi_hold[k], kappa_hold[k]);
-  }
-}
-
-
-
-
+// generated quantities {
+//   vector<lower = 0>[N_tb_obs] kappa_train;
+//   vector<lower = 0>[N_tb_obs] xi_train;
+//   vector<lower = 0>[N_tb_obs] sigma_train;
+//   
+//   matrix[t_all, r] reg_kappa_full;  
+//   matrix[t_all, r] reg_nu_full; 
+//   matrix[t_all, r] reg_xi_full; 
+//   
+//   vector<lower = 0>[N_hold_obs] kappa_hold;
+//   vector<lower = 0>[N_hold_obs] nu_hold;
+//   vector<lower = 0>[N_hold_obs] xi_hold;
+//   vector<lower = 0>[N_hold_obs] sigma_hold;
+//   
+//   real holdout_loglik[N_hold_obs];
+//   real train_loglik[N_tb_obs];
+//  
+//   kappa_train = kappa[ii_tb_obs];
+//   xi_train = xi[ii_tb_obs];
+//   sigma_train = sigma[ii_tb_obs];
+//  
+//   // expected values of EGPD components based on all timepoints, then cut to only be holdout timepoints
+//   for (i in 1:r) {
+//     reg_kappa_full[, i] = X_all_tmpt[i] * beta_kappa[, i] + phi_kappa[, i];
+//     reg_nu_full[, i] = X_all_tmpt[i] * beta_nu[, i] + phi_nu[, i];
+//     reg_xi_full[, i] = X_all_tmpt[i] * beta_xi[, i] + phi_xi[, i];
+//   }
+//   
+//   kappa_hold = exp(to_vector(reg_kappa_full))[ii_hold_all][ii_hold_obs];
+//   nu_hold = exp(to_vector(reg_nu_full))[ii_hold_all][ii_hold_obs];
+//   xi_hold = exp(to_vector(reg_xi_full))[ii_hold_all][ii_hold_obs];
+//   sigma_hold = nu_hold ./ (1 + xi_hold);
+//   
+//   // training log-likelihood
+//   for (k in 1:N_tb_obs) {
+//     train_loglik[k] = egpd_g1_lpdf(y_tb_obs[k] | sigma_train[k], xi_train[k], kappa_train[k]);
+//   }
+//   
+//   // holdout log-likelihood
+//   for (k in 1:N_hold_obs) {
+//     holdout_loglik[k] = egpd_g1_lpdf(y_hold_obs[k] | sigma_hold[k], xi_hold[k], kappa_hold[k]);
+//   }
+// }

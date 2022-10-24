@@ -7,7 +7,7 @@ library(ggrepel)
 library(rstan)
 
 model_fits <- list.files(pattern = "*.RDS", recursive = TRUE)
-count_fits <- grep(model_fits, pattern = '20-Oct-2022', value = TRUE, invert = FALSE)
+count_fits <- grep(model_fits, pattern = '22-Oct-2022', value = TRUE, invert = FALSE)
 count_fits <- grep(count_fits, pattern = "counts", value = TRUE, invert = FALSE)
 
 # # data frame for plotting colors
@@ -21,7 +21,7 @@ zip_scores <- rstan::extract(read_rds(count_fits[3]), pars = c("train_loglik", "
 zinb_deltaER_scores <- rstan::extract(read_rds(count_fits[2]), pars = c("train_loglik", "holdout_loglik"))
 zinb_constant_delta_scores <- rstan::extract(read_rds(count_fits[1]), pars = c("train_loglik", "holdout_loglik"))
 
-zip_train <- zip_scores[[1]] %>% as_tibble
+zip_train <- zip_scores$train_loglik %>% unlist() %>% bind_cols()
 
 holdout_loglik <- list()
 train_loglik <- list()

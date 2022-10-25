@@ -17,7 +17,7 @@ options(mc.cores = parallel::detectCores())
 
 # start time, for identification purposes later
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
-stan_data <- readRDS(file = "full-model/fire-sims/counts/data/stan_data_train-hold_counts.RDS")
+stan_data <- readRDS(file = "full-model/fire-sims/counts/data/stan_data_train-hold_counts_YJ-X.RDS")
 
 # run sampling
 egpd_init <- stan_model('./full-model/fire-sims/counts/zip/stan/zip_lambda-pi_fires.stan')
@@ -30,18 +30,18 @@ egpd_fit <- sampling(egpd_init,
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
 saveRDS(egpd_fit, 
-        file = paste0("./full-model/fire-sims/counts/zip/stan-fits/zip_2000iter_logscores_", 
+        file = paste0("./full-model/fire-sims/counts/zip/stan-fits/zip_2000iter_YJ-X_logscores_", 
                       st_time, "_", end_time, ".RDS"))
 
 MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/zip/trace/zip_fires_2000iter_lambda-pi', st_time, "_", end_time, ".pdf"))
+          filename = paste0('./full-model/figures/zip/trace/zip_fires_2000iter_YJ-X_rhos_', st_time, "_", end_time, ".pdf"))
 
 MCMCtrace(egpd_fit, params = c("beta_lambda"),
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/zip/trace/zip_fires_2000iter_betalambda', st_time, "_", end_time, ".pdf"))
+          filename = paste0('./full-model/figures/zip/trace/zip_fires_2000iter_YJ-X_betalambda_', st_time, "_", end_time, ".pdf"))
 quit()
 
 

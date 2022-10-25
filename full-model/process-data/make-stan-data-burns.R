@@ -148,7 +148,7 @@ burn_hold_obs_og <- holdout_burns_full$BurnBndAc[idx_hold_obs] - 1000
 assert_that(all(!is.na(burn_hold_obs_og)))
 hist(burn_hold_obs_og)
 
-# plit X_full and X_tb into list of 84 design matrices, then reshape to an array for stan model
+# split X_full and X_tb into list of 84 design matrices, then reshape to an array for stan model
 X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
 assert_that(all(bind_rows(X_list_full)$er_ym == X_full$er_ym))
 X_list_full <- lapply(X_list_full, function(x) select(x, -c(year, er_ym)))

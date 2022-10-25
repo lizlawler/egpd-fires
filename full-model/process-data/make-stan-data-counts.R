@@ -86,6 +86,7 @@ T <- length(unique(st_covs$ym))
 assert_that(identical(nrow(st_covs), N * T))
 
 # Create b-splines for climate vars
+library(cellWise)
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',
           'rmin')
@@ -93,37 +94,33 @@ vars <- c('log_housing_density', 'vs',
 df_each <- 5
 deg_each <- 3
 X_bs <- list()
+X_lin <- list()
 X_bs_df <- list()
 for (i in seq_along(vars)) {
   varname <- paste("lin", vars[i], sep = "_")
-  X_bs[[i]] <- bs(x = st_covs[[vars[i]]], df = df_each, degree = deg_each, 
-                  Boundary.knots = range(st_covs[[vars[i]]]), intercept = FALSE)
-
+  # incorporate data normalization HERE and then create splines
+  X_lin[[i]] <- transfo(st_covs[[vars[i]]], type = "YJ")$Zt
+  X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each, 
+                  Boundary.knots = range(X_lin[[i]]), intercept = FALSE)
+  
   X_bs_df[[i]] <- X_bs[[i]] %>% as_tibble()
   names(X_bs_df[[i]]) <- paste('bs', vars[[i]], 1:df_each, sep = '_')
   X_bs_df[[i]] <- X_bs_df[[i]] %>%
-    mutate(!!varname := st_covs[[vars[i]]]) %>%
+    mutate(!!varname := X_lin[[i]]) %>%
     relocate(!!varname, before = where(is.character))
 }
 X_bs_df <- bind_cols(X_bs_df)
 assert_that(!any(is.na(X_bs_df)))
 
-# X_full <- X_bs_df %>% mutate(NA_L3NAME = st_covs$NA_L3NAME) %>% mutate(intercept = 1, .before = lin_log_housing_density)
 X_full <- X_bs_df %>% mutate(er_ym = st_covs$er_ym, NA_L3NAME = st_covs$NA_L3NAME, year = st_covs$year) %>% 
   mutate(intercept = 1, .before = lin_log_housing_density)
+X_tc <- X_full %>% filter(year < cutoff_year) %>% select(-year)
 
-# split into regional design matrices (including all timepoints), then standardize the data, then cut to training data
-# function to standardize design matrices
-std_data <- function(x) {
-  if(sd(x) != 0) {
-    return((x-mean(x))/sd(x)) # don't want to divide by zero for any columns where all values are the same
-  } else {
-    return(x)
-  }
-}
-X_list_full <- split(X_full, X_full$NA_L3NAME)
-X_list_full_std <- lapply(X_list_full, function(x) cbind(apply(x[,1:37], 2, std_data), x[38:40]))
-X_list_tc <- lapply(X_list_full_std, function(x) filter(x, year < cutoff_year))
+# split X_full and X_tc into list of 84 design matrices, then reshape to an array for stan model
+X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+assert_that(all(bind_rows(X_list_full)$er_ym == X_full$er_ym))
+X_list_tc <- lapply(split(X_tc, X_tc$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+assert_that(all(bind_rows(X_list_tc)$er_ym == X_tc$er_ym))
 
 # pull matrix of training counts and make sure it matches training covariates
 nfire_list_tc <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
@@ -137,8 +134,8 @@ assert_that(all(iden_vec) == TRUE)
 
 # pull matrix of holdout counts
 nfire_list_hold <- lapply(split(holdout_counts, holdout_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
-idx_count_hold <- match(nfire_list_hold[[1]]$er_ym, X_list_full_std[[1]]$er_ym)
-assert_that(all(mapply(function(x, y) identical(x[idx_count_hold,]$er_ym, y$er_ym), X_list_full_std, nfire_list_hold)) == TRUE)
+idx_count_hold <- match(nfire_list_hold[[1]]$er_ym, X_list_full[[1]]$er_ym)
+assert_that(all(mapply(function(x, y) identical(x[idx_count_hold,]$er_ym, y$er_ym), X_list_full, nfire_list_hold)) == TRUE)
 nfire_matrix_hold <- matrix(unlist(lapply(nfire_list_hold, function(x) select(x, n_fire))), nrow(nfire_list_hold[[1]]), 84)
 iden_vec <- c()
 for(i in 1:84) {
@@ -147,15 +144,15 @@ for(i in 1:84) {
 assert_that(all(iden_vec) == TRUE)
 
 # reshape design matrices into arrays for stan model
-X_list_tc <- lapply(X_list_tc, function(x) select(x, -c(er_ym, NA_L3NAME, year)))
-X_list_full_std <- lapply(X_list_full_std, function(x) select(x, -c(er_ym, NA_L3NAME, year)))
+X_list_full <- lapply(X_list_full, function(x) select(x, -c(year, er_ym)))
+X_list_tc <- lapply(X_list_tc, function(x) select(x, -er_ym))
 t_tc <- nrow(X_list_tc[[1]])
-t_all <- nrow(X_list_full_std[[1]])
+t_all <- nrow(X_list_full[[1]])
 X_array_tc <- array(NA, dim = c(84, t_tc, 37))
 X_array_full <- array(NA, dim = c(84, t_all, 37))
 for(i in 1:84) {
   X_array_tc[i, ,] <- as.matrix(X_list_tc[[i]])
-  X_array_full[i, ,] <- as.matrix(X_list_full_std[[i]])
+  X_array_full[i, ,] <- as.matrix(X_list_full[[i]])
 }
 
 # generate correlation matrix indicators
@@ -261,7 +258,7 @@ stan_data <- list(
 # assert that there are no missing values in stan_d
 assert_that(!any(lapply(stan_data, function(x) any(is.na(x))) %>% unlist))
 
-saveRDS(stan_data, file = "full-model/fire-sims/counts/data/stan_data_train-hold_counts.RDS")
+saveRDS(stan_data, file = "full-model/fire-sims/counts/data/stan_data_train-hold_counts_YJ-X.RDS")
 
 zi_d <- stan_d
 zi_d$M <- 2

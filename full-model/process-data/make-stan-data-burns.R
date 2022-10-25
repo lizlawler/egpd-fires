@@ -133,13 +133,20 @@ assert_that(all(X_full[idx_hold_all, ][idx_hold_obs, ]$er_ym == holdout_burns_fu
 assert_that(all(X_full[idx_hold_all, ][idx_hold_obs, ]$er_ym == holdout_burns_full[idx_hold_obs,]$er_ym))
 
 # use square root of burn area so MCMC chains mix 
-burn_train_obs <- sqrt(train_burns_full$BurnBndAc[idx_tb_obs])
+burn_train_obs <- sqrt(train_burns_full$BurnBndAc[idx_tb_obs] - 1000)
 assert_that(all(!is.na(burn_train_obs)))
 hist(burn_train_obs)
-burn_hold_obs <- sqrt(holdout_burns_full$BurnBndAc[idx_hold_obs])
+burn_hold_obs <- sqrt(holdout_burns_full$BurnBndAc[idx_hold_obs] - 1000)
 assert_that(all(!is.na(burn_hold_obs)))
 hist(burn_hold_obs)
 
+# attempt with burn area as is
+burn_train_obs_og <- train_burns_full$BurnBndAc[idx_tb_obs] - 1000
+assert_that(all(!is.na(burn_train_obs_og)))
+hist(burn_train_obs_og)
+burn_hold_obs_og <- holdout_burns_full$BurnBndAc[idx_hold_obs] - 1000
+assert_that(all(!is.na(burn_hold_obs_og)))
+hist(burn_hold_obs_og)
 
 # plit X_full and X_tb into list of 84 design matrices, then reshape to an array for stan model
 X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
@@ -220,7 +227,7 @@ for(i in cov_vec_idx) {
 }
 
 # Bundle up data into a list too pass to Stan -----------------------------
-stan_data <- list(
+stan_data_sqrt <- list(
   r = 84, # total number of regions
   t_all = t_all,
   p = p,
@@ -262,10 +269,54 @@ stan_data <- list(
   node2 = B@j + 1
 )
 
-# assert that there are no missing values in stan_d
-assert_that(!any(lapply(stan_data, function(x) any(is.na(x))) %>% unlist))
+stan_data_og <- list(
+  r = 84, # total number of regions
+  t_all = t_all,
+  p = p,
+  
+  # training data
+  X_tb = X_array_tb,
+  y_tb_obs = burn_train_obs_og,
+  N_tb_obs = length(idx_tb_obs),
+  N_tb_mis = length(idx_tb_mis),
+  N_tb_all = length(idx_tb_all),
+  ii_tb_obs = idx_tb_obs,
+  ii_tb_mis = idx_tb_mis,
+  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
+  t_tb = t_tb,
+  tb_idx = 1:t_tb, 
+  
+  # for predicting effects and assessing holdout fit
+  X_all_tmpt = X_array_full,
+  y_hold_obs = burn_hold_obs_og,
+  N_hold_obs = length(idx_hold_obs),
+  N_hold_all = length(idx_hold_all),
+  ii_hold_obs = idx_hold_obs,
+  ii_hold_all = idx_hold_all, 
+  
+  # indicator matrices for region correlation
+  l3 = level3,
+  l2 = level2,
+  l1 = level1,
+  
+  # indicator matrices for AR(1) process
+  equal = equal,
+  bp_lin = bp_lin,
+  bp_square = bp_square,
+  bp_cube = bp_cube,
+  bp_quart = bp_quart,
+  
+  n_edges = length(B@i),
+  node1 = B@i + 1, # add one to offset zero-based index
+  node2 = B@j + 1
+)
 
-saveRDS(stan_data, file = "full-model/fire-sims/burns/data/burns_X-YJtrans_sqrtY.RDS")
+# assert that there are no missing values in stan_d
+assert_that(!any(lapply(stan_data_sqrt, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data_og, function(x) any(is.na(x))) %>% unlist))
+
+saveRDS(stan_data_sqrt, file = "full-model/fire-sims/burns/data/burns_X-YJtrans_sqrtY.RDS")
+saveRDS(stan_data_og, file = "full-model/fire-sims/burns/data/burns_X-YJtrans_ogY.RDS")
 
 zi_d <- stan_d
 zi_d$M <- 2

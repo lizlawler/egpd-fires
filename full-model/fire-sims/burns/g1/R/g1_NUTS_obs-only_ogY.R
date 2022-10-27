@@ -35,9 +35,9 @@ egpd_fit <- sampling(egpd_init,
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
 # save MCMC object in case below dx plots don't save properly
-saveRDS(egpd_fit, 
-        file = paste0("./full-model/fire-sims/burns/g1/stan-fits/g1_burns_obs-only_X-YJtrans_ogY_", 
-                      st_time, "_", end_time, ".RDS"))
+# saveRDS(egpd_fit, 
+#        file = paste0("./full-model/fire-sims/burns/g1/stan-fits/g1_burns_obs-only_X-YJtrans_ogY_", 
+#                      st_time, "_", end_time, ".RDS"))
 
 # save traceplot
 MCMCtrace(egpd_fit, params = c("rho1_kappa", "rho2_kappa", "rho1_nu", "rho2_nu", "rho1_xi", "rho2_xi"),
@@ -63,6 +63,8 @@ MCMCtrace(egpd_fit, params = c("beta_xi", "phi_xi"),
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_X-YJtrans_ogY_XI_',
                             st_time, "_", end_time, ".pdf"))
+post <- rstan::extract(egpd_fit, pars = c('beta_kappa', 'beta_nu', 'beta_xi', 'phi_kappa', 'phi_nu', 'phi_xi'))
+saveRDS(post, file = "./full-model/fire-sims/burns/g1/g1_ogY_post_params_27oct2022.RDS")
 
 quit()
 

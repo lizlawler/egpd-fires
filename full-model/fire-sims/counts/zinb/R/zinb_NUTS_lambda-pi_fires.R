@@ -23,7 +23,7 @@ stan_data <- readRDS(file = "full-model/fire-sims/counts/data/stan_data_train-ho
 egpd_init <- stan_model('./full-model/fire-sims/counts/zinb/stan/zinb_lambda-pi-delta_fires.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
-                     iter = 2000,
+                     iter = 1000,
                      chains = 3,
                      refresh = 50)
 
@@ -33,7 +33,7 @@ saveRDS(egpd_fit,
         file = paste0("./full-model/fire-sims/counts/zinb/stan-fits/zinb_2000iter_YJ-X_logscores_", 
                       st_time, "_", end_time, ".RDS"))
 
-MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi"),
+MCMCtrace(egpd_fit, params = c("rho1_lambda", "rho2_lambda", "rho1_pi", "rho2_pi", "delta"),
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/zinb/trace/zinb_fires_2000iter_YJ-X_rhos_', st_time, "_", end_time, ".pdf"))
@@ -42,7 +42,11 @@ MCMCtrace(egpd_fit, params = c("beta_lambda"),
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/zinb/trace/zinb_fires_2000iter_YJ-X_betalambda_', st_time, "_", end_time, ".pdf"))
-quit()
+post <- rstan::extract(egpd_fit, pars = c('beta_lambda', 'beta_pi', 'phi_lambda', 'phi_pi', 'holdout_loglik', 'train_loglik'))
+saveRDS(post, file = "full-model/fire-sims/counts/zip/post_params_26oct2022.RDS")
+
+rm(list = ls())
+gc()
 
 
 

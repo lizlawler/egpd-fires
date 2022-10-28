@@ -23,7 +23,7 @@ stan_data <- readRDS(file = "full-model/fire-sims/counts/data/stan_data_train-ho
 egpd_init <- stan_model('./full-model/fire-sims/counts/zip/stan/zip_lambda-pi_fires.stan')
 egpd_fit <- sampling(egpd_init, 
                      data = stan_data, 
-                     iter = 2000,
+                     iter = 1000,
                      chains = 3,
                      refresh = 50)
 
@@ -42,21 +42,32 @@ MCMCtrace(egpd_fit, params = c("beta_lambda"),
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/zip/trace/zip_fires_2000iter_YJ-X_betalambda_', st_time, "_", end_time, ".pdf"))
-quit()
+
 
 
 # pre and post effects plots ---------
-post <- rstan::extract(egpd_fit, pars = c('beta_lambda', 'beta_pi', 'phi_lambda', 'phi_pi'))
+post <- rstan::extract(readRDS("full-model/fire-sims/counts/zip/stan-fits/zip_2000iter_YJ-X_logscores_26-Oct-2022_1831_2204.RDS"), 
+                       pars = c('beta_lambda', 'beta_pi', 'phi_lambda', 'phi_pi', 'holdout_loglik', 'train_loglik'))
+saveRDS(post, file = "full-model/fire-sims/counts/zip/post_params_26oct2022.RDS")
 
 ## lambda ----
+load(file = "./sim-study/shared-data/region_key.RData")
+full_reg_key <- as_tibble(region_key) %>% 
+  mutate(region = c(1:84),
+         NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE))
+reg_cols <- full_reg_key$region
 
-X <- stan_data$X
+X <- stan_data$X_all_tmpt
 median_lambda <- apply(post$beta_lambda, c(2,3), median)
 r <- 84
-t <- 252
+t <- stan_data$t_all
 post_lambda_effects_df_v5 <- matrix(NA, r, t)
+post_lambda_effects_df_v1 <- matrix(NA, r, t)
 for(i in 1:r) {
   post_lambda_effects_df_v5[i,] <- X[i, , c(1,26:31)] %*% median_lambda[c(1,26:31), i]
+  post_lambda_effects_df_v1[i,] <- X[i, , c(1,2:7)] %*% median_lambda[c(1,2:7), i]
 }
 
 X_new <- list()
@@ -74,13 +85,23 @@ post_lambda_v5 <- t(post_lambda_effects_df_v5) %>% as_tibble() %>%
   rename_with(., ~ reg_cols) %>% 
   mutate(time = c(1:t)) %>%
   pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
+  mutate(region = as.numeric(region)) %>%
   left_join(., X_long_v5) %>%
-  left_join(., full_reg_key) %>% mutate(type = "sim")
+  left_join(., full_reg_key)
 
 ggplot(post_lambda_v5, aes(x=linear, y = effect, group = region)) +
   geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE))
 
-lambda_full <- rbind(lambda_effects, post_lambda) %>% mutate(type = factor(type, levels = c("truth", "sim")))
+post_lambda_v1 <- t(post_lambda_effects_df_v1) %>% as_tibble() %>% 
+  rename_with(., ~ reg_cols) %>% 
+  mutate(time = c(1:t)) %>%
+  pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
+  mutate(region = as.numeric(region)) %>%
+  left_join(., X_long_v1) %>%
+  left_join(., full_reg_key)
+
+ggplot(post_lambda_v1, aes(x=linear, y = effect, group = region)) +
+  geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE))
 
 post_effects <- ggplot(lambda_full, aes(x=linear, y=effect, group = region)) + 
   geom_line(aes(linetype=NA_L1CODE, color = NA_L2CODE)) + 
@@ -117,6 +138,26 @@ ggsave(paste0('./sim-study/figures/zip/effects/zip_lambda-pi_pi-effects',
        device = "pdf")
 
 
+# log_scores
+train_hold <- rstan::extract(egpd_fit, pars = c('holdout_loglik', 'train_loglik'))
+holdout <- train_hold$holdout_loglik
+holdout_logscore <- holdout %>% apply(., 1, c) %>% 
+  as_tibble() %>% 
+  pivot_longer(cols = c(1:1500), names_to = "iter") %>% 
+  mutate(iter = as.numeric(gsub("V","", iter))) %>% 
+  group_by(iter) %>%
+  summarize(value = sum(value)) %>% 
+  mutate(model = "zip", 
+         train = FALSE)
+train <- train_hold$train_loglik
+train_logscore <- train %>% apply(., 1, c) %>% 
+  as_tibble() %>% 
+  pivot_longer(cols = c(1:1500), names_to = "iter") %>% 
+  mutate(iter = as.numeric(gsub("V","", iter))) %>% 
+  group_by(iter) %>%
+  summarize(value = sum(value)) %>% 
+  mutate(model = "zip",
+         train = TRUE)
 
 ## maps of phi -------
 ## lambda ----

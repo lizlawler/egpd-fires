@@ -42,19 +42,27 @@ MCMCtrace(egpd_fit, params = c("beta_lambda"),
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/zinb/trace/zinb_fires_2000iter_byER_YJ-X_betalambda', st_time, "_", end_time, ".pdf"))
+saveRDS(post, file = "full-model/fire-sims/counts/zip/post_params_26oct2022.RDS")
+
 quit()
 
 
 
 # pre and post effects plots ---------
 post <- rstan::extract(egpd_fit, pars = c('beta_lambda', 'beta_pi', 'phi_lambda', 'phi_pi'))
+load(file = "./sim-study/shared-data/region_key.RData")
+full_reg_key <- as_tibble(region_key) %>% 
+  mutate(region = c(1:84),
+         NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE))
+reg_cols <- full_reg_key$region
 
 ## lambda ----
-
-X <- stan_data$X
+X <- stan_data$X_all_tmpt
 median_lambda <- apply(post$beta_lambda, c(2,3), median)
 r <- 84
-t <- 252
+t <- nrow(X[1,,])
 post_lambda_effects_df_v5 <- matrix(NA, r, t)
 for(i in 1:r) {
   post_lambda_effects_df_v5[i,] <- X[i, , c(1,26:31)] %*% median_lambda[c(1,26:31), i]

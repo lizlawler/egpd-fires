@@ -16,7 +16,7 @@ st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
 stan_data <- readRDS("./full-model/fire-sims/burns/data/burns_X-YJtrans_sqrtY.RDS")
 egpd_init <- stan_model('./full-model/fire-sims/burns/g1/stan/g1_fires_obs-only.stan')
 egpd_fit <- sampling(egpd_init, 
-                     data = stan_data, 
+                     data = stan_data_sqrt, 
                      iter = 1000,
                      chains = 3,
                      refresh = 50)
@@ -43,7 +43,7 @@ end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 MCMCtrace(egpd_fit, params = c("rho1_kappa", "rho2_kappa", "rho1_nu", "rho2_nu", "rho1_xi", "rho2_xi"),
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_X-YJtrans_sqrtY_rhos_',
+          filename = paste0('./full-model/figures/g1/trace/g1_trace_burns_obs-only_Xstd_sqrtY_rhos_',
                             st_time, "_", end_time, ".pdf"))
 
 MCMCtrace(egpd_fit, params = c("beta_kappa", "phi_kappa"),
@@ -65,7 +65,7 @@ MCMCtrace(egpd_fit, params = c("beta_xi", "phi_xi"),
                             st_time, "_", end_time, ".pdf"))
 
 post <- rstan::extract(egpd_fit, pars = c('beta_kappa', 'beta_nu', 'beta_xi', 'phi_kappa', 'phi_nu', 'phi_xi'))
-saveRDS(post, file = "./full-model/fire-sims/burns/g1/g1_sqrtY_post_params_27oct2022.RDS")
+saveRDS(post, file = "./full-model/fire-sims/burns/g1/g1_sqrtY_post_params_31oct2022.RDS")
 
 
 quit()

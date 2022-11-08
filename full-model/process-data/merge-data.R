@@ -5,6 +5,7 @@ library(zoo)
 library(assertthat)
 library(lubridate)
 
+# Albers equal area (AEA) conic projection of North America
 aea_proj <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
 
 # Read ecoregion data
@@ -19,11 +20,19 @@ ecoregions <- ecoregions %>%
 
 
 # Read fire data ----------------------
+if (!dir.exists("./full-model/data/raw/mtbs_fod_pts_data/")) {
+  download.file("https://edcintl.cr.usgs.gov/downloads/sciweb1/shared/MTBS_Fire/data/composite_data/fod_pt_shapefile/mtbs_fod_pts_data.zip",
+                destfile = "./full-model/data/raw/mtbs_fod_pts_data.zip")
+  unzip("./full-model/data/raw/mtbs_fod_pts_data.zip",
+        exdir = "./full-model/data/raw/mtbs_fod_pts_data/")
+}
+
+# longitude and latitude bounds are for the lower 48 US, including DC; can be found using lower48_bounds.sh
 mtbs <- st_read('./full-model/data/raw/mtbs_fod_pts_data/mtbs_FODpoints_DD.shp') %>%
   mutate(BurnBndLat = as.numeric(BurnBndLat),
          BurnBndLon = as.numeric(BurnBndLon)) %>%
-  filter(BurnBndLat < 49.38, BurnBndLat > 24.39, 
-         BurnBndLon > -124.849, BurnBndLon < -66.88, 
+  filter(BurnBndLat < 49.39, BurnBndLat > 24.39, 
+         BurnBndLon > -124.848, BurnBndLon < -66.89, 
          BurnBndAc > 1e3, 
          Incid_Type == 'Wildfire') %>%
   st_transform(st_crs(ecoregions)) %>%
@@ -49,10 +58,8 @@ mtbs <- mtbs %>%
 unique_er_yms <- expand.grid(
   NA_L3NAME = unique(ecoregions$NA_L3NAME),
   FIRE_YEAR = unique(mtbs$FIRE_YEAR),
-  FIRE_MON = unique(mtbs$FIRE_MON)
-) %>%
+  FIRE_MON = unique(mtbs$FIRE_MON)) %>%
   as_tibble
-
 
 # count the number of fires in each ecoregion in each month
 count_df <- mtbs %>%
@@ -73,11 +80,10 @@ assert_that(all(ecoregions$NA_L3NAME %in% count_df$NA_L3NAME))
 
 # load covariate data and link to count data frame
 ecoregion_summaries <- read_csv('./full-model/data/processed/ecoregion_summaries.csv') %>%
-  mutate(year = ifelse(is.na(year), 2000, year),
-         ym = as.yearmon(paste(year,
+  mutate(ym = as.yearmon(paste(year,
                  sprintf("%02d", month),
                  sep = "-"))) %>%
-  spread(variable, value)
+  pivot_wider(names_from = variable, values_from = value)
 
 # Compute previous 12 months total precip
 if (!file.exists('./full-model/data/processed/lagged_precip.rds')) {
@@ -110,8 +116,7 @@ housing_df <- read_csv('./full-model/data/processed/housing_density.csv') %>%
 ecoregion_summaries <- ecoregion_summaries %>%
   left_join(read_rds('./full-model/data/processed/lagged_precip.rds')) %>%
   left_join(housing_df) %>%
-  filter(year < 2017,
-         ym >= 'Jan 1984')
+  filter(ym >= 'Jan 1984')
 
 count_df <- left_join(count_df, ecoregion_summaries) %>%
   mutate(er_ym = paste(NA_L3NAME, ym, sep = "_"))

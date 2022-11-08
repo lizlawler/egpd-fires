@@ -5,15 +5,23 @@ library(tidyverse)
 library(parallel)
 library(pbapply)
 
-if (!dir.exists("data/raw/cb_2016_us_nation_20m/")) {
-  download.file("http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_nation_20m.zip",
-                destfile = "data/raw/cb_2016_us_nation_20m.zip")
-  unzip("data/raw/cb_2016_us_nation_20m.zip",
-        exdir = "data/raw/cb_2016_us_nation_20m/")
+# if (!dir.exists("data/raw/cb_2016_us_nation_20m/")) {
+#   download.file("http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_nation_20m.zip",
+#                 destfile = "data/raw/cb_2016_us_nation_20m.zip")
+#   unzip("data/raw/cb_2016_us_nation_20m.zip",
+#         exdir = "data/raw/cb_2016_us_nation_20m/")
+# }
+# setwd("~/Desktop/research/egpd-fires/full-model")
+
+if (!dir.exists("data/raw/cb_2021_us_nation_20m/")) {
+  download.file("https://www2.census.gov/geo/tiger/GENZ2021/shp/cb_2021_us_nation_20m.zip",
+                destfile = "data/raw/cb_2021_us_nation_20m.zip")
+  unzip("data/raw/cb_2021_us_nation_20m.zip",
+        exdir = "data/raw/cb_2021_us_nation_20m/")
 }
 
-usa_shp <- readOGR(dsn = "data/raw/cb_2016_us_nation_20m",
-                   layer = "cb_2016_us_nation_20m")
+usa_shp <- readOGR(dsn = "data/raw/cb_2021_us_nation_20m",
+                   layer = "cb_2021_us_nation_20m")
 
 usa_shp <- spTransform(usa_shp,
                        CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0"))
@@ -84,11 +92,12 @@ climate_data_urls <- read.csv('data/raw/climate-data.csv',
 
 # Summarize daily climate data by month ---------------------------
 print('Aggregating daily climate data to monthly means. May take a while...')
-pboptions(type = 'txt', use_lb = TRUE)
+pboptions(type = 'timer', use_lb = TRUE)
 cl <- makeCluster(getOption("cl.cores", detectCores() / 2))
-pblapply(X = climate_data_urls$url, 
-         FUN = summarize_by_month, 
-         mask_shp = usa_shp, 
+# clusterExport(cl, varlist = c("summarize_by_month", "usa_shp"))
+pblapply(X = climate_data_urls$url,
+         FUN = summarize_by_month,
+         mask_shp = usa_shp,
          cl = cl)
 stopCluster(cl)
 

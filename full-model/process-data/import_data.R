@@ -8,6 +8,23 @@ library(spdep)
 source('R/merge-data.R')
 
 # generate spatial neighbors
+if (!file.exists('./full-model/data/processed/nb.rds')) {
+  nb <- poly2nb(as(ecoregions, 'Spatial'))
+  write_rds(nb, './full-model/data/processed/nb.rds')
+} else {
+  nb <- read_rds('./full-model/data/processed/nb.rds')
+}
+
+nb_agg <- aggregate(nb, ecoregions$NA_L3NAME)
+nb_mat <- nb2mat(nb_agg, style = 'B')
+
+# generate neighborhood data for car prior
+listw <- nb2listw(nb_agg, style = 'B', zero.policy = TRUE)
+listw$style
+B <- as(listw, 'symmetricMatrix')
+
+
+# generate spatial neighbors
 if (!file.exists('data/processed/nb.rds')) {
   nb <- poly2nb(as(ecoregions, 'Spatial'))
   write_rds(nb, 'data/processed/nb.rds')
@@ -15,7 +32,6 @@ if (!file.exists('data/processed/nb.rds')) {
   nb <- read_rds('data/processed/nb.rds')
 }
 
-# generate neighborhood data for dcar_normal in NIMBLE
 nb_agg <- aggregate(nb, ecoregions$NA_L3NAME)
 nbInfo <- nb2WB(nb_agg)
 

@@ -7,10 +7,10 @@ library(rgdal)
 library(purrr)
 library(tidyverse)
 
-source('R/helpers.R')
+setwd("full-model/")
+source('process-data/helpers.R')
 
 # if not running from makefile, use following code
-
 
 ecoregion_shp <- load_ecoregions()
 
@@ -52,16 +52,15 @@ extraction_df <- lapply(extractions, function(x) pivot_longer(x, !ID, names_to =
   pivot_longer(!c(NA_L3NAME, Shape_Area, ID), names_to = "variable", values_to = "value") %>%
   filter(!is.na(value)) %>%
   mutate(year = case_when(
-        variable == 'den00' ~ 2000,
-        variable == 'den10' ~ 2010,
-        variable == 'den20' ~ 2020,
-        variable == 'den80' ~ 1980,
-        variable == 'den90' ~ 1990
-         ),
-         NA_L3NAME = as.character(NA_L3NAME),
-         NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert',
-                            'Chihuahuan Deserts',
-                            NA_L3NAME)) %>%
+    variable == 'hden1980' ~ 1980, 
+    variable == 'hden1990' ~ 1990, 
+    variable == 'hden2000' ~ 2000, 
+    variable == 'hden2010' ~ 2010, 
+    variable == 'hden2020' ~ 2020, 
+    variable == 'hden2030' ~ 2030
+    ), 
+    NA_L3NAME = as.character(NA_L3NAME),
+    NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME)) %>%
   group_by(NA_L3NAME, year) %>%
   summarize(wmean = weighted.mean(value, Shape_Area)) %>%
   ungroup

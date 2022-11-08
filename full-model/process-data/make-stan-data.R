@@ -1,11 +1,16 @@
 library(tidyverse)
 library(lubridate)
 library(rstan)
+library(rgdal)
+library(assertthat)
+library(sf)
 library(splines)
 library(spdep)
 library(spatialreg)
 
-source('./full-model/process-data/merge-data.R')
+# Albers equal area (AEA) conic projection of North America
+aea_proj <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+source("./full-model/process-data/merge-data.R")
 
 # generate spatial neighbors
 if (!file.exists('./full-model/data/processed/nb.rds')) {
@@ -24,7 +29,6 @@ listw$style
 B <- as(listw, 'symmetricMatrix')
 # B is suitable for building N, N_edges, node1, and node2
 # following http://mc-stan.org/users/documentation/case-studies/icar_stan.html
-
 
 ecoregion_df <- as(ecoregions, "Spatial") %>%
   data.frame

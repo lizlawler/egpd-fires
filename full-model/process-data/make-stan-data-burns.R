@@ -97,11 +97,24 @@ deg_each <- 3
 X_bs <- list()
 X_lin <- list()
 X_bs_df <- list()
+# for (i in seq_along(vars)) {
+#   varname <- paste("lin", vars[i], sep = "_")
+#   # incorporate data normalization HERE and then create splines
+#   X_lin[[i]] <- transfo(st_covs[[vars[i]]], type = "YJ")$Zt
+#   X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each, 
+#                   Boundary.knots = range(X_lin[[i]]), intercept = FALSE)
+# 
+#   X_bs_df[[i]] <- X_bs[[i]] %>% as_tibble()
+#   names(X_bs_df[[i]]) <- paste('bs', vars[[i]], 1:df_each, sep = '_')
+#   X_bs_df[[i]] <- X_bs_df[[i]] %>%
+#     mutate(!!varname := X_lin[[i]]) %>%
+#     relocate(!!varname, before = where(is.character))
+# }
 for (i in seq_along(vars)) {
   varname <- paste("lin", vars[i], sep = "_")
   # incorporate data normalization HERE and then create splines
-  X_lin[[i]] <- transfo(st_covs[[vars[i]]], type = "YJ")$Zt
-  X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each, 
+  X_lin[[i]] <- (st_covs[[vars[i]]] - mean(st_covs[[vars[i]]]))/sd(st_covs[[vars[i]]])
+  X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each,
                   Boundary.knots = range(X_lin[[i]]), intercept = FALSE)
 
   X_bs_df[[i]] <- X_bs[[i]] %>% as_tibble()
@@ -110,6 +123,7 @@ for (i in seq_along(vars)) {
     mutate(!!varname := X_lin[[i]]) %>%
     relocate(!!varname, before = where(is.character))
 }
+
 X_bs_df <- bind_cols(X_bs_df)
 assert_that(!any(is.na(X_bs_df)))
 

@@ -10,7 +10,8 @@ josephs-scripts/
 toy-sim/output/
 
 full-model/output/*.csv
-full-model/data/
+full-model/data/**/processed/
+full-model/data/**/raw/
 full-model/fire-sims/burns/g1/*.RDS
 sim-study/models/**/data/
 sim-study/models/**/stan_fits/

@@ -51,7 +51,7 @@ er_df <- dplyr::distinct(data.frame(ecoregions),
   as_tibble %>%
   filter(NA_L2NAME != 'UPPER GILA MOUNTAINS (?)')
 
-st_covs <- ecoregion_summaries %>%
+er_covs <- ecoregion_summaries %>%
   left_join(er_df) %>%
   filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)",
          year > 1983,
@@ -59,38 +59,79 @@ st_covs <- ecoregion_summaries %>%
   mutate(log_housing_density = log(housing_density),
          pr = ifelse(pr < 0 , 0, pr)) %>%
   left_join(area_df) %>%
-  droplevels %>%
+  droplevels() %>%
   mutate(er_ym = paste(NA_L3NAME, ym, sep = "_")) %>%
   arrange(NA_L3NAME, ym)
 
-assert_that(length(setdiff(st_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
-assert_that(!anyDuplicated(st_covs))
-st_covs$id <- 1:nrow(st_covs)
+assert_that(length(setdiff(er_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
+assert_that(!anyDuplicated(er_covs))
+er_covs$id <- 1:nrow(er_covs)
 
 
 # Create training sets, including years from 1984 to cutoff_year - 1
-cutoff_year <- 2006
-# remember to change "2016" (or "upper_cutoff" to whatever data is most current
+cutoff_year <- 2012
 
+# count split
 train_counts <- count_df %>%
   filter(year < cutoff_year) %>%
-  left_join(st_covs)
+  left_join(er_covs)
 
 holdout_counts <- count_df %>%
   filter(year >= cutoff_year) %>%
-  left_join(st_covs)
+  left_join(er_covs)
 
-idx_count_hold <- match(holdout_counts$er_ym, st_covs$er_ym)
-assert_that(all(holdout_counts$er_ym == st_covs[idx_count_hold, ]$er_ym))
+idx_count_hold <- match(holdout_counts$er_ym, er_covs$er_ym)
+assert_that(all(holdout_counts$er_ym == er_covs[idx_count_hold, ]$er_ym))
+
+# burn split; including missing data
+train_burns_full <- burn_df %>%
+  filter(FIRE_YEAR < cutoff_year) %>%
+  right_join(er_covs %>% filter(year < cutoff_year)) %>% arrange(NA_L3NAME, ym)
+
+holdout_burns_full <-  burn_df %>%
+  filter(FIRE_YEAR >= cutoff_year) %>%
+  right_join(er_covs %>% filter(year >= cutoff_year)) %>% arrange(NA_L3NAME, ym)
+
 
 # this data frame has no duplicate ecoregion X timestep combos
-N <- length(unique(st_covs$NA_L3NAME))
-T <- length(unique(st_covs$ym))
+N <- length(unique(er_covs$NA_L3NAME))
+T <- length(unique(er_covs$ym))
 
-assert_that(identical(nrow(st_covs), N * T))
+assert_that(identical(nrow(er_covs), N * T))
 
 # Create b-splines for climate vars
-library(cellWise)
+# normalization attempt ------
+# library(cellWise)
+# vars <- c('log_housing_density', 'vs',
+#           'pr', 'prev_12mo_precip', 'tmmx',
+#           'rmin')
+# 
+# df_each <- 5
+# deg_each <- 3
+# X_bs <- list()
+# X_lin <- list()
+# X_bs_df <- list()
+# for (i in seq_along(vars)) {
+#   varname <- paste("lin", vars[i], sep = "_")
+#   # incorporate data normalization HERE and then create splines
+#   X_lin[[i]] <- transfo(er_covs[[vars[i]]], type = "YJ")$Zt
+#   X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each, 
+#                   Boundary.knots = range(X_lin[[i]]), intercept = FALSE)
+#   
+#   X_bs_df[[i]] <- X_bs[[i]] %>% as_tibble()
+#   names(X_bs_df[[i]]) <- paste('bs', vars[[i]], 1:df_each, sep = '_')
+#   X_bs_df[[i]] <- X_bs_df[[i]] %>%
+#     mutate(!!varname := X_lin[[i]]) %>%
+#     relocate(!!varname, before = where(is.character))
+# }
+# X_bs_df <- bind_cols(X_bs_df)
+# assert_that(!any(is.na(X_bs_df)))
+# 
+# X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAME, year = er_covs$year) %>% 
+#   mutate(intercept = 1, .before = lin_log_housing_density)
+# X_tc <- X_full %>% filter(year < cutoff_year) %>% select(-year)
+
+# standardization attempt -------
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',
           'rmin')
@@ -100,11 +141,12 @@ deg_each <- 3
 X_bs <- list()
 X_lin <- list()
 X_bs_df <- list()
+
 for (i in seq_along(vars)) {
   varname <- paste("lin", vars[i], sep = "_")
   # incorporate data normalization HERE and then create splines
-  X_lin[[i]] <- transfo(st_covs[[vars[i]]], type = "YJ")$Zt
-  X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each, 
+  X_lin[[i]] <- (er_covs[[vars[i]]] - mean(er_covs[[vars[i]]]))/sd(er_covs[[vars[i]]])
+  X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each,
                   Boundary.knots = range(X_lin[[i]]), intercept = FALSE)
   
   X_bs_df[[i]] <- X_bs[[i]] %>% as_tibble()
@@ -113,12 +155,14 @@ for (i in seq_along(vars)) {
     mutate(!!varname := X_lin[[i]]) %>%
     relocate(!!varname, before = where(is.character))
 }
+
 X_bs_df <- bind_cols(X_bs_df)
 assert_that(!any(is.na(X_bs_df)))
 
-X_full <- X_bs_df %>% mutate(er_ym = st_covs$er_ym, NA_L3NAME = st_covs$NA_L3NAME, year = st_covs$year) %>% 
+X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAME, year = er_covs$year) %>% 
   mutate(intercept = 1, .before = lin_log_housing_density)
-X_tc <- X_full %>% filter(year < cutoff_year) %>% select(-year)
+X_train <- X_full %>% filter(year < cutoff_year) %>% select(-year)
+
 
 # split X_full and X_tc into list of 84 design matrices, then reshape to an array for stan model
 X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))

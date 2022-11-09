@@ -30,6 +30,66 @@ B <- as(listw, 'symmetricMatrix')
 # B is suitable for building N, N_edges, node1, and node2
 # following http://mc-stan.org/users/documentation/case-studies/icar_stan.html
 
+# generate correlation indicato matrix matrices
+# create correlation matrix from 3 levels of relationships using real ecoregions
+load(file = "./sim-study/shared-data/region_key.RData")
+reg_key <- as_tibble(region_key) %>% 
+  mutate(region = c(1:84),
+         NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE))
+
+level3 <- matrix(0, 84, 84)
+level2 <- matrix(0, 84, 84)
+level1 <- matrix(0, 84, 84)
+
+for(i in 1:84) {
+  for(j in 1:84) {
+    if (region_key[j, "NA_L3CODE"] == region_key[i, "NA_L3CODE"]) {
+      level3[i, j] = 1 # i = j, diagonal of 1s
+    } else if (region_key[j, "NA_L2CODE"] == region_key[i, "NA_L2CODE"]) {
+      level1[i, j] = 1 # indicator for correlation at level 1
+      level2[i, j] = 1 # indicator for correlation at level 2
+    } else if (region_key[j, "NA_L1CODE"] == region_key[i, "NA_L1CODE"]) {
+      level1[i, j] = 1 # indicator for correlation at level 1
+    } else {
+      level3[i, j] = 0
+      level1[i, j] = 0
+      level2[i, j] = 0
+    }
+  }
+}
+
+# generate AR(1) indicator matrices for use in covariance matrix in stan
+p <- 37
+zeroes <- matrix(0, p, p)
+equal <- diag(p)
+bp_lin <- zeroes
+bp_square <- zeroes
+bp_cube <- zeroes
+bp_quart <- zeroes
+cov_vec_idx <- setdiff(c(1:37), c(1, seq(2,37, 6))) # pull indices related to splines only
+
+for(i in cov_vec_idx) {
+  for(j in cov_vec_idx) {
+    if (i + 1 == j | i - 1 == j) {
+      bp_lin[i, j] = 1
+    } else if (i + 2 == j | i - 2 == j) {
+      bp_square[i, j] = 1
+    } else if (i + 3 == j | i - 3 == j) {
+      bp_cube[i, j] = 1
+    } else if (i + 4 == j | i - 4 == j) {
+      bp_quart[i, j] = 1
+    } else {
+      bp_lin[i, j] = 0
+      bp_square[i, j] = 0
+      bp_cube[i, j] = 0
+      bp_quart[i, j] = 0
+    }
+  }
+}
+
+## FINAL DATA PROCESSING ## -----------
 ecoregion_df <- as(ecoregions, "Spatial") %>%
   data.frame
 
@@ -68,7 +128,7 @@ assert_that(!anyDuplicated(er_covs))
 er_covs$id <- 1:nrow(er_covs)
 
 
-# Create training sets, including years from 1984 to cutoff_year - 1
+# Create training sets, including years from 1984 to cutoff_year + 1 (training: 1984-2011)
 cutoff_year <- 2012
 
 # count split
@@ -129,7 +189,7 @@ assert_that(identical(nrow(er_covs), N * T))
 # 
 # X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAME, year = er_covs$year) %>% 
 #   mutate(intercept = 1, .before = lin_log_housing_density)
-# X_tc <- X_full %>% filter(year < cutoff_year) %>% select(-year)
+# X_train <- X_full %>% filter(year < cutoff_year) %>% select(-year)
 
 # standardization attempt -------
 vars <- c('log_housing_density', 'vs',
@@ -163,20 +223,20 @@ X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAM
   mutate(intercept = 1, .before = lin_log_housing_density)
 X_train <- X_full %>% filter(year < cutoff_year) %>% select(-year)
 
-
-# split X_full and X_tc into list of 84 design matrices, then reshape to an array for stan model
+# split X_full and X_train into list of 84 design matrices, then reshape to an array for stan model
 X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
 assert_that(all(bind_rows(X_list_full)$er_ym == X_full$er_ym))
-X_list_tc <- lapply(split(X_tc, X_tc$NA_L3NAME), function(x) select(x, -NA_L3NAME))
-assert_that(all(bind_rows(X_list_tc)$er_ym == X_tc$er_ym))
+X_list_train <- lapply(split(X_train, X_train$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+assert_that(all(bind_rows(X_list_train)$er_ym == X_train$er_ym))
 
+## BURN COUNTS ## ----------
 # pull matrix of training counts and make sure it matches training covariates
-nfire_list_tc <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
-assert_that(all(mapply(function(x, y) identical(x$er_ym, y$er_ym), X_list_tc, nfire_list_tc)) == TRUE)
-nfire_matrix_tc <- matrix(unlist(lapply(nfire_list_tc, function(x) select(x, n_fire))), nrow(nfire_list_tc[[1]]), 84)
+nfire_list_train <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
+assert_that(all(mapply(function(x, y) identical(x$er_ym, y$er_ym), X_list_train, nfire_list_train)) == TRUE)
+nfire_matrix_train <- matrix(unlist(lapply(nfire_list_train, function(x) select(x, n_fire))), nrow(nfire_list_train[[1]]), 84)
 iden_vec <- c()
 for(i in 1:84) {
-  iden_vec[i] <- all(nfire_matrix_tc[, i] == nfire_list_tc[[i]]$n_fire)
+  iden_vec[i] <- all(nfire_matrix_train[, i] == nfire_list_train[[i]]$n_fire)
 }
 assert_that(all(iden_vec) == TRUE)
 
@@ -191,100 +251,83 @@ for(i in 1:84) {
 }
 assert_that(all(iden_vec) == TRUE)
 
+## BURN AREA ## ----------
+# pull indices from train_burns_full for use in stan model
+idx_tb_mis <- which(is.na(train_burns_full$BurnBndAc)) # indices of missing y
+idx_tb_obs <- which(!is.na(train_burns_full$BurnBndAc)) # indices of observed y; subset of all of the rows in the training dataframe
+idx_tb_all <- match(train_burns_full$er_ym, X_train$er_ym) # indices to broadcast kappa, sigma, and xi in the model for observed and missing y
+assert_that(all(X_train$er_ym[idx_tb_all] == train_burns_full$er_ym)) # check broadcasting works
+assert_that(all(X_train$er_ym[idx_tb_all][idx_tb_obs] == train_burns_full$er_ym[idx_tb_obs]))
+
+# pull indices from holdout_burns_full for use in log scores
+idx_hold_obs <- which(!is.na(holdout_burns_full$BurnBndAc)) # pulls indices wrt holdout dataset
+idx_hold_all <- match(holdout_burns_full$er_ym, X_full$er_ym) # indices of holdout dataset wrt full X
+assert_that(all(X_full$er_ym[idx_hold_all] == holdout_burns_full$er_ym)) 
+assert_that(all(X_full$er_ym[idx_hold_all][idx_hold_obs] == holdout_burns_full$er_ym[idx_hold_obs]))
+
+# original burn area
+burn_train_obs_og <- train_burns_full$BurnBndAc[idx_tb_obs] - 1000
+assert_that(all(!is.na(burn_train_obs_og)))
+hist(burn_train_obs_og)
+burn_hold_obs_og <- holdout_burns_full$BurnBndAc[idx_hold_obs] - 1000
+assert_that(all(!is.na(burn_hold_obs_og)))
+hist(burn_hold_obs_og)
+
+# use square root of burn area 
+burn_train_obs_sqrt <- sqrt(burn_train_obs_og)
+assert_that(all(!is.na(burn_train_obs_sqrt)))
+hist(burn_train_obs_sqrt)
+burn_hold_obs_sqrt <- sqrt(burn_hold_obs_og)
+assert_that(all(!is.na(burn_hold_obs_sqrt)))
+hist(burn_hold_obs_sqrt)
+
 # reshape design matrices into arrays for stan model
 X_list_full <- lapply(X_list_full, function(x) select(x, -c(year, er_ym)))
-X_list_tc <- lapply(X_list_tc, function(x) select(x, -er_ym))
-t_tc <- nrow(X_list_tc[[1]])
+X_list_train <- lapply(X_list_train, function(x) select(x, -er_ym))
+t_train <- nrow(X_list_train[[1]])
 t_all <- nrow(X_list_full[[1]])
-X_array_tc <- array(NA, dim = c(84, t_tc, 37))
+X_array_train <- array(NA, dim = c(84, t_train, 37))
 X_array_full <- array(NA, dim = c(84, t_all, 37))
 for(i in 1:84) {
-  X_array_tc[i, ,] <- as.matrix(X_list_tc[[i]])
+  X_array_train[i, ,] <- as.matrix(X_list_train[[i]])
   X_array_full[i, ,] <- as.matrix(X_list_full[[i]])
 }
 
-# generate correlation matrix indicators
-# create correlation matrix from 3 levels of relationships using real ecoregions
-load(file = "./sim-study/shared-data/region_key.RData")
-
-full_reg_key <- as_tibble(region_key) %>% 
-  mutate(region = c(1:84),
-         NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE))
-
-level3 <- matrix(0, 84, 84)
-level2 <- matrix(0, 84, 84)
-level1 <- matrix(0, 84, 84)
-
-for(i in 1:84) {
-  for(j in 1:84) {
-    if (region_key[j, "NA_L3CODE"] == region_key[i, "NA_L3CODE"]) {
-      level3[i, j] = 1 # i = j, diagonal of 1s
-    } else if (region_key[j, "NA_L2CODE"] == region_key[i, "NA_L2CODE"]) {
-      level1[i, j] = 1 # indicator for correlation at level 1
-      level2[i, j] = 1 # indicator for correlation at level 2
-    } else if (region_key[j, "NA_L1CODE"] == region_key[i, "NA_L1CODE"]) {
-      level1[i, j] = 1 # indicator for correlation at level 1
-    } else {
-      level3[i, j] = 0
-      level1[i, j] = 0
-      level2[i, j] = 0
-    }
-  }
-}
-
-# generate AR(1) indicator matrices for use in covariance matrix in stan
-p <- ncol(X_array_tc[1, ,])
-zeroes <- matrix(0, p, p)
-equal <- diag(p)
-bp_lin <- zeroes
-bp_square <- zeroes
-bp_cube <- zeroes
-bp_quart <- zeroes
-cov_vec_idx <- c(3:7, 9:13, 15:19, 21:25, 27:31, 33:37) # 1st element is global intercept; 2, 8, 14, 20, 26, and 32 are the linear terms of each of the 6 covariates
-
-for(i in cov_vec_idx) {
-  for(j in cov_vec_idx) {
-    if (i + 1 == j | i - 1 == j) {
-      bp_lin[i, j] = 1
-    } else if (i + 2 == j | i - 2 == j) {
-      bp_square[i, j] = 1
-    } else if (i + 3 == j | i - 3 == j) {
-      bp_cube[i, j] = 1
-    } else if (i + 4 == j | i - 4 == j) {
-      bp_quart[i, j] = 1
-    } else {
-      bp_lin[i, j] = 0
-      bp_square[i, j] = 0
-      bp_cube[i, j] = 0
-      bp_quart[i, j] = 0
-    }
-  }
-}
-
-
 # Bundle up data into a list too pass to Stan -----------------------------
-# min_size <- 1e3
-stan_data <- list(
+stan_data_og <- list(
   r = 84, # total number of regions
   p = p,
-  
-  # all data
   t_all = t_all,
-  X_all_tmpt = X_array_full,
-  area_offset = log(area_df$area * 1e-11) / 2,
+  t_train = t_train,
+  t_hold = t_all - t_train,
   
-  # training data
-  t_tc = t_tc,
-  X_tc = X_array_tc,
-  y_tc = nfire_matrix_tc,
-  idx_tc_er = 1:t_tc,
-
-  # holdout data
-  t_hold = t_all - t_tc,
-  y_hold = nfire_matrix_hold,
+  # covariate data
+  X_full = X_array_full,
+  X_train = X_array_train,
+  
+  # count data
+  area_offset = log(area_df$area * 1e-11) / 2,
+  y_train_count = nfire_matrix_train,
+  y_hold_count = nfire_matrix_hold,
+  idx_train_er = 1:t_train,
   idx_hold_er = idx_count_hold,
+
+  # burn data 
+  # training data
+  y_train_obs = burn_train_obs_og,
+  ii_tb_obs = idx_tb_obs,
+  ii_tb_mis = idx_tb_mis,
+  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
+  N_tb_obs = length(idx_tb_obs),
+  N_tb_mis = length(idx_tb_mis),
+  N_tb_all = length(idx_tb_all),
+  
+  # holdout data
+  y_hold_obs = burn_hold_obs_og,
+  N_hold_obs = length(idx_hold_obs),
+  N_hold_all = length(idx_hold_all),
+  ii_hold_obs = idx_hold_obs,
+  ii_hold_all = idx_hold_all, 
   
   # indicator matrices for region correlation
   l3 = level3,
@@ -300,18 +343,70 @@ stan_data <- list(
   
   n_edges = length(B@i),
   node1 = B@i + 1, # add one to offset zero-based index
-  node2 = B@j + 1
+  node2 = B@j + 1,
+  
+  effects = list(reg_key = reg_key, vars = vars, X_lin = X_lin)
+)
+
+stan_data_sqrt <- list(
+  r = 84, # total number of regions
+  p = p,
+  t_all = t_all,
+  t_train = t_train,
+  t_hold = t_all - t_train,
+  
+  # covariate data
+  X_full = X_array_full,
+  X_train = X_array_train,
+  
+  # count data
+  area_offset = log(area_df$area * 1e-11) / 2,
+  y_train_count = nfire_matrix_train,
+  y_hold_count = nfire_matrix_hold,
+  idx_train_er = 1:t_train,
+  idx_hold_er = idx_count_hold,
+  
+  # burn data 
+  # training data
+  y_train_obs = burn_train_obs_sqrt,
+  ii_tb_obs = idx_tb_obs,
+  ii_tb_mis = idx_tb_mis,
+  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
+  N_tb_obs = length(idx_tb_obs),
+  N_tb_mis = length(idx_tb_mis),
+  N_tb_all = length(idx_tb_all),
+  
+  # holdout data
+  y_hold_obs = burn_hold_obs_sqrt,
+  N_hold_obs = length(idx_hold_obs),
+  N_hold_all = length(idx_hold_all),
+  ii_hold_obs = idx_hold_obs,
+  ii_hold_all = idx_hold_all, 
+  
+  # indicator matrices for region correlation
+  l3 = level3,
+  l2 = level2,
+  l1 = level1,
+  
+  # indicator matrices for AR(1) process
+  equal = equal,
+  bp_lin = bp_lin,
+  bp_square = bp_square,
+  bp_cube = bp_cube,
+  bp_quart = bp_quart,
+  
+  n_edges = length(B@i),
+  node1 = B@i + 1, # add one to offset zero-based index
+  node2 = B@j + 1,
+  
+  effects = list(reg_key = reg_key, vars = vars, X_lin = X_lin)
 )
 
 # assert that there are no missing values in stan_d
-assert_that(!any(lapply(stan_data, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data_og, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data_sqrt, function(x) any(is.na(x))) %>% unlist))
 
-saveRDS(stan_data, file = "full-model/fire-sims/counts/data/stan_data_train-hold_counts_YJ-X.RDS")
-
-zi_d <- stan_d
-zi_d$M <- 2
-write_rds(zi_d, 'data/processed/zi_d.rds')
-
-write_rds(stan_d, file = 'data/processed/stan_d.rds')
-print('stan_d.rds written!')
+write_rds(stan_data_og, file = './full-model/data/stan_data_og.rds')
+write_rds(stan_data_sqrt, file = './full-model/data/stan_data_sqrt.rds')
+print('stan_data.rds written!')
 

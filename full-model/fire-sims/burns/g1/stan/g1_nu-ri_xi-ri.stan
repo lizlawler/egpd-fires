@@ -67,8 +67,8 @@ data {
 
 parameters {
   real<lower = 0> y_train_mis[N_tb_mis];
-  matrix[t_all, r] Z_xi;
-  matrix[t_all, r] Z_nu;
+  vector[r] Z_xi;
+  vector[r] Z_nu;
   vector[r] phi_init_kappa[t_all];
   matrix[p, r] beta_kappa;
   real<lower = 0> tau_init_kappa;
@@ -86,8 +86,10 @@ transformed parameters {
   real<lower = 0> y_train[N_tb_all];
   matrix[t_all, r] phi_kappa;
   matrix[t_train, r] reg_kappa;
-  matrix[t_all, r] xi_all;
-  matrix[t_all, r] nu_all;
+  vector[r] nu_init;
+  matrix[t_all, r] nu_matrix;
+  vector[r] xi_init;
+  matrix[t_all, r] xi_matrix;
   
   real<lower=0, upper = bp_init_kappa/2> bp_kappa = bp_init_kappa/2;
   real<lower=0, upper = tau_init_kappa/2> tau_kappa = tau_init_kappa/2;
@@ -114,18 +116,22 @@ transformed parameters {
   for (i in 1:r) {
     reg_kappa[, i] = X_train[i] * beta_kappa[, i] + phi_kappa[idx_train_er, i];
   }
+  xi_init = cholesky_decompose(corr_xi)' * Z_xi;
+  xi_matrix = rep_matrix(xi_init', t_all);
+  nu_init = cholesky_decompose(corr_nu)' * Z_nu;
+  nu_matrix = rep_matrix(nu_init', t_all);
 
   kappa = exp(to_vector(reg_kappa))[ii_tb_all];
-  nu_all = Z_nu * cholesky_decompose(corr_nu);
-  xi_all = Z_xi * cholesky_decompose(corr_xi);
-  nu = exp(to_vector(nu_all))[ii_tb_all];
-  xi = exp(to_vector(xi_all))[ii_tb_all];
+  nu = exp(to_vector(nu_matrix[idx_train_er,]))[ii_tb_all];
+  xi = exp(to_vector(xi_matrix[idx_train_er,]))[ii_tb_all];
   sigma = nu ./ (1 + xi);
 }
 
 model {
   // priors
   bp_init_kappa ~ uniform(0, 1);
+  to_vector(Z_nu) ~ normal(0, 1);
+  to_vector(Z_xi) ~ normal(0, 1);
   
   rho1_kappa ~ beta(3, 4);
   rho2_kappa ~ beta(1.5, 4);
@@ -172,13 +178,13 @@ generated quantities {
   }
 
   kappa_train = exp(to_vector(reg_kappa_full))[ii_tb_all][ii_tb_obs];
-  nu_train = exp(to_vector(nu_all))[ii_tb_all][ii_tb_obs];
-  xi_train = exp(to_vector(xi_all))[ii_tb_all][ii_tb_obs];
+  nu_train = exp(to_vector(nu_matrix))[ii_tb_all][ii_tb_obs];
+  xi_train = exp(to_vector(xi_matrix))[ii_tb_all][ii_tb_obs];
   sigma_train = nu_train ./ (1 + xi_train);
 
   kappa_hold = exp(to_vector(reg_kappa_full))[ii_hold_all][ii_hold_obs];
-  nu_hold = exp(to_vector(nu_all))[ii_hold_all][ii_hold_obs];
-  xi_hold = exp(to_vector(xi_all))[ii_hold_all][ii_hold_obs];
+  nu_hold = exp(to_vector(nu_matrix))[ii_hold_all][ii_hold_obs];
+  xi_hold = exp(to_vector(xi_matrix))[ii_hold_all][ii_hold_obs];
   sigma_hold = nu_hold ./ (1 + xi_hold);
 
   if (max(y_train_obs) < 1200) { // condition determines if the data read in are the sqrt or original burn areas

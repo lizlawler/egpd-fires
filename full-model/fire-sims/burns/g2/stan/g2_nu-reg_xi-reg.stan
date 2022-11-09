@@ -1,9 +1,9 @@
 functions {
   real egpd_g2_lpdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
     real lpdf;
-    lpdf = -log(sigma) - (1/xi + 1) * log(1 + xi * (y/sigma)) * 
-    log(kappa1 * prob * (1 - (1 + xi * (y/sigma))^(-1/xi))^(kappa1 - 1) + 
-      kappa2 * (1-prob) * (1 - (1 + xi * (y/sigma))^(-1/xi))^(kappa2 - 1));
+    lpdf = -log(sigma) - (1/xi + 1) * log(1 + xi * (y/sigma)) *
+    log(kappa1 * prob * (1 - (1 + xi * (y/sigma))^(-1/xi))^(kappa1 - 1) +
+        kappa2 * (1-prob) * (1 - (1 + xi * (y/sigma))^(-1/xi))^(kappa2 - 1));
     return lpdf;
   }
   

@@ -60,6 +60,10 @@ for(i in 1:84) {
   }
 }
 
+test <- level3 + 0.45*level2 + 0.54*level1
+choltest <- chol(test)
+assert_that(all(test == round(t(choltest) %*% choltest, 2)))
+
 # generate AR(1) indicator matrices for use in covariance matrix in stan
 p <- 37
 zeroes <- matrix(0, p, p)
@@ -406,7 +410,7 @@ stan_data_sqrt <- list(
 assert_that(!any(lapply(stan_data_og, function(x) any(is.na(x))) %>% unlist))
 assert_that(!any(lapply(stan_data_sqrt, function(x) any(is.na(x))) %>% unlist))
 
-write_rds(stan_data_og, file = './full-model/data/stan_data_og.rds')
-write_rds(stan_data_sqrt, file = './full-model/data/stan_data_sqrt.rds')
+saveRDS(stan_data_og, file = './full-model/data/stan_data_og.RDS')
+saveRDS(stan_data_sqrt, file = './full-model/data/stan_data_sqrt.RDS')
 print('stan_data.rds written!')
 

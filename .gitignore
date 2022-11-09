@@ -10,16 +10,14 @@ josephs-scripts/
 toy-sim/output/
 
 full-model/output/*.csv
-full-model/data/**/processed/
-full-model/data/**/raw/
-full-model/fire-sims/burns/g1/*.RDS
 sim-study/models/**/data/
-sim-study/models/**/stan_fits/
+sim-study/models/**/stan_fits/*.RDS
 
-trace/
+**/trace/*.pdf
+**/trace/**/*.pdf
+
 /maps/
 <<<<<<< HEAD
-stan-fits/
 =======
 full-model/naveau-dist/dist_sheet_cache/
 
@@ -33,3 +31,14 @@ full-model/fire-sims/counts/zinb/zinb_post_params_26oct2022.RDS
 full-model/fire-sims/counts/zip/post_params_26oct2022.RDS
 
 slurm*
+
+full-model/data/processed/
+
+full-model/data/raw/
+
+full-model/fire-sims/burns/g1/stan-fits/fit-params/
+full-model/fire-sims/burns/**/stan-fits/*.RDS
+full-model/fire-sims/counts/**/stan-fits/*.RDS
+
+
+sim-study/models/g1/stan-fits/

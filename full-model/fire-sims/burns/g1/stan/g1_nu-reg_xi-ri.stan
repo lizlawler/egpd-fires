@@ -67,7 +67,7 @@ data {
 
 parameters {
   real<lower = 0> y_train_mis[N_tb_mis];
-  matrix[t_all, r] Z_xi;
+  vector[r] Z_xi;
   vector[r] phi_init_kappa[t_all];
   vector[r] phi_init_nu[t_all];
   matrix[p, r] beta_kappa;
@@ -92,7 +92,8 @@ transformed parameters {
   matrix[t_all, r] phi_nu;
   matrix[t_train, r] reg_kappa;
   matrix[t_train, r] reg_nu;
-  matrix[t_all, r] xi_all;
+  vector[r] xi_init;
+  matrix[t_all, r] xi_matrix;
 
   real<lower=0, upper = bp_init_kappa/2> bp_kappa = bp_init_kappa/2;
   real<lower=0, upper = bp_init_nu/2> bp_nu = bp_init_nu/2;
@@ -127,10 +128,12 @@ transformed parameters {
     reg_nu[, i] = X_train[i] * beta_nu[, i] + phi_nu[idx_train_er, i];
   }
 
+  xi_init = cholesky_decompose(corr_xi)' * Z_xi;
+  xi_matrix = rep_matrix(xi_init', t_all);
+
   kappa = exp(to_vector(reg_kappa))[ii_tb_all];
   nu = exp(to_vector(reg_nu))[ii_tb_all];
-  xi_all = Z_xi * cholesky_decompose(corr_xi);
-  xi = exp(to_vector(xi_all))[ii_tb_all];
+  xi = exp(to_vector(xi_matrix[idx_train_er,]))[ii_tb_all];
   sigma = nu ./ (1 + xi);
 }
 
@@ -138,6 +141,7 @@ model {
   // priors
   bp_init_kappa ~ uniform(0, 1);
   bp_init_nu ~ uniform(0, 1);
+  Z_xi ~ normal(0, 1);
   
   rho1_kappa ~ beta(3, 4);
   rho2_kappa ~ beta(1.5, 4);
@@ -192,12 +196,12 @@ generated quantities {
 
   kappa_train = exp(to_vector(reg_kappa_full))[ii_tb_all][ii_tb_obs];
   nu_train = exp(to_vector(reg_nu_full))[ii_tb_all][ii_tb_obs];
-  xi_train = exp(to_vector(xi_all))[ii_tb_all][ii_tb_obs];
+  xi_train = exp(to_vector(xi_matrix))[ii_tb_all][ii_tb_obs];
   sigma_train = nu_train ./ (1 + xi_train);
 
   kappa_hold = exp(to_vector(reg_kappa_full))[ii_hold_all][ii_hold_obs];
   nu_hold = exp(to_vector(reg_nu_full))[ii_hold_all][ii_hold_obs];
-  xi_hold = exp(to_vector(xi_all))[ii_hold_all][ii_hold_obs];
+  xi_hold = exp(to_vector(xi_matrix))[ii_hold_all][ii_hold_obs];
   sigma_hold = nu_hold ./ (1 + xi_hold);
 
   if (max(y_train_obs) < 1200) { // condition determines if the data read in are the sqrt or original burn areas

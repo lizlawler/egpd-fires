@@ -13,6 +13,6 @@ for model in "zinb" "zinb_er" "zip"
 do
 for params in "pi-reg" "pi-ri"
 do
-sbatch --job-name count_NUTS_sampling --qos=long --nodes=1 --ntasks-per-node=6 --time=2-00:00:00 --mail-type=ALL --mail-user=eslawler@colostate.edu --export=suffix=$suffix,params=$params call_count_NUTS_sampler.sh
+sbatch --job-name count_NUTS_sampling --nodes=1 --ntasks-per-node=4 --time=24:00:00 --mail-type=ALL --mail-user=eslawler@colostate.edu --export=model=$model,params=$params call_count_NUTS_sampler.sh
 done
 done

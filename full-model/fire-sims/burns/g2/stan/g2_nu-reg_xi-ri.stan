@@ -6,7 +6,7 @@ functions {
     log(kappa1 * prob * (1 - (1 + xi * (y/sigma))^(-1/xi))^(kappa1 - 1) +
         kappa2 * (1-prob) * (1 - (1 + xi * (y/sigma))^(-1/xi))^(kappa2 - 1));
     cdf = prob * (1 - (1 + xi * (1.001/sigma))^(-1/xi))^kappa1 + (1-prob) * (1 - (1 + xi * (1.001/sigma))^(-1/xi))^kappa2;
-    return lpdf/log(1 - cdf);
+    return lpdf - log(1 - cdf);
   }
   
   real matnormal_lpdf(matrix y, matrix cov, matrix corr) {

@@ -10,7 +10,7 @@ library(spatialreg)
 
 # Albers equal area (AEA) conic projection of North America
 aea_proj <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
-source("./full-model/process-data/merge-data.R")
+source("./full-model/data/process-data/merge-data.R")
 
 # generate spatial neighbors
 if (!file.exists('./full-model/data/processed/nb.rds')) {
@@ -59,10 +59,6 @@ for(i in 1:84) {
     }
   }
 }
-
-test <- level3 + 0.45*level2 + 0.54*level1
-choltest <- chol(test)
-assert_that(all(test == round(t(choltest) %*% choltest, 2)))
 
 # generate AR(1) indicator matrices for use in covariance matrix in stan
 p <- 37
@@ -270,10 +266,10 @@ assert_that(all(X_full$er_ym[idx_hold_all] == holdout_burns_full$er_ym))
 assert_that(all(X_full$er_ym[idx_hold_all][idx_hold_obs] == holdout_burns_full$er_ym[idx_hold_obs]))
 
 # original burn area
-burn_train_obs_og <- train_burns_full$BurnBndAc[idx_tb_obs] - 1000
+burn_train_obs_og <- train_burns_full$BurnBndAc[idx_tb_obs]/1000
 assert_that(all(!is.na(burn_train_obs_og)))
 hist(burn_train_obs_og)
-burn_hold_obs_og <- holdout_burns_full$BurnBndAc[idx_hold_obs] - 1000
+burn_hold_obs_og <- holdout_burns_full$BurnBndAc[idx_hold_obs]/1000
 assert_that(all(!is.na(burn_hold_obs_og)))
 hist(burn_hold_obs_og)
 

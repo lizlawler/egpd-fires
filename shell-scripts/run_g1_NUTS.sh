@@ -3,8 +3,8 @@
 #
 # modules
 #
-module load anaconda
-conda activate lawler
+source /curc/sw/anaconda3/2020.11/etc/profile.d/conda.sh
+conda activate /projects/eslawler@colostate.edu/software/anaconda/envs/lawler
 
 #
 # run scripts

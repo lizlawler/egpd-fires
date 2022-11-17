@@ -1,9 +1,11 @@
 functions {
   real egpd_g1_lpdf(real y, real sigma, real xi, real kappa) {
     real lpdf;
+    real cdf;
     lpdf = log(kappa) - log(sigma) - (1/xi + 1) * log(1 + xi * (y/sigma)) + 
     (kappa-1) * log(1 - (1 + xi * (y/sigma))^(-1/xi));
-    return lpdf;
+    cdf = (1 - (1 + xi * (1.001/sigma))^(-1/xi))^kappa;
+    return lpdf/log(1 - cdf);
   }
   
   real matnormal_lpdf(matrix y, matrix cov, matrix corr) {

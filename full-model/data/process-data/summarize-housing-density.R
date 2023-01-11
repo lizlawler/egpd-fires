@@ -30,45 +30,48 @@ extraction_df <- lapply(
     year == 'HUDEN1990_' ~ 1990, 
     year == 'HUDEN2000_' ~ 2000, 
     year == 'HUDEN2010_' ~ 2010, 
-    year == 'HUDEN2020_' ~ 2020
+    year == 'HUDEN2020_' ~ 2021 # changing to 2021 so that all of 2020 is reflected in interpolation below
     ),
     NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME)) %>%
   group_by(NA_L3NAME, year) %>%
   summarize(wmean = weighted.mean(value, Shape_Area)) %>%
   ungroup
+# 
+# ecoregions <- read_rds(file = "./sim-study/shared-data/ecoregions.RDS")
+# 
+# ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>%
+#   mutate(NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME))
 
-ecoregions <- read_rds(file = "./sim-study/shared-data/ecoregions.RDS")
+# joined_hdens <- right_join(ecoregions_geom, extraction_df)
+# breaks <- classIntervals(c(min(joined_hdens$wmean) - .00001, joined_hdens$wmean), n = 7)
+# joined_hdens <- joined_hdens %>% mutate(wmean_cat = cut(wmean, unique(breaks$brks)))
+# 
+# dens_map_year <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .1, fill = 'white') +
+#   geom_sf(data = joined_hdens, aes(fill=wmean_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+#   facet_wrap(year ~ .) +
+#   theme(panel.grid.major = element_line(colour = "lightgrey"))
+# ggsave("dens_er_map.png", dpi = 300, type = "cairo")
 
-ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>%
-  mutate(NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME))
-
-joined_hdens <- right_join(ecoregions_geom, extraction_df)
-breaks <- classIntervals(c(min(joined_hdens$wmean) - .00001, joined_hdens$wmean), n = 7)
-joined_hdens <- joined_hdens %>% mutate(wmean_cat = cut(wmean, unique(breaks$brks)))
-
-dens_map_year <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = joined_hdens, aes(fill=wmean_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  facet_wrap(year ~ .) +
-  theme(panel.grid.major = element_line(colour = "lightgrey"))
-ggsave("dens_er_map.png", dpi = 300, type = "cairo")
-
-# Then interpolate for each month and year from 1990 - 2020
+# Then interpolate for each month and year from 1990 - 2020 (so the last full year is 2019)
 # using a simple linear sequence
 impute_density <- function(df) {
-  year_seq <- min(df$year):max(df$year)
-  predict_seq <- seq(min(df$year),
-                     max(df$year),
-                     length.out = (length(year_seq) - 1) * 12)
+  # year_seq <- min(df$year):max(df$year)
+  # predict_seq <- seq(min(df$year),
+  #                    max(df$year),
+  #                    length.out = (length(year_seq) - 1) * 12)
+  year_seq <- sort(rep.int(1990:2020, times = 12))
+  time_int <- rep(seq(0.1,0.99,length.out = 12), time = length(1990:2020))
+  predict_seq <- year_seq + time_int
   preds <- approx(x = df$year,
          y = df$wmean,
          xout = predict_seq)
   res <- as_tibble(preds) %>%
     rename(t = x, wmean = y) %>%
     mutate(year = floor(t),
-           month = rep(1:12, times = length(year_seq) - 1)) %>%
-    filter(year < 2030)
+           month = rep(1:12, times = length(1990:2020))) %>%
+    filter(year < 2021)
   res$NA_L3NAME <- unique(df$NA_L3NAME)
   res
 }

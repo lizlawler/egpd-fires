@@ -1,12 +1,11 @@
 library(tidyverse)
 library(lubridate)
 library(rstan)
-library(rgdal)
 library(assertthat)
 library(sf)
-library(splines)
 library(spdep)
 library(spatialreg)
+library(splines)
 
 # Albers equal area (AEA) conic projection of North America
 aea_proj <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
@@ -32,7 +31,7 @@ B <- as(listw, 'symmetricMatrix')
 
 # generate correlation indicato matrix matrices
 # create correlation matrix from 3 levels of relationships using real ecoregions
-load(file = "./sim-study/shared-data/region_key.RData")
+load(file = "./full-model/data/processed/region_key.RData")
 reg_key <- as_tibble(region_key) %>% 
   mutate(region = c(1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
@@ -113,8 +112,8 @@ er_df <- dplyr::distinct(data.frame(ecoregions),
 
 er_covs <- ecoregion_summaries %>%
   left_join(er_df) %>%
-  filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)",
-         year > 1983,
+  filter(NA_L2NAME != "UPPER GILA MOUNTAINS (?)",
+         ym >= min(mtbs$ym),
          ym <= max(mtbs$ym)) %>%
   mutate(log_housing_density = log(housing_density),
          pr = ifelse(pr < 0 , 0, pr)) %>%
@@ -127,71 +126,44 @@ assert_that(length(setdiff(er_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
 assert_that(!anyDuplicated(er_covs))
 er_covs$id <- 1:nrow(er_covs)
 
-
-# Create training sets, including years from 1984 to cutoff_year + 1 (training: 1984-2011)
-cutoff_year <- 2012
+# Create training and test sets
+# test data: first five and last five years
+# training data: middle 20 years
+all_years <- 1990:2020
+first_five <- 1990:1994
+last_five <- 2020:2016
+test_years <- sort(c(first_five, last_five))
+train_years <- setdiff(all_years, test_years)
 
 # count split
 train_counts <- count_df %>%
-  filter(year < cutoff_year) %>%
+  filter(year %in% train_years) %>%
   left_join(er_covs)
-
 holdout_counts <- count_df %>%
-  filter(year >= cutoff_year) %>%
+  filter(year %in% test_years) %>%
   left_join(er_covs)
+assert_that(sum(nrow(holdout_counts), nrow(train_counts)) == nrow(count_df))
 
 idx_count_hold <- match(holdout_counts$er_ym, er_covs$er_ym)
 assert_that(all(holdout_counts$er_ym == er_covs[idx_count_hold, ]$er_ym))
 
 # burn split; including missing data
 train_burns_full <- burn_df %>%
-  filter(FIRE_YEAR < cutoff_year) %>%
-  right_join(er_covs %>% filter(year < cutoff_year)) %>% arrange(NA_L3NAME, ym)
+  filter(FIRE_YEAR %in% train_years) %>%
+  right_join(er_covs %>% filter(year %in% train_years)) %>% arrange(NA_L3NAME, ym)
 
 holdout_burns_full <-  burn_df %>%
-  filter(FIRE_YEAR >= cutoff_year) %>%
-  right_join(er_covs %>% filter(year >= cutoff_year)) %>% arrange(NA_L3NAME, ym)
-
+  filter(FIRE_YEAR %in% test_years) %>%
+  right_join(er_covs %>% filter(year %in% test_years)) %>% arrange(NA_L3NAME, ym)
+unique(holdout_burns_full$year)
+unique(train_burns_full$year)
 
 # this data frame has no duplicate ecoregion X timestep combos
-N <- length(unique(er_covs$NA_L3NAME))
-T <- length(unique(er_covs$ym))
+N <- as.numeric(length(unique(er_covs$NA_L3NAME)))
+T <- as.numeric(length(unique(er_covs$ym)))
+assert_that(nrow(er_covs) == N * T)
 
-assert_that(identical(nrow(er_covs), N * T))
-
-# Create b-splines for climate vars
-# normalization attempt ------
-# library(cellWise)
-# vars <- c('log_housing_density', 'vs',
-#           'pr', 'prev_12mo_precip', 'tmmx',
-#           'rmin')
-# 
-# df_each <- 5
-# deg_each <- 3
-# X_bs <- list()
-# X_lin <- list()
-# X_bs_df <- list()
-# for (i in seq_along(vars)) {
-#   varname <- paste("lin", vars[i], sep = "_")
-#   # incorporate data normalization HERE and then create splines
-#   X_lin[[i]] <- transfo(er_covs[[vars[i]]], type = "YJ")$Zt
-#   X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each, 
-#                   Boundary.knots = range(X_lin[[i]]), intercept = FALSE)
-#   
-#   X_bs_df[[i]] <- X_bs[[i]] %>% as_tibble()
-#   names(X_bs_df[[i]]) <- paste('bs', vars[[i]], 1:df_each, sep = '_')
-#   X_bs_df[[i]] <- X_bs_df[[i]] %>%
-#     mutate(!!varname := X_lin[[i]]) %>%
-#     relocate(!!varname, before = where(is.character))
-# }
-# X_bs_df <- bind_cols(X_bs_df)
-# assert_that(!any(is.na(X_bs_df)))
-# 
-# X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAME, year = er_covs$year) %>% 
-#   mutate(intercept = 1, .before = lin_log_housing_density)
-# X_train <- X_full %>% filter(year < cutoff_year) %>% select(-year)
-
-# standardization attempt -------
+# standardization, then B-spline creation -------
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',
           'rmin')
@@ -204,8 +176,10 @@ X_bs_df <- list()
 
 for (i in seq_along(vars)) {
   varname <- paste("lin", vars[i], sep = "_")
-  # incorporate data normalization HERE and then create splines
+  # data standardization
   X_lin[[i]] <- (er_covs[[vars[i]]] - mean(er_covs[[vars[i]]]))/sd(er_covs[[vars[i]]])
+  
+  # spline creation for each covariate
   X_bs[[i]] <- bs(x = X_lin[[i]], df = df_each, degree = deg_each,
                   Boundary.knots = range(X_lin[[i]]), intercept = FALSE)
   
@@ -221,7 +195,7 @@ assert_that(!any(is.na(X_bs_df)))
 
 X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAME, year = er_covs$year) %>% 
   mutate(intercept = 1, .before = lin_log_housing_density)
-X_train <- X_full %>% filter(year < cutoff_year) %>% select(-year)
+X_train <- X_full %>% filter(year %in% train_years) %>% select(-year)
 
 # split X_full and X_train into list of 84 design matrices, then reshape to an array for stan model
 X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))

@@ -1,23 +1,12 @@
 library(tidyverse)
-library(rgdal)
 library(sf)
+library(terra)
 library(zoo)
 library(assertthat)
 library(lubridate)
 
 # Albers equal area (AEA) conic projection of North America
-aea_proj <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
-
-# Read ecoregion data
-ecoregions <- st_read('./full-model/data/raw/us_eco_l3/us_eco_l3.shp')
-
-# fix names for chihuahuan desert
-ecoregions <- ecoregions %>%
-  mutate(NA_L3NAME = as.character(NA_L3NAME),
-    NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert',
-                            'Chihuahuan Deserts',
-                            NA_L3NAME))
-
+# aea_proj <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
 
 # Read fire data ----------------------
 if (!dir.exists("./full-model/data/raw/mtbs_fod_pts_data/")) {
@@ -28,6 +17,8 @@ if (!dir.exists("./full-model/data/raw/mtbs_fod_pts_data/")) {
 }
 
 # longitude and latitude bounds are for the lower 48 US, including DC; can be found using lower48_bounds.sh
+mtbs <- st_read('./full-model/data/raw/mtbs_fod_pts_data/mtbs_FODpoints_DD.shp')
+test_eco <- terra::project(vect(ecoregions), crs(mtbs))
 mtbs <- st_read('./full-model/data/raw/mtbs_fod_pts_data/mtbs_FODpoints_DD.shp') %>%
   mutate(BurnBndLat = as.numeric(BurnBndLat),
          BurnBndLon = as.numeric(BurnBndLon)) %>%
@@ -39,6 +30,16 @@ mtbs <- st_read('./full-model/data/raw/mtbs_fod_pts_data/mtbs_FODpoints_DD.shp')
   mutate(ym = as.yearmon(Ig_Date), 
          FIRE_YEAR = year(Ig_Date), 
          FIRE_MON = month(Ig_Date))
+
+# Read ecoregion data -----
+ecoregions <- vect('./full-model/data/raw/us_eco_l3/us_eco_l3.shp') %>% project(., crs(mtbs))
+
+# fix names for chihuahuan desert
+ecoregions <- ecoregions %>%
+  mutate(NA_L3NAME = as.character(NA_L3NAME),
+         NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert',
+                            'Chihuahuan Deserts',
+                            NA_L3NAME))
 
 
 # match each ignition to an ecoregion

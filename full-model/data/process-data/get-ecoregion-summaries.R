@@ -1,15 +1,14 @@
 library(tidyverse)
-library(raster)
-library(parallel)
-library(pbapply)
-library(rgdal)
+# library(parallel)
+# library(pbapply)
+library(terra)
 library(assertthat)
-source('./full-model/process-data/helpers.R')
-
+source('./full-model/data/process-data/helpers.R')
 
 # Extracting monthly climate summaries for ecoregions ---------------------
-ecoregion_shp <- rgdal::readOGR(dsn = './full-model/data/raw/us_eco_l3', layer = 'us_eco_l3') %>%
-  spTransform(CRSobj = CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0"))
+ecoregion_shp <- load_ecoregions() %>%
+  project("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0")
+
 
 ecoregion_shp$NA_L3NAME <- as.character(ecoregion_shp$NA_L3NAME)
 
@@ -24,6 +23,9 @@ tifs <- list.files("./full-model/data/processed/climate-data",
 
 # remove any housing density geotiffs that matched the file listing
 tifs <- tifs[!grepl('den[0-9]{2}\\.tif', tifs)]
+
+# grab ERC tifs only
+erc_tifs <- tifs[grepl('erc_', tifs)]
 
 # Generate indices from polygons for raster extraction --------------------
 r <- raster::brick(tifs[1])
@@ -95,3 +97,13 @@ destfile <- "./full-model/data/processed/ecoregion_summaries.csv"
 write_csv(ecoregion_summaries, destfile)
 
 print(paste('Ecoregion climate summaries written to', destfile))
+
+# Calculate FWI from monthly weather variables
+library(cffdrs)
+ecoregion_summaries <- read_csv("data/processed/ecoregion_summaries.csv")
+ecoregion_summaries <- ecoregion_summaries %>% 
+  pivot_wider(names_from = variable, values_from = value) %>% 
+  rename(prec = pr, rh = rmin, temp = tmmx, ws = vs, mon = month, yr = year)
+summary_byer <- split(ecoregion_summaries, ecoregion_summaries$NA_L3NAME)
+fwi_list <- lapply(summary_byer, function(x) fwi(select(x, -NA_L3NAME)))
+

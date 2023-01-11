@@ -30,6 +30,7 @@ egpd_fit <- sampling(egpd_init,
                      iter = 3000,
                      warmup = 1000,
                      thin = 2,
+                     init_r = 0.01,
                      chains = 3)
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")

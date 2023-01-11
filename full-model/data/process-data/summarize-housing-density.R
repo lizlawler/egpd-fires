@@ -1,71 +1,45 @@
-
 # Summarizing housing density at the ecoregion level ----------------------
-library(raster)
-library(parallel)
-library(pbapply)
-library(rgdal)
 library(purrr)
 library(tidyverse)
+library(sf)
+library(stars)
+library(terra)
+library(assertthat)
 
-setwd("full-model/")
-source('process-data/helpers.R')
+# before running this script, need to extract housing density by ecoregion in QGIS:
+# 1) use "join attribute by location (summary), with input layer as the ecoregion file and 
+# comparison layer as the housing file;
+# 2) keep predicate for features as "intersect"
+# 3) select appropriate housing density field as "field to summarize"
+# 4) select "mean" as aggregation method
+# 5) save as .shp file
+# Note: to avoid any errors, choose "do not filter" as method of dealing with "invalid geometry"
 
-# if not running from makefile, use following code
+dens_files <- paste0("full-model/data/processed/qgis_extraction/", c("1990", "2000", "2010", "2020"), "/")
+dens_layer <- paste0("eco_conus_", c("1990", "2000", "2010", "2020"))
+extractions <- mapply(function(z, y) vect(x = z, layer = y), z = dens_files, y = dens_layer)
 
-ecoregion_shp <- load_ecoregions()
-
-tifs <- list.files("data/processed",
-                   pattern = ".tif",
-                   full.names = TRUE)
-
-extract_one <- function(filename, ecoregion_shp) {
-  out_name <- gsub('.tif', '.csv', filename)
-  if (!file.exists(out_name)) {
-    r <- raster::raster(filename)
-    raster::values(r)[raster::values(r) == -999] <- NA
-    res <- raster::extract(r, ecoregion_shp,
-                           na.rm = TRUE, fun = mean, df = TRUE)
-    write.csv(res, file = out_name, row.names = FALSE)
-  } else {
-    res <- read.csv(out_name)
-  }
-  res
-}
-
-print('Aggregating housing data to ecoregion means. May take a while...')
-pboptions(type = 'txt', use_lb = TRUE)
-cl <- makeCluster(getOption("cl.cores", detectCores()))
-extractions <- pblapply(X = tifs, 
-                        FUN = extract_one, 
-                        ecoregion_shp = ecoregion_shp, 
-                        cl = cl)
-stopCluster(cl)
-
-stopifnot(all(lapply(extractions, nrow) == nrow(ecoregion_shp)))
-
-extraction_df <- lapply(extractions, function(x) pivot_longer(x, !ID, names_to = "variable", values_to = "value")) %>% 
+extraction_df <- lapply(
+  extractions, function(x) pivot_longer(
+    (data.frame(x) %>% as_tibble() %>% 
+       select(c("NA_L3NAME", "Shape_Area"), contains("HUDEN"))), 
+    !c("NA_L3NAME", "Shape_Area"), names_to = "year", values_to = "value")) %>% 
   bind_rows %>%
-  pivot_wider(names_from = "variable", values_from = "value") %>%
-  mutate(NA_L3NAME = data.frame(ecoregion_shp)$NA_L3NAME,
-         Shape_Area = data.frame(ecoregion_shp)$Shape_Area) %>%
-  dplyr::select(-starts_with('X')) %>%
-  pivot_longer(!c(NA_L3NAME, Shape_Area, ID), names_to = "variable", values_to = "value") %>%
   filter(!is.na(value)) %>%
   mutate(year = case_when(
-    variable == 'hden1980' ~ 1980, 
-    variable == 'hden1990' ~ 1990, 
-    variable == 'hden2000' ~ 2000, 
-    variable == 'hden2010' ~ 2010, 
-    variable == 'hden2020' ~ 2020, 
-    variable == 'hden2030' ~ 2030
-    ), 
-    NA_L3NAME = as.character(NA_L3NAME),
+    year == 'HUDEN1990_' ~ 1990, 
+    year == 'HUDEN2000_' ~ 2000, 
+    year == 'HUDEN2010_' ~ 2010, 
+    year == 'HUDEN2020_' ~ 2020
+    ),
     NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME)) %>%
   group_by(NA_L3NAME, year) %>%
   summarize(wmean = weighted.mean(value, Shape_Area)) %>%
   ungroup
 
-# Then interpolate for each month and year from 1984 - 2015
+geom(extractions[[1]]) %>% group_by(NA_L3NAME)
+
+# Then interpolate for each month and year from 1990 - 2020
 # using a simple linear sequence
 impute_density <- function(df) {
   year_seq <- min(df$year):max(df$year)
@@ -84,15 +58,15 @@ impute_density <- function(df) {
   res
 }
 
-res <- extraction_df %>%
+monthly_dens <- extraction_df %>%
   split(.$NA_L3NAME) %>%
   map(~impute_density(.)) %>%
   bind_rows %>%
   rename(housing_density = wmean)
 
-out_file <- 'data/processed/housing_density.csv'
+out_file <- 'full-model/data/processed/housing_density.csv'
 
-res %>%
+monthly_dens %>%
   write_csv(out_file)
 
 if (file.exists(out_file)) {

@@ -11,7 +11,7 @@ library(pbapply)
 #   unzip("data/raw/cb_2016_us_nation_20m.zip",
 #         exdir = "data/raw/cb_2016_us_nation_20m/")
 # }
-# setwd("~/Desktop/research/egpd-fires/full-model")
+setwd("full-model")
 
 if (!dir.exists("data/raw/cb_2021_us_nation_20m/")) {
   download.file("https://www2.census.gov/geo/tiger/GENZ2021/shp/cb_2021_us_nation_20m.zip",
@@ -89,13 +89,15 @@ summarize_by_month <- function(url, mask_shp) {
 climate_data_urls <- read.csv('data/raw/climate-data.csv',
                               stringsAsFactors = FALSE)
 
+erc_data_urls <- read.csv('data/raw/erc-data.csv',
+                              stringsAsFactors = FALSE)
 
 # Summarize daily climate data by month ---------------------------
-print('Aggregating daily climate data to monthly means. May take a while...')
+print('Aggregating daily ERC data to monthly means. May take a while...')
 pboptions(type = 'timer', use_lb = TRUE)
 cl <- makeCluster(getOption("cl.cores", detectCores() / 2))
 # clusterExport(cl, varlist = c("summarize_by_month", "usa_shp"))
-pblapply(X = climate_data_urls$url,
+pblapply(X = erc_data_urls$url,
          FUN = summarize_by_month,
          mask_shp = usa_shp,
          cl = cl)

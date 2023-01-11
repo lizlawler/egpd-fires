@@ -37,7 +37,22 @@ extraction_df <- lapply(
   summarize(wmean = weighted.mean(value, Shape_Area)) %>%
   ungroup
 
-geom(extractions[[1]]) %>% group_by(NA_L3NAME)
+ecoregions <- read_rds(file = "./sim-study/shared-data/ecoregions.RDS")
+
+ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>%
+  mutate(NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME))
+
+joined_hdens <- right_join(ecoregions_geom, extraction_df)
+breaks <- classIntervals(c(min(joined_hdens$wmean) - .00001, joined_hdens$wmean), n = 7)
+joined_hdens <- joined_hdens %>% mutate(wmean_cat = cut(wmean, unique(breaks$brks)))
+
+dens_map_year <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = joined_hdens, aes(fill=wmean_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+  facet_wrap(year ~ .) +
+  theme(panel.grid.major = element_line(colour = "lightgrey"))
+ggsave("dens_er_map.png", dpi = 300, type = "cairo")
 
 # Then interpolate for each month and year from 1990 - 2020
 # using a simple linear sequence

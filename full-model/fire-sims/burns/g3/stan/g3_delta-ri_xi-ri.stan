@@ -1,11 +1,13 @@
 functions {
   real egpd_g3_lpdf(real y, real sigma, real xi, real delta) {
     real lpdf;
-    real cdf;
-    lpdf = log(1 + delta) - log(delta * sigma) - (1/xi + 1) * log(1 + xi * (y/sigma)) + 
-    log(1 - (1 + xi * (y/sigma))^(-delta/xi));
-    cdf = 1 - beta_cdf((1 + xi * (1.001/sigma))^(-delta/xi), 1/delta, 2);
-    return lpdf - log(1 - cdf);
+    real cst;
+    real v;
+    v = 1 + xi * (y/sigma);
+    lpdf = log(delta) - log(sigma) - (delta/xi + 1) * log(v) + 
+    beta_lpdf(v^(-delta/xi) | 1/delta, 2);
+    cst = 1 - beta_cdf((1 + xi * (1.001/sigma))^(-delta/xi), 1/delta, 2);
+    return lpdf - log(1 - cst);
   }
   
   real matnormal_lpdf(matrix y, matrix cov, matrix corr) {

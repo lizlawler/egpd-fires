@@ -1,11 +1,13 @@
 functions {
   real egpd_g3_lpdf(real y, real sigma, real xi, real delta) {
     real lpdf;
-    real cdf;
-    lpdf = log(1 + delta) - log(delta * sigma) - (1/xi + 1) * log(1 + xi * (y/sigma)) + 
-    log(1 - (1 + xi * (y/sigma))^(-delta/xi));
-    cdf = 1 - beta_cdf((1 + xi * (1.001/sigma))^(-delta/xi), 1/delta, 2);
-    return lpdf - log(1 - cdf);
+    real cst;
+    real v;
+    v = 1 + xi * (y/sigma);
+    lpdf = log(delta) - log(sigma) - (delta/xi + 1) * log(v) + 
+    beta_lpdf(v^(-delta/xi) | 1/delta, 2);
+    cst = 1 - beta_cdf((1 + xi * (1.001/sigma))^(-delta/xi), 1/delta, 2);
+    return lpdf - log(1 - cst);
   }
   
   real matnormal_lpdf(matrix y, matrix cov, matrix corr) {
@@ -69,21 +71,13 @@ data {
 
 parameters {
   real<lower = 0> y_train_mis[N_tb_mis];
-  vector[r] phi_init_delta[t_all];
+  vector[r] Z_xi;
+  vector[r] Z_delta;
   vector[r] phi_init_nu[t_all];
-  vector[r] phi_init_xi[t_all];
-  matrix[p, r] beta_delta;
   matrix[p, r] beta_nu;
-  matrix[p, r] beta_xi;
-  real<lower = 0> tau_init_delta;
   real<lower = 0> tau_init_nu;
-  real<lower = 0> tau_init_xi;
-  real<lower = 0, upper = 1> eta_delta;
   real<lower = 0, upper = 1> eta_nu;
-  real<lower = 0, upper = 1> eta_xi;
-  real<lower = 0, upper = 1> bp_init_delta;
   real<lower = 0, upper = 1> bp_init_nu;
-  real<lower = 0, upper = 1> bp_init_xi;
   real<lower = 0, upper = 1> rho2_delta;
   real<lower=0, upper = (1-rho2_delta)> rho1_delta;
   real<lower = 0, upper = 1> rho2_nu;
@@ -94,29 +88,22 @@ parameters {
 
 transformed parameters {
   real<lower = 0> y_train[N_tb_all];
-  matrix[t_all, r] phi_delta;
   matrix[t_all, r] phi_nu;
-  matrix[t_all, r] phi_xi;
-  matrix[t_train, r] reg_delta;
   matrix[t_train, r] reg_nu;
-  matrix[t_train, r] reg_xi;
+  vector[r] xi_init;
+  matrix[t_all, r] xi_matrix;
+  vector[r] delta_init;
+  matrix[t_all, r] delta_matrix;
 
-  real<lower=0, upper = bp_init_delta/2> bp_delta = bp_init_delta/2;
   real<lower=0, upper = bp_init_nu/2> bp_nu = bp_init_nu/2;
-  real<lower=0, upper = bp_init_xi/2> bp_xi = bp_init_xi/2;
-  real<lower=0, upper = tau_init_delta/2> tau_delta = tau_init_delta/2;
   real<lower=0, upper = tau_init_nu/2> tau_nu = tau_init_nu/2;
-  real<lower=0, upper = tau_init_xi/2> tau_xi = tau_init_xi/2;
-
-  matrix[r, r] corr_delta = l3 + rho2_delta * l2 + rho1_delta * l1;
-  matrix[p, p] cov_ar1_delta = equal + bp_delta * bp_lin + bp_delta^2 * bp_square + bp_delta^3 * bp_cube + bp_delta^4 * bp_quart;
 
   matrix[r, r] corr_nu = l3 + rho2_nu * l2 + rho1_nu * l1;
   matrix[p, p] cov_ar1_nu = equal + bp_nu * bp_lin + bp_nu^2 * bp_square + bp_nu^3 * bp_cube + bp_nu^4 * bp_quart;
-  
-  matrix[r, r] corr_xi = l3 + rho2_xi * l2 + rho1_xi * l1;
-  matrix[p, p] cov_ar1_xi = equal + bp_xi * bp_lin + bp_xi^2 * bp_square + bp_xi^3 * bp_cube + bp_xi^4 * bp_quart;
 
+  matrix[r, r] corr_delta = l3 + rho2_delta * l2 + rho1_delta * l1;
+  matrix[r, r] corr_xi = l3 + rho2_xi * l2 + rho1_xi * l1;
+  
   vector<lower = 0>[N_tb_all] delta;
   vector<lower = 0>[N_tb_all] nu;
   vector<lower = 0>[N_tb_all] xi;
@@ -125,32 +112,31 @@ transformed parameters {
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
 
-  phi_delta[1,] = (1/tau_delta) * phi_init_delta[1]';
   phi_nu[1,] = (1/tau_nu) * phi_init_nu[1]';
-  phi_xi[1,] = (1/tau_xi) * phi_init_xi[1]';
   for (j in 2:t_all) {
-    phi_delta[j,] = eta_delta * phi_delta[j-1,] + (1/tau_delta) * phi_init_delta[j]';
     phi_nu[j,] = eta_nu * phi_nu[j-1,] + (1/tau_nu) * phi_init_nu[j]';
-    phi_xi[j,] = eta_xi * phi_xi[j-1,] + (1/tau_xi) * phi_init_xi[j]';
   }
   
   for (i in 1:r) {
-    reg_delta[, i] = X_train[i] * beta_delta[, i] + phi_delta[idx_train_er, i];
     reg_nu[, i] = X_train[i] * beta_nu[, i] + phi_nu[idx_train_er, i];
-    reg_xi[, i] = X_train[i] * beta_xi[, i] + phi_xi[idx_train_er, i];
   }
 
-  delta = exp(to_vector(reg_delta))[ii_tb_all];
+  xi_init = cholesky_decompose(corr_xi)' * Z_xi;
+  xi_matrix = rep_matrix(xi_init', t_all);
+  delta_init = cholesky_decompose(corr_delta)' * Z_delta;
+  delta_matrix = rep_matrix(delta_init', t_all);
+
   nu = exp(to_vector(reg_nu))[ii_tb_all];
-  xi = exp(to_vector(reg_xi))[ii_tb_all];
+  delta = exp(to_vector(delta_matrix[idx_train_er,]))[ii_tb_all];
+  xi = exp(to_vector(xi_matrix[idx_train_er,]))[ii_tb_all];
   sigma = nu ./ (1 + xi);
 }
 
 model {
   // priors
-  bp_init_delta ~ uniform(0, 1);
   bp_init_nu ~ uniform(0, 1);
-  bp_init_xi ~ uniform(0, 1);
+  Z_xi ~ normal(0, 1);
+  Z_delta ~ normal(0, 1);
   
   rho1_delta ~ beta(3, 4);
   rho2_delta ~ beta(1.5, 4);
@@ -159,24 +145,14 @@ model {
   rho1_xi ~ beta(3, 4);
   rho2_xi ~ beta(1.5, 4);
   
-  target += matnormal_lpdf(beta_delta | cov_ar1_delta, corr_delta);
   target += matnormal_lpdf(beta_nu | cov_ar1_nu, corr_nu);
-  target += matnormal_lpdf(beta_xi | cov_ar1_xi, corr_xi);
   
   // IAR prior
-  eta_delta ~ beta(2,8);
   eta_nu ~ beta(2,8);
-  eta_xi ~ beta(2,8);
-  tau_init_delta ~ exponential(1);
   tau_init_nu ~ exponential(1);
-  tau_init_xi ~ exponential(1);
   for (j in 1:t_all) {
-    target += -.5 * dot_self(phi_init_delta[j][node1] - phi_init_delta[j][node2]);
-    sum(phi_init_delta[j]) ~ normal(0, 0.001*r);
     target += -.5 * dot_self(phi_init_nu[j][node1] - phi_init_nu[j][node2]);
     sum(phi_init_nu[j]) ~ normal(0, 0.001*r);
-    target += -.5 * dot_self(phi_init_xi[j][node1] - phi_init_xi[j][node2]);
-    sum(phi_init_xi[j]) ~ normal(0, 0.001*r);
   }
   // 
   // likelihood
@@ -186,9 +162,7 @@ model {
 }
 
 generated quantities {
-  matrix[t_all, r] reg_delta_full;
   matrix[t_all, r] reg_nu_full;
-  matrix[t_all, r] reg_xi_full;
 
   vector<lower = 0>[N_tb_obs] delta_train;
   vector<lower = 0>[N_tb_obs] nu_train;
@@ -205,19 +179,17 @@ generated quantities {
 
   // expected values of EGPD components based on all timepoints, then cut to only be holdout timepoints
   for (i in 1:r) {
-    reg_delta_full[, i] = X_full[i] * beta_delta[, i] + phi_delta[, i];
     reg_nu_full[, i] = X_full[i] * beta_nu[, i] + phi_nu[, i];
-    reg_xi_full[, i] = X_full[i] * beta_xi[, i] + phi_xi[, i];
   }
 
-  delta_train = exp(to_vector(reg_delta_full))[ii_tb_all][ii_tb_obs];
   nu_train = exp(to_vector(reg_nu_full))[ii_tb_all][ii_tb_obs];
-  xi_train = exp(to_vector(reg_xi_full))[ii_tb_all][ii_tb_obs];
+  delta_train = exp(to_vector(delta_matrix))[ii_tb_all][ii_tb_obs];
+  xi_train = exp(to_vector(xi_matrix))[ii_tb_all][ii_tb_obs];
   sigma_train = nu_train ./ (1 + xi_train);
 
-  delta_hold = exp(to_vector(reg_delta_full))[ii_hold_all][ii_hold_obs];
   nu_hold = exp(to_vector(reg_nu_full))[ii_hold_all][ii_hold_obs];
-  xi_hold = exp(to_vector(reg_xi_full))[ii_hold_all][ii_hold_obs];
+  delta_hold = exp(to_vector(delta_matrix))[ii_hold_all][ii_hold_obs];
+  xi_hold = exp(to_vector(xi_matrix))[ii_hold_all][ii_hold_obs];
   sigma_hold = nu_hold ./ (1 + xi_hold);
 
   if (max(y_train_obs) < 1200) { // condition determines if the data read in are the sqrt or original burn areas

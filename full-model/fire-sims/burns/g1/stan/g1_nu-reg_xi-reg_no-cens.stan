@@ -4,8 +4,7 @@ functions {
     real cst;
     lpdf = log(kappa) - log(sigma) - (1/xi + 1) * log(1 + xi * (y/sigma)) + 
     (kappa-1) * log(1 - (1 + xi * (y/sigma))^(-1/xi));
-    cst = (1 - (1 + xi * (1.001/sigma))^(-1/xi))^kappa;
-    return lpdf - log1m(cst);
+    return lpdf;
   }
   
   real matnormal_lpdf(matrix y, matrix cov, matrix corr) {

@@ -11,8 +11,7 @@ toy-sim/output/
 
 full-model/output/*.csv
 sim-study/models/**/data/
-sim-study/models/**/stan-fits/
-
+sim-study/models/**/stan_fits/*.RDS
 
 **/trace/*.pdf
 **/trace/**/*.pdf

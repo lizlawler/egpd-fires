@@ -5,7 +5,7 @@ functions {
     lpdf = log(kappa) - log(sigma) - (1/xi + 1) * log(1 + xi * (y/sigma)) + 
     (kappa-1) * log(1 - (1 + xi * (y/sigma))^(-1/xi));
     cst = (1 - (1 + xi * (1.001/sigma))^(-1/xi))^kappa;
-    return lpdf - log(1 - cst);
+    return lpdf - log1m(cst);
   }
   
   real matnormal_lpdf(matrix y, matrix cov, matrix corr) {
@@ -46,7 +46,7 @@ data {
   int<lower = 1> N_hold_all; // includes 'missing' and observed
   int<lower = 1> ii_hold_obs[N_hold_obs]; // vector of indices for holdout data timepoints
   int<lower = 1> ii_hold_all[N_hold_all]; // vector of indices for broadcasting to entire holdout dataset
-  real<lower = 0> y_hold_obs[N_hold_obs]; // 
+  real<lower = 1> y_hold_obs[N_hold_obs]; // 
   int<lower = 1> idx_hold_er[t_hold];
 
   // neighbor information
@@ -68,7 +68,7 @@ data {
 }
 
 parameters {
-  real<lower = 0> y_train_mis[N_tb_mis];
+  real<lower = 1> y_train_mis[N_tb_mis];
   vector[r] Z_xi;
   vector[r] phi_init_kappa[t_all];
   vector[r] phi_init_nu[t_all];
@@ -89,7 +89,7 @@ parameters {
 }
 
 transformed parameters {
-  real<lower = 0> y_train[N_tb_all];
+  real<lower = 1> y_train[N_tb_all];
   matrix[t_all, r] phi_kappa;
   matrix[t_all, r] phi_nu;
   matrix[t_train, r] reg_kappa;
@@ -206,7 +206,7 @@ generated quantities {
   xi_hold = exp(to_vector(xi_matrix))[ii_hold_all][ii_hold_obs];
   sigma_hold = nu_hold ./ (1 + xi_hold);
 
-  if (max(y_train_obs) < 1200) { // condition determines if the data read in are the sqrt or original burn areas
+  if (max(y_train_obs) < 100) { // condition determines if the data read in are the sqrt or original burn areas
     // training log-likelihood
     for (k in 1:N_tb_obs) {
       train_loglik[k] = egpd_g1_lpdf(y_train_obs[k] | sigma_train[k], xi_train[k], kappa_train[k]) + log(0.5) - log(y_train_obs[k]);

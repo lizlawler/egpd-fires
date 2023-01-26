@@ -35,11 +35,6 @@ egpd_fit <- sampling(egpd_init,
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
-# save MCMC object in case below dx plots don't save properly
-# post <- rstan::extract(egpd_fit, pars = c("beta", "phi", 
-#                                           "rho1", "rho2", 
-#                                           "delta", "xi", "sigma",
-#                                           "holdout_loglik", "train_loglik"))
 saveRDS(egpd_fit, file = paste0("./full-model/fire-sims/burns/g3/stan-fits/", params,"_loglik_", suffix, "_", 
                             st_time, "_", end_time, ".RDS"))
 

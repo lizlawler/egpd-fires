@@ -25,6 +25,28 @@ crps_edf <- function(y, dat, w = NULL) {
   sapply(y, f)
 }
 
+crps_edf <- function(y, dat, w = NULL) {
+  if (is.null(w)) {
+    c_1n <- 1 / length(dat)
+    x <- sort(dat)
+    a <- seq.int(0.5 * c_1n, 1 - 0.5 * c_1n, length.out = length(dat))
+    f <- function(s) 2 * c_1n * sum(((s < x) - a) * (x - s))
+  } else {
+    if (!identical(length(dat), length(w)) || any(w < 0, na.rm = TRUE)) {
+      return(rep(NaN, length(y)))
+    }
+    ord <- order(dat)
+    x <- dat[ord]
+    w <- w[ord]
+    p <- cumsum(w)
+    P <- p[length(p)]
+    a <- (p - 0.5 * w) / P
+    f <- function(s) 2 / P * sum(w * ((s < x) - a) * (x - s))
+  }
+  sapply(y, f)
+}
+
+
 test_x <- sort(sample_nm)
 test_c <- 1/length(sample_nm)
 seq.int(0.5 * 1/length(sample_nm), 1 - 0.5 * (1/length(sample_nm)), length.out = length(sample_nm) )

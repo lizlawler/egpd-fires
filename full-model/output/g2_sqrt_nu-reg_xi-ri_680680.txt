@@ -39,50 +39,29 @@ The following objects are masked from 'package:spdep':
     set.mcOption
 
 
-SAMPLING FOR MODEL 'g3_nu-reg_xi-ri' NOW (CHAIN 1).
+SAMPLING FOR MODEL 'g2_nu-reg_xi-ri' NOW (CHAIN 1).
 
-SAMPLING FOR MODEL 'g3_nu-reg_xi-ri' NOW (CHAIN 2).
+SAMPLING FOR MODEL 'g2_nu-reg_xi-ri' NOW (CHAIN 3).
 
-SAMPLING FOR MODEL 'g3_nu-reg_xi-ri' NOW (CHAIN 3).
-Chain 2: 
-Chain 2: Gradient evaluation took 0.202413 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 2024.13 seconds.
-Chain 2: Adjust your expectations accordingly!
-Chain 2: 
-Chain 2: 
+SAMPLING FOR MODEL 'g2_nu-reg_xi-ri' NOW (CHAIN 2).
 Chain 1: 
-Chain 1: Gradient evaluation took 0.203907 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 2039.07 seconds.
+Chain 1: Gradient evaluation took 0.085264 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 852.64 seconds.
 Chain 1: Adjust your expectations accordingly!
 Chain 1: 
 Chain 1: 
 Chain 3: 
-Chain 3: Gradient evaluation took 0.204348 seconds
-Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 2043.48 seconds.
+Chain 3: Gradient evaluation took 0.086623 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 866.23 seconds.
 Chain 3: Adjust your expectations accordingly!
 Chain 3: 
 Chain 3: 
-Chain 2: Iteration:    1 / 3000 [  0%]  (Warmup)
+Chain 2: 
+Chain 2: Gradient evaluation took 0.087061 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 870.61 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
 Chain 1: Iteration:    1 / 3000 [  0%]  (Warmup)
 Chain 3: Iteration:    1 / 3000 [  0%]  (Warmup)
-Chain 1: Iteration:  300 / 3000 [ 10%]  (Warmup)
-Chain 3: Iteration:  300 / 3000 [ 10%]  (Warmup)
-Chain 2: Iteration:  300 / 3000 [ 10%]  (Warmup)
-Chain 1: Iteration:  600 / 3000 [ 20%]  (Warmup)
-Chain 1: Iteration:  900 / 3000 [ 30%]  (Warmup)
-Chain 1: Iteration: 1001 / 3000 [ 33%]  (Sampling)
-Chain 1: Iteration: 1300 / 3000 [ 43%]  (Sampling)
-Chain 1: Iteration: 1600 / 3000 [ 53%]  (Sampling)
-Chain 1: Iteration: 1900 / 3000 [ 63%]  (Sampling)
-Chain 1: Iteration: 2200 / 3000 [ 73%]  (Sampling)
-Chain 1: Iteration: 2500 / 3000 [ 83%]  (Sampling)
-Chain 1: Iteration: 2800 / 3000 [ 93%]  (Sampling)
-Chain 1: Iteration: 3000 / 3000 [100%]  (Sampling)
-Chain 1: 
-Chain 1:  Elapsed Time: 142232 seconds (Warm-up)
-Chain 1:                54626.6 seconds (Sampling)
-Chain 1:                196858 seconds (Total)
-Chain 1: 
-Chain 3: Iteration:  600 / 3000 [ 20%]  (Warmup)
-Chain 2: Iteration:  600 / 3000 [ 20%]  (Warmup)
-Chain 3: Iteration:  900 / 3000 [ 30%]  (Warmup)
+Chain 2: Iteration:    1 / 3000 [  0%]  (Warmup)

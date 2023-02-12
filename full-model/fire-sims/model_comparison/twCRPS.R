@@ -1,65 +1,17 @@
-library(scoringRules)
-obs_n <- c(0, 1, 2)
-sample_nm <- matrix(rnorm(3e4, mean = 2, sd = 3), nrow = 3)
-crps_sample(obs_n, dat = sample_nm)
-
-
-crps_edf <- function(y, dat, w = NULL) {
-  if (is.null(w)) {
-    c_1n <- 1 / length(dat)
-    x <- sort(dat)
-    a <- seq.int(0.5 * c_1n, 1 - 0.5 * c_1n, length.out = length(dat))
-    f <- function(s) 2 * c_1n * sum(((s < x) - a) * (x - s))
-  } else {
-    if (!identical(length(dat), length(w)) || any(w < 0, na.rm = TRUE)) {
-      return(rep(NaN, length(y)))
-    }
-    ord <- order(dat)
-    x <- dat[ord]
-    w <- w[ord]
-    p <- cumsum(w)
-    P <- p[length(p)]
-    a <- (p - 0.5 * w) / P
-    f <- function(s) 2 / P * sum(w * ((s < x) - a) * (x - s))
-  }
-  sapply(y, f)
+# choosing weight function
+burn_df <- readRDS("full-model/data/burns.RDS")
+plot(ecdf(sqrt(burn_df$BurnBndAc/1000)), xlim = c(0,10))
+rate <- 1/mean(sqrt(burn_df$BurnBndAc/1000))
+trunc_exp_cdf <- function(x, rate) {
+  num = pexp(x, rate) - pexp(1.001, rate)
+  denom = 1 - pexp(1.001, rate)
+  return(num/denom)
 }
-
-crps_edf <- function(y, dat, w = NULL) {
-  if (is.null(w)) {
-    c_1n <- 1 / length(dat)
-    x <- sort(dat)
-    a <- seq.int(0.5 * c_1n, 1 - 0.5 * c_1n, length.out = length(dat))
-    f <- function(s) 2 * c_1n * sum(((s < x) - a) * (x - s))
-  } else {
-    if (!identical(length(dat), length(w)) || any(w < 0, na.rm = TRUE)) {
-      return(rep(NaN, length(y)))
-    }
-    ord <- order(dat)
-    x <- dat[ord]
-    w <- w[ord]
-    p <- cumsum(w)
-    P <- p[length(p)]
-    a <- (p - 0.5 * w) / P
-    f <- function(s) 2 / P * sum(w * ((s < x) - a) * (x - s))
-  }
-  sapply(y, f)
-}
-
-
-test_x <- sort(sample_nm)
-test_c <- 1/length(sample_nm)
-seq.int(0.5 * 1/length(sample_nm), 1 - 0.5 * (1/length(sample_nm)), length.out = length(sample_nm) )
-order(sample_nm)
- 
-count58 <- stan_data_og$y_train_count[,58]
-nonzerocount <- count58[count58 != 0]
-hist(nonzerocount, breaks = seq(min(nonzerocount), max(nonzerocount) + 1, 0.5))
+curve(trunc_exp_cdf(x, rate), add = TRUE, col = 'green')
 
 
 # ------ 
-# creating functions for custom twCRPS
-
+# creating functions for twCRPS
 f1_cdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
   (1 - (1 + xi * (x/sigma))^(-1/xi))^kappa
 }
@@ -99,16 +51,6 @@ xgrid <- seq(1.001,20,0.001)
 pdf_real <- g1_pdf(xgrid, 1, 0.5, 2)
 plot(y = pdf_real, x = xgrid, type = "l", xlim = c(0.5, 10), add = TRUE)
 
+curve(g1_cdf(x, 4, 0.7, 10), xlim = c(0,50), ylim = c(0,1))
+curve(pnorm(x, 0, 1), xlim = c(-5,5))
 
-# for (i in 1:r) {
-#   reg_kappa[, i] = X_train[i] * beta_kappa[, i] + phi_kappa[idx_train_er, i];
-# }
-# xi_init = cholesky_decompose(corr_xi)' * Z_xi;
-#   xi_matrix = rep_matrix(xi_init', t_all);
-# nu_init = cholesky_decompose(corr_nu)' * Z_nu;
-#   nu_matrix = rep_matrix(nu_init', t_all);
-# 
-# kappa = exp(to_vector(reg_kappa))[ii_tb_all];
-# nu = exp(to_vector(nu_matrix[idx_train_er,]))[ii_tb_all];
-# xi = exp(to_vector(xi_matrix[idx_train_er,]))[ii_tb_all];
-# sigma = nu ./ (1 + xi);

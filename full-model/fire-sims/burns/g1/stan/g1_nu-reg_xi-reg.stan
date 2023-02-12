@@ -69,9 +69,9 @@ data {
 
 parameters {
   real<lower = 1> y_train_mis[N_tb_mis];
-  vector[r] phi_init_kappa[t_all];
-  vector[r] phi_init_nu[t_all];
-  vector[r] phi_init_xi[t_all];
+  row_vector[r] phi_init_kappa[t_all];
+  row_vector[r] phi_init_nu[t_all];
+  row_vector[r] phi_init_xi[t_all];
   matrix[p, r] beta_kappa;
   matrix[p, r] beta_nu;
   matrix[p, r] beta_xi;
@@ -125,13 +125,13 @@ transformed parameters {
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
 
-  phi_kappa[1,] = (1/tau_kappa) * phi_init_kappa[1]';
-  phi_nu[1,] = (1/tau_nu) * phi_init_nu[1]';
-  phi_xi[1,] = (1/tau_xi) * phi_init_xi[1]';
+  phi_kappa[1,] = (1/tau_kappa) * phi_init_kappa[1];
+  phi_nu[1,] = (1/tau_nu) * phi_init_nu[1];
+  phi_xi[1,] = (1/tau_xi) * phi_init_xi[1];
   for (j in 2:t_all) {
-    phi_kappa[j,] = eta_kappa * phi_kappa[j-1,] + (1/tau_kappa) * phi_init_kappa[j]';
-    phi_nu[j,] = eta_nu * phi_nu[j-1,] + (1/tau_nu) * phi_init_nu[j]';
-    phi_xi[j,] = eta_xi * phi_xi[j-1,] + (1/tau_xi) * phi_init_xi[j]';
+    phi_kappa[j,] = eta_kappa * phi_kappa[j-1,] + (1/tau_kappa) * phi_init_kappa[j];
+    phi_nu[j,] = eta_nu * phi_nu[j-1,] + (1/tau_nu) * phi_init_nu[j];
+    phi_xi[j,] = eta_xi * phi_xi[j-1,] + (1/tau_xi) * phi_init_xi[j];
   }
   
   for (i in 1:r) {

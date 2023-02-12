@@ -76,7 +76,7 @@ transformed parameters {
   matrix[t_train, r] lambda;
   vector[r] pi_prob;
   
-  for (i in 1:3) {
+  for (i in 1:2) {
     corr[i] = l3 + rho[2, i] * l2 + rho[1, i] * l1;
   }
   

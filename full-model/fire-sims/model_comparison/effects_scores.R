@@ -169,15 +169,6 @@ for(i in 1:length(burn_fits_g1)) {
   extraction(burn_fits_g1[i])
 }
 
-`g1_nu-reg_xi-regog`[[2]]$holdout_loglik %>%
-  apply(., 1, c) %>%
-  as_tibble() %>%
-  pivot_longer(cols = everything(), names_to = "iter") %>%
-  mutate(iter = as.numeric(gsub("V", "", iter))) %>%
-  group_by(iter) %>%
-  summarize(value = sum(value)) %>%
-  mutate(model = burn_names[i], train = FALSE)
-
 burn_names <- lapply(burn_fits_g1, function(x) str_remove(basename(x), "\\d{2}-Jan-2023_\\d{4}_\\d{4}.RDS")) %>% unlist()
 holdout_loglik_burns <- vector("list", length(burn_names))
 train_loglik_burns <- vector("list", length(burn_names))

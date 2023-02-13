@@ -72,7 +72,7 @@ transformed parameters {
   matrix[p, p] cov_ar1[S];
   real<lower = 0, upper = 1> bp[S];
   real<lower = 0> tau[S];
-  matrix[r, r] corr[2];
+  matrix[r, r] corr[3];
   matrix[t_train, r] lambda;
   matrix[t_train, r] pi_prob;
   

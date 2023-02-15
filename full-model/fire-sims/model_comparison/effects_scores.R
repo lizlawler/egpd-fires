@@ -143,7 +143,7 @@ for(i in 1:length(count_names)) {
 
 
 
-# following code is for the burns -------
+# following code is for the burns log scores and plots -------
 burn_fits_g1 <- paste0("full-model/fire-sims/burns/g1/", 
                        list.files(path = "full-model/fire-sims/burns/g1/", pattern = "*.RDS", recursive = TRUE))
 no_mix_g1 <- which(str_detect(burn_fits_g1, "nu-ri"))
@@ -320,4 +320,79 @@ for(i in 1:length(burn_names_nu)) {
 
 
 ## twCRPS calculations ---------
+extraction(burn_fits_g1[3]) # g1_nu-reg_xi-regog
+data_og <- readRDS("full-model/data/stan_data_og.RDS")
+data_sqrt <- readRDS("full-model/data/stan_data_sqrt.RDS")
+yhold <- data_og$y_hold_obs
+ytrain <- data_og$y_train_obs
 
+yholdsqrt <- data_sqrt$y_hold_obs
+ytrain <- data_og$y_train_obs
+kappa_vals <- `g1_nu-reg_xi-regog`[[3]]
+sigma_vals <- `g1_nu-reg_xi-regog`[[4]]
+xi_vals <- `g1_nu-reg_xi-regog`[[5]]
+kappa_hold <- kappa_vals[[2]]
+sigma_hold <- sigma_vals[[2]]
+xi_hold <- xi_vals[[2]]
+
+f1_cdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
+  (1 - (1 + xi * (x/sigma))^(-1/xi))^kappa
+}
+
+f1_pdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
+  lpdf <- log(kappa) - log(sigma) - (1/xi + 1) * log(1 + xi * (x/sigma)) + 
+    (kappa-1) * log(1 - (1 + xi * (x/sigma))^(-1/xi))
+  return(exp(lpdf))
+}
+
+g1_pdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
+  lower <- f1_cdf(1.001, sigma, xi, kappa)
+  return(f1_pdf(x, sigma, xi, kappa)/(1-lower))
+}
+
+g1_cdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
+  lower <- f1_cdf(1.001, sigma, xi, kappa)
+  return((f1_cdf(x, sigma, xi, kappa) - lower)/(1-lower))
+}
+
+g1_cdf_inv <- function(u, sigma = sigma, xi = xi, kappa = kappa) {
+  lower <- f1_cdf(1.001, sigma, xi, kappa)
+  u_adj <- u * (1-lower) + lower
+  (sigma/xi) * ((1-u_adj^(1/kappa))^-xi - 1)
+}
+
+g1_rng <- function(n, sigma, xi, kappa) {
+  u = runif(n)
+  return(g1_cdf_inv(u, sigma, xi, kappa))
+}
+test <- g1_rng(400, sigma_hold[1,1], xi_hold[1,1], kappa_hold[1,1])
+
+# NEED TO FIGURE OUT APPROPRIATE CHAIN SNAKING ----
+
+twCRPS <- function(obs, n, sigma, xi, kappa) {
+  int <- max(obs) - min(obs)
+  yn <- length(obs)
+  delta <- int/n
+  i <- 1:n
+  score_chn <- matrix(rep(NA, yn * 3), ncol = 3)
+  all_scores <- rep(NA, yn)
+  for(elem in 1:yn) {
+    for(chn in 1:3) {
+      for(iter in 1:1000) {
+        forecast <- g1_rng(n, sigma[iter*chn, elem], xi[iter*chn, elem], kappa[iter*chn, elem])
+        temp_ecdf <- ecdf(forecast)
+        score_chn[elem, chn] <- delta * sum((temp_ecdf(forecast[i]) - (obs[elem] <= forecast[i]))^2 *
+                                                pnorm(forecast[i], mean = 20, sd = 4))
+      }
+    }
+  all_scores[elem] <- apply(score_chn, 1, mean) 
+  }
+  return(mean(all_scores))
+}
+
+twCRPS(yhold, 10000, sigma_hold, xi_hold, kappa_hold)
+
+
+sum((emp(test) - (yhold[1] <= test))^2)/400
+plot(ecdf(yhold), xlim = c(0,100), col = 'blue')
+curve(pnorm(x, mean = 50, sd = 15), add = TRUE, col = 'red')

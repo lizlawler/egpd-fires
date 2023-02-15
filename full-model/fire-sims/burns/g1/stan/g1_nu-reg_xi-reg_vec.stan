@@ -98,10 +98,13 @@ transformed parameters {
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
 
+  for (i in 1:3) {
+    corr[i] = l3 + rho[2, i] * l2 + rho[1, i] * l1;
+  }
+
   for (i in 1:S) {
     bp[i] = bp_init[i]/2;
     tau[i] = tau_init[i]/2;
-    corr[i] = l3 + rho[2, i] * l2 + rho[1, i] * l1;
     cov_ar1[i] = equal + bp[i] * bp_lin + bp[i]^2 * bp_square + bp[i]^3 * bp_cube + bp[i]^4 * bp_quart;
     
     // ICAR variables

@@ -52,7 +52,8 @@ data {
 }
 
 transformed data {
-  int S = 2; // of parameters with regression (either 1 or 2)
+  int S = 2; // # of parameters with regression (either 1 or 2)
+  int C = 2; // # of parameters with correlation (includes random intercept only)
 }
 
 parameters {
@@ -62,7 +63,7 @@ parameters {
   real<lower = 0> tau_init[S];
   real<lower = 0, upper = 1> eta[S];
   real<lower = 0, upper = 1> bp_init[S];
-  real<lower = 0, upper = 1> rho[2, 3]; // ordering: 1 = lambda, 2 = pi, 3 = delta
+  real<lower = 0, upper = 1> rho[2, C]; // ordering: 1 = lambda, 2 = pi, 3 = delta
 }
 
 transformed parameters {
@@ -75,7 +76,7 @@ transformed parameters {
   matrix[t_train, r] lambda;
   matrix[t_train, r] pi_prob;
   
-  for (i in 1:2) {
+  for (i in 1:C) {
     corr[i] = l3 + rho[2, i] * l2 + rho[1, i] * l1;
   }
   
@@ -103,16 +104,20 @@ model {
   delta ~ normal(0, 5) T[0,];
   // priors on rhos and AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
-  to_vector(rho[1,]) ~ beta(3, 4); // prior on rho1 for kappa, nu, and xi
-  to_vector(rho[2,]) ~ beta(1.5, 4); // prior on rho2 for kappa, nu, and xi
+  to_vector(rho[1,]) ~ beta(3, 4); // prior on rho1 for lambda and pi
+  // to_vector(rho[2,]) ~ beta(1.5, 4); // prior on rho2 for lambda and pi
   
   // priors scaling constants in ICAR
   to_vector(eta) ~ beta(2,8);
   to_vector(tau_init) ~ exponential(1);
   
-  for (i in 1:S) {
+  for (i in 1:C) {
     // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1kappa + rho2kappa <= 1)
     sum(rho[,i]) ~ uniform(0,1); 
+  }
+  
+  for (i in 1:S) {
+    // MVN prior on betas
     target += matnormal_lpdf(beta[i] | cov_ar1[i], corr[i]);
     // ICAR prior
     for (j in 1:t_all) {

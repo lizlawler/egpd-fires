@@ -1,0 +1,81 @@
+Loading required package: StanHeaders
+Loading required package: ggplot2
+rstan (Version 2.21.7, GitRev: 2e1f913d3ca3)
+For execution on a local, multicore CPU with excess RAM we recommend calling
+options(mc.cores = parallel::detectCores()).
+To avoid recompilation of unchanged Stan programs, we recommend calling
+rstan_options(auto_write = TRUE)
+-- Attaching packages --------------------------------------- tidyverse 1.3.2 --
+v tibble  3.1.8      v dplyr   1.0.10
+v tidyr   1.2.1      v stringr 1.4.1 
+v purrr   0.3.5      v forcats 0.5.2 
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x tidyr::extract() masks rstan::extract()
+x dplyr::filter()  masks stats::filter()
+x dplyr::lag()     masks stats::lag()
+Loading required package: sp
+Loading required package: spData
+To access larger datasets in this package, install the spDataLarge
+package with: `install.packages('spDataLarge',
+repos='https://nowosad.github.io/drat/', type='source')`
+Loading required package: sf
+Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE
+Loading required package: Matrix
+
+Attaching package: 'Matrix'
+
+The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack
+
+
+Attaching package: 'spatialreg'
+
+The following objects are masked from 'package:spdep':
+
+    get.ClusterOption, get.VerboseOption, get.ZeroPolicyOption,
+    get.coresOption, get.mcOption, set.ClusterOption,
+    set.VerboseOption, set.ZeroPolicyOption, set.coresOption,
+    set.mcOption
+
+
+SAMPLING FOR MODEL 'zinb_er_lambda-reg_pi-reg_vec' NOW (CHAIN 1).
+
+SAMPLING FOR MODEL 'zinb_er_lambda-reg_pi-reg_vec' NOW (CHAIN 2).
+
+SAMPLING FOR MODEL 'zinb_er_lambda-reg_pi-reg_vec' NOW (CHAIN 3).
+Chain 2: Unrecoverable error evaluating the log probability at the initial value.
+Chain 2: Exception: vector[uni,...] assign range: accessing element out of range. index 3 out of range; expecting index to be between 1 and 2  (in 'model21c7064aa8a322_zinb_er_lambda_reg_pi_reg_vec' at line 80)
+
+[1] "Error in sampler$call_sampler(args_list[[i]]) : "                                                                                                                                                           
+[2] "  Exception: vector[uni,...] assign range: accessing element out of range. index 3 out of range; expecting index to be between 1 and 2  (in 'model21c7064aa8a322_zinb_er_lambda_reg_pi_reg_vec' at line 80)"
+error occurred during calling the sampler; sampling not done
+Chain 3: Unrecoverable error evaluating the log probability at the initial value.
+Chain 3: Exception: vector[uni,...] assign range: accessing element out of range. index 3 out of range; expecting index to be between 1 and 2  (in 'model21c7064aa8a322_zinb_er_lambda_reg_pi_reg_vec' at line 80)
+
+Chain 1: Unrecoverable error evaluating the log probability at the initial value.
+Chain 1: Exception: vector[uni,...] assign range: accessing element out of range. index 3 out of range; expecting index to be between 1 and 2  (in 'model21c7064aa8a322_zinb_er_lambda_reg_pi_reg_vec' at line 80)
+
+[1] "Error in sampler$call_sampler(args_list[[i]]) : "                                                                                                                                                           
+[2] "  Exception: vector[uni,...] assign range: accessing element out of range. index 3 out of range; expecting index to be between 1 and 2  (in 'model21c7064aa8a322_zinb_er_lambda_reg_pi_reg_vec' at line 80)"
+error occurred during calling the sampler; sampling not done
+[1] "Error in sampler$call_sampler(args_list[[i]]) : "                                                                                                                                                           
+[2] "  Exception: vector[uni,...] assign range: accessing element out of range. index 3 out of range; expecting index to be between 1 and 2  (in 'model21c7064aa8a322_zinb_er_lambda_reg_pi_reg_vec' at line 80)"
+error occurred during calling the sampler; sampling not done
+here are whatever error messages were returned
+[[1]]
+Stan model 'zinb_er_lambda-reg_pi-reg_vec' does not contain samples.
+
+[[2]]
+Stan model 'zinb_er_lambda-reg_pi-reg_vec' does not contain samples.
+
+[[3]]
+Stan model 'zinb_er_lambda-reg_pi-reg_vec' does not contain samples.
+
+Warning message:
+In .local(object, ...) :
+  some chains had errors; consider specifying chains = 1 to debug
+Error in check_pars(allpars, pars) : 
+  no parameter specified (pars is empty)
+Calls: MCMCtrace ... MCMCchains -> <Anonymous> -> check_pars_second -> check_pars
+Execution halted

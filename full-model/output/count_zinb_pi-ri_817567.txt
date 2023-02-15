@@ -1,0 +1,160 @@
+Loading required package: StanHeaders
+Loading required package: ggplot2
+rstan (Version 2.21.7, GitRev: 2e1f913d3ca3)
+For execution on a local, multicore CPU with excess RAM we recommend calling
+options(mc.cores = parallel::detectCores()).
+To avoid recompilation of unchanged Stan programs, we recommend calling
+rstan_options(auto_write = TRUE)
+-- Attaching packages --------------------------------------- tidyverse 1.3.2 --
+v tibble  3.1.8      v dplyr   1.0.10
+v tidyr   1.2.1      v stringr 1.4.1 
+v purrr   0.3.5      v forcats 0.5.2 
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x tidyr::extract() masks rstan::extract()
+x dplyr::filter()  masks stats::filter()
+x dplyr::lag()     masks stats::lag()
+Loading required package: sp
+Loading required package: spData
+To access larger datasets in this package, install the spDataLarge
+package with: `install.packages('spDataLarge',
+repos='https://nowosad.github.io/drat/', type='source')`
+Loading required package: sf
+Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE
+Loading required package: Matrix
+
+Attaching package: 'Matrix'
+
+The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack
+
+
+Attaching package: 'spatialreg'
+
+The following objects are masked from 'package:spdep':
+
+    get.ClusterOption, get.VerboseOption, get.ZeroPolicyOption,
+    get.coresOption, get.mcOption, set.ClusterOption,
+    set.VerboseOption, set.ZeroPolicyOption, set.coresOption,
+    set.mcOption
+
+
+SAMPLING FOR MODEL 'zinb_lambda-reg_pi-ri_vec' NOW (CHAIN 1).
+
+SAMPLING FOR MODEL 'zinb_lambda-reg_pi-ri_vec' NOW (CHAIN 
+2SAMPLING).
+ FOR MODEL 'zinb_lambda-reg_pi-ri_vec' NOW (CHAIN 3).
+Chain 1: 
+Chain 1: Gradient evaluation took 0.032332 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 323.32 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: Exception: mdivide_left_spd: A is not positive definite.  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 8)
+  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 118)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: Exception: mdivide_left_spd: A is not positive definite.  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 8)
+  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 118)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: cholesky_decompose: Matrix m is not positive definite  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 100)
+
+Chain 3: Rejecting initial value:
+Chain 3:   Error evaluating the log probability at the initial value.
+Chain 3: Exception: Exception: mdivide_left_spd: A is not positive definite.  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 8)
+  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 118)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: cholesky_decompose: Matrix m is not positive definite  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 100)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: cholesky_decompose: Matrix m is not positive definite  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 100)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: cholesky_decompose: Matrix m is not positive definite  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 100)
+
+Chain 2: Rejecting initial value:
+Chain 2:   Error evaluating the log probability at the initial value.
+Chain 2: Exception: cholesky_decompose: Matrix m is not positive definite  (in 'model21c146290f7ba4_zinb_lambda_reg_pi_ri_vec' at line 100)
+
+Chain 3: 
+Chain 3: Gradient evaluation took 0.031458 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 314.58 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 2: 
+Chain 2: Gradient evaluation took 0.031459 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 314.59 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 1: Iteration:    1 / 3000 [  0%]  (Warmup)
+Chain 3: Iteration:    1 / 3000 [  0%]  (Warmup)
+Chain 2: Iteration:    1 / 3000 [  0%]  (Warmup)
+Chain 1: Iteration:  300 / 3000 [ 10%]  (Warmup)
+Chain 2: Iteration:  300 / 3000 [ 10%]  (Warmup)
+Chain 3: Iteration:  300 / 3000 [ 10%]  (Warmup)
+Chain 2: Iteration:  600 / 3000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 3000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 3000 [ 20%]  (Warmup)
+Chain 2: Iteration:  900 / 3000 [ 30%]  (Warmup)
+Chain 1: Iteration:  900 / 3000 [ 30%]  (Warmup)
+Chain 3: Iteration:  900 / 3000 [ 30%]  (Warmup)
+Chain 2: Iteration: 1001 / 3000 [ 33%]  (Sampling)
+Chain 1: Iteration: 1001 / 3000 [ 33%]  (Sampling)
+Chain 3: Iteration: 1001 / 3000 [ 33%]  (Sampling)
+Chain 2: Iteration: 1300 / 3000 [ 43%]  (Sampling)
+Chain 1: Iteration: 1300 / 3000 [ 43%]  (Sampling)
+Chain 3: Iteration: 1300 / 3000 [ 43%]  (Sampling)
+Chain 2: Iteration: 1600 / 3000 [ 53%]  (Sampling)
+Chain 1: Iteration: 1600 / 3000 [ 53%]  (Sampling)
+Chain 3: Iteration: 1600 / 3000 [ 53%]  (Sampling)
+Chain 2: Iteration: 1900 / 3000 [ 63%]  (Sampling)
+Chain 1: Iteration: 1900 / 3000 [ 63%]  (Sampling)
+Chain 3: Iteration: 1900 / 3000 [ 63%]  (Sampling)
+Chain 2: Iteration: 2200 / 3000 [ 73%]  (Sampling)
+Chain 1: Iteration: 2200 / 3000 [ 73%]  (Sampling)
+Chain 3: Iteration: 2200 / 3000 [ 73%]  (Sampling)
+Chain 2: Iteration: 2500 / 3000 [ 83%]  (Sampling)
+Chain 1: Iteration: 2500 / 3000 [ 83%]  (Sampling)
+Chain 3: Iteration: 2500 / 3000 [ 83%]  (Sampling)
+Chain 2: Iteration: 2800 / 3000 [ 93%]  (Sampling)
+Chain 1: Iteration: 2800 / 3000 [ 93%]  (Sampling)
+Chain 3: Iteration: 2800 / 3000 [ 93%]  (Sampling)
+Chain 2: Iteration: 3000 / 3000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 21100.8 seconds (Warm-up)
+Chain 2:                32973.4 seconds (Sampling)
+Chain 2:                54074.2 seconds (Total)
+Chain 2: 
+Chain 1: Iteration: 3000 / 3000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 21281.4 seconds (Warm-up)
+Chain 1:                32981 seconds (Sampling)
+Chain 1:                54262.4 seconds (Total)
+Chain 1: 
+Chain 3: Iteration: 3000 / 3000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 21527.1 seconds (Warm-up)
+Chain 3:                32992.4 seconds (Sampling)
+Chain 3:                54519.5 seconds (Total)
+Chain 3: 
+Warning messages:
+1: The largest R-hat is NA, indicating chains have not mixed.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#r-hat 
+2: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#bulk-ess 
+3: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#tail-ess 

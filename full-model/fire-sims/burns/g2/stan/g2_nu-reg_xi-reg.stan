@@ -1,5 +1,5 @@
 functions {
-  real egpd_g2_lpdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
+  real egpd_lpdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
     real lpdf;
     real cst;
     lpdf = -log(sigma) - (1/xi + 1) * log(1 + xi * (y/sigma)) *
@@ -211,7 +211,7 @@ model {
   // 
   // likelihood
   for (k in 1:N_tb_all) {
-    target += egpd_g2_lpdf(y_train[k] | sigma[k], xi[k], kappa1[k], kappa2[k], prob);
+    target += egpd_lpdf(y_train[k] | sigma[k], xi[k], kappa1[k], kappa2[k], prob);
   }
 }
 
@@ -259,21 +259,21 @@ generated quantities {
   if (max(y_train_obs) < 100) { // condition determines if the data read in are the sqrt or original burn areas
     // training log-likelihood
     for (k in 1:N_tb_obs) {
-      train_loglik[k] = egpd_g2_lpdf(y_train_obs[k] | sigma_train[k], xi_train[k], kappa1_train[k], kappa2_train[k], prob) + log(0.5) - log(y_train_obs[k]);
+      train_loglik[k] = egpd_lpdf(y_train_obs[k] | sigma_train[k], xi_train[k], kappa1_train[k], kappa2_train[k], prob) + log(0.5) - log(y_train_obs[k]);
     }
     // holdout log-likelihood
     for (k in 1:N_hold_obs) {
-      holdout_loglik[k] = egpd_g2_lpdf(y_hold_obs[k] | sigma_hold[k], xi_hold[k], kappa1_hold[k], kappa2_hold[k], prob) + log(0.5) - log(y_hold_obs[k]);
+      holdout_loglik[k] = egpd_lpdf(y_hold_obs[k] | sigma_hold[k], xi_hold[k], kappa1_hold[k], kappa2_hold[k], prob) + log(0.5) - log(y_hold_obs[k]);
     }
   }
   else {
     // training log-likelihood
     for (k in 1:N_tb_obs) {
-      train_loglik[k] = egpd_g2_lpdf(y_train_obs[k] | sigma_train[k], xi_train[k], kappa1_train[k], kappa2_train[k], prob);
+      train_loglik[k] = egpd_lpdf(y_train_obs[k] | sigma_train[k], xi_train[k], kappa1_train[k], kappa2_train[k], prob);
     }
     // holdout log-likelihood
     for (k in 1:N_hold_obs) {
-      holdout_loglik[k] = egpd_g2_lpdf(y_hold_obs[k] | sigma_hold[k], xi_hold[k], kappa1_hold[k], kappa2_hold[k], prob);
+      holdout_loglik[k] = egpd_lpdf(y_hold_obs[k] | sigma_hold[k], xi_hold[k], kappa1_hold[k], kappa2_hold[k], prob);
     }
   }
 }

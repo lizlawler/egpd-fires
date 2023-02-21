@@ -52,30 +52,28 @@ data {
 }
 
 transformed data {
-  int S = 1; // of parameters with regression (either 1 or 2)
-  int C = 3; // # of parameters with correlation (includes random intercept only)
+  int S = 2; // of parameters with regression (either 1 or 2)
+  int C = 2; // # of parameters with correlation (includes random intercept only)
 }
 
 parameters {
-  vector[r] Z[2];
   row_vector[r] phi_init[t_all, S];
   matrix[p, r] beta[S];
   real<lower = 0> tau_init[S];
   real<lower = 0, upper = 1> eta[S];
   real<lower = 0, upper = 1> bp_init[S];
-  real<lower = 0, upper = 1> rho[2, C]; // ordering: 1 = lambda, 2 = pi, 3 = delta
+  real<lower = 0, upper = 1> rho[2, C];
 }
 
 transformed parameters {
-  vector<lower = 0>[r] delta;
   matrix[t_all, r] phi[S];
   matrix[t_train, r] reg[S];
   matrix[p, p] cov_ar1[S];
   real<lower = 0, upper = 1> bp[S];
   real<lower = 0> tau[S];
-  matrix[r, r] corr[3];
+  matrix[r, r] corr[C];
   matrix[t_train, r] lambda;
-  vector[r] pi_prob;
+  matrix[t_train, r] pi_prob;
   
   for (i in 1:C) {
     corr[i] = l3 + rho[2, i] * l2 + rho[1, i] * l1;
@@ -98,17 +96,14 @@ transformed parameters {
       lambda[,k] = reg[1][, k] + area_offset[k];
     }
   }
-  pi_prob = exp(cholesky_decompose(corr[2])' * Z[1]);
-  delta = exp(cholesky_decompose(corr[3])' * Z[2]);
+  pi_prob = reg[2];
 }
 
 model {
-  Z[1] ~ normal(0, 1);
-  Z[2] ~ normal(0, 1);
   // priors on rhos and AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
-  to_vector(rho[1,]) ~ beta(3, 4); // prior on rho1 for lambda, pi, and delta
-  // to_vector(rho[2,]) ~ beta(1.5, 4); // prior on rho2 for lambda, pi, and delta
+  to_vector(rho[1,]) ~ beta(3, 4); // prior on rho1 for kappa, nu, and xi
+  to_vector(rho[2,]) ~ beta(1.5, 4); // prior on rho2 for kappa, nu, and xi
   
   // priors scaling constants in ICAR
   to_vector(eta) ~ beta(2,8);
@@ -133,12 +128,12 @@ model {
   for (i in 1:r) {
     for (j in 1:t_train) {
        if (y_train_count[j, i] == 0) {
-        target += log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[i]),
-                            bernoulli_logit_lpmf(0 | pi_prob[i])
-                            + neg_binomial_2_log_lpmf(y_train_count[j, i] | lambda[j, i], delta[i]));
+        target += log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[j, i]),
+                            bernoulli_logit_lpmf(0 | pi_prob[j, i])
+                            + poisson_log_lpmf(y_train_count[j, i] | lambda[j, i]));
       } else {
-        target += bernoulli_logit_lpmf(0 | pi_prob[i])
-                + neg_binomial_2_log_lpmf(y_train_count[j, i] | lambda[j, i], delta[i]);
+        target += bernoulli_logit_lpmf(0 | pi_prob[j, i])
+                + poisson_log_lpmf(y_train_count[j, i] | lambda[j, i]);
       }
     }
   }
@@ -147,6 +142,7 @@ model {
 generated quantities {
   matrix[t_all, r] reg_full[S];  
   matrix[t_hold, r] lambda_hold;
+  matrix[t_hold, r] pi_prob_hold;
   
   matrix[t_hold, r] holdout_loglik;
   matrix[t_train, r] train_loglik;
@@ -155,20 +151,22 @@ generated quantities {
   for (i in 1:S) {
     for (k in 1:r) {
       reg_full[i][, k] = X_full[k] * beta[i][, k] + phi[i][, k];
-      lambda_hold[,k] = reg_full[1][idx_hold_er, k] + area_offset[k];
+      lambda_hold[, k] = reg_full[1][idx_hold_er, k] + area_offset[k];
     }
   }
+  
+  pi_prob_hold = reg_full[2][idx_hold_er, ];
   
   // training log-likelihood
   for (i in 1:r) {
     for (j in 1:t_train) {
        if (y_train_count[j, i] == 0) {
-        train_loglik[j, i] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[i]),
-                             bernoulli_logit_lpmf(0 | pi_prob[i])
-                             + neg_binomial_2_log_lpmf(y_train_count[j, i] | lambda[j, i], delta[i]));
+        train_loglik[j, i] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[j, i]),
+                             bernoulli_logit_lpmf(0 | pi_prob[j, i])
+                             + poisson_log_lpmf(y_train_count[j, i] | lambda[j, i]));
       } else {
-        train_loglik[j, i] = bernoulli_logit_lpmf(0 | pi_prob[i]) 
-                             + neg_binomial_2_log_lpmf(y_train_count[j, i] | lambda[j, i], delta[i]);
+        train_loglik[j, i] = bernoulli_logit_lpmf(0 | pi_prob[j, i]) 
+                             + poisson_log_lpmf(y_train_count[j, i] | lambda[j, i]);
       }
     }
   }
@@ -177,12 +175,12 @@ generated quantities {
   for (i in 1:r) {
     for (j in 1:t_hold) {
        if (y_hold_count[j, i] == 0) {
-        holdout_loglik[j, i] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[i]),
-                             bernoulli_logit_lpmf(0 | pi_prob[i])
-                             + neg_binomial_2_log_lpmf(y_hold_count[j, i] | lambda_hold[j, i], delta[i]));
+        holdout_loglik[j, i] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob_hold[j, i]),
+                             bernoulli_logit_lpmf(0 | pi_prob_hold[j, i])
+                             + poisson_log_lpmf(y_hold_count[j, i] | lambda_hold[j, i]));
       } else {
-        holdout_loglik[j, i] = bernoulli_logit_lpmf(0 | pi_prob[i]) 
-                             + neg_binomial_2_log_lpmf(y_hold_count[j, i] | lambda_hold[j, i], delta[i]);
+        holdout_loglik[j, i] = bernoulli_logit_lpmf(0 | pi_prob_hold[j, i]) 
+                             + poisson_log_lpmf(y_hold_count[j, i] | lambda_hold[j, i]);
       }
     }
   }

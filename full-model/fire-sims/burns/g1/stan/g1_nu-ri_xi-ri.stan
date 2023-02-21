@@ -2,13 +2,13 @@ functions {
   // forecast_rng and egpd_lpdf vary by model
   vector forecast_rng(int n_pred, real sigma, real xi, real kappa) {
     vector[n_pred] forecast;
-    vector[n_pred] alpha = rep_vector(0, n_pred);
-    vector[n_pred] beta = rep_vector(1, n_pred);
-    array[n_pred] real u = uniform_rng(alpha, beta);
+    vector[n_pred] a = rep_vector(0, n_pred);
+    vector[n_pred] b = rep_vector(1, n_pred);
+    array[n_pred] real u = uniform_rng(a, b);
     real cst = (1 - (1 + xi * (1.001 / sigma)) ^ (-1 / xi)) ^ kappa;
     for (n in 1:n_pred) {
       real u_adj = u[n] * (1 - cst) + cst;
-      forecast[n] = (sigma / xi) * ((1 - u_adj ^ (1 / kappa)) ^ -xi) - 1;
+      forecast[n] = (sigma / xi) * ((1 - u_adj ^ (1 / kappa)) ^ -xi - 1);
     }
     return forecast;
   }

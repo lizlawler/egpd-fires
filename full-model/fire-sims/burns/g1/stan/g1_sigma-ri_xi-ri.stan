@@ -117,9 +117,8 @@ transformed parameters {
   array[2] matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
   
   vector<lower=0>[N_tb_all] kappa;
-  vector<lower=0>[N_tb_all] nu;
-  vector<lower=0>[N_tb_all] xi;
   vector<lower=0>[N_tb_all] sigma;
+  vector<lower=0>[N_tb_all] xi;
   
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
@@ -153,10 +152,10 @@ transformed parameters {
   }
   
   kappa = exp(to_vector(reg[1]))[ii_tb_all];
-  nu = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
+  sigma = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
   xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
-  sigma = nu ./ (1 + xi);
 }
+
 model {
   Z[1] ~ std_normal();
   Z[2] ~ std_normal();
@@ -194,14 +193,12 @@ model {
 //   array[S] matrix[T_all, R] reg_full;
 //   
 //   vector<lower=0>[N_tb_obs] kappa_train;
-//   vector<lower=0>[N_tb_obs] nu_train;
-//   vector<lower=0>[N_tb_obs] xi_train;
 //   vector<lower=0>[N_tb_obs] sigma_train;
+//   vector<lower=0>[N_tb_obs] xi_train;
 //   
 //   vector<lower=0>[N_hold_obs] kappa_hold;
-//   vector<lower=0>[N_hold_obs] nu_hold;
-//   vector<lower=0>[N_hold_obs] xi_hold;
 //   vector<lower=0>[N_hold_obs] sigma_hold;
+//   vector<lower=0>[N_hold_obs] xi_hold;
 //   
 //   array[N_tb_obs] real train_loglik;
 //   array[N_hold_obs] real holdout_loglik;
@@ -219,14 +216,12 @@ model {
 //   }
 //   
 //   kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
-//   nu_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
+//   sigma_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
 //   xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs];
-//   sigma_train = nu_train ./ (1 + xi_train);
 //   
 //   kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
-//   nu_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
+//   sigma_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
 //   xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs];
-//   sigma_hold = nu_hold ./ (1 + xi_hold);
 //   
 //   if (max(y_train_obs) < 50) {
 //     // condition determines if the data read in are the sqrt or original burn areas

@@ -92,12 +92,12 @@ data {
   matrix[p, p] bp_quart;
 }
 transformed data {
-  int S = 1; // # of parameters with regression (ranges from 1 to 3)
+  int S = 2; // # of parameters with regression (ranges from 1 to 3)
   int C = 3; // # of parameters with correlation (either regression or random intercept)
 }
 parameters {
   array[N_tb_mis] real<lower=1> y_train_mis;
-  array[2] vector[R] Z;
+  vector[R] Z;
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
   array[S] real<lower=0> tau_init;
@@ -113,8 +113,8 @@ transformed parameters {
   array[S] real<lower=0, upper=1> bp;
   array[S] real<lower=0> tau;
   array[C] matrix[R, R] corr;
-  array[2] vector[R] ri_init; // random intercept vector
-  array[2] matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
+  vector[R] ri_init; // random intercept vector
+  matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
   
   vector<lower=0>[N_tb_all] kappa;
   vector<lower=0>[N_tb_all] nu;
@@ -128,10 +128,8 @@ transformed parameters {
     corr[c] = l3 + rho[2, c] * l2 + rho[1, c] * l1;
   }
   
-  for (i in 1:2) {
-    ri_init[i] = cholesky_decompose(corr[i+1])' * Z[i];
-    ri_matrix[i] = rep_matrix(ri_init[i]', T_all);
-  }
+  ri_init = cholesky_decompose(corr[3])' * Z;
+  ri_matrix = rep_matrix(ri_init', T_all);
   
   for (s in 1:S) {
     bp[s] = bp_init[s] / 2;
@@ -153,13 +151,12 @@ transformed parameters {
   }
   
   kappa = exp(to_vector(reg[1]))[ii_tb_all];
-  nu = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
-  xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
+  nu = exp(to_vector(reg[2]))[ii_tb_all];
+  xi = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
   sigma = nu ./ (1 + xi);
 }
 model {
-  Z[1] ~ std_normal();
-  Z[2] ~ std_normal();
+  Z ~ std_normal();
   // priors on rhos and AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
   to_vector(rho[1, ]) ~ beta(3, 4); // prior on rho1 for kappa, nu, and xi
@@ -219,13 +216,13 @@ model {
 //   }
 //   
 //   kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
-//   nu_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
-//   xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs];
+//   nu_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs];
+//   xi_train = exp(to_vector(ri_matrix))[ii_tb_all][ii_tb_obs];
 //   sigma_train = nu_train ./ (1 + xi_train);
 //   
 //   kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
-//   nu_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
-//   xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs];
+//   nu_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs];
+//   xi_hold = exp(to_vector(ri_matrix))[ii_hold_all][ii_hold_obs];
 //   sigma_hold = nu_hold ./ (1 + xi_hold);
 //   
 //   if (max(y_train_obs) < 50) {

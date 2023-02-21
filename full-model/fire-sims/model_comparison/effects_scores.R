@@ -327,27 +327,25 @@ yhold <- data_og$y_hold_obs
 ytrain <- data_og$y_train_obs
 
 yholdsqrt <- data_sqrt$y_hold_obs
-ytrain <- data_og$y_train_obs
-kappa_vals <- `g1_nu-reg_xi-regog`[[3]]
-sigma_vals <- `g1_nu-reg_xi-regog`[[4]]
-xi_vals <- `g1_nu-reg_xi-regog`[[5]]
-kappa_hold <- kappa_vals[[2]]
-sigma_hold <- sigma_vals[[2]]
-xi_hold <- xi_vals[[2]]
+ytrainsqrt <- data_sqrt$y_train_obs
+
+quantile(yholdsqrt, 0.90)
+plot(ecdf(ytrainsqrt), xlim = c(0,15), col = 'blue')
+curve(pnorm(x, mean = sqrt(21), sd = 3), add = TRUE, col = 'red')
+
+quantile(yhold, 0.90)
+plot(ecdf(yhold), xlim = c(0, 75), col = 'blue')
+curve(pnorm(x, mean = 21, sd = 9), add = TRUE, col = 'red')
+
+# kappa_vals <- `g1_nu-reg_xi-regog`[[3]]
+# sigma_vals <- `g1_nu-reg_xi-regog`[[4]]
+# xi_vals <- `g1_nu-reg_xi-regog`[[5]]
+# kappa_hold <- kappa_vals[[2]]
+# sigma_hold <- sigma_vals[[2]]
+# xi_hold <- xi_vals[[2]]
 
 f1_cdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
   (1 - (1 + xi * (x/sigma))^(-1/xi))^kappa
-}
-
-f1_pdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
-  lpdf <- log(kappa) - log(sigma) - (1/xi + 1) * log(1 + xi * (x/sigma)) + 
-    (kappa-1) * log(1 - (1 + xi * (x/sigma))^(-1/xi))
-  return(exp(lpdf))
-}
-
-g1_pdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
-  lower <- f1_cdf(1.001, sigma, xi, kappa)
-  return(f1_pdf(x, sigma, xi, kappa)/(1-lower))
 }
 
 g1_cdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
@@ -365,7 +363,7 @@ g1_rng <- function(n, sigma, xi, kappa) {
   u = runif(n)
   return(g1_cdf_inv(u, sigma, xi, kappa))
 }
-test <- g1_rng(400, sigma_hold[1,1], xi_hold[1,1], kappa_hold[1,1])
+test <- g1_rng(400, 1, 0.5, 2)
 
 # NEED TO FIGURE OUT APPROPRIATE CHAIN SNAKING ----
 

@@ -269,11 +269,11 @@ for(i in 1:84) {
 
 # Bundle up data into a list too pass to Stan -----------------------------
 stan_data_og <- list(
-  r = 84, # total number of regions
+  R = 84, # total number of regions
   p = p,
-  t_all = t_all,
-  t_train = t_train,
-  t_hold = t_all - t_train,
+  T_all = t_all,
+  T_train = t_train,
+  T_hold = t_all - t_train,
   
   # covariate data
   X_full = X_array_full,
@@ -317,17 +317,15 @@ stan_data_og <- list(
   
   n_edges = length(B@i),
   node1 = B@i + 1, # add one to offset zero-based index
-  node2 = B@j + 1,
-  
-  effects = list(reg_key = reg_key, vars = vars, X_lin = X_lin)
+  node2 = B@j + 1
 )
 
 stan_data_sqrt <- list(
-  r = 84, # total number of regions
+  R = 84, # total number of regions
   p = p,
-  t_all = t_all,
-  t_train = t_train,
-  t_hold = t_all - t_train,
+  T_all = t_all,
+  T_train = t_train,
+  T_hold = t_all - t_train,
   
   # covariate data
   X_full = X_array_full,
@@ -371,9 +369,7 @@ stan_data_sqrt <- list(
   
   n_edges = length(B@i),
   node1 = B@i + 1, # add one to offset zero-based index
-  node2 = B@j + 1,
-  
-  effects = list(reg_key = reg_key, vars = vars, X_lin = X_lin)
+  node2 = B@j + 1
 )
 
 # assert that there are no missing values in stan_d

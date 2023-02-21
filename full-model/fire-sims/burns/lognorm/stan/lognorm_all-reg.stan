@@ -1,20 +1,23 @@
 functions {
   // forecast_rng and egpd_lpdf vary by model
-  // vector forecast_rng(int n_pred, real sigma, real xi, real delta) {
-  //   vector[n_pred] forecast;
-  //   vector[n_pred] a = rep_vector(0, n_pred);
-  //   vector[n_pred] b = rep_vector(1, n_pred);
-  //   array[n_pred] real u = uniform_rng(a, b);
-  //   real alpha = 1/delta;
-  //   real beta = 2;
-  //   real cst_term = (1 + xi * (1.001/sigma))^(-delta/xi);
-  //   real cst = 1 - beta_cdf(cst_term, alpha, beta);
-  //   for (n in 1:n_pred) {
-  //     real u_adj = u[n] * (1 - cst) + cst;
-  //     forecast[n] = (sigma / xi) * (beta_);
-  //   }
-  //   return forecast;
-  // }
+  vector forecast_rng(int n_pred, real mu, real sigma) {
+    vector[n_pred] forecast;
+    vector[n_pred] a = rep_vector(0, n_pred);
+    vector[n_pred] b = rep_vector(1, n_pred);
+    array[n_pred] real u = uniform_rng(a, b);
+    real cst = lognormal_cdf(1.001 | mu, sigma);
+    for (n in 1:n_pred) {
+      real u_adj = u[n] * (1 - cst) + cst;
+      forecast[n] = exp(inv_Phi(u_adj) * sigma + mu);
+    }
+    return forecast;
+  }
+  
+  real lognorm_trunc_lpdf(real y, real mu, real sigma) {
+    real cst = lognormal_cdf(1.001 | mu, sigma);
+    real lpdf = lognormal_lpdf(y | mu, sigma);
+    return lpdf - log1m(cst);
+  }
   
   // twCRPS and matnormal_lpdf remain unchanged across models
   real twCRPS(real y, vector forecast, real delta, real w_mean, real w_sd) {
@@ -87,8 +90,8 @@ data {
   matrix[p, p] bp_quart;
 }
 transformed data {
-  int S = 3; // # of parameters with regression (ranges from 1 to 3)
-  int C = 4; // # of parameters with correlation (either regression or random intercept)
+  int S = 2; // # of parameters with regression (ranges from 1 to 3)
+  int C = 2; // # of parameters with correlation (either regression or random intercept)
 }
 parameters {
   array[N_tb_mis] real<lower=1> y_train_mis;
@@ -97,7 +100,7 @@ parameters {
   array[S] real<lower=0> tau_init;
   array[S] real<lower=0, upper=1> eta;
   array[S] real<lower=0, upper=1> bp_init;
-  array[2, C] real<lower=0, upper=1> rho;
+  array[C] vector<lower=0, upper=1>[2] rho;
 }
 transformed parameters {
   array[N_tb_all] real<lower=1> y_train;
@@ -115,7 +118,7 @@ transformed parameters {
   y_train[ii_tb_mis] = y_train_mis;
   
   for (c in 1:C) {
-    corr[c] = l3 + rho[2, c] * l2 + rho[1, c] * l1;
+    corr[c] = l3 + rho[c][2] * l2 + rho[c][1] * l1;
   }
   
   for (s in 1:S) {
@@ -137,22 +140,21 @@ transformed parameters {
     }
   }
   
-  mu = exp(to_vector(reg[1]))[ii_tb_all];
+  mu = to_vector(reg[1])[ii_tb_all];
   sigma = exp(to_vector(reg[2]))[ii_tb_all];
 }
 model {
   // priors on rhos and AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
-  to_vector(rho[1, ]) ~ beta(3, 4); // prior on rho1 for delta, nu, and xi
-  // to_vector(rho[2,]) ~ beta(1.5, 4); // prior on rho2 for delta, nu, and xi
   
   // priors scaling constants in ICAR
   to_vector(eta) ~ beta(2, 8);
   to_vector(tau_init) ~ exponential(1);
   
   for (c in 1:C) {
-    // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1delta + rho2delta <= 1)
-    sum(rho[, c]) ~ uniform(0, 1);
+    // rho[c][1] ~ beta(3,4);
+    // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1kappa + rho2kappa <= 1)
+    sum(rho[c]) ~ uniform(0, 1);
   }
   
   for (s in 1:S) {
@@ -195,10 +197,10 @@ model {
 //     }
 //   }
 //   
-//   mu_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
+//   mu_train = to_vector(reg_full[1])[ii_tb_all][ii_tb_obs];
 //   sigma_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs];
 //   
-//   mu_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
+//   mu_hold = to_vector(reg_full[1])[ii_hold_all][ii_hold_obs];
 //   sigma_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs];
 //   
 //   if (max(y_train_obs) < 50) {

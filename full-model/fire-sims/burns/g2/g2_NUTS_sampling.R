@@ -9,6 +9,7 @@ suffix <- args[1]
 params <- args[2]
 
 library(cmdstanr)
+set_cmdstan_path(path = "/projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.0") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(MCMCvis)
 library(tidyverse)

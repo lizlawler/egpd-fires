@@ -284,3 +284,20 @@ Chain 3 Iteration: 2800 / 3000 [ 93%]  (Sampling)
 Chain 1 Iteration: 2800 / 3000 [ 93%]  (Sampling) 
 Chain 2 Iteration: 2800 / 3000 [ 93%]  (Sampling) 
 Chain 3 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
+Chain 1 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
+Chain 3 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 3 finished in 26739.3 seconds.
+Chain 2 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
+Chain 1 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 1 finished in 27332.8 seconds.
+Chain 2 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 2 finished in 27586.9 seconds.
+
+All 3 chains finished successfully.
+Mean chain execution time: 27219.7 seconds.
+Total execution time: 27587.7 seconds.
+
+Error in MCMCchains(object, params = params, excl = excl, ISB = ISB, exact = exact,  : 
+  Invalid object type. Input must be stanfit object (rstan), stanreg object (rstanarm), brmsfit object (brms), mcmc.list object (coda/rjags), mcmc object (coda/nimble), list object (nimble), rjags object (R2jags), jagsUI object (jagsUI), or matrix with MCMC chains.
+Calls: MCMCtrace -> MCMCchains
+Execution halted

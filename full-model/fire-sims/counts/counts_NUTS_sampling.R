@@ -33,15 +33,15 @@ saveRDS(counts_stan_fit,
                       st_time, "_", end_time, ".RDS"))
 
 # save traceplot
-MCMCtrace(counts_fit, params = "rho",
+MCMCtrace(counts_stan_fit, params = "rho",
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/', model, '/trace/', model, '_', params, '_rho_', st_time, "_", end_time, ".pdf"))
-MCMCtrace(counts_fit, params = "beta", 
+MCMCtrace(counts_stan_fit, params = "beta", 
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/', model, '/trace/', model, '_', params, '_beta_', st_time, "_", end_time, ".pdf"))
-MCMCtrace(counts_fit, params = "phi", 
+MCMCtrace(counts_stan_fit, params = "phi", 
           ind = TRUE, 
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/', model, '/trace/', model, '_', params, '_phi_', st_time, "_", end_time, ".pdf"))

@@ -15,7 +15,7 @@ for params in "all-reg" "xi-ri"
 do
 sbatch --job-name g3_$(printf %s $suffix "_" $params) \
 --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/ \
---output='./full-model/output/%x_%j.txt' --qos=long --nodes=1 --ntasks-per-node=30 \
+--output='./full-model/output/%x_%j.txt' --qos=long --nodes=1 --ntasks-per-node=15 \
 --time=146:00:00 --mail-type=ALL --mail-user=eslawler@colostate.edu \
 --export=suffix=$suffix,params=$params shell-scripts/call_g3_NUTS_sampler.sh
 done

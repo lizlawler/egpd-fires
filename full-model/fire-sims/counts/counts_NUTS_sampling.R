@@ -27,22 +27,31 @@ counts_fit <- counts_model$sample(data = stan_data,
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
 
-counts_stan_fit <- rstan::read_stan_csv(counts_fit$output_files())
-saveRDS(counts_stan_fit, 
-        file = paste0("./full-model/fire-sims/counts/", model, '/stan-fits/', model, '_', params, '_',
-                      st_time, "_", end_time, ".RDS"))
+# save CmdStanMCMC object
+file_name <- paste0("./full-model/fire-sims/counts/", model, '/cmd-stan-fits/', 
+                    model, '_', params, '_', st_time, "_", end_time, ".RDS")
+counts_fit$save_object(file = file_name)
+
+# convert CmdStanMCMC object to mcmc list for use in MCMCtrace
+counts_mcmc <- as_mcmc.list(counts_fit)
 
 # save traceplot
-MCMCtrace(counts_stan_fit, params = "rho",
+MCMCtrace(counts_mcmc, params = "rho",
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/', model, '/trace/', model, '_', params, '_rho_', st_time, "_", end_time, ".pdf"))
-MCMCtrace(counts_stan_fit, params = "beta", 
+          filename = paste0('./full-model/figures/', model, '/trace/', 
+                            model, '_', params, '_rho_', st_time, "_", 
+                            end_time, ".pdf"))
+MCMCtrace(counts_mcmc, params = "beta", 
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/', model, '/trace/', model, '_', params, '_beta_', st_time, "_", end_time, ".pdf"))
-MCMCtrace(counts_stan_fit, params = "phi", 
+          filename = paste0('./full-model/figures/', model, '/trace/', 
+                            model, '_', params, '_beta_', st_time, "_", 
+                            end_time, ".pdf"))
+MCMCtrace(counts_mcmc, params = "phi", 
           ind = TRUE, 
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/', model, '/trace/', model, '_', params, '_phi_', st_time, "_", end_time, ".pdf"))
+          filename = paste0('./full-model/figures/', model, '/trace/', 
+                            model, '_', params, '_phi_', st_time, "_", 
+                            end_time, ".pdf"))
 

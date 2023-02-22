@@ -27,25 +27,27 @@ egpd_fit <- egpd_model$sample(data = stan_data,
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
-egpd_stan_fit <- rstan::read_stan_csv(egpd_fit$output_files())
+# save CmdStanMCMC object
+file_name <- paste0("./full-model/fire-sims/burns/lognorm/cmd-stan-fits/lognorm_", 
+                    params, suffix, st_time, "_", end_time, ".RDS")
+egpd_fit$save_object(file = file_name)
 
-saveRDS(egpd_stan_fit, 
-        file = paste0("./full-model/fire-sims/burns/lognorm/stan-fits/lognorm_", params, suffix, 
-                      st_time, "_", end_time, ".RDS"))
+# convert CmdStanMCMC object to mcmc list for use in MCMCtrace
+egpd_mcmc <- as_mcmc.list(egpd_fit)
 
 # save traceplots
-MCMCtrace(egpd_stan_fit, params = "rho",
+MCMCtrace(egpd_mcmc, params = "rho",
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/lognorm/trace/lognorm_', params, '_', suffix, '_rhos_',
-                            st_time, "_", end_time, ".pdf"))
-MCMCtrace(egpd_stan_fit, params = "beta",
+          filename = paste0('./full-model/figures/lognorm/trace/lognorm_', params, '_', 
+                            suffix, '_rhos_', st_time, "_", end_time, ".pdf"))
+MCMCtrace(egpd_mcmc, params = "beta",
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/lognorm/trace/lognorm_', params, '_', suffix,'_betas_',
-                            st_time, "_", end_time, ".pdf"))
-MCMCtrace(egpd_stan_fit, params = "phi",
+          filename = paste0('./full-model/figures/lognorm/trace/lognorm_', params, '_', 
+                            suffix,'_betas_', st_time, "_", end_time, ".pdf"))
+MCMCtrace(egpd_mcmc, params = "phi",
           ind = TRUE,
           open_pdf = FALSE,
-          filename = paste0('./full-model/figures/lognorm/trace/lognorm_', params, '_', suffix,'_phis_',
-                            st_time, "_", end_time, ".pdf"))
+          filename = paste0('./full-model/figures/lognorm/trace/lognorm_', params, '_',
+                            suffix,'_phis_', st_time, "_", end_time, ".pdf"))

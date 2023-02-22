@@ -55,13 +55,13 @@ transformed data {
   int C = 3; // # of parameters with correlation (includes random intercept only)
 }
 parameters {
-  array[2] vector[R] Z;
+  matrix[R, 2] Z;
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
   array[S] real<lower=0> tau_init;
   array[S] real<lower=0, upper=1> eta;
   array[S] real<lower=0, upper=1> bp_init;
-  array[2, C] real<lower=0, upper=1> rho; // ordering: 1 = lambda, 2 = pi
+  array[C] vector<lower=0, upper=1>[2] rho; // ordering: 1 = lambda, 2 = pi, 3 = delta
 }
 transformed parameters {
   vector<lower = 0>[R] delta;
@@ -75,7 +75,7 @@ transformed parameters {
   vector[R] pi_prob;
   
   for (c in 1:C) {
-    corr[c] = l3 + rho[2, c] * l2 + rho[1, c] * l1;
+    corr[c] = l3 + rho[c][2] * l2 + rho[c][1] * l1;
   }
   
   for (s in 1:S) {
@@ -97,25 +97,23 @@ transformed parameters {
       lambda[, r] = reg[1][, r] + area_offset[r];
     }
   }
-  pi_prob = exp(cholesky_decompose(corr[2])' * Z[1]);
-  delta = exp(cholesky_decompose(corr[3])' * Z[2]);
+  pi_prob = exp(cholesky_decompose(corr[2])' * Z[,1]);
+  delta = exp(cholesky_decompose(corr[3])' * Z[,2]);
 }
 
 model {
-  Z[1] ~ std_normal();
-  Z[2] ~ std_normal();
+  to_vector(Z) ~ std_normal();
   // priors on rhos and AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
-  to_vector(rho[1, ]) ~ beta(3, 4); // prior on rho1 for lambda and pi
-  // to_vector(rho[2,]) ~ beta(1.5, 4); // prior on rho2 for lambda and pi
   
   // priors scaling constants in ICAR
   to_vector(eta) ~ beta(2, 8);
   to_vector(tau_init) ~ exponential(1);
   
   for (c in 1:C) {
+    // rho[c][1] ~ beta(3,4);
     // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1kappa + rho2kappa <= 1)
-    sum(rho[, c]) ~ uniform(0, 1);
+    sum(rho[c]) ~ uniform(0, 1);
   }
   
   for (s in 1:S) {

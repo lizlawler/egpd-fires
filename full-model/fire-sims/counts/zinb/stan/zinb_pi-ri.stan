@@ -62,7 +62,7 @@ parameters {
   array[S] real<lower=0> tau_init;
   array[S] real<lower=0, upper=1> eta;
   array[S] real<lower=0, upper=1> bp_init;
-  array[2, C] real<lower=0, upper=1> rho; // ordering: 1 = lambda, 2 = pi
+  array[C] vector<lower=0, upper=1>[2] rho; // ordering: 1 = lambda, 2 = pi
 }
 transformed parameters {
   array[S] matrix[T_all, R] phi;
@@ -75,7 +75,7 @@ transformed parameters {
   vector[R] pi_prob;
   
   for (c in 1:C) {
-    corr[c] = l3 + rho[2, c] * l2 + rho[1, c] * l1;
+    corr[c] = l3 + rho[c][2] * l2 + rho[c][1] * l1;
   }
   
   for (s in 1:S) {
@@ -100,20 +100,19 @@ transformed parameters {
   pi_prob = exp(cholesky_decompose(corr[2])' * Z);
 }
 model {
-  delta ~ normal(0, 5) T[0, ];
+  delta ~ normal(0, 5); // removed T[0,] since constraint in parameter declaration specifices delta > 0
   Z ~ std_normal();
   // priors on rhos and AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
-  to_vector(rho[1, ]) ~ beta(3, 4); // prior on rho1 for lambda and pi
-  // to_vector(rho[2,]) ~ beta(1.5, 4); // prior on rho2 for lambda and pi
   
   // priors scaling constants in ICAR
   to_vector(eta) ~ beta(2, 8);
   to_vector(tau_init) ~ exponential(1);
   
   for (c in 1:C) {
+    // rho[c][1] ~ beta(3,4);
     // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1kappa + rho2kappa <= 1)
-    sum(rho[, c]) ~ uniform(0, 1);
+    sum(rho[c]) ~ uniform(0, 1);
   }
   
   for (s in 1:S) {

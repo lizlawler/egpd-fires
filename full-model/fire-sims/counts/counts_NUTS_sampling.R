@@ -22,7 +22,8 @@ counts_fit <- counts_model$sample(data = stan_data,
                                   thin = 2,
                                   chains = 3,
                                   parallel_chains = 3,
-                                  output_dir = paste0("full-model/fire-sims/counts/", model, '/csv-fits/'))
+                                  output_dir = paste0("full-model/fire-sims/counts/", model, '/csv-fits/'),
+                                  output_basename = paste0(model, "_", params, "_", st_time))
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
 

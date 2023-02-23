@@ -24,7 +24,8 @@ egpd_fit <- egpd_model$sample(data = stan_data,
                               chains = 3,
                               parallel_chains = 3,
                               init = 0.01,
-                              output_dir = "full-model/fire-sims/burns/g1/csv-fits/")
+                              output_dir = "full-model/fire-sims/burns/g1/csv-fits/",
+                              output_basename = paste0("g1_", suffix, "_", params, "_", st_time))
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
@@ -42,12 +43,12 @@ MCMCtrace(egpd_mcmc, params = "rho",
           open_pdf = FALSE,
           filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
                             suffix, '_rhos_', st_time, "_", end_time, ".pdf"))
-  MCMCtrace(egpd_mcmc, params = "beta",
+MCMCtrace(egpd_mcmc, params = "beta",
             ind = TRUE,
             open_pdf = FALSE,
             filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
                               suffix,'_betas_', st_time, "_", end_time, ".pdf"))
-  MCMCtrace(egpd_mcmc, params = "phi",
+MCMCtrace(egpd_mcmc, params = "phi",
             ind = TRUE,
             open_pdf = FALSE,
             filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 

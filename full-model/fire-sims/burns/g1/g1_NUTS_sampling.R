@@ -16,7 +16,8 @@ library(tidyverse)
 
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
 stan_data <- readRDS(paste0("./full-model/data/stan_data_", suffix, ".rds"))
-egpd_model <- cmdstan_model(paste0('./full-model/fire-sims/burns/g1/stan/g1_', params, '.stan'), compile = TRUE, stanc_options = list("O1"))
+egpd_model <- cmdstan_model(paste0('./full-model/fire-sims/burns/g1/stan/g1_', params, '.stan'), 
+                            compile = TRUE, stanc_options = list("O1"))
 egpd_fit <- egpd_model$sample(data = stan_data, 
                               iter_warmup = 1000,
                               iter_sampling = 2000,

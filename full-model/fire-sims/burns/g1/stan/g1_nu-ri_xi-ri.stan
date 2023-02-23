@@ -97,13 +97,13 @@ transformed data {
 }
 parameters {
   array[N_tb_mis] real<lower=1> y_train_mis;
-  array[2] vector[R] Z;
+  matrix[R, 2] Z; // 1 = nu, 2 = xi
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
   array[S] real<lower=0> tau_init;
   array[S] real<lower=0, upper=1> eta;
   array[S] real<lower=0, upper=1> bp_init;
-  array[C] vector<lower=0, upper=1>[2] rho;
+  array[C] vector<lower=0, upper=1>[2] rho; // 1 = kappa, 2 = nu, 3 = xi
 }
 transformed parameters {
   array[N_tb_all] real<lower=1> y_train;
@@ -129,7 +129,7 @@ transformed parameters {
   }
   
   for (i in 1:2) {
-    ri_init[i] = cholesky_decompose(corr[i+1])' * Z[i];
+    ri_init[i] = cholesky_decompose(corr[i+1])' * Z[,i];
     ri_matrix[i] = rep_matrix(ri_init[i]', T_all);
   }
   
@@ -158,8 +158,7 @@ transformed parameters {
   sigma = nu ./ (1 + xi);
 }
 model {
-  Z[1] ~ std_normal();
-  Z[2] ~ std_normal();
+  to_vector(Z) ~ std_normal();
   // priors on rhos and AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
   

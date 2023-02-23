@@ -24,7 +24,8 @@ egpd_fit <- egpd_model$sample(data = stan_data,
                               chains = 3,
                               parallel_chains = 3,
                               init = 0.01,
-                              output_dir = "full-model/fire-sims/burns/lognorm/csv-fits/")
+                              output_dir = "full-model/fire-sims/burns/lognorm/csv-fits/",
+                              output_basename = paste0("lognorm_", suffix, "_", params, "_", st_time))
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 

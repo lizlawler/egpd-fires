@@ -9,14 +9,16 @@ suffix <- args[1]
 params <- args[2]
 
 library(cmdstanr)
-set_cmdstan_path(path = "/projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.0") # this is only relevant to Alpine
+# line below is only relevant to Alpine
+set_cmdstan_path(path = "/projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.0") 
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(MCMCvis)
 library(tidyverse)
 
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
 stan_data <- readRDS(paste0("./full-model/data/stan_data_", suffix, ".rds"))
-egpd_model <- cmdstan_model(paste0('./full-model/fire-sims/burns/g3/stan/g3_', params, '.stan'), compile = TRUE, stanc_options = list("O1"))
+egpd_model <- cmdstan_model(paste0('./full-model/fire-sims/burns/g3/stan/g3_', params, '.stan'), 
+                            compile = TRUE, stanc_options = list("O1"))
 egpd_fit <- egpd_model$sample(data = stan_data, 
                               iter_warmup = 1000,
                               iter_sampling = 2000,
@@ -24,7 +26,8 @@ egpd_fit <- egpd_model$sample(data = stan_data,
                               chains = 3,
                               parallel_chains = 3,
                               init = 0.01,
-                              output_dir = "full-model/fire-sims/burns/g3/csv-fits/")
+                              output_dir = "full-model/fire-sims/burns/g3/csv-fits/",
+                              output_basename = paste0("g3_", suffix, "_", params, "_", st_time))
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 

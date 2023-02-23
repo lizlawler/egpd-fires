@@ -233,3 +233,28 @@ Chain 3 Iteration: 2500 / 3000 [ 83%]  (Sampling)
 Chain 3 Iteration: 2600 / 3000 [ 86%]  (Sampling) 
 Chain 3 Iteration: 2700 / 3000 [ 90%]  (Sampling) 
 Chain 3 Iteration: 2800 / 3000 [ 93%]  (Sampling) 
+Chain 3 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
+Chain 3 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 3 finished in 65278.6 seconds.
+
+All 3 chains finished successfully.
+Mean chain execution time: 49336.3 seconds.
+Total execution time: 65279.6 seconds.
+
+grep: write error: No space left on device
+grep: write error: No space left on device
+grep: write error: No space left on device
+grep: write error: No space left on device
+grep: write error: No space left on device
+grep: write error: No space left on device
+Warning: 1 of 1938 (0.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 645 of 1938 (33.0%) transitions hit the maximum treedepth limit of 10.
+See https://mc-stan.org/misc/warnings for details.
+
+grep: write error: No space left on device
+grep: write error: No space left on device
+grep: write error: No space left on device
+Error: All variables in all chains must have the same length.
+Execution halted

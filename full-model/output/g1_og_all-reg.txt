@@ -1242,3 +1242,21 @@ Chain 2 Iteration: 2800 / 3000 [ 93%]  (Sampling)
 Chain 3 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
 Chain 1 Iteration: 2800 / 3000 [ 93%]  (Sampling) 
 Chain 2 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
+Chain 3 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 3 finished in 153351.0 seconds.
+Chain 1 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
+Chain 2 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 2 finished in 155762.0 seconds.
+Chain 1 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 1 finished in 157650.0 seconds.
+
+All 3 chains finished successfully.
+Mean chain execution time: 155587.7 seconds.
+Total execution time: 157655.4 seconds.
+
+Warning: 13 of 3000 (0.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 2987 of 3000 (100.0%) transitions hit the maximum treedepth limit of 10.
+See https://mc-stan.org/misc/warnings for details.
+

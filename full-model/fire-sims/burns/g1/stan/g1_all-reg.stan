@@ -53,8 +53,8 @@ data {
   int<lower=1> T_hold;
   
   // covariate data
-  array[R] matrix[T_all, p] X_full; // design matrix; 1-D array of size r with matrices t x p
-  array[R] matrix[T_train, p] X_train; // design matrix; 1-D array of size r with matrices t x p
+  array[R] matrix[T_all, p] X_full; // design matrix; 1-D array of size R with matrices T x p
+  array[R] matrix[T_train, p] X_train; // design matrix; 1-D array of size R with matrices T x p
   
   // training data
   int<lower=1> N_tb_obs;

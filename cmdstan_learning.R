@@ -2,8 +2,8 @@ library(cmdstanr)
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 
 
-model <- cmdstan_model("full-model/fire-sims/burns/g3/stan/g3_all-reg.stan", compile = FALSE)
-model <- cmdstan_model("full-model/fire-sims/counts/zip/stan/zip_pi-ri.stan", compile = FALSE)
+model <- cmdstan_model("full-model/fire-sims/burns/g1/stan/g1_all-reg.stan", compile = FALSE)
+# model <- cmdstan_model("full-model/fire-sims/counts/zip/stan/zip_pi-ri.stan", compile = FALSE)
 model$check_syntax(pedantic = TRUE)
 
 

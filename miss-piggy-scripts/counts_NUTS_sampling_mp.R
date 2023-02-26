@@ -8,7 +8,6 @@ model <- args[1]
 params <- args[2]
 
 library(cmdstanr)
-set_cmdstan_path(path = "/projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.0") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(MCMCvis)
 library(tidyverse)
@@ -17,7 +16,7 @@ options(mc.cores = parallel::detectCores())
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
 stan_data <- readRDS("./full-model/data/stan_data_og.rds")
 counts_model <- cmdstan_model(paste0('./full-model/fire-sims/counts/', model, '/stan/', model, '_', params, '.stan'), 
-                             compile = TRUE, stanc_options = list("O1"))
+                              compile = TRUE, stanc_options = list("O1"))
 counts_fit <- counts_model$sample(data = stan_data, 
                                   iter_warmup = 1000,
                                   iter_sampling = 2000,
@@ -30,9 +29,9 @@ counts_fit <- counts_model$sample(data = stan_data,
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d%b%Y_%H%M")
 
 # save CmdStanMCMC object
-file_name <- paste0("./full-model/fire-sims/counts/", model, '/cmd-stan-fits/', 
-                    model, '_', params, '_', st_time, "_", end_time, ".RDS")
-counts_fit$save_object(file = file_name)
+# file_name <- paste0("./full-model/fire-sims/counts/", model, '/cmd-stan-fits/', 
+#                     model, '_', params, '_', st_time, "_", end_time, ".RDS")
+# counts_fit$save_object(file = file_name)
 
 # convert CmdStanMCMC object to mcmc list for use in MCMCtrace
 counts_mcmc <- as_mcmc.list(counts_fit)

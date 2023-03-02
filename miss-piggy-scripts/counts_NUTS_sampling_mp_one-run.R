@@ -1,5 +1,5 @@
 # pass from command line ----
-model <- "zinb_er"
+model <- "zip"
 params <- "pi-ri"
 
 library(cmdstanr)

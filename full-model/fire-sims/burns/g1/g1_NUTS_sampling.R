@@ -30,10 +30,10 @@ egpd_fit <- egpd_model$sample(data = stan_data,
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
-# save CmdStanMCMC object
-file_name <- paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", 
-                    params, suffix, st_time, "_", end_time, ".RDS")
-egpd_fit$save_object(file = file_name)
+# # save CmdStanMCMC object
+# file_name <- paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", 
+#                     params, suffix, st_time, "_", end_time, ".RDS")
+# egpd_fit$save_object(file = file_name)
 
 # convert CmdStanMCMC object to mcmc list for use in MCMCtrace
 egpd_mcmc <- as_mcmc.list(egpd_fit)

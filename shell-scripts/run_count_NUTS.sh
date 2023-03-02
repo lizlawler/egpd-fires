@@ -14,7 +14,7 @@ do
 for params in "all-reg" "pi-ri"
 do
 sbatch --job-name count_$(printf %s $model "_" $params) \
---account=csu54 \
+--account=csu54_alpine1 \
 --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/ \
 --output='./full-model/output/%x_%j.txt' --qos=long --nodes=1 --ntasks-per-node=10 \
 --time=72:00:00 --mail-type=ALL --mail-user=eslawler@colostate.edu \

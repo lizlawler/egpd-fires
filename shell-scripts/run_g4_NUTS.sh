@@ -14,7 +14,7 @@ do
 for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "sigma-ri_xi-ri" "kappa-ri_xi-ri"
 do
 sbatch --job-name g4_$(printf %s $suffix "_" $params) \
---account=csu54 \
+--account=csu54_alpine1 \
 --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/ \
 --output='./full-model/output/%x_%j.txt' --qos=long --nodes=1 --ntasks-per-node=15 \
 --time=146:00:00 --mail-type=ALL --mail-user=eslawler@colostate.edu \

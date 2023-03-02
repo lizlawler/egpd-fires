@@ -14,7 +14,7 @@ do
 for params in "all-reg" "sigma-ri" "mu-ri"
 do
 sbatch --job-name lognorm_$(printf %s $suffix "_" $params) \
---account=csu54 \
+--account=csu54_alpine1 \
 --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/ \
 --output='./full-model/output/%x_%j.txt' --qos=long --nodes=1 --ntasks-per-node=15 \
 --time=120:00:00 --mail-type=ALL --mail-user=eslawler@colostate.edu \

@@ -13,6 +13,7 @@ set_cmdstan_path(path = "/projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(MCMCvis)
 library(tidyverse)
+options(mc.cores = parallel::detectCores())
 
 st_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%d-%b-%Y_%H%M")
 stan_data <- readRDS(paste0("./full-model/data/stan_data_", suffix, ".rds"))
@@ -23,15 +24,16 @@ egpd_fit <- egpd_model$sample(data = stan_data,
                               iter_sampling = 2000,
                               thin = 2,
                               chains = 3,
-                              parallel_chains = 3,
+                              show_messages = FALSE,
+                              # parallel_chains = 3,
                               init = 0.01,
                               output_dir = "full-model/fire-sims/burns/g1/csv-fits/",
                               output_basename = paste0("g1_", suffix, "_", params, "_", st_time))
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 
-# # save CmdStanMCMC object
-# file_name <- paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", 
+# save CmdStanMCMC object
+# file_name <- paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_",
 #                     params, suffix, st_time, "_", end_time, ".RDS")
 # egpd_fit$save_object(file = file_name)
 

@@ -1,0 +1,157 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- Use set_cmdstan_path() to set the path to CmdStan
+- Use install_cmdstan() to install CmdStan
+CmdStan path set to: /projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.0
+-- Attaching packages --------------------------------------- tidyverse 1.3.2 --
+v ggplot2 3.4.0      v purrr   0.3.5 
+v tibble  3.1.8      v dplyr   1.0.10
+v tidyr   1.2.1      v stringr 1.4.1 
+v readr   2.1.3      v forcats 0.5.2 
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+Running MCMC with 3 chains, at most 64 in parallel...
+
+Chain 1 Rejecting initial value:
+Chain 1   Error evaluating the log probability at the initial value.
+Chain 1 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 1 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 1 Rejecting initial value:
+Chain 1   Error evaluating the log probability at the initial value.
+Chain 1 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 1 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 2 Rejecting initial value:
+Chain 2   Error evaluating the log probability at the initial value.
+Chain 2 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 2 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 3 Rejecting initial value:
+Chain 3   Error evaluating the log probability at the initial value.
+Chain 3 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 3 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 1 Rejecting initial value:
+Chain 1   Error evaluating the log probability at the initial value.
+Chain 1 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 1 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 1 Rejecting initial value:
+Chain 1   Error evaluating the log probability at the initial value.
+Chain 1 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 1 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 2 Rejecting initial value:
+Chain 2   Error evaluating the log probability at the initial value.
+Chain 2 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 2 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 3 Rejecting initial value:
+Chain 3   Error evaluating the log probability at the initial value.
+Chain 3 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 3 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 3 Rejecting initial value:
+Chain 3   Error evaluating the log probability at the initial value.
+Chain 3 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 3 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 3 Rejecting initial value:
+Chain 3   Error evaluating the log probability at the initial value.
+Chain 3 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 3 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 3 Rejecting initial value:
+Chain 3   Error evaluating the log probability at the initial value.
+Chain 3 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 3 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 3 Rejecting initial value:
+Chain 3   Error evaluating the log probability at the initial value.
+Chain 3 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 3 Exception: cholesky_decompose: Matrix m is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 131, column 2 to column 45)
+Chain 3 Rejecting initial value:
+Chain 3   Error evaluating the log probability at the initial value.
+Chain 3 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 3 Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 42, column 4 to line 44, column 81) (in '/tmp/RtmpfWyQJD/model-9009414e5cb01.stan', line 175, column 4 to column 60)
+Chain 2 Iteration:    1 / 3000 [  0%]  (Warmup) 
+Chain 3 Iteration:    1 / 3000 [  0%]  (Warmup) 
+Chain 1 Iteration:    1 / 3000 [  0%]  (Warmup) 
+Chain 3 Iteration:  100 / 3000 [  3%]  (Warmup) 
+Chain 2 Iteration:  100 / 3000 [  3%]  (Warmup) 
+Chain 1 Iteration:  100 / 3000 [  3%]  (Warmup) 
+Chain 3 Iteration:  200 / 3000 [  6%]  (Warmup) 
+Chain 2 Iteration:  200 / 3000 [  6%]  (Warmup) 
+Chain 1 Iteration:  200 / 3000 [  6%]  (Warmup) 
+Chain 3 Iteration:  300 / 3000 [ 10%]  (Warmup) 
+Chain 2 Iteration:  300 / 3000 [ 10%]  (Warmup) 
+Chain 1 Iteration:  300 / 3000 [ 10%]  (Warmup) 
+Chain 3 Iteration:  400 / 3000 [ 13%]  (Warmup) 
+Chain 2 Iteration:  400 / 3000 [ 13%]  (Warmup) 
+Chain 1 Iteration:  400 / 3000 [ 13%]  (Warmup) 
+Chain 3 Iteration:  500 / 3000 [ 16%]  (Warmup) 
+Chain 2 Iteration:  500 / 3000 [ 16%]  (Warmup) 
+Chain 1 Iteration:  500 / 3000 [ 16%]  (Warmup) 
+Chain 2 Iteration:  600 / 3000 [ 20%]  (Warmup) 
+Chain 3 Iteration:  600 / 3000 [ 20%]  (Warmup) 
+Chain 1 Iteration:  600 / 3000 [ 20%]  (Warmup) 
+Chain 2 Iteration:  700 / 3000 [ 23%]  (Warmup) 
+Chain 3 Iteration:  700 / 3000 [ 23%]  (Warmup) 
+Chain 1 Iteration:  700 / 3000 [ 23%]  (Warmup) 
+Chain 2 Iteration:  800 / 3000 [ 26%]  (Warmup) 
+Chain 3 Iteration:  800 / 3000 [ 26%]  (Warmup) 
+Chain 1 Iteration:  800 / 3000 [ 26%]  (Warmup) 
+Chain 2 Iteration:  900 / 3000 [ 30%]  (Warmup) 
+Chain 3 Iteration:  900 / 3000 [ 30%]  (Warmup) 
+Chain 1 Iteration:  900 / 3000 [ 30%]  (Warmup) 
+Chain 2 Iteration: 1000 / 3000 [ 33%]  (Warmup) 
+Chain 2 Iteration: 1001 / 3000 [ 33%]  (Sampling) 
+Chain 3 Iteration: 1000 / 3000 [ 33%]  (Warmup) 
+Chain 3 Iteration: 1001 / 3000 [ 33%]  (Sampling) 
+Chain 1 Iteration: 1000 / 3000 [ 33%]  (Warmup) 
+Chain 1 Iteration: 1001 / 3000 [ 33%]  (Sampling) 
+Chain 2 Iteration: 1100 / 3000 [ 36%]  (Sampling) 
+Chain 3 Iteration: 1100 / 3000 [ 36%]  (Sampling) 
+Chain 1 Iteration: 1100 / 3000 [ 36%]  (Sampling) 
+Chain 2 Iteration: 1200 / 3000 [ 40%]  (Sampling) 
+Chain 3 Iteration: 1200 / 3000 [ 40%]  (Sampling) 
+Chain 1 Iteration: 1200 / 3000 [ 40%]  (Sampling) 
+Chain 2 Iteration: 1300 / 3000 [ 43%]  (Sampling) 
+Chain 3 Iteration: 1300 / 3000 [ 43%]  (Sampling) 
+Chain 1 Iteration: 1300 / 3000 [ 43%]  (Sampling) 
+Chain 2 Iteration: 1400 / 3000 [ 46%]  (Sampling) 
+Chain 3 Iteration: 1400 / 3000 [ 46%]  (Sampling) 
+Chain 1 Iteration: 1400 / 3000 [ 46%]  (Sampling) 
+Chain 2 Iteration: 1500 / 3000 [ 50%]  (Sampling) 
+Chain 3 Iteration: 1500 / 3000 [ 50%]  (Sampling) 
+Chain 1 Iteration: 1500 / 3000 [ 50%]  (Sampling) 
+Chain 2 Iteration: 1600 / 3000 [ 53%]  (Sampling) 
+Chain 3 Iteration: 1600 / 3000 [ 53%]  (Sampling) 
+Chain 1 Iteration: 1600 / 3000 [ 53%]  (Sampling) 
+Chain 2 Iteration: 1700 / 3000 [ 56%]  (Sampling) 
+Chain 3 Iteration: 1700 / 3000 [ 56%]  (Sampling) 
+Chain 1 Iteration: 1700 / 3000 [ 56%]  (Sampling) 
+Chain 2 Iteration: 1800 / 3000 [ 60%]  (Sampling) 
+Chain 3 Iteration: 1800 / 3000 [ 60%]  (Sampling) 
+Chain 1 Iteration: 1800 / 3000 [ 60%]  (Sampling) 
+Chain 2 Iteration: 1900 / 3000 [ 63%]  (Sampling) 
+Chain 3 Iteration: 1900 / 3000 [ 63%]  (Sampling) 
+Chain 1 Iteration: 1900 / 3000 [ 63%]  (Sampling) 
+Chain 2 Iteration: 2000 / 3000 [ 66%]  (Sampling) 
+Chain 3 Iteration: 2000 / 3000 [ 66%]  (Sampling) 
+Chain 1 Iteration: 2000 / 3000 [ 66%]  (Sampling) 
+Chain 2 Iteration: 2100 / 3000 [ 70%]  (Sampling) 
+Chain 3 Iteration: 2100 / 3000 [ 70%]  (Sampling) 
+Chain 1 Iteration: 2100 / 3000 [ 70%]  (Sampling) 
+Chain 2 Iteration: 2200 / 3000 [ 73%]  (Sampling) 
+Chain 3 Iteration: 2200 / 3000 [ 73%]  (Sampling) 
+Chain 1 Iteration: 2200 / 3000 [ 73%]  (Sampling) 
+Chain 2 Iteration: 2300 / 3000 [ 76%]  (Sampling) 
+Chain 3 Iteration: 2300 / 3000 [ 76%]  (Sampling) 
+Chain 1 Iteration: 2300 / 3000 [ 76%]  (Sampling) 
+Chain 2 Iteration: 2400 / 3000 [ 80%]  (Sampling) 
+Chain 3 Iteration: 2400 / 3000 [ 80%]  (Sampling) 
+Chain 1 Iteration: 2400 / 3000 [ 80%]  (Sampling) 
+Chain 2 Iteration: 2500 / 3000 [ 83%]  (Sampling) 
+Chain 3 Iteration: 2500 / 3000 [ 83%]  (Sampling) 
+Chain 1 Iteration: 2500 / 3000 [ 83%]  (Sampling) 
+Chain 3 Iteration: 2600 / 3000 [ 86%]  (Sampling) 
+Chain 2 Iteration: 2600 / 3000 [ 86%]  (Sampling) 
+Chain 1 Iteration: 2600 / 3000 [ 86%]  (Sampling) 
+Chain 3 Iteration: 2700 / 3000 [ 90%]  (Sampling) 
+Chain 2 Iteration: 2700 / 3000 [ 90%]  (Sampling) 
+Chain 1 Iteration: 2700 / 3000 [ 90%]  (Sampling) 
+Chain 3 Iteration: 2800 / 3000 [ 93%]  (Sampling) 
+Chain 2 Iteration: 2800 / 3000 [ 93%]  (Sampling) 
+Chain 1 Iteration: 2800 / 3000 [ 93%]  (Sampling) 

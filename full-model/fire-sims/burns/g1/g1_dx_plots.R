@@ -18,13 +18,13 @@ library(stringr)
 options(mc.cores = parallel::detectCores())
 
 file_base <- paste0("g1_", suffix, "_", params, "*")
-csv_files <- paste0("full-model/fire-sims/burns/g1/csv-fits/", 
+csv_files <- paste0("./full-model/fire-sims/burns/g1/csv-fits/", 
                     list.files("full-model/fire-sims/burns/g1/csv-fits/", 
                                pattern = file_base))
 st_date <- stringr::str_extract(basename(files[1]), "\\d{2}-Mar-\\d{4}")
 
 egpd_fit <- as_cmdstan_fit(csv_files)
-egpd_fit$save_obj(file = paste0("full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", suffix, "_", params, "_", st_date, ".RDS"))
+egpd_fit$save_obj(file = paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", suffix, "_", params, "_", st_date, ".RDS"))
 egpd_mcmc <- as_mcmc.list(egpd_fit)
 
 # save traceplots

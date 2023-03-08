@@ -157,3 +157,20 @@ Chain 2 Iteration: 2800 / 3000 [ 93%]  (Sampling)
 Chain 1 Iteration: 2800 / 3000 [ 93%]  (Sampling) 
 Chain 3 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
 Chain 2 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
+Chain 1 Iteration: 2900 / 3000 [ 96%]  (Sampling) 
+Chain 3 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 3 finished in 127311.0 seconds.
+Chain 2 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 2 finished in 128700.0 seconds.
+Chain 1 Iteration: 3000 / 3000 [100%]  (Sampling) 
+Chain 1 finished in 131681.0 seconds.
+
+All 3 chains finished successfully.
+Mean chain execution time: 129230.7 seconds.
+Total execution time: 131682.8 seconds.
+
+grep: write error: No space left on device
+grep: write error: No space left on device
+grep: write error: No space left on device
+Error: All variables in all chains must have the same length.
+Execution halted

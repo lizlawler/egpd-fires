@@ -21,6 +21,7 @@ file_base <- paste0("g1_", suffix, "_", params, "*")
 csv_files <- paste0("./full-model/fire-sims/burns/g1/csv-fits/", 
                     list.files("full-model/fire-sims/burns/g1/csv-fits/", 
                                pattern = file_base))
+print(csv_files)
 st_date <- stringr::str_extract(basename(csv_files[1]), "\\d{2}-Mar-\\d{4}")
 
 egpd_fit <- as_cmdstan_fit(csv_files, format = "draws_list")

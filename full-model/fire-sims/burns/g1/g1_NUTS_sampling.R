@@ -1,12 +1,16 @@
 # pass from command line ----
 args <- commandArgs(trailingOnly=TRUE)
-if (length(args) != 2) stop("Pass in suffix (sqrt or og), params (all-reg, xi-ri, sigma-ri_xi-ri, nu-ri_xi-ri, kappa-ri_xi-ri)", call.=FALSE)
+if (length(args) != 3) stop("Pass in suffix (sqrt or og), 
+                            params (all-reg, xi-ri, sigma-ri_xi-ri, nu-ri_xi-ri, kappa-ri_xi-ri),
+                            id ({1..3})", call.=FALSE)
 if (!(args[1] %in% c('sqrt', 'og'))) stop("Pass in the response data type (sqrt or og)", call.=FALSE)
 if (!(args[2] %in% c("all-reg", "xi-ri", "sigma-ri_xi-ri", "nu-ri_xi-ri", "kappa-ri_xi-ri"))) 
   stop("Pass in the parameter combination (all-reg, xi-ri, sigma-ri_xi-ri, nu-ri_xi-ri, kappa-ri_xi-ri)", call.=FALSE)
+if (!(args[3] %in% c(1:3))) stop("Pass in the chain id", call.=FALSE)
 
 suffix <- args[1]
 params <- args[2]
+id <- args[3]
 
 library(cmdstanr)
 set_cmdstan_path(path = "/projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.0") # this is only relevant to Alpine
@@ -23,12 +27,12 @@ egpd_fit <- egpd_model$sample(data = stan_data,
                               iter_warmup = 1000,
                               iter_sampling = 2000,
                               thin = 2,
-                              chains = 3,
+                              chains = 1,
                               show_messages = FALSE,
                               # parallel_chains = 3,
                               init = 0.01,
                               output_dir = "full-model/fire-sims/burns/g1/csv-fits/",
-                              output_basename = paste0("g1_", suffix, "_", params, "_", st_time))
+                              output_basename = paste0("g1_", suffix, "_", params, "_", id, "_", st_time))
 
 end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
 

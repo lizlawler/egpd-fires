@@ -24,7 +24,7 @@ csv_files <- paste0("./full-model/fire-sims/burns/g1/csv-fits/",
 st_date <- stringr::str_extract(basename(csv_files[1]), "\\d{2}-Mar-\\d{4}")
 
 egpd_fit <- as_cmdstan_fit(csv_files, format = "draws_list")
-egpd_fit$save_obj(file = paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", suffix, "_", params, "_", st_date, ".RDS"))
+# egpd_fit$save_obj(file = paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", suffix, "_", params, "_", st_date, ".RDS"))
 egpd_mcmc <- as_mcmc.list(egpd_fit)
 
 # save traceplots

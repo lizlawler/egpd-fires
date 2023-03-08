@@ -29,34 +29,33 @@ egpd_fit <- egpd_model$sample(data = stan_data,
                               thin = 2,
                               chains = 1,
                               show_messages = FALSE,
-                              # parallel_chains = 3,
                               init = 0.01,
                               output_dir = "full-model/fire-sims/burns/g1/csv-fits/",
                               output_basename = paste0("g1_", suffix, "_", params, "_", id, "_", st_time))
-
-end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
-
-# save CmdStanMCMC object
-# file_name <- paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_",
-#                     params, suffix, st_time, "_", end_time, ".RDS")
-# egpd_fit$save_object(file = file_name)
-
-# convert CmdStanMCMC object to mcmc list for use in MCMCtrace
-egpd_mcmc <- as_mcmc.list(egpd_fit)
-
-# save traceplots
-MCMCtrace(egpd_mcmc, params = "rho",
-          ind = TRUE,
-          open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
-                            suffix, '_rhos_', st_time, "_", end_time, ".pdf"))
-MCMCtrace(egpd_mcmc, params = "beta",
-            ind = TRUE,
-            open_pdf = FALSE,
-            filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
-                              suffix,'_betas_', st_time, "_", end_time, ".pdf"))
-MCMCtrace(egpd_mcmc, params = "phi",
-            ind = TRUE,
-            open_pdf = FALSE,
-            filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
-                              suffix,'_phis_', st_time, "_", end_time, ".pdf"))
+# 
+# end_time <- format(as.POSIXlt(Sys.time(), "America/Denver"), "%H%M")
+# 
+# # save CmdStanMCMC object
+# # file_name <- paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_",
+# #                     params, suffix, st_time, "_", end_time, ".RDS")
+# # egpd_fit$save_object(file = file_name)
+# 
+# # convert CmdStanMCMC object to mcmc list for use in MCMCtrace
+# egpd_mcmc <- as_mcmc.list(egpd_fit)
+# 
+# # save traceplots
+# MCMCtrace(egpd_mcmc, params = "rho",
+#           ind = TRUE,
+#           open_pdf = FALSE,
+#           filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
+#                             suffix, '_rhos_', st_time, "_", end_time, ".pdf"))
+# MCMCtrace(egpd_mcmc, params = "beta",
+#             ind = TRUE,
+#             open_pdf = FALSE,
+#             filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
+#                               suffix,'_betas_', st_time, "_", end_time, ".pdf"))
+# MCMCtrace(egpd_mcmc, params = "phi",
+#             ind = TRUE,
+#             open_pdf = FALSE,
+#             filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
+#                               suffix,'_phis_', st_time, "_", end_time, ".pdf"))

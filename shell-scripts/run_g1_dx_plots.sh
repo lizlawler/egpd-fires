@@ -18,8 +18,8 @@ sbatch --job-name g1_dxplots_$(printf %s $suffix "_" $params) \
 --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/ \
 --output='./full-model/output/%x_%j.txt' --qos=normal --nodes=1 --ntasks-per-node=45 \
 --time=1:00:00 --mail-type=ALL --mail-user=eslawler@colostate.edu \
-export TMPDIR=/scratch/alpine/eslawler@colostate.edu/ \
-export TMP=/scratch/alpine/eslawler@colostate.edu/ \
+--export TMPDIR=/scratch/alpine/eslawler@colostate.edu/ \
+--export TMP=/scratch/alpine/eslawler@colostate.edu/ \
 --export=suffix=$suffix,params=$params shell-scripts/call_dx_plots.sh
 done
 done

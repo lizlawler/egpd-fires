@@ -9,9 +9,10 @@ if (!(args[2] %in% c("all-reg", "xi-ri", "sigma-ri_xi-ri", "nu-ri_xi-ri", "kappa
 suffix <- args[1]
 params <- args[2]
 
-library(cmdstanr)
-set_cmdstan_path(path = "/projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.0") # this is only relevant to Alpine
-check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
+# library(cmdstanr)
+# set_cmdstan_path(path = "/projects/eslawler@colostate.edu/.cmdstan/cmdstan-2.31.0") # this is only relevant to Alpine
+# check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
+library(brms)
 library(MCMCvis)
 library(tidyverse)
 library(stringr)

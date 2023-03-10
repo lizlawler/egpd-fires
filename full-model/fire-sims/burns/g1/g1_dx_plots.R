@@ -25,23 +25,24 @@ print(csv_files)
 st_date <- stringr::str_extract(basename(csv_files[1]), "\\d{2}-Mar-\\d{4}")
 
 egpd_fit <- as_cmdstan_fit(csv_files, format = "draws_list")
+print("created object successfully")
 # egpd_fit$save_obj(file = paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", suffix, "_", params, "_", st_date, ".RDS"))
-egpd_mcmc <- as_mcmc.list(egpd_fit)
-
-# save traceplots
-MCMCtrace(egpd_mcmc, params = "rho",
-          ind = TRUE,
-          open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
-                            suffix, '_rhos_', st_date, ".pdf"))
-MCMCtrace(egpd_mcmc, params = "beta",
-          ind = TRUE,
-          open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
-                            suffix,'_betas_', st_date, ".pdf"))
-MCMCtrace(egpd_mcmc, params = "phi",
-          ind = TRUE,
-          open_pdf = FALSE,
-          filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
-                            suffix,'_phis_', st_date, ".pdf"))
-
+# egpd_mcmc <- as_mcmc.list(egpd_fit)
+# 
+# # save traceplots
+# MCMCtrace(egpd_mcmc, params = "rho",
+#           ind = TRUE,
+#           open_pdf = FALSE,
+#           filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
+#                             suffix, '_rhos_', st_date, ".pdf"))
+# MCMCtrace(egpd_mcmc, params = "beta",
+#           ind = TRUE,
+#           open_pdf = FALSE,
+#           filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
+#                             suffix,'_betas_', st_date, ".pdf"))
+# MCMCtrace(egpd_mcmc, params = "phi",
+#           ind = TRUE,
+#           open_pdf = FALSE,
+#           filename = paste0('./full-model/figures/g1/trace/g1_', params, '_', 
+#                             suffix,'_phis_', st_date, ".pdf"))
+# 

@@ -14,7 +14,6 @@ params <- args[2]
 # check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(brms)
 library(MCMCvis)
-library(tidyverse)
 library(stringr)
 options(mc.cores = parallel::detectCores())
 
@@ -27,9 +26,9 @@ st_date <- stringr::str_extract(basename(csv_files[1]), "\\d{2}-Mar-\\d{4}")
 
 egpd_fit <- brms:::read_csv_as_stanfit(csv_files)
 print("created object successfully")
-# egpd_fit$save_obj(file = paste0("./full-model/fire-sims/burns/g1/cmd-stan-fits/g1_", suffix, "_", params, "_", st_date, ".RDS"))
-# egpd_mcmc <- as_mcmc.list(egpd_fit)
-# 
+saveRDS(egpd_fit, file = paste0("./full-model/fire-sims/burns/g1/stan-fits/g1_", suffix, "_", params, "_", st_date, ".RDS"))
+print("stanfit object saved successfully")
+
 # save traceplots
 MCMCtrace(egpd_fit, params = "rho",
           ind = TRUE,

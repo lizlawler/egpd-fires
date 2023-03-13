@@ -30,11 +30,11 @@ print(csv_files)
 st_date <- stringr::str_extract(basename(csv_files[1]), "\\d{2}-Mar-\\d{4}")
 
 basename(csv_files[1])
-egpd_fit1 <- as_cmdstan_fit(csv_files[1])
+egpd_fit1 <- as_cmdstan_fit(csv_files[1], format = "draws_list")
 basename(csv_files[2])
-egpd_fit2 <- as_cmdstan_fit(csv_files[2])
+egpd_fit2 <- as_cmdstan_fit(csv_files[2], format = "draws_list")
 basename(csv_files[3])
-egpd_fit3 <- as_cmdstan_fit(csv_files[3])
+egpd_fit3 <- as_cmdstan_fit(csv_files[3], format = "draws_list")
 
 
 # egpd_fit <- brms:::read_csv_as_stanfit(csv_files)
@@ -58,4 +58,3 @@ egpd_fit3 <- as_cmdstan_fit(csv_files[3])
 #          open_pdf = FALSE,
 #          filename = paste0('./full-model/figures/g1/trace/g1_', params, '_',
 #                            suffix,'_phis_', st_date, ".pdf"))
-

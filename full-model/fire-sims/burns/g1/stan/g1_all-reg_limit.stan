@@ -5,7 +5,7 @@ functions {
     vector[n_pred] a = rep_vector(0, n_pred);
     vector[n_pred] b = rep_vector(1, n_pred);
     array[n_pred] real u = uniform_rng(a, b);
-    real cst = (1 - (1 + xi * (ymin / sigma)) ^ (-1 / xi)) ^ kappa;
+    real cst = (1 - (1 + xi * (1.001 / sigma)) ^ (-1 / xi)) ^ kappa;
     for (n in 1:n_pred) {
       real u_adj = u[n] * (1 - cst) + cst;
       forecast[n] = (sigma / xi) * ((1 - u_adj ^ (1 / kappa)) ^ -xi - 1);
@@ -14,10 +14,23 @@ functions {
   }
   real egpd_lpdf(real y, real ymin, real sigma, real xi, real kappa) {
     real lpdf;
-    real cst = (1 - (1 + xi * (ymin / sigma)) ^ (-1 / xi)) ^ kappa;
-    lpdf = log(kappa) - log(sigma) - (1 / xi + 1) * log(1 + xi * (y / sigma))
+    real cst;
+    if (kappa > 0 && sigma > 0 && xi > 1e-15) {
+      cst = (1 - (1 + xi * (ymin / sigma)) ^ (-1 / xi)) ^ kappa;
+      lpdf = log(kappa) - log(sigma) - (1 / xi + 1) * log(1 + xi * (y / sigma))
            + (kappa - 1) * log(1 - (1 + xi * (y / sigma)) ^ (-1 / xi));
-    return lpdf - log1m(cst);
+      return lpdf - log1m(cst);
+    }
+    else if (kappa > 0 && sigma > 0) {
+      cst = (1 - exp(-ymin / sigma)) ^ kappa;
+      lpdf = log(kappa) - log(sigma) - (y / sigma) + (kappa - 1) * log(1 - exp(-y / sigma));
+      print("Caution: sampling with limit case of xi; found xi = ", xi);
+      return lpdf - log1m(cst);
+    }
+    else {
+      reject("kappa and/or sigma <= 0, xi < 0, y < 1.0005; found kappa = ", kappa, 
+              ", sigma = ", sigma, ", xi = ", xi, ", y = ", y);
+    }
   }
   
   // twCRPS and matnormal_lpdf remain unchanged across models
@@ -54,7 +67,7 @@ data {
   // covariate data
   array[R] matrix[T_all, p] X_full; // design matrix; 1-D array of size R with matrices T x p
   array[R] matrix[T_train, p] X_train; // design matrix; 1-D array of size R with matrices T x p
-  
+
   // lower bound of burns
   real y_min;
 
@@ -108,7 +121,7 @@ parameters {
   vector<lower=rho1, upper = 1>[C] rho_sum;
 }
 transformed parameters {
-  array[N_tb_all] real<lower=y_min> y_train;
+  array[N_tb_all] real<lower=1> y_train;
   array[S] matrix[T_all, R] phi;
   vector<lower=0>[S] bp = bp_init / 2;
   vector<lower=0>[S] tau = tau_init / 2;

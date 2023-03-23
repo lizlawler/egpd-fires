@@ -13,7 +13,7 @@ model="stan/${burn_mod}_${params}"
 outbase="csv-fits/${burn_mod}_${suffix}_${params}_${delta}_${sttime}"
 
 # compile model and link c++ 
-cmdstan_model ${model}
+# cmdstan_model ${model}
 # run model with 3 chains
 ./${model} sample num_chains=3 num_warmup=1500 num_samples=1500 \
                   adapt delta=${delta} init_buffer=300 term_buffer=200 \

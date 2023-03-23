@@ -3,10 +3,15 @@
 #
 # cycle through loop and launch sbatch for every combination
 #
+module load anaconda
+conda activate stan
+
 burn_mod="g1"
 # for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
 for params in "all-reg" "all-reg_limit"
 do
+object="full-model/fire-sims/burns/${burn_mod}/stan/${burn_mod}_${params}"
+cmdstan_model ${object}
 for suffix in "sqrt" "og"
 do
 for delta in 0.8 0.9 0.95

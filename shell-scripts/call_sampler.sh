@@ -3,12 +3,12 @@
 #SBATCH --partition=amilan
 #SBATCH --account=csu54_alpine1
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
-#SBATCH --qos=long 
+#SBATCH --qos=normal
 #SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=3
 #SBATCH --mem=90000
-#SBATCH --time=48:00:00 
-#SBATCH --mail-type=ALL 
+#SBATCH --time=24:00:00
+#SBATCH --mail-type=ALL
 #SBATCH --mail-user=eslawler@colostate.edu
 
 export TMPDIR=/scratch/alpine/$USER/tmp/

@@ -288,6 +288,7 @@ stan_data_og <- list(
 
   # burn data 
   # training data
+  y_min = min(burn_hold_obs_og, burn_train_obs_og),
   y_train_obs = burn_train_obs_og,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
@@ -340,6 +341,7 @@ stan_data_sqrt <- list(
   
   # burn data 
   # training data
+  y_min = min(burn_hold_obs_sqrt, burn_train_obs_sqrt),
   y_train_obs = burn_train_obs_sqrt,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
@@ -380,3 +382,6 @@ saveRDS(stan_data_og, file = './full-model/data/stan_data_og.RDS')
 saveRDS(stan_data_sqrt, file = './full-model/data/stan_data_sqrt.RDS')
 print('stan_data.rds written!')
 
+library(cmdstanr)
+write_stan_json(data = stan_data_og, file = './full-model/data/stan_data_og.json')
+write_stan_json(data = stan_data_sqrt, file = './full-model/data/stan_data_sqrt.json')

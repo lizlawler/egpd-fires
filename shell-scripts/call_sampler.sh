@@ -3,6 +3,7 @@
 #SBATCH --partition=amilan
 #SBATCH --account=csu54_alpine1
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
+#SBATCH --qos=long
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=5
 #SBATCH --time=48:00:00

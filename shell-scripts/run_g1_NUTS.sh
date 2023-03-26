@@ -16,14 +16,11 @@ for suffix in "sqrt" "og"
 do
 for delta in 0.81 0.9
 do
-for nwarm in 1000 1500
-do
-export burn_mod params suffix delta nwarm
-sbatch --job-name ${burn_mod}_${suffix}_${params}_${delta}_${nwarm} \
+export burn_mod params suffix delta
+sbatch --job-name ${burn_mod}_${suffix}_${params}_${delta} \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_sampler.sh \
 sleep 1
-done
 done
 done
 done

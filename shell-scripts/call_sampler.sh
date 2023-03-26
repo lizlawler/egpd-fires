@@ -13,4 +13,4 @@ export TMPDIR=/scratch/alpine/$USER/tmp/
 export TMP=${TMPDIR}
 mkdir -p $TMPDIR
 
-./shell-scripts/burn_sampling.sh ${burn_mod} ${suffix} ${params} ${delta} ${nwarm}
+./shell-scripts/burn_sampling.sh ${burn_mod} ${suffix} ${params} ${delta}

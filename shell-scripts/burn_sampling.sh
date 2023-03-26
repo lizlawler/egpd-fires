@@ -13,7 +13,7 @@ model="stan/${burn_mod}_${params}"
 outbase="csv-fits/${burn_mod}_${suffix}_${params}_${delta}_${sttime}"
 
 # run model with 3 chains
-./${model} sample num_chains=3 num_warmup=${nwarm} num_samples=2000 thin=2 \
+./${model} sample num_chains=3 num_warmup=1000 num_samples=2000 thin=2 \
                   adapt delta=${delta} \
                   data file=${datafile} \
                   init=0.01 \

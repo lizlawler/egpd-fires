@@ -7,20 +7,23 @@ module load anaconda
 conda activate stan
 
 burn_mod="g1"
-# for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
-for params in "all-reg" "all-reg_limit"
+for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
 do
+# compile model and link c++ 
 object="full-model/fire-sims/burns/${burn_mod}/stan/${burn_mod}_${params}"
 cmdstan_model ${object}
 for suffix in "sqrt" "og"
 do
-for delta in 0.8 0.9 0.95
+for delta in 0.81 0.9
 do
-export burn_mod params suffix delta
-sbatch --job-name ${burn_mod}_${suffix}_${params}_${delta} \
+for nwarm in 1000 1500
+do
+export burn_mod params suffix delta nwarm
+sbatch --job-name ${burn_mod}_${suffix}_${params}_${delta}_${nwarm} \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_sampler.sh \
 sleep 1
+done
 done
 done
 done

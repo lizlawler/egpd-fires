@@ -6,7 +6,7 @@ conda activate stan
 
 datafile="../../../data/stan_data_${suffix}.json"
 basedir="./full-model/fire-sims/burns/${burn_mod}/"
-diagexe="/projects/eslawler@colostate.edu/software/anaconda/envs/stan/bin/cmdstan/bin/diagnose"
+# diagexe="/projects/eslawler@colostate.edu/software/anaconda/envs/stan/bin/cmdstan/bin/diagnose"
 cd ${basedir}
 sttime=$(date +"%d%b%Y_%H%M")
 model="stan/${burn_mod}_${params}"
@@ -20,6 +20,6 @@ outbase="csv-fits/${burn_mod}_${suffix}_${params}_${delta}_${sttime}"
                   output file=${outbase}.csv \
                   num_threads=3
 
-# return diagnostics
-${diagexe} ${outbase}_*.csv
+# # return diagnostics
+# ${diagexe} ${outbase}_*.csv
 

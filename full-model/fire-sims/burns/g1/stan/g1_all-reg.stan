@@ -12,11 +12,12 @@ functions {
     }
     return forecast;
   }
+  
   real egpd_lpdf(real y, real ymin, real sigma, real xi, real kappa) {
     real lpdf;
     real cst = (1 - (1 + xi * (ymin / sigma)) ^ (-1 / xi)) ^ kappa;
-    lpdf = log(kappa) - log(sigma) - (1 / xi + 1) * log(1 + xi * (y / sigma))
-           + (kappa - 1) * log(1 - (1 + xi * (y / sigma)) ^ (-1 / xi));
+    lpdf = log(kappa) - log(sigma) - (1 / xi + 1) * log(1 + xi * (y / sigma)) + 
+           (kappa - 1) * log(1 - (1 + xi * (y / sigma)) ^ (-1 / xi));
     return lpdf - log1m(cst);
   }
   
@@ -104,15 +105,14 @@ parameters {
   vector<lower=0>[S] tau_init;
   vector<lower=0, upper = 1>[S] eta;
   vector<lower=0, upper = 1>[S] bp_init;
-  vector<lower=0, upper = 0.999>[C] rho1;
-  vector<lower=rho1, upper = 1>[C] rho_sum;
+  array[C] vector<lower=0, upper = 1>[2] rho;
 }
 transformed parameters {
   array[N_tb_all] real<lower=y_min> y_train;
   array[S] matrix[T_all, R] phi;
+  array[S] matrix[T_train, R] reg;
   vector<lower=0>[S] bp = bp_init / 2;
   vector<lower=0>[S] tau = tau_init / 2;
-  vector<lower = 0>[C] rho2 = rho_sum - rho1;
   array[S] cov_matrix[p] cov_ar1;
   array[C] corr_matrix[R] corr;
 
@@ -120,7 +120,7 @@ transformed parameters {
   y_train[ii_tb_mis] = y_train_mis;
 
   for (c in 1:C) {
-    corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
+    corr[c] = l3 + rho[c][2] * l2 + rho[c][1] * l1;
   }
 
   for (s in 1:S) {
@@ -135,26 +135,29 @@ transformed parameters {
       phi[s][t, ] = eta[s] * phi[s][t - 1, ]
                        + 1 / tau[s] * phi_init[t, s];
     }
+    // regression for kappa, nu, and xi
+    for (r in 1:R) {
+      reg[s][, r] = X_train[r] * beta[s][, r] + phi[s][idx_train_er, r];
+    }
   }
 }
 model {
-  array[S] matrix[T_train, R] reg;
-  vector[N_tb_all] kappa;
-  vector[N_tb_all] nu;
-  vector[N_tb_all] xi;
-  vector[N_tb_all] sigma;
-  
-  // prior on AR(1) penalization of splines
-  to_vector(bp_init) ~ beta(2, 2);
+  vector[N_tb_all] kappa = exp(to_vector(reg[1]))[ii_tb_all];;
+  vector[N_tb_all] nu = exp(to_vector(reg[2]))[ii_tb_all];;
+  vector[N_tb_all] xi = exp(to_vector(reg[3]))[ii_tb_all];;
+  vector[N_tb_all] sigma = nu ./ (1 + xi);;
 
+  // prior on AR(1) penalization of splines
+  to_vector(bp_init) ~ uniform(0, 1);
+  
   // priors scaling constants in ICAR
-  to_vector(eta) ~ beta(2, 2);
+  to_vector(eta) ~ beta(2, 8);
   to_vector(tau_init) ~ exponential(1);
 
   // prior on rhos
   for (c in 1:C) {
-    rho1[c] ~ beta(2,2);
-    rho_sum[c] ~ beta(8, 2);
+    // soft constraint for sum of rhos within an individual param to be <= 1
+    sum(rho[c]) ~ uniform(0, 1);
   }
 
   for (s in 1:S) {
@@ -165,16 +168,7 @@ model {
       target += -.5 * dot_self(phi_init[t, s][node1] - phi_init[t, s][node2]);
       sum(phi_init[t, s]) ~ normal(0, 0.001 * R);
     }
-    // regression for kappa, nu, and xi
-    for (r in 1:R) {
-      reg[s][, r] = X_train[r] * beta[s][, r] + phi[s][idx_train_er, r];
-    }
   }
-
-  kappa = exp(to_vector(reg[1]))[ii_tb_all];
-  nu = exp(to_vector(reg[2]))[ii_tb_all];
-  xi = exp(to_vector(reg[3]))[ii_tb_all];
-  sigma = nu ./ (1 + xi);
 
   // likelihood
   for (n in 1:N_tb_all) {

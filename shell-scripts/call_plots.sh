@@ -3,10 +3,10 @@
 #SBATCH --partition=amilan
 #SBATCH --account=csu54_alpine1
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
-#SBATCH --qos=long
+#SBATCH --qos=normal
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=5
-#SBATCH --time=48:00:00
+#SBATCH --ntasks-per-node=17
+#SBATCH --time=1:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=eslawler@colostate.edu
 
@@ -15,6 +15,7 @@ export TMP=${TMPDIR}
 mkdir -p $TMPDIR
 
 module load anaconda
-conda activate stan
+conda activate renv
 
-./shell-scripts/burn_sampling.sh ${modtype} ${modname} ${suffix} ${params} ${delta}
+Rscript --vanilla full-model/fire-sims/dx_plots.R \
+${modtype} ${modname} ${suffix} ${params} ${delta}

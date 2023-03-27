@@ -14,6 +14,7 @@ export TMPDIR=/scratch/alpine/$USER/tmp/
 export TMP=${TMPDIR}
 mkdir -p $TMPDIR
 
+module purge
 module load anaconda
 conda activate stan
 

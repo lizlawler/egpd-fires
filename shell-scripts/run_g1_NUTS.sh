@@ -3,6 +3,9 @@
 #
 # cycle through loop and launch sbatch for every combination
 #
+module load anaconda
+conda activate stan
+
 modtype="burns"
 modname="g1"
 for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"

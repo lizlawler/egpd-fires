@@ -229,3 +229,12 @@ Chain [1] Iteration: 2700 / 3000 [ 90%]  (Sampling)
 Chain [1] Iteration: 2800 / 3000 [ 93%]  (Sampling)
 Chain [2] Iteration: 2100 / 3000 [ 70%]  (Sampling)
 Chain [1] Iteration: 2900 / 3000 [ 96%]  (Sampling)
+Chain [1] Iteration: 3000 / 3000 [100%]  (Sampling)
+
+ Elapsed Time: 30428.5 seconds (Warm-up)
+               46894.6 seconds (Sampling)
+               77323.1 seconds (Total)
+
+Chain [2] Iteration: 2200 / 3000 [ 73%]  (Sampling)
+Chain [2] Iteration: 2300 / 3000 [ 76%]  (Sampling)
+slurmstepd: error: *** JOB 996136 ON c3cpu-c11-u15-1 CANCELLED AT 2023-03-24T15:55:32 DUE TO TIME LIMIT ***

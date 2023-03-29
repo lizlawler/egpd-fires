@@ -1232,3 +1232,26 @@ Exception: g1_nu_ri_xi_ri_model_namespace::log_prob: corr is not positive defini
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: g1_nu_ri_xi_ri_model_namespace::log_prob: corr is not positive definite. (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g1/stan/g1_nu-ri_xi-ri.stan', line 118, column 2 to column 31)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [2] Iteration: 1900 / 3000 [ 63%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: g1_nu_ri_xi_ri_model_namespace::log_prob: corr is not positive definite. (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g1/stan/g1_nu-ri_xi-ri.stan', line 118, column 2 to column 31)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 2000 / 3000 [ 66%]  (Sampling)
+Chain [1] Iteration: 1900 / 3000 [ 63%]  (Sampling)
+Chain [2] Iteration: 2000 / 3000 [ 66%]  (Sampling)
+Chain [3] Iteration: 2100 / 3000 [ 70%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: g1_nu_ri_xi_ri_model_namespace::log_prob: corr is not positive definite. (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g1/stan/g1_nu-ri_xi-ri.stan', line 118, column 2 to column 31)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 2000 / 3000 [ 66%]  (Sampling)
+Chain [3] Iteration: 2200 / 3000 [ 73%]  (Sampling)
+Chain [2] Iteration: 2100 / 3000 [ 70%]  (Sampling)

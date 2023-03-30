@@ -18,5 +18,5 @@ module purge
 module load anaconda
 conda activate renv
 
-Rscript --vanilla full-model/fire-sims/dx_plots.R \
+Rscript --vanilla ./full-model/fire-sims/dx_plots.R \
 ${modtype} ${modname} ${suffix} ${params} ${delta}

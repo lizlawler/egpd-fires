@@ -6,9 +6,10 @@
 module load anaconda
 conda activate stan
 
-modtype="burns"
-modname="g1"
-for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
+modtype="counts"
+for modname in "zinb" "zinb_er" "zip"
+do
+for params in "all-reg" "pi-ri"
 do
 # compile model and link c++ 
 object="full-model/fire-sims/${modtype}/${modname}/stan/${modname}_${params}"
@@ -27,6 +28,7 @@ sbatch --dependency=afterok:${parentjob} \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_plots.sh
 sleep 1
+done
 done
 done
 done

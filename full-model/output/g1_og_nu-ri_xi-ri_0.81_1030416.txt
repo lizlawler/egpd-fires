@@ -1810,3 +1810,30 @@ Chain [3] Iteration: 2500 / 3000 [ 83%]  (Sampling)
 Chain [2] Iteration: 2700 / 3000 [ 90%]  (Sampling)
 Chain [1] Iteration: 2600 / 3000 [ 86%]  (Sampling)
 Chain [3] Iteration: 2600 / 3000 [ 86%]  (Sampling)
+Chain [1] Iteration: 2700 / 3000 [ 90%]  (Sampling)
+Chain [2] Iteration: 2800 / 3000 [ 93%]  (Sampling)
+Chain [3] Iteration: 2700 / 3000 [ 90%]  (Sampling)
+Chain [2] Iteration: 2900 / 3000 [ 96%]  (Sampling)
+Chain [1] Iteration: 2800 / 3000 [ 93%]  (Sampling)
+Chain [3] Iteration: 2800 / 3000 [ 93%]  (Sampling)
+Chain [2] Iteration: 3000 / 3000 [100%]  (Sampling)
+
+ Elapsed Time: 49710.1 seconds (Warm-up)
+               118456 seconds (Sampling)
+               168166 seconds (Total)
+
+Chain [1] Iteration: 2900 / 3000 [ 96%]  (Sampling)
+Chain [3] Iteration: 2900 / 3000 [ 96%]  (Sampling)
+Chain [1] Iteration: 3000 / 3000 [100%]  (Sampling)
+
+ Elapsed Time: 49014.2 seconds (Warm-up)
+               123533 seconds (Sampling)
+               172547 seconds (Total)
+
+Chain [3] Iteration: 3000 / 3000 [100%]  (Sampling)
+
+ Elapsed Time: 48981.7 seconds (Warm-up)
+               123688 seconds (Sampling)
+               172669 seconds (Total)
+
+slurmstepd: error: *** JOB 1030416 ON c3cpu-a7-u1-1 CANCELLED AT 2023-03-29T17:11:02 DUE TO TIME LIMIT ***

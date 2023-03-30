@@ -915,3 +915,8 @@ Chain [2] Iteration: 1800 / 3000 [ 60%]  (Sampling)
 Chain [3] Iteration: 1800 / 3000 [ 60%]  (Sampling)
 Chain [2] Iteration: 1900 / 3000 [ 63%]  (Sampling)
 Chain [1] Iteration: 1900 / 3000 [ 63%]  (Sampling)
+Chain [3] Iteration: 1900 / 3000 [ 63%]  (Sampling)
+Chain [1] Iteration: 2000 / 3000 [ 66%]  (Sampling)
+Chain [2] Iteration: 2000 / 3000 [ 66%]  (Sampling)
+Chain [3] Iteration: 2000 / 3000 [ 66%]  (Sampling)
+slurmstepd: error: *** JOB 1030410 ON c3cpu-a7-u1-1 CANCELLED AT 2023-03-29T16:13:50 DUE TO TIME LIMIT ***

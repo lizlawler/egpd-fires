@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#SBATCH --partition=amilan
+#SBATCH --account=csu54_alpine1
+#SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
+#SBATCH --qos=normal
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=17
+#SBATCH --time=0:30:00
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=eslawler@colostate.edu
+
+export TMPDIR=/scratch/alpine/$USER/tmp/
+export TMP=${TMPDIR}
+mkdir -p $TMPDIR
+
+module purge
+module load anaconda
+conda activate renv
+
+Rscript --vanilla ./full-model/fire-sims/dx_plots_one.R

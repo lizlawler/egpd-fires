@@ -14,9 +14,7 @@ export TMPDIR=/scratch/alpine/$USER/tmp/
 export TMP=${TMPDIR}
 mkdir -p $TMPDIR
 
-module purge
-module load anaconda
-conda init bash
+source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate lawler
 
 Rscript --vanilla ./full-model/fire-sims/dx_plots_one.R

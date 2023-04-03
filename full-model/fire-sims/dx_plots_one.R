@@ -1,8 +1,11 @@
-library(cmdstanr)
-set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
-check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
-library(brms)
+# library(cmdstanr)
+# set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
+# check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
+# library(brms)
+library(rstan)
 library(MCMCvis)
+# library(posterior)
+# library(bayesplot)
 
 type <- "burns"
 model <- "g1"
@@ -16,9 +19,10 @@ csvpattern <- paste0(model, "_", suffix, "_", params, "_", delta)
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 csvfiles
 
-fit1 <- brms:::read_csv_as_stanfit(csvfiles[1])
-fit2 <-	brms:::read_csv_as_stanfit(csvfiles[2])
-fit3 <-	brms:::read_csv_as_stanfit(csvfiles[3])
+fit <- rstan::read_stan_csv(csvfiles)
+list_of_draws <- extract(fit)
+print(names(list_of_draws))
+
 
 # model_fit <- brms:::read_csv_as_stanfit(csvfiles)
 # MCMCtrace(model_fit, params = "rho",

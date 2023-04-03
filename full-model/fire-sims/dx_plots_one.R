@@ -19,16 +19,19 @@ csvfiles
 fit <- rstan::read_stan_csv(csvfiles)
 list_of_draws <- extract(fit)
 print(names(list_of_draws))
+rho_fit <- extract(fit, pars = 'rho')
+beta_fit <- extract(fit, pars = 'beta')
+phi_fit <- extract(fit, pars = 'phi')
 
-MCMCtrace(fit, params = 'rho',
+MCMCtrace(rho_fit,
          ind = TRUE,
          open_pdf = FALSE,
          filename = paste0(plotbase, csvpattern, "_rho.pdf"))
-MCMCtrace(fit, params = 'beta',
+MCMCtrace(beta_fit,
          ind = TRUE,
          open_pdf = FALSE,
          filename = paste0(plotbase, csvpattern, "_beta.pdf"))
-MCMCtrace(fit, params = 'phi',
+MCMCtrace(phi_fit,
          ind = TRUE,
          open_pdf = FALSE,
          filename = paste0(plotbase, csvpattern, "_phi.pdf"))

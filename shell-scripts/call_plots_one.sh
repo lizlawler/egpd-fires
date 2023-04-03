@@ -16,6 +16,7 @@ mkdir -p $TMPDIR
 
 module purge
 module load anaconda
+conda init bash
 conda activate lawler
 
 Rscript --vanilla ./full-model/fire-sims/dx_plots_one.R

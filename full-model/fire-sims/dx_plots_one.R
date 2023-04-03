@@ -19,9 +19,9 @@ csvfiles
 fit <- rstan::read_stan_csv(csvfiles)
 list_of_draws <- extract(fit)
 print(names(list_of_draws))
-rho_fit <- extract(fit, pars = 'rho')
-beta_fit <- extract(fit, pars = 'beta')
-phi_fit <- extract(fit, pars = 'phi')
+rho_fit <- as.array(fit, pars = 'rho')
+beta_fit <- as.array(fit, pars = 'beta')
+phi_fit <- as.array(fit, pars = 'phi')
 
 MCMCtrace(rho_fit,
          ind = TRUE,

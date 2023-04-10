@@ -3,7 +3,7 @@
 #
 # cycle through loop and launch sbatch for every combination
 #
-module load anaconda
+source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
 modtype="burns"

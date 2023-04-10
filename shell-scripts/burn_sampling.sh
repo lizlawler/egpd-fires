@@ -1,7 +1,7 @@
 #!/bin/bash
 # model run 
 
-module load anaconda
+source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
 datafile="../../../data/stan_data_${suffix}.json"

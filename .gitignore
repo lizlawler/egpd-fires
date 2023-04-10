@@ -39,6 +39,8 @@ full-model/data/raw/
 
 full-model/fire-sims/burns/g1/stan-fits/fit-params/
 full-model/fire-sims/burns/**/stan-fits/*.RDS
+full-model/fire-sims/burns/**/csv-fits/*.csv
+full-model/fire-sims/burns/**/csv-fits/**/*.csv
 full-model/fire-sims/counts/**/stan-fits/*.RDS
 full-model/fire-sims/**/**/csv-fits/*.csv
 full-model/fire-sims/**/**/cmd-stan-fits/*.RDS

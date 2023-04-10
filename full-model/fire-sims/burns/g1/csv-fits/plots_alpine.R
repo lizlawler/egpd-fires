@@ -1,5 +1,6 @@
 library(cmdstanr)
 library(MCMCvis)
+library(stringr)
 
 all_csvs <- list.files(pattern = "*.csv")
 model_name <- unique(str_remove(string = all_csvs, pattern = "_\\d{1}.csv"))

@@ -10,7 +10,7 @@ for(i in 1:length(model_name)) {
   model_groups[[i]] <- c(all_csvs[grep(model_name[i], all_csvs)])
 }
 
-plotbase <- "~/research/egpd-fires/full-model/figures/g1/trace/"
+plotbase <- "trace_plots/"
 trace_plots <- function(name_string, file_string) {
   name <- name_string
   fit <- cmdstanr::as_cmdstan_fit(file_string)
@@ -19,20 +19,20 @@ trace_plots <- function(name_string, file_string) {
             params = 'rho',
             ind = TRUE,
             open_pdf = FALSE,
-            filename = paste0(plotbase, name_string, "_rho.pdf"))
+            filename = paste0(plotbase, name, "_rho.pdf"))
   MCMCtrace(fitmcmc,
             params = 'beta',
             ind = TRUE,
             open_pdf = FALSE,
-            filename = paste0(plotbase, name_string, "_beta.pdf"))
+            filename = paste0(plotbase, name, "_beta.pdf"))
   MCMCtrace(fitmcmc,
             params = 'phi',
             ind = TRUE,
             open_pdf = FALSE,
-            filename = paste0(plotbase, name_string, "_phi.pdf"))
+            filename = paste0(plotbase, name, "_phi.pdf"))
 }
 
 for(i in seq_along(model_groups)) {
-  tryCatch(trace_plots(names(model_groups)[i], model_groups[[i]]), error=function(e) NULL)
+  trace_plots(names(model_groups)[i], model_groups[[i]])
 }
   

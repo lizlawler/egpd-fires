@@ -5,7 +5,7 @@
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
 #SBATCH --qos=normal
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=17
+#SBATCH --ntasks-per-node=13
 #SBATCH --time=1:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=eslawler@colostate.edu
@@ -18,4 +18,4 @@ source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate lawler
 
 Rscript --vanilla ./full-model/fire-sims/dx_plots.R \
-${modtype} ${modname} ${suffix} ${params} ${delta}
+${modtype} ${modname} ${suffix} ${params} ${delta} ${sttime}

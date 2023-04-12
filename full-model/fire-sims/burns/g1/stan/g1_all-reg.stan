@@ -114,7 +114,7 @@ transformed parameters {
   array[S] matrix[T_train, R] reg;
   vector<lower=0>[S] bp = bp_init / 2;
   vector<lower=0>[S] tau = tau_init / 2;
-  vector[S] rho2 = rho_sum - rho1;
+  vector[C] rho2 = rho_sum - rho1;
   array[S] cov_matrix[p] cov_ar1;
   array[C] corr_matrix[R] corr;
 

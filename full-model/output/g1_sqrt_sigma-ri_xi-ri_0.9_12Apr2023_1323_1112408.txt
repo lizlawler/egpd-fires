@@ -108,3 +108,22 @@ but if this warning occurs often then your model may be either severely ill-cond
 Chain [1] Iteration:    1 / 3000 [  0%]  (Warmup)
 Chain [2] Iteration:    1 / 3000 [  0%]  (Warmup)
 Chain [3] Iteration:    1 / 3000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 110, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 110, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration:  100 / 3000 [  3%]  (Warmup)
+Chain [1] Iteration:  100 / 3000 [  3%]  (Warmup)
+Chain [2] Iteration:  100 / 3000 [  3%]  (Warmup)
+Chain [2] Iteration:  200 / 3000 [  6%]  (Warmup)
+Chain [3] Iteration:  200 / 3000 [  6%]  (Warmup)
+Chain [1] Iteration:  200 / 3000 [  6%]  (Warmup)
+Chain [2] Iteration:  300 / 3000 [ 10%]  (Warmup)
+Chain [3] Iteration:  300 / 3000 [ 10%]  (Warmup)
+Chain [1] Iteration:  300 / 3000 [ 10%]  (Warmup)

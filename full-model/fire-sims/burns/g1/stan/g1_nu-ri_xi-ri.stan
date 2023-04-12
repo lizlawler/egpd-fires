@@ -106,7 +106,8 @@ parameters {
   vector<lower=0>[S] tau_init;
   vector<lower=0, upper = 1>[S] eta;
   vector<lower=0, upper = 1>[S] bp_init;
-  array[C] vector<lower=0, upper=1>[2] rho; // 1 = kappa, 2 = nu, 3 = xi
+  vector<lower=0, upper = 1>[C] rho1; // 1 = kappa, 2 = nu, 3 = xi
+  vector<lower=rho1, upper = 1>[C] rho_sum;
 }
 transformed parameters {
   array[N_tb_all] real<lower=y_min> y_train;
@@ -114,6 +115,7 @@ transformed parameters {
   array[S] matrix[T_train, R] reg;
   vector<lower=0>[S] bp = bp_init / 2;
   vector<lower=0>[S] tau = tau_init / 2;
+  vector[S] rho2 = rho_sum - rho1;
   array[S] cov_matrix[p] cov_ar1;
   array[C] corr_matrix[R] corr;
   
@@ -124,7 +126,7 @@ transformed parameters {
   y_train[ii_tb_mis] = y_train_mis;
   
   for (c in 1:C) {
-    corr[c] = l3 + rho[c][2] * l2 + rho[c][1] * l1;
+    corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
   }
   
   for (i in 1:2) {
@@ -133,8 +135,6 @@ transformed parameters {
   }
   
   for (s in 1:S) {
-    // bp[s] = bp_init[s] / 2;
-    // tau[s] = tau_init[s] / 2;
     cov_ar1[s] = equal + bp[s] * bp_lin + bp[s] ^ 2 * bp_square
                  + bp[s] ^ 3 * bp_cube + bp[s] ^ 4 * bp_quart;
     
@@ -158,17 +158,17 @@ model {
   vector[N_tb_all] sigma = nu ./ (1 + xi);
   
   to_vector(Z) ~ std_normal();
-  // priors on rhos and AR(1) penalization of splines
+  
+  // prior on AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
   
   // priors scaling constants in ICAR
-  to_vector(eta) ~ beta(2, 8);
+  to_vector(eta) ~ beta(3, 4);
   to_vector(tau_init) ~ exponential(1);
-  
-  for (c in 1:C) {
-    // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1kappa + rho2kappa <= 1)
-    sum(rho[c]) ~ uniform(0, 1);
-  }
+
+  // prior on rhos
+  to_vector(rho1) ~ beta(3, 4);
+  to_vector(rho_sum) ~ beta(8, 2);
   
   for (s in 1:S) {
     // MVN prior on betas

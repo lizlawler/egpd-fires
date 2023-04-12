@@ -1,0 +1,10 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+[1] "./full-model/fire-sims/burns/g1/csv-fits/g1_og_xi-ri_0.81_27Mar2023_1557_1.csv"
+[2] "./full-model/fire-sims/burns/g1/csv-fits/g1_og_xi-ri_0.81_27Mar2023_1557_2.csv"
+[3] "./full-model/fire-sims/burns/g1/csv-fits/g1_og_xi-ri_0.81_27Mar2023_1557_3.csv"
+Error: All variables in all chains must have the same length.
+Execution halted

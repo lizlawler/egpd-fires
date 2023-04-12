@@ -1,0 +1,20 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+[1] "./full-model/fire-sims/burns/g1/csv-fits/g1_sqrt_nu-ri_xi-ri_0.81_27Mar2023_1701_1.csv"
+[2] "./full-model/fire-sims/burns/g1/csv-fits/g1_sqrt_nu-ri_xi-ri_0.81_27Mar2023_1701_2.csv"
+[3] "./full-model/fire-sims/burns/g1/csv-fits/g1_sqrt_nu-ri_xi-ri_0.81_27Mar2023_1701_3.csv"
+Warning: 27 of 3000 (1.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 2973 of 3000 (99.0%) transitions hit the maximum treedepth limit of 10.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 3 of 3 chains had an E-BFMI less than 0.2.
+See https://mc-stan.org/misc/warnings for details.
+
+[1] "rho plots created"
+[1] "beta plots created"
+[1] "phi plots created"

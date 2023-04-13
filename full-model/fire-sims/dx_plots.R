@@ -20,7 +20,7 @@ fit <- as_cmdstan_fit(csvfiles)
 fitmcmc <- as_mcmc.list(fit)
 
 MCMCtrace(fitmcmc,
-          params = 'rho', 
+          params = c('rho1', 'rho2'), 
           ind = TRUE, 
           open_pdf = FALSE, 
           filename = paste0(plotbase, csvpattern, "_rho.pdf"))

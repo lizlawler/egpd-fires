@@ -1,0 +1,10 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+[1] "./full-model/fire-sims/burns/g1/csv-fits/g1_og_all-reg_0.81_12Apr2023_1319_1.csv"
+[2] "./full-model/fire-sims/burns/g1/csv-fits/g1_og_all-reg_0.81_12Apr2023_1319_2.csv"
+[3] "./full-model/fire-sims/burns/g1/csv-fits/g1_og_all-reg_0.81_12Apr2023_1319_3.csv"
+/var/spool/slurmd/job1117564/slurm_script: line 20: 4075132 Killed                  Rscript --vanilla ./full-model/fire-sims/dx_plots_by_csv.R ${csv}
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=1117564.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

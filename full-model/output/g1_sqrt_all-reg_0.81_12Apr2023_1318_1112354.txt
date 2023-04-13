@@ -210,3 +210,16 @@ Chain [2] Iteration: 3000 / 3000 [100%]  (Sampling)
                30219.5 seconds (Sampling)
                80867.3 seconds (Total)
 
+Chain [3] Iteration: 2500 / 3000 [ 83%]  (Sampling)
+Chain [3] Iteration: 2600 / 3000 [ 86%]  (Sampling)
+Chain [3] Iteration: 2700 / 3000 [ 90%]  (Sampling)
+Chain [3] Iteration: 2800 / 3000 [ 93%]  (Sampling)
+Chain [3] Iteration: 2900 / 3000 [ 96%]  (Sampling)
+Chain [3] Iteration: 3000 / 3000 [100%]  (Sampling)
+
+ Elapsed Time: 55849.8 seconds (Warm-up)
+               35320.1 seconds (Sampling)
+               91169.9 seconds (Total)
+
+./shell-scripts/burn_sampling.sh: line 23: 899042 Killed                  ${diagexe} ${outbase}_*.csv
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=1112354.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

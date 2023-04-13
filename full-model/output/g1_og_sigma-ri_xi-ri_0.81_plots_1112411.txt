@@ -1,0 +1,7 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+/var/spool/slurmd/job1112411/slurm_script: line 21: 3127647 Killed                  Rscript --vanilla ./full-model/fire-sims/dx_plots.R ${modtype} ${modname} ${suffix} ${params} ${delta} ${sttime}
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=1112411.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

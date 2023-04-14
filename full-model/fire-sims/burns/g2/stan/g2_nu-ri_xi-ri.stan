@@ -145,8 +145,6 @@ transformed parameters {
   }
 
   for (s in 1:S) {
-    bp[s] = bp_init[s] / 2;
-    tau[s] = tau_init[s] / 2;
     cov_ar1[s] = equal + bp[s] * bp_lin + bp[s] ^ 2 * bp_square
                  + bp[s] ^ 3 * bp_cube + bp[s] ^ 4 * bp_quart;
     

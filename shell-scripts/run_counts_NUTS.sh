@@ -14,7 +14,7 @@ do
 # compile model and link c++ 
 object="full-model/fire-sims/${modtype}/${modname}/stan/${modname}_${params}"
 cmdstan_model ${object}
-for suffix in "sqrt" "og"
+for suffix in "og"
 do
 for delta in 0.81 0.9
 do

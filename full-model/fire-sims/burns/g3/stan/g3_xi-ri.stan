@@ -108,40 +108,36 @@ parameters {
   vector[R] Z;
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
-  array[S] real<lower=0> tau_init;
-  array[S] real<lower=0, upper=1> eta;
-  array[S] real<lower=0, upper=1> bp_init;
-  array[C] vector<lower=0, upper=1>[2] rho; // 1 = nu, 2 = xi, 3 = gamma
+  vector<lower=0>[S] tau_init;
+  vector<lower=0, upper = 1>[S] eta;
+  vector<lower=0, upper = 1>[S] bp_init;
+  vector<lower=0, upper = 1>[C] rho1;
+  vector<lower=rho1, upper = 1>[C] rho_sum; // 1 = nu, 2 = xi, 3 = gamma
 }
 transformed parameters {
   array[N_tb_all] real<lower=y_min> y_train;
   array[S] matrix[T_all, R] phi;
   array[S] matrix[T_train, R] reg;
-  array[S] matrix[p, p] cov_ar1;
-  array[S] real<lower=0, upper=1> bp;
-  array[S] real<lower=0> tau;
-  array[C] matrix[R, R] corr; // 1 = nu, 2 = xi, 3 = gamma
-  vector[R] ri_init; // random intercept vector
-  matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
+  vector<lower=0>[S] bp = bp_init / 2;
+  vector<lower=0>[S] tau = tau_init / 2;
+  vector[C] rho2 = rho_sum - rho1;
+  array[S] cov_matrix[p] cov_ar1;
+  array[C] corr_matrix[R] corr; // 1 = nu, 2 = xi, 3 = gamma
   
-  vector<lower=0>[N_tb_all] nu;
-  vector<lower=0>[N_tb_all] xi;
-  vector<lower=0>[N_tb_all] gamma;
-  vector<lower=0>[N_tb_all] sigma;
+  vector[R] ri_init; 
+  matrix[T_all, R] ri_matrix;
   
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
   
   for (c in 1:C) {
-    corr[c] = l3 + rho[c][2] * l2 + rho[c][1] * l1;
+    corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
   }
   
   ri_init = cholesky_decompose(corr[3])' * Z;
   ri_matrix = rep_matrix(ri_init', T_all);
   
   for (s in 1:S) {
-    bp[s] = bp_init[s] / 2;
-    tau[s] = tau_init[s] / 2;
     cov_ar1[s] = equal + bp[s] * bp_lin + bp[s] ^ 2 * bp_square
                  + bp[s] ^ 3 * bp_cube + bp[s] ^ 4 * bp_quart;
     
@@ -157,26 +153,25 @@ transformed parameters {
       reg[s][, r] = X_train[r] * beta[s][, r] + phi[s][idx_train_er, r];
     }
   }
-  
-  nu = exp(to_vector(reg[1]))[ii_tb_all];
-  xi = exp(to_vector(reg[2]))[ii_tb_all];
-  gamma = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
-  sigma = nu ./ (1 + xi);
 }
 model {
+  vector[N_tb_all] nu = exp(to_vector(reg[1]))[ii_tb_all];
+  vector[N_tb_all] xi = exp(to_vector(reg[2]))[ii_tb_all];
+  vector[N_tb_all] gamma = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] sigma = nu ./ (1 + xi);
+  
   Z ~ std_normal();
-  // priors on rhos and AR(1) penalization of splines
+  
+  // prior on AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
   
   // priors scaling constants in ICAR
-  to_vector(eta) ~ beta(2, 8);
+  to_vector(eta) ~ beta(3, 4);
   to_vector(tau_init) ~ exponential(1);
-  
-  for (c in 1:C) {
-    // rho[c][1] ~ beta(3,4);
-    // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1kappa + rho2kappa <= 1)
-    sum(rho[c]) ~ uniform(0, 1);
-  }
+
+  // prior on rhos
+  to_vector(rho1) ~ beta(3, 4);
+  to_vector(rho_sum) ~ beta(8, 2);
   
   for (s in 1:S) {
     // MVN prior on betas

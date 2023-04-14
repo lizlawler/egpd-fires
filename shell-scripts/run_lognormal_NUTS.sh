@@ -7,7 +7,7 @@ source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
 modtype="burns"
-modname="g4"
+modname="lognorm"
 for params in "all-reg" "sigma-ri" "mu-ri"
 do
 # compile model and link c++ 

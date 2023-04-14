@@ -5,8 +5,8 @@
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
 #SBATCH --qos=long
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=10
-#SBATCH --time=96:00:00
+#SBATCH --ntasks-per-node=5
+#SBATCH --time=120:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=eslawler@colostate.edu
 

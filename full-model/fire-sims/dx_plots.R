@@ -16,26 +16,36 @@ plotbase <- paste0("./full-model/figures/", model, "/trace/")
 csvpattern <- paste0(model, "_", suffix, "_", params, "_", delta, "_", sttime)
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 
+print("Filenames being used are:")
+csvfiles
+
+print("Creating cmdstan fit object...")
 fit <- as_cmdstan_fit(csvfiles)
+fit$diagnostic_summary()
+
+print("Creating mcmc list from cmdstan object...")
 fitmcmc <- as_mcmc.list(fit)
 
+print("Creating traceplot of rhos...")
 MCMCtrace(fitmcmc,
           params = c('rho1', 'rho2'), 
           ind = TRUE, 
           open_pdf = FALSE, 
           filename = paste0(plotbase, csvpattern, "_rho.pdf"))
-print("rho plots created")
+print("rho traceplots created")
 
+print("Creating traceplot of betas")
 MCMCtrace(fitmcmc,
           params = 'beta', 
           ind = TRUE, 
           open_pdf = FALSE, 
           filename = paste0(plotbase, csvpattern, "_beta.pdf"))
-print("beta plots created")
+print("beta traceplots created")
 
+print("Creating traceplot of phi...")
 MCMCtrace(fitmcmc,
           params = 'phi', 
           ind = TRUE, 
           open_pdf = FALSE, 
           filename = paste0(plotbase, csvpattern, "_phi.pdf"))
-print("phi plots created")
+print("phi traceplots created")

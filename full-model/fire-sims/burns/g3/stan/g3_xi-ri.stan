@@ -1,13 +1,13 @@
 functions {
   // forecast_rng and egpd_lpdf vary by model
-  vector forecast_rng(int n_pred, real sigma, real xi, real gamma) {
+  vector forecast_rng(int n_pred, real ymin, real sigma, real xi, real gamma) {
     vector[n_pred] forecast;
     vector[n_pred] a = rep_vector(0, n_pred);
     vector[n_pred] b = rep_vector(1, n_pred);
     array[n_pred] real u = uniform_rng(a, b);
     real alpha = 1/gamma;
     real beta = 2;
-    real cst_term = (1 + xi * (1.001/sigma))^(-gamma/xi);
+    real cst_term = (1 + xi * (ymin/sigma))^(-gamma/xi);
     real cst = 1 - beta_cdf(cst_term | alpha, beta);
     for (n in 1:n_pred) {
       real u_adj = u[n] * (1 - cst) + cst;
@@ -16,11 +16,11 @@ functions {
     return forecast;
   }
   
-  real egpd_lpdf(real y, real sigma, real xi, real gamma) {
+  real egpd_lpdf(real y, real ymin, real sigma, real xi, real gamma) {
     real alpha = 1/gamma;
     real beta = 2;
     real w = 1 + xi * (y/sigma);
-    real cst_term = (1 + xi * (1.001/sigma))^(-gamma/xi);
+    real cst_term = (1 + xi * (ymin/sigma))^(-gamma/xi);
     real cst = beta_lcdf(cst_term | alpha, beta);
     real lpdf = log(gamma) - log(sigma) + beta_lpdf(w^(-gamma/xi) | alpha, beta) - (gamma/xi + 1) * log(w);
     return lpdf - cst;
@@ -61,11 +61,14 @@ data {
   array[R] matrix[T_all, p] X_full; // design matrix; 1-D array of size r with matrices t x p
   array[R] matrix[T_train, p] X_train; // design matrix; 1-D array of size r with matrices t x p
   
+  // lower bound of burns
+  real y_min;  
+  
   // training data
   int<lower=1> N_tb_obs;
   int<lower=1> N_tb_mis;
   int<lower=1> N_tb_all;
-  array[N_tb_obs] real<lower=1> y_train_obs; // burn area for observed training timepoints
+  array[N_tb_obs] real<lower=y_min> y_train_obs; // burn area for observed training timepoints
   array[N_tb_obs] int<lower=1> ii_tb_obs;
   array[N_tb_mis] int<lower=1, upper=N_tb_all> ii_tb_mis;
   array[N_tb_all] int<lower=1, upper=N_tb_all> ii_tb_all; // for broadcasting
@@ -101,7 +104,7 @@ transformed data {
   int C = 3; // # of parameters with correlation (either regression or random intercept)
 }
 parameters {
-  array[N_tb_mis] real<lower=1> y_train_mis;
+  array[N_tb_mis] real<lower=y_min> y_train_mis;
   vector[R] Z;
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
@@ -111,7 +114,7 @@ parameters {
   array[C] vector<lower=0, upper=1>[2] rho; // 1 = nu, 2 = xi, 3 = gamma
 }
 transformed parameters {
-  array[N_tb_all] real<lower=1> y_train;
+  array[N_tb_all] real<lower=y_min> y_train;
   array[S] matrix[T_all, R] phi;
   array[S] matrix[T_train, R] reg;
   array[S] matrix[p, p] cov_ar1;
@@ -187,7 +190,7 @@ model {
   
   // likelihood
   for (n in 1:N_tb_all) {
-    target += egpd_lpdf(y_train[n] | sigma[n], xi[n], gamma[n]);
+    target += egpd_lpdf(y_train[n] | y_min, sigma[n], xi[n], gamma[n]);
   }
 }
 

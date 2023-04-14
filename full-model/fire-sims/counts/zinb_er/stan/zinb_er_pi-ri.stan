@@ -58,29 +58,30 @@ parameters {
   matrix[R, 2] Z;
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
-  array[S] real<lower=0> tau_init;
-  array[S] real<lower=0, upper=1> eta;
-  array[S] real<lower=0, upper=1> bp_init;
-  array[C] vector<lower=0, upper=1>[2] rho; // ordering: 1 = lambda, 2 = pi, 3 = delta
+  vector<lower=0>[S] tau_init;
+  vector<lower=0, upper = 1>[S] eta;
+  vector<lower=0, upper = 1>[S] bp_init;
+  vector<lower=0, upper = 1>[C] rho1;
+  vector<lower=rho1, upper = 1>[C] rho_sum; // ordering: 1 = lambda, 2 = pi, 3 = delta
 }
 transformed parameters {
   vector<lower = 0>[R] delta;
   array[S] matrix[T_all, R] phi;
   array[S] matrix[T_train, R] reg;
-  array[S] matrix[p, p] cov_ar1;
-  array[S] real<lower=0, upper=1> bp;
-  array[S] real<lower=0> tau;
-  array[C] matrix[R, R] corr;
+  vector<lower=0>[S] bp = bp_init / 2;
+  vector<lower=0>[S] tau = tau_init / 2;
+  vector[C] rho2 = rho_sum - rho1;
+  array[S] cov_matrix[p] cov_ar1;
+  array[C] corr_matrix[R] corr;
+  
   matrix[T_train, R] lambda;
   vector[R] pi_prob;
   
   for (c in 1:C) {
-    corr[c] = l3 + rho[c][2] * l2 + rho[c][1] * l1;
+    corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
   }
   
   for (s in 1:S) {
-    bp[s] = bp_init[s] / 2;
-    tau[s] = tau_init[s] / 2;
     cov_ar1[s] = equal + bp[s] * bp_lin + bp[s] ^ 2 * bp_square
                  + bp[s] ^ 3 * bp_cube + bp[s] ^ 4 * bp_quart;
     
@@ -97,24 +98,23 @@ transformed parameters {
       lambda[, r] = reg[1][, r] + area_offset[r];
     }
   }
-  pi_prob = exp(cholesky_decompose(corr[2])' * Z[,1]);
+  pi_prob = cholesky_decompose(corr[2])' * Z[,1];
   delta = exp(cholesky_decompose(corr[3])' * Z[,2]);
 }
 
 model {
   to_vector(Z) ~ std_normal();
-  // priors on rhos and AR(1) penalization of splines
+
+  // prior on AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
   
   // priors scaling constants in ICAR
-  to_vector(eta) ~ beta(2, 8);
+  to_vector(eta) ~ beta(3, 4);
   to_vector(tau_init) ~ exponential(1);
-  
-  for (c in 1:C) {
-    // rho[c][1] ~ beta(3,4);
-    // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1kappa + rho2kappa <= 1)
-    sum(rho[c]) ~ uniform(0, 1);
-  }
+
+  // prior on rhos
+  to_vector(rho1) ~ beta(3, 4);
+  to_vector(rho_sum) ~ beta(8, 2);
   
   for (s in 1:S) {
     // MVN prior on betas

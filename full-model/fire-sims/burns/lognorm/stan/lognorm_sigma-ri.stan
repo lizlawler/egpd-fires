@@ -1,11 +1,11 @@
 functions {
   // forecast_rng and egpd_lpdf vary by model
-  vector forecast_rng(int n_pred, real mu, real sigma) {
+  vector forecast_rng(int n_pred, real ymin, real mu, real sigma) {
     vector[n_pred] forecast;
     vector[n_pred] a = rep_vector(0, n_pred);
     vector[n_pred] b = rep_vector(1, n_pred);
     array[n_pred] real u = uniform_rng(a, b);
-    real cst = lognormal_cdf(1.001 | mu, sigma);
+    real cst = lognormal_cdf(ymin | mu, sigma);
     for (n in 1:n_pred) {
       real u_adj = u[n] * (1 - cst) + cst;
       forecast[n] = exp(inv_Phi(u_adj) * sigma + mu);
@@ -13,8 +13,8 @@ functions {
     return forecast;
   }
   
-  real lognorm_trunc_lpdf(real y, real mu, real sigma) {
-    real cst = lognormal_cdf(1.001 | mu, sigma);
+  real lognorm_trunc_lpdf(real y, real ymin, real mu, real sigma) {
+    real cst = lognormal_cdf(ymin | mu, sigma);
     real lpdf = lognormal_lpdf(y | mu, sigma);
     return lpdf - log1m(cst);
   }
@@ -54,11 +54,14 @@ data {
   array[R] matrix[T_all, p] X_full; // design matrix; 1-D array of size r with matrices t x p
   array[R] matrix[T_train, p] X_train; // design matrix; 1-D array of size r with matrices t x p
   
+  // lower bound of burns
+  real y_min;   
+  
   // training data
   int<lower=1> N_tb_obs;
   int<lower=1> N_tb_mis;
   int<lower=1> N_tb_all;
-  array[N_tb_obs] real<lower=1> y_train_obs; // burn area for observed training timepoints
+  array[N_tb_obs] real<lower=y_min> y_train_obs; // burn area for observed training timepoints
   array[N_tb_obs] int<lower=1> ii_tb_obs;
   array[N_tb_mis] int<lower=1, upper=N_tb_all> ii_tb_mis;
   array[N_tb_all] int<lower=1, upper=N_tb_all> ii_tb_all; // for broadcasting
@@ -94,41 +97,40 @@ transformed data {
   int C = 2; // # of parameters with correlation (either regression or random intercept)
 }
 parameters {
-  array[N_tb_mis] real<lower=1> y_train_mis;
+  array[N_tb_mis] real<lower=y_min> y_train_mis;
+  vector[R] Z;
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
-  array[S] real<lower=0> tau_init;
-  array[S] real<lower=0, upper=1> eta;
-  array[S] real<lower=0, upper=1> bp_init;
-  array[C] vector<lower=0, upper=1>[2] rho;
+  vector<lower=0>[S] tau_init;
+  vector<lower=0, upper = 1>[S] eta;
+  vector<lower=0, upper = 1>[S] bp_init;
+  vector<lower=0, upper = 1>[C] rho1;
+  vector<lower=rho1, upper = 1>[C] rho_sum; 
 }
 transformed parameters {
   array[N_tb_all] real<lower=1> y_train;
   array[S] matrix[T_all, R] phi;
   array[S] matrix[T_train, R] reg;
-  array[S] matrix[p, p] cov_ar1;
-  array[S] real<lower=0, upper=1> bp;
-  array[S] real<lower=0> tau;
-  array[C] matrix[R, R] corr; // 1 = mu, 2= sigma
-  vector[R] ri_init; // random intercept vector
-  matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
+  vector<lower=0>[S] bp = bp_init / 2;
+  vector<lower=0>[S] tau = tau_init / 2;
+  vector[C] rho2 = rho_sum - rho1;
+  array[S] cov_matrix[p] cov_ar1;
+  array[C] corr_matrix[R] corr; // 1 = mu, 2= sigma
   
-  vector<lower=0>[N_tb_all] mu;
-  vector<lower=0>[N_tb_all] sigma;
+  vector[R] ri_init; 
+  matrix[T_all, R] ri_matrix; 
   
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
   
   for (c in 1:C) {
-    corr[c] = l3 + rho[c][2] * l2 + rho[c][1] * l1;
+    corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
   }
   
   ri_init = cholesky_decompose(corr[2])' * Z;
   ri_matrix = rep_matrix(ri_init', T_all);
   
   for (s in 1:S) {
-    bp[s] = bp_init[s] / 2;
-    tau[s] = tau_init[s] / 2;
     cov_ar1[s] = equal + bp[s] * bp_lin + bp[s] ^ 2 * bp_square
                  + bp[s] ^ 3 * bp_cube + bp[s] ^ 4 * bp_quart;
     
@@ -144,23 +146,23 @@ transformed parameters {
       reg[s][, r] = X_train[r] * beta[s][, r] + phi[s][idx_train_er, r];
     }
   }
-  
-  mu = to_vector(reg[1])[ii_tb_all];
-  sigma = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
 }
 model {
-  // priors on rhos and AR(1) penalization of splines
+  vector[N_tb_all] mu = to_vector(reg[1])[ii_tb_all];
+  vector[N_tb_all] sigma = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
+  
+  Z ~ std_normal();
+  
+  // prior on AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
   
   // priors scaling constants in ICAR
-  to_vector(eta) ~ beta(2, 8);
+  to_vector(eta) ~ beta(3, 4);
   to_vector(tau_init) ~ exponential(1);
-  
-  for (c in 1:C) {
-    // rho[c][1] ~ beta(3,4);
-    // soft constraint for sum of rhos within an individual param to be <= 1 (ie rho1kappa + rho2kappa <= 1)
-    sum(rho[c]) ~ uniform(0, 1);
-  }
+
+  // prior on rhos
+  to_vector(rho1) ~ beta(3, 4);
+  to_vector(rho_sum) ~ beta(8, 2);
   
   for (s in 1:S) {
     // MVN prior on betas
@@ -174,7 +176,7 @@ model {
   
   // likelihood
   for (n in 1:N_tb_all) {
-    target += lognormal_lpdf(y_train[n] | mu[n], sigma[n]);
+    target += lognorm_trunc_lpdf(y_train[n] | y_min, mu[n], sigma[n]);
   }
 }
 

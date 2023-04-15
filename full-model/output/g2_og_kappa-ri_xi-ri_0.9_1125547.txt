@@ -1,0 +1,343 @@
+method = sample (Default)
+  sample
+    num_samples = 2000
+    num_warmup = 2000
+    save_warmup = 0 (Default)
+    thin = 2
+    adapt
+      engaged = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      delta = 0.90000000000000002
+      kappa = 0.75 (Default)
+      t0 = 10 (Default)
+      init_buffer = 75 (Default)
+      term_buffer = 50 (Default)
+      window = 25 (Default)
+    algorithm = hmc (Default)
+      hmc
+        engine = nuts (Default)
+          nuts
+            max_depth = 10 (Default)
+        metric = diag_e (Default)
+        metric_file =  (Default)
+        stepsize = 1 (Default)
+        stepsize_jitter = 0 (Default)
+    num_chains = 3
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_og.json
+init = 0.01
+random
+  seed = 2340100133 (Default)
+output
+  file = csv-fits/g2_og_kappa-ri_xi-ri_0.9_.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 3
+
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00175, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.0013, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.0151, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00312, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00108, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00645, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.01114, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00547, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00366, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00111, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00105, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00352, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00281, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00191, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00544, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.01024, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00134, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00607, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00091, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00094, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00055, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00223, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00058, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00261, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00532, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00191, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00177, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00003, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00024, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00509, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.01126, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.01078, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00543, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00064, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00108, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00619, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00094, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00508, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00455, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00918, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00151, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00064, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00163, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00434, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00317, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.0037, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00134, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00446, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00384, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00091, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00144, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00264, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00057, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00066, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00106, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00279, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00327, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.0056, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00738, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00959, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00292, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.0032, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00883, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00034, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00615, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00221, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00157, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00446, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00042, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00009, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00144, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00193, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00007, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00374, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00045, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00495, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00433, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.0043, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00133, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00331, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00713, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00076, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00184, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00588, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00022, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00078, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00556, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00113, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00462, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00091, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.0017, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00191, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00281, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00321, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00318, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00294, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00038, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00302, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.00249, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+Rejecting initial value:
+  Error evaluating the log probability at the initial value.
+Exception: Exception: log1m: x is 1.01011, but must be less than or equal to 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 30, column 4 to column 29) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_kappa-ri_xi-ri.stan', line 197, column 4 to column 89)
+
+Initialization between (-0.01, 0.01) failed after 100 attempts. 
+ Try specifying initial values, reducing ranges of constrained values, or reparameterizing the model.
+Model has finished running all 3 chains

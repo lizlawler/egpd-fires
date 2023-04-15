@@ -2,7 +2,7 @@ library(cmdstanr)
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 
 
-model <- cmdstan_model("full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan", compile = FALSE)
+model <- cmdstan_model("full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan", compile = FALSE)
 model$check_syntax(pedantic = TRUE)
 
 model <- cmdstan_model("full-model/fire-sims/counts/zip/stan/zip_pi-ri.stan", compile = FALSE)

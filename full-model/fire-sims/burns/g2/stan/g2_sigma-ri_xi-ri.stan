@@ -22,10 +22,10 @@ functions {
   real egpd_lpdf(real y, real ymin, real sigma, real xi, real kappa1, real kappa2, real p) {
     real lpdf;
     real w = 1 + xi * (y/sigma);
-    real first = (kappa1 * p * (1-w^(-1/xi)))^(kappa1 - 1);
-    real second = (kappa2 * (1-p) * (1-w^(-1/xi)))^(kappa2 - 1); 
+    real first = kappa1 * p * (1 - w^(-1/xi))^(kappa1 - 1);
+    real second = kappa2 * (1-p) * (1 - w^(-1/xi))^(kappa2 - 1); 
     real cst_term = 1 - (1 + xi * (ymin/sigma)) ^ (-1/xi);
-    real cst = p * cst_term ^ (kappa1 - 1) + (1 - p) * cst_term ^ (kappa2-1);
+    real cst = p * cst_term ^ kappa1 + (1 - p) * cst_term ^ kappa2;
     lpdf = -log(sigma) - (1/xi + 1) * log(w) + log(first + second);
     return lpdf - log1m(cst);
   }

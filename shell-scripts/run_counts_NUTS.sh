@@ -18,8 +18,9 @@ for suffix in "og"
 do
 for delta in 0.81 0.9
 do
-export modtype modname params suffix delta
-parentjob=$(sbatch --parsable $1 --job-name ${modname}_${suffix}_${params}_${delta} \
+sttime=$(date +"%d%b%Y_%H%M")
+export modtype modname params suffix delta sttime
+parentjob=$(sbatch --parsable $1 --job-name ${modname}_${suffix}_${params}_${delta}_${sttime} \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_sampler.sh)
 sleep 1
@@ -28,7 +29,6 @@ sbatch --dependency=afterok:${parentjob} \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_plots.sh
 sleep 1
-done
 done
 done
 done

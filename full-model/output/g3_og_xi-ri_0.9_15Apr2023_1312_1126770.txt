@@ -28,9 +28,9 @@ data
   file = ../../../data/stan_data_og.json
 init = 0.01
 random
-  seed = 2363350654 (Default)
+  seed = 2377076080 (Default)
 output
-  file = csv-fits/zinb_er_og_all-reg_0.9_15Apr2023_1016.csv
+  file = csv-fits/g3_og_xi-ri_0.9_15Apr2023_1312.csv
   diagnostic_file =  (Default)
   refresh = 100 (Default)
   sig_figs = -1 (Default)
@@ -38,95 +38,93 @@ output
 num_threads = 3
 
 
-Gradient evaluation took 0.049533 seconds
-1000 transitions using 10 leapfrog steps per transition would take 495.33 seconds.
+Gradient evaluation took 0.194439 seconds
+1000 transitions using 10 leapfrog steps per transition would take 1944.39 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.036657 seconds
-1000 transitions using 10 leapfrog steps per transition would take 366.57 seconds.
+Gradient evaluation took 0.174208 seconds
+1000 transitions using 10 leapfrog steps per transition would take 1742.08 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.03675 seconds
-1000 transitions using 10 leapfrog steps per transition would take 367.5 seconds.
+Gradient evaluation took 0.174447 seconds
+1000 transitions using 10 leapfrog steps per transition would take 1744.47 seconds.
 Adjust your expectations accordingly!
 
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 65, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: mdivide_left_spd: Matrix A is not positive definite (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 8, column 4 to line 10, column 81) (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 121, column 4 to column 60)
+Exception: g3_xi_ri_model_namespace::log_prob: corr is not positive definite. (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 125, column 2 to column 31)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
 Chain [2] Iteration:    1 / 4000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[3] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[3] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
 Chain [3] Iteration:    1 / 4000 [  0%]  (Warmup)
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: neg_binomial_2_log_lpmf: Precision parameter is 0, but must be positive finite! (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 133, column 8 to line 135, column 103)
+Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: neg_binomial_2_log_lpmf: Precision parameter is 0, but must be positive finite! (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb_er/stan/zinb_er_all-reg.stan', line 133, column 8 to line 135, column 103)
+Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
-Chain [1] Iteration:  100 / 4000 [  2%]  (Warmup)
-Chain [2] Iteration:  100 / 4000 [  2%]  (Warmup)
-Chain [3] Iteration:  100 / 4000 [  2%]  (Warmup)
-Chain [1] Iteration:  200 / 4000 [  5%]  (Warmup)
-Chain [2] Iteration:  200 / 4000 [  5%]  (Warmup)
-Chain [3] Iteration:  200 / 4000 [  5%]  (Warmup)
-Chain [2] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [1] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [3] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [2] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [1] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [3] Iteration:  400 / 4000 [ 10%]  (Warmup)

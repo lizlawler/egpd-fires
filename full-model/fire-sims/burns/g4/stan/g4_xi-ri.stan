@@ -106,7 +106,7 @@ transformed data {
 }
 parameters {
   array[N_tb_mis] real<lower=y_min> y_train_mis;
-  matrix[R, 2] Z;
+  matrix[R, 2] Z; //1 = xi, 2 = gamma
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
   vector<lower=0>[S] tau_init;

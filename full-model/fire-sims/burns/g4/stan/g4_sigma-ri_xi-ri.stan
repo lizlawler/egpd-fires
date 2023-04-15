@@ -106,7 +106,7 @@ transformed data {
 }
 parameters {
   array[N_tb_mis] real<lower=y_min> y_train_mis;
-  matrix[R, 3] Z;
+  matrix[R, 3] Z; // 1=sigma, 2 = xi, 3=gamma
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
   vector<lower=0>[S] tau_init;
@@ -125,8 +125,8 @@ transformed parameters {
   array[S] cov_matrix[p] cov_ar1;
   array[C] corr_matrix[R] corr; // 1 = kappa, 2= sigma, 3 = xi, 4 = gamma
   
-  array[2] vector[R] ri_init; 
-  array[2] matrix[T_all, R] ri_matrix;
+  array[3] vector[R] ri_init; 
+  array[3] matrix[T_all, R] ri_matrix;
 
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
@@ -159,7 +159,7 @@ transformed parameters {
 }
 model {
   vector[N_tb_all] kappa = exp(to_vector(reg[1]))[ii_tb_all];
-  vector[N_tb_all] sigma = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] sigma = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
   vector[N_tb_all] gamma = exp(to_vector(ri_matrix[3][idx_train_er,]))[ii_tb_all];
   

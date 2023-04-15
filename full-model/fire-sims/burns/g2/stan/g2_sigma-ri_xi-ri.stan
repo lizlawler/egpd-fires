@@ -129,8 +129,8 @@ transformed parameters {
   array[S] cov_matrix[p] cov_ar1;
   array[C] corr_matrix[R] corr;
   
-  array[2] vector[R] ri_init; // random intercept vector
-  array[2] matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
+  array[2] vector[R] ri_init; 
+  array[2] matrix[T_all, R] ri_matrix; 
   
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;

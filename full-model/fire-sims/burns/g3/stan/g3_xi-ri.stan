@@ -105,7 +105,7 @@ transformed data {
 }
 parameters {
   array[N_tb_mis] real<lower=y_min> y_train_mis;
-  vector[R] Z;
+  matrix[R, 2] Z; // 1 = xi, 2 = gamma
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
   vector<lower=0>[S] tau_init;
@@ -124,8 +124,8 @@ transformed parameters {
   array[S] cov_matrix[p] cov_ar1;
   array[C] corr_matrix[R] corr; // 1 = nu, 2 = xi, 3 = gamma
   
-  vector[R] ri_init; 
-  matrix[T_all, R] ri_matrix;
+  array[2] vector[R] ri_init; 
+  array[2] matrix[T_all, R] ri_matrix;
   
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
@@ -134,9 +134,11 @@ transformed parameters {
     corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
   }
   
-  ri_init = cholesky_decompose(corr[3])' * Z;
-  ri_matrix = rep_matrix(ri_init', T_all);
-  
+  for (i in 1:2) {
+    ri_init[i] = cholesky_decompose(corr[i+1])' * Z[,i];
+    ri_matrix[i] = rep_matrix(ri_init[i]', T_all);    
+  }
+
   for (s in 1:S) {
     cov_ar1[s] = equal + bp[s] * bp_lin + bp[s] ^ 2 * bp_square
                  + bp[s] ^ 3 * bp_cube + bp[s] ^ 4 * bp_quart;
@@ -156,11 +158,11 @@ transformed parameters {
 }
 model {
   vector[N_tb_all] nu = exp(to_vector(reg[1]))[ii_tb_all];
-  vector[N_tb_all] xi = exp(to_vector(reg[2]))[ii_tb_all];
-  vector[N_tb_all] gamma = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] xi = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] gamma = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
   vector[N_tb_all] sigma = nu ./ (1 + xi);
   
-  Z ~ std_normal();
+  to_vector(Z) ~ std_normal();
   
   // prior on AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);

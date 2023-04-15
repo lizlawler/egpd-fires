@@ -118,3 +118,9 @@ Exception: lub_constrain: lb[3] is 1, but must be less than 1.000000 (in '../../
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[3] is 1, but must be less than 1.000000 (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_all-reg.stan', line 115, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+slurmstepd: error: *** JOB 1126599 ON c3cpu-a7-u1-1 CANCELLED AT 2023-04-15T10:29:58 ***

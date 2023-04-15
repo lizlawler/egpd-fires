@@ -8,10 +8,10 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 201> locations_array__ = 
+static constexpr std::array<const char*, 203> locations_array__ = 
 {" (found before start of program)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 107, column 2 to column 48)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 108, column 2 to column 14)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 108, column 2 to column 17)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 109, column 2 to column 41)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 110, column 2 to column 29)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 111, column 2 to column 30)",
@@ -27,49 +27,51 @@ static constexpr std::array<const char*, 201> locations_array__ =
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 123, column 2 to column 34)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 124, column 2 to column 33)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 125, column 2 to column 31)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 127, column 2 to column 20)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 2 to column 29)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 127, column 2 to column 29)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 2 to column 38)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 130, column 2 to column 35)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 131, column 2 to column 35)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 134, column 4 to column 47)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 133, column 17 to line 135, column 3)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 133, column 2 to line 135, column 3)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 137, column 2 to column 45)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 138, column 2 to column 42)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 141, column 4 to line 142, column 62)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 145, column 4 to column 46)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 147, column 6 to line 148, column 53)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 146, column 23 to line 149, column 5)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 146, column 4 to line 149, column 5)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 153, column 6 to column 72)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 152, column 19 to line 154, column 5)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 152, column 4 to line 154, column 5)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 140, column 17 to line 155, column 3)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 140, column 2 to line 155, column 3)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 158, column 9 to column 17)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 158, column 2 to column 58)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 159, column 9 to column 17)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 159, column 2 to column 58)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 138, column 4 to column 56)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 139, column 4 to column 50)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 137, column 17 to line 140, column 3)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 137, column 2 to line 140, column 3)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 143, column 4 to line 144, column 62)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 147, column 4 to column 46)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 149, column 6 to line 150, column 53)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 148, column 23 to line 151, column 5)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 148, column 4 to line 151, column 5)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 155, column 6 to column 72)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 154, column 19 to line 156, column 5)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 154, column 4 to line 156, column 5)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 142, column 17 to line 157, column 3)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 142, column 2 to line 157, column 3)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 160, column 9 to column 17)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 160, column 2 to column 79)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 160, column 2 to column 58)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 161, column 9 to column 17)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 161, column 2 to column 42)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 163, column 2 to column 19)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 166, column 2 to column 37)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 169, column 2 to column 30)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 170, column 2 to column 39)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 173, column 2 to column 31)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 174, column 2 to column 34)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 178, column 4 to column 60)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 181, column 6 to column 78)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 182, column 6 to column 49)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 180, column 23 to line 183, column 5)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 180, column 4 to line 183, column 5)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 176, column 17 to line 184, column 3)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 176, column 2 to line 184, column 3)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 188, column 4 to column 71)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 187, column 24 to line 189, column 3)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 187, column 2 to line 189, column 3)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 161, column 2 to column 79)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 162, column 9 to column 17)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 162, column 2 to column 82)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 163, column 9 to column 17)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 163, column 2 to column 42)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 165, column 2 to column 30)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 168, column 2 to column 37)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 171, column 2 to column 30)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 172, column 2 to column 39)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 175, column 2 to column 31)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 176, column 2 to column 34)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 180, column 4 to column 60)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 183, column 6 to column 78)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 184, column 6 to column 49)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 182, column 23 to line 185, column 5)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 182, column 4 to line 185, column 5)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 178, column 17 to line 186, column 3)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 178, column 2 to line 186, column 3)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 190, column 4 to column 71)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 189, column 24 to line 191, column 3)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 189, column 2 to line 191, column 3)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 54, column 2 to column 17)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 55, column 2 to column 17)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 56, column 2 to column 21)",
@@ -165,9 +167,9 @@ static constexpr std::array<const char*, 201> locations_array__ =
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 124, column 22 to column 23)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 125, column 8 to column 9)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 125, column 23 to column 24)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 127, column 9 to column 10)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 9 to column 14)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 16 to column 17)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 127, column 18 to column 19)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 18 to column 23)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 25 to column 26)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 4, column 11 to column 17)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 4, column 4 to column 28)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 5, column 11 to column 17)",
@@ -279,53 +281,53 @@ template <typename T1__, typename T2__, typename T3__, typename T4__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 159;
+      current_statement__ = 161;
       stan::math::validate_non_negative_index("forecast", "n_pred", n_pred);
       Eigen::Matrix<local_scalar_t__, -1, 1> forecast =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n_pred,
            DUMMY_VAR__);
-      current_statement__ = 161;
+      current_statement__ = 163;
       stan::math::validate_non_negative_index("a", "n_pred", n_pred);
       Eigen::Matrix<local_scalar_t__, -1, 1> a =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n_pred,
            DUMMY_VAR__);
-      current_statement__ = 162;
+      current_statement__ = 164;
       stan::model::assign(a, stan::math::rep_vector(0, n_pred),
         "assigning variable a");
-      current_statement__ = 163;
+      current_statement__ = 165;
       stan::math::validate_non_negative_index("b", "n_pred", n_pred);
       Eigen::Matrix<local_scalar_t__, -1, 1> b =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n_pred,
            DUMMY_VAR__);
-      current_statement__ = 164;
+      current_statement__ = 166;
       stan::model::assign(b, stan::math::rep_vector(1, n_pred),
         "assigning variable b");
-      current_statement__ = 165;
+      current_statement__ = 167;
       stan::math::validate_non_negative_index("u", "n_pred", n_pred);
       std::vector<local_scalar_t__> u =
          std::vector<local_scalar_t__>(n_pred, DUMMY_VAR__);
-      current_statement__ = 166;
+      current_statement__ = 168;
       stan::model::assign(u, stan::math::uniform_rng(a, b, base_rng__),
         "assigning variable u");
       local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 167;
+      current_statement__ = 169;
       alpha = (1 / gamma);
       local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 168;
+      current_statement__ = 170;
       beta = 2;
       local_scalar_t__ cst_term = DUMMY_VAR__;
-      current_statement__ = 169;
+      current_statement__ = 171;
       cst_term = stan::math::pow((1 + (xi * (ymin / sigma))), (-gamma / xi));
       local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 170;
+      current_statement__ = 172;
       cst = (1 - stan::math::beta_cdf(cst_term, alpha, beta));
-      current_statement__ = 174;
+      current_statement__ = 176;
       for (int n = 1; n <= n_pred; ++n) {
         local_scalar_t__ u_adj = DUMMY_VAR__;
-        current_statement__ = 171;
+        current_statement__ = 173;
         u_adj = ((stan::model::rvalue(u, "u", stan::model::index_uni(n)) *
                    (1 - cst)) + cst);
-        current_statement__ = 172;
+        current_statement__ = 174;
         stan::model::assign(forecast,
           ((sigma / xi) *
             (stan::math::pow(
@@ -333,7 +335,7 @@ template <typename T1__, typename T2__, typename T3__, typename T4__,
                (-xi / gamma)) - 1)),
           "assigning variable forecast", stan::model::index_uni(n));
       }
-      current_statement__ = 175;
+      current_statement__ = 177;
       return forecast;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -356,27 +358,27 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 177;
+      current_statement__ = 179;
       alpha = (1 / gamma);
       local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 178;
+      current_statement__ = 180;
       beta = 2;
       local_scalar_t__ w = DUMMY_VAR__;
-      current_statement__ = 179;
+      current_statement__ = 181;
       w = (1 + (xi * (y / sigma)));
       local_scalar_t__ cst_term = DUMMY_VAR__;
-      current_statement__ = 180;
+      current_statement__ = 182;
       cst_term = stan::math::pow((1 + (xi * (ymin / sigma))), (-gamma / xi));
       local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 181;
+      current_statement__ = 183;
       cst = stan::math::beta_lcdf(cst_term, alpha, beta);
       local_scalar_t__ lpdf = DUMMY_VAR__;
-      current_statement__ = 182;
+      current_statement__ = 184;
       lpdf = (((stan::math::log(gamma) - stan::math::log(sigma)) +
                 stan::math::beta_lpdf<false>(
                   stan::math::pow(w, (-gamma / xi)), alpha, beta)) -
                (((gamma / xi) + 1) * stan::math::log(w)));
-      current_statement__ = 183;
+      current_statement__ = 185;
       return (lpdf - cst);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -406,13 +408,13 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
       local_scalar_t__ score = DUMMY_VAR__;
       local_scalar_t__ summand = DUMMY_VAR__;
       int N = std::numeric_limits<int>::min();
-      current_statement__ = 187;
+      current_statement__ = 189;
       N = stan::math::rows(forecast);
-      current_statement__ = 188;
+      current_statement__ = 190;
       summand = 0;
-      current_statement__ = 191;
+      current_statement__ = 193;
       for (int n = 1; n <= N; ++n) {
-        current_statement__ = 189;
+        current_statement__ = 191;
         summand = (summand +
                     (stan::math::pow(
                        (stan::model::rvalue(forecast, "forecast",
@@ -424,9 +426,9 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
                         stan::model::rvalue(forecast, "forecast",
                           stan::model::index_uni(n)), w_mean, w_sd)));
       }
-      current_statement__ = 192;
+      current_statement__ = 194;
       score = (summand * delta);
-      current_statement__ = 193;
+      current_statement__ = 195;
       return score;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -456,12 +458,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
       local_scalar_t__ r = DUMMY_VAR__;
-      current_statement__ = 196;
+      current_statement__ = 198;
       r = stan::math::rows(corr);
       local_scalar_t__ p = DUMMY_VAR__;
-      current_statement__ = 197;
+      current_statement__ = 199;
       p = stan::math::rows(cov);
-      current_statement__ = 198;
+      current_statement__ = 200;
       lpdf = ((((-((r * p) / 2) * stan::math::log((2 * stan::math::pi()))) -
                  ((p / 2) * stan::math::log_determinant(corr))) -
                 ((r / 2) * stan::math::log_determinant(cov))) -
@@ -471,7 +473,7 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
                      stan::math::mdivide_right_spd(
                        stan::math::mdivide_left_spd(corr,
                          stan::math::transpose(y)), cov), y))));
-      current_statement__ = 199;
+      current_statement__ = 201;
       return lpdf;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -613,63 +615,63 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
     try {
       int pos__ = std::numeric_limits<int>::min();
       pos__ = 1;
-      current_statement__ = 61;
+      current_statement__ = 63;
       context__.validate_dims("data initialization","R","int",
            std::vector<size_t>{});
       R = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 61;
+      current_statement__ = 63;
       R = context__.vals_i("R")[(1 - 1)];
-      current_statement__ = 61;
+      current_statement__ = 63;
       stan::math::check_greater_or_equal(function__, "R", R, 1);
-      current_statement__ = 62;
+      current_statement__ = 64;
       context__.validate_dims("data initialization","p","int",
            std::vector<size_t>{});
       p = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 62;
+      current_statement__ = 64;
       p = context__.vals_i("p")[(1 - 1)];
-      current_statement__ = 62;
+      current_statement__ = 64;
       stan::math::check_greater_or_equal(function__, "p", p, 1);
-      current_statement__ = 63;
+      current_statement__ = 65;
       context__.validate_dims("data initialization","T_all","int",
            std::vector<size_t>{});
       T_all = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 63;
+      current_statement__ = 65;
       T_all = context__.vals_i("T_all")[(1 - 1)];
-      current_statement__ = 63;
+      current_statement__ = 65;
       stan::math::check_greater_or_equal(function__, "T_all", T_all, 1);
-      current_statement__ = 64;
+      current_statement__ = 66;
       context__.validate_dims("data initialization","T_train","int",
            std::vector<size_t>{});
       T_train = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 64;
+      current_statement__ = 66;
       T_train = context__.vals_i("T_train")[(1 - 1)];
-      current_statement__ = 64;
+      current_statement__ = 66;
       stan::math::check_greater_or_equal(function__, "T_train", T_train, 1);
-      current_statement__ = 65;
+      current_statement__ = 67;
       context__.validate_dims("data initialization","T_hold","int",
            std::vector<size_t>{});
       T_hold = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 65;
-      T_hold = context__.vals_i("T_hold")[(1 - 1)];
-      current_statement__ = 65;
-      stan::math::check_greater_or_equal(function__, "T_hold", T_hold, 1);
-      current_statement__ = 66;
-      stan::math::validate_non_negative_index("X_full", "R", R);
       current_statement__ = 67;
-      stan::math::validate_non_negative_index("X_full", "T_all", T_all);
+      T_hold = context__.vals_i("T_hold")[(1 - 1)];
+      current_statement__ = 67;
+      stan::math::check_greater_or_equal(function__, "T_hold", T_hold, 1);
       current_statement__ = 68;
-      stan::math::validate_non_negative_index("X_full", "p", p);
+      stan::math::validate_non_negative_index("X_full", "R", R);
       current_statement__ = 69;
+      stan::math::validate_non_negative_index("X_full", "T_all", T_all);
+      current_statement__ = 70;
+      stan::math::validate_non_negative_index("X_full", "p", p);
+      current_statement__ = 71;
       context__.validate_dims("data initialization","X_full","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(T_all), static_cast<size_t>(p)});
@@ -681,34 +683,34 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> X_full_flat__;
-        current_statement__ = 69;
+        current_statement__ = 71;
         X_full_flat__ = context__.vals_r("X_full");
-        current_statement__ = 69;
+        current_statement__ = 71;
         pos__ = 1;
-        current_statement__ = 69;
+        current_statement__ = 71;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 69;
+          current_statement__ = 71;
           for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
-            current_statement__ = 69;
+            current_statement__ = 71;
             for (int sym3__ = 1; sym3__ <= R; ++sym3__) {
-              current_statement__ = 69;
+              current_statement__ = 71;
               stan::model::assign(X_full, X_full_flat__[(pos__ - 1)],
                 "assigning variable X_full", stan::model::index_uni(sym3__),
                                                stan::model::index_uni(sym2__),
                                                stan::model::index_uni(sym1__));
-              current_statement__ = 69;
+              current_statement__ = 71;
               pos__ = (pos__ + 1);
             }
           }
         }
       }
-      current_statement__ = 70;
-      stan::math::validate_non_negative_index("X_train", "R", R);
-      current_statement__ = 71;
-      stan::math::validate_non_negative_index("X_train", "T_train", T_train);
       current_statement__ = 72;
-      stan::math::validate_non_negative_index("X_train", "p", p);
+      stan::math::validate_non_negative_index("X_train", "R", R);
       current_statement__ = 73;
+      stan::math::validate_non_negative_index("X_train", "T_train", T_train);
+      current_statement__ = 74;
+      stan::math::validate_non_negative_index("X_train", "p", p);
+      current_statement__ = 75;
       context__.validate_dims("data initialization","X_train","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(T_train), static_cast<size_t>(p)});
@@ -720,69 +722,69 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> X_train_flat__;
-        current_statement__ = 73;
+        current_statement__ = 75;
         X_train_flat__ = context__.vals_r("X_train");
-        current_statement__ = 73;
+        current_statement__ = 75;
         pos__ = 1;
-        current_statement__ = 73;
+        current_statement__ = 75;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 73;
+          current_statement__ = 75;
           for (int sym2__ = 1; sym2__ <= T_train; ++sym2__) {
-            current_statement__ = 73;
+            current_statement__ = 75;
             for (int sym3__ = 1; sym3__ <= R; ++sym3__) {
-              current_statement__ = 73;
+              current_statement__ = 75;
               stan::model::assign(X_train, X_train_flat__[(pos__ - 1)],
                 "assigning variable X_train", stan::model::index_uni(sym3__),
                                                 stan::model::index_uni(sym2__),
                                                 stan::model::index_uni(sym1__));
-              current_statement__ = 73;
+              current_statement__ = 75;
               pos__ = (pos__ + 1);
             }
           }
         }
       }
-      current_statement__ = 74;
+      current_statement__ = 76;
       context__.validate_dims("data initialization","y_min","double",
            std::vector<size_t>{});
       y_min = std::numeric_limits<double>::quiet_NaN();
       
       
-      current_statement__ = 74;
+      current_statement__ = 76;
       y_min = context__.vals_r("y_min")[(1 - 1)];
-      current_statement__ = 75;
+      current_statement__ = 77;
       context__.validate_dims("data initialization","N_tb_obs","int",
            std::vector<size_t>{});
       N_tb_obs = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 75;
+      current_statement__ = 77;
       N_tb_obs = context__.vals_i("N_tb_obs")[(1 - 1)];
-      current_statement__ = 75;
+      current_statement__ = 77;
       stan::math::check_greater_or_equal(function__, "N_tb_obs", N_tb_obs, 1);
-      current_statement__ = 76;
+      current_statement__ = 78;
       context__.validate_dims("data initialization","N_tb_mis","int",
            std::vector<size_t>{});
       N_tb_mis = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 76;
+      current_statement__ = 78;
       N_tb_mis = context__.vals_i("N_tb_mis")[(1 - 1)];
-      current_statement__ = 76;
+      current_statement__ = 78;
       stan::math::check_greater_or_equal(function__, "N_tb_mis", N_tb_mis, 1);
-      current_statement__ = 77;
+      current_statement__ = 79;
       context__.validate_dims("data initialization","N_tb_all","int",
            std::vector<size_t>{});
       N_tb_all = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 77;
+      current_statement__ = 79;
       N_tb_all = context__.vals_i("N_tb_all")[(1 - 1)];
-      current_statement__ = 77;
+      current_statement__ = 79;
       stan::math::check_greater_or_equal(function__, "N_tb_all", N_tb_all, 1);
-      current_statement__ = 78;
+      current_statement__ = 80;
       stan::math::validate_non_negative_index("y_train_obs", "N_tb_obs",
                                               N_tb_obs);
-      current_statement__ = 79;
+      current_statement__ = 81;
       context__.validate_dims("data initialization","y_train_obs","double",
            std::vector<size_t>{static_cast<size_t>(N_tb_obs)});
       y_train_obs = 
@@ -790,133 +792,133 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
           std::numeric_limits<double>::quiet_NaN());
       
       
-      current_statement__ = 79;
+      current_statement__ = 81;
       y_train_obs = context__.vals_r("y_train_obs");
-      current_statement__ = 79;
+      current_statement__ = 81;
       stan::math::check_greater_or_equal(function__, "y_train_obs",
                                             y_train_obs, y_min);
-      current_statement__ = 80;
+      current_statement__ = 82;
       stan::math::validate_non_negative_index("ii_tb_obs", "N_tb_obs",
                                               N_tb_obs);
-      current_statement__ = 81;
+      current_statement__ = 83;
       context__.validate_dims("data initialization","ii_tb_obs","int",
            std::vector<size_t>{static_cast<size_t>(N_tb_obs)});
       ii_tb_obs = 
         std::vector<int>(N_tb_obs, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 81;
+      current_statement__ = 83;
       ii_tb_obs = context__.vals_i("ii_tb_obs");
-      current_statement__ = 81;
+      current_statement__ = 83;
       stan::math::check_greater_or_equal(function__, "ii_tb_obs", ii_tb_obs,
                                             1);
-      current_statement__ = 82;
+      current_statement__ = 84;
       stan::math::validate_non_negative_index("ii_tb_mis", "N_tb_mis",
                                               N_tb_mis);
-      current_statement__ = 83;
+      current_statement__ = 85;
       context__.validate_dims("data initialization","ii_tb_mis","int",
            std::vector<size_t>{static_cast<size_t>(N_tb_mis)});
       ii_tb_mis = 
         std::vector<int>(N_tb_mis, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 83;
+      current_statement__ = 85;
       ii_tb_mis = context__.vals_i("ii_tb_mis");
-      current_statement__ = 83;
+      current_statement__ = 85;
       stan::math::check_greater_or_equal(function__, "ii_tb_mis", ii_tb_mis,
                                             1);
-      current_statement__ = 83;
+      current_statement__ = 85;
       stan::math::check_less_or_equal(function__, "ii_tb_mis", ii_tb_mis,
                                          N_tb_all);
-      current_statement__ = 84;
+      current_statement__ = 86;
       stan::math::validate_non_negative_index("ii_tb_all", "N_tb_all",
                                               N_tb_all);
-      current_statement__ = 85;
+      current_statement__ = 87;
       context__.validate_dims("data initialization","ii_tb_all","int",
            std::vector<size_t>{static_cast<size_t>(N_tb_all)});
       ii_tb_all = 
         std::vector<int>(N_tb_all, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 85;
+      current_statement__ = 87;
       ii_tb_all = context__.vals_i("ii_tb_all");
-      current_statement__ = 85;
+      current_statement__ = 87;
       stan::math::check_greater_or_equal(function__, "ii_tb_all", ii_tb_all,
                                             1);
-      current_statement__ = 85;
+      current_statement__ = 87;
       stan::math::check_less_or_equal(function__, "ii_tb_all", ii_tb_all,
                                          N_tb_all);
-      current_statement__ = 86;
+      current_statement__ = 88;
       stan::math::validate_non_negative_index("idx_train_er", "T_train",
                                               T_train);
-      current_statement__ = 87;
+      current_statement__ = 89;
       context__.validate_dims("data initialization","idx_train_er","int",
            std::vector<size_t>{static_cast<size_t>(T_train)});
       idx_train_er = 
         std::vector<int>(T_train, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 87;
+      current_statement__ = 89;
       idx_train_er = context__.vals_i("idx_train_er");
-      current_statement__ = 87;
+      current_statement__ = 89;
       stan::math::check_greater_or_equal(function__, "idx_train_er",
                                             idx_train_er, 1);
-      current_statement__ = 88;
+      current_statement__ = 90;
       context__.validate_dims("data initialization","N_hold_obs","int",
            std::vector<size_t>{});
       N_hold_obs = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 88;
+      current_statement__ = 90;
       N_hold_obs = context__.vals_i("N_hold_obs")[(1 - 1)];
-      current_statement__ = 88;
+      current_statement__ = 90;
       stan::math::check_greater_or_equal(function__, "N_hold_obs",
                                             N_hold_obs, 1);
-      current_statement__ = 89;
+      current_statement__ = 91;
       context__.validate_dims("data initialization","N_hold_all","int",
            std::vector<size_t>{});
       N_hold_all = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 89;
+      current_statement__ = 91;
       N_hold_all = context__.vals_i("N_hold_all")[(1 - 1)];
-      current_statement__ = 89;
+      current_statement__ = 91;
       stan::math::check_greater_or_equal(function__, "N_hold_all",
                                             N_hold_all, 1);
-      current_statement__ = 90;
+      current_statement__ = 92;
       stan::math::validate_non_negative_index("ii_hold_obs", "N_hold_obs",
                                               N_hold_obs);
-      current_statement__ = 91;
+      current_statement__ = 93;
       context__.validate_dims("data initialization","ii_hold_obs","int",
            std::vector<size_t>{static_cast<size_t>(N_hold_obs)});
       ii_hold_obs = 
         std::vector<int>(N_hold_obs, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 91;
+      current_statement__ = 93;
       ii_hold_obs = context__.vals_i("ii_hold_obs");
-      current_statement__ = 91;
+      current_statement__ = 93;
       stan::math::check_greater_or_equal(function__, "ii_hold_obs",
                                             ii_hold_obs, 1);
-      current_statement__ = 92;
+      current_statement__ = 94;
       stan::math::validate_non_negative_index("ii_hold_all", "N_hold_all",
                                               N_hold_all);
-      current_statement__ = 93;
+      current_statement__ = 95;
       context__.validate_dims("data initialization","ii_hold_all","int",
            std::vector<size_t>{static_cast<size_t>(N_hold_all)});
       ii_hold_all = 
         std::vector<int>(N_hold_all, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 93;
+      current_statement__ = 95;
       ii_hold_all = context__.vals_i("ii_hold_all");
-      current_statement__ = 93;
+      current_statement__ = 95;
       stan::math::check_greater_or_equal(function__, "ii_hold_all",
                                             ii_hold_all, 1);
-      current_statement__ = 94;
+      current_statement__ = 96;
       stan::math::validate_non_negative_index("y_hold_obs", "N_hold_obs",
                                               N_hold_obs);
-      current_statement__ = 95;
+      current_statement__ = 97;
       context__.validate_dims("data initialization","y_hold_obs","double",
            std::vector<size_t>{static_cast<size_t>(N_hold_obs)});
       y_hold_obs = 
@@ -924,68 +926,68 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
           std::numeric_limits<double>::quiet_NaN());
       
       
-      current_statement__ = 95;
+      current_statement__ = 97;
       y_hold_obs = context__.vals_r("y_hold_obs");
-      current_statement__ = 95;
+      current_statement__ = 97;
       stan::math::check_greater_or_equal(function__, "y_hold_obs",
                                             y_hold_obs, 1);
-      current_statement__ = 96;
+      current_statement__ = 98;
       stan::math::validate_non_negative_index("idx_hold_er", "T_hold", T_hold);
-      current_statement__ = 97;
+      current_statement__ = 99;
       context__.validate_dims("data initialization","idx_hold_er","int",
            std::vector<size_t>{static_cast<size_t>(T_hold)});
       idx_hold_er = 
         std::vector<int>(T_hold, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 97;
+      current_statement__ = 99;
       idx_hold_er = context__.vals_i("idx_hold_er");
-      current_statement__ = 97;
+      current_statement__ = 99;
       stan::math::check_greater_or_equal(function__, "idx_hold_er",
                                             idx_hold_er, 1);
-      current_statement__ = 98;
+      current_statement__ = 100;
       context__.validate_dims("data initialization","n_edges","int",
            std::vector<size_t>{});
       n_edges = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 98;
-      n_edges = context__.vals_i("n_edges")[(1 - 1)];
-      current_statement__ = 98;
-      stan::math::check_greater_or_equal(function__, "n_edges", n_edges, 0);
-      current_statement__ = 99;
-      stan::math::validate_non_negative_index("node1", "n_edges", n_edges);
       current_statement__ = 100;
+      n_edges = context__.vals_i("n_edges")[(1 - 1)];
+      current_statement__ = 100;
+      stan::math::check_greater_or_equal(function__, "n_edges", n_edges, 0);
+      current_statement__ = 101;
+      stan::math::validate_non_negative_index("node1", "n_edges", n_edges);
+      current_statement__ = 102;
       context__.validate_dims("data initialization","node1","int",
            std::vector<size_t>{static_cast<size_t>(n_edges)});
       node1 = std::vector<int>(n_edges, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 100;
-      node1 = context__.vals_i("node1");
-      current_statement__ = 100;
-      stan::math::check_greater_or_equal(function__, "node1", node1, 1);
-      current_statement__ = 100;
-      stan::math::check_less_or_equal(function__, "node1", node1, R);
-      current_statement__ = 101;
-      stan::math::validate_non_negative_index("node2", "n_edges", n_edges);
       current_statement__ = 102;
+      node1 = context__.vals_i("node1");
+      current_statement__ = 102;
+      stan::math::check_greater_or_equal(function__, "node1", node1, 1);
+      current_statement__ = 102;
+      stan::math::check_less_or_equal(function__, "node1", node1, R);
+      current_statement__ = 103;
+      stan::math::validate_non_negative_index("node2", "n_edges", n_edges);
+      current_statement__ = 104;
       context__.validate_dims("data initialization","node2","int",
            std::vector<size_t>{static_cast<size_t>(n_edges)});
       node2 = std::vector<int>(n_edges, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 102;
-      node2 = context__.vals_i("node2");
-      current_statement__ = 102;
-      stan::math::check_greater_or_equal(function__, "node2", node2, 1);
-      current_statement__ = 102;
-      stan::math::check_less_or_equal(function__, "node2", node2, R);
-      current_statement__ = 103;
-      stan::math::validate_non_negative_index("l3", "R", R);
       current_statement__ = 104;
-      stan::math::validate_non_negative_index("l3", "R", R);
+      node2 = context__.vals_i("node2");
+      current_statement__ = 104;
+      stan::math::check_greater_or_equal(function__, "node2", node2, 1);
+      current_statement__ = 104;
+      stan::math::check_less_or_equal(function__, "node2", node2, R);
       current_statement__ = 105;
+      stan::math::validate_non_negative_index("l3", "R", R);
+      current_statement__ = 106;
+      stan::math::validate_non_negative_index("l3", "R", R);
+      current_statement__ = 107;
       context__.validate_dims("data initialization","l3","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -997,28 +999,28 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> l3_flat__;
-        current_statement__ = 105;
+        current_statement__ = 107;
         l3_flat__ = context__.vals_r("l3");
-        current_statement__ = 105;
+        current_statement__ = 107;
         pos__ = 1;
-        current_statement__ = 105;
+        current_statement__ = 107;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 105;
+          current_statement__ = 107;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 105;
+            current_statement__ = 107;
             stan::model::assign(l3, l3_flat__[(pos__ - 1)],
               "assigning variable l3", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 105;
+            current_statement__ = 107;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 106;
-      stan::math::validate_non_negative_index("l2", "R", R);
-      current_statement__ = 107;
-      stan::math::validate_non_negative_index("l2", "R", R);
       current_statement__ = 108;
+      stan::math::validate_non_negative_index("l2", "R", R);
+      current_statement__ = 109;
+      stan::math::validate_non_negative_index("l2", "R", R);
+      current_statement__ = 110;
       context__.validate_dims("data initialization","l2","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -1030,28 +1032,28 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> l2_flat__;
-        current_statement__ = 108;
+        current_statement__ = 110;
         l2_flat__ = context__.vals_r("l2");
-        current_statement__ = 108;
+        current_statement__ = 110;
         pos__ = 1;
-        current_statement__ = 108;
+        current_statement__ = 110;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 108;
+          current_statement__ = 110;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 108;
+            current_statement__ = 110;
             stan::model::assign(l2, l2_flat__[(pos__ - 1)],
               "assigning variable l2", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 108;
+            current_statement__ = 110;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 109;
-      stan::math::validate_non_negative_index("l1", "R", R);
-      current_statement__ = 110;
-      stan::math::validate_non_negative_index("l1", "R", R);
       current_statement__ = 111;
+      stan::math::validate_non_negative_index("l1", "R", R);
+      current_statement__ = 112;
+      stan::math::validate_non_negative_index("l1", "R", R);
+      current_statement__ = 113;
       context__.validate_dims("data initialization","l1","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -1063,28 +1065,28 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> l1_flat__;
-        current_statement__ = 111;
+        current_statement__ = 113;
         l1_flat__ = context__.vals_r("l1");
-        current_statement__ = 111;
+        current_statement__ = 113;
         pos__ = 1;
-        current_statement__ = 111;
+        current_statement__ = 113;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 111;
+          current_statement__ = 113;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 111;
+            current_statement__ = 113;
             stan::model::assign(l1, l1_flat__[(pos__ - 1)],
               "assigning variable l1", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 111;
+            current_statement__ = 113;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 112;
-      stan::math::validate_non_negative_index("equal", "p", p);
-      current_statement__ = 113;
-      stan::math::validate_non_negative_index("equal", "p", p);
       current_statement__ = 114;
+      stan::math::validate_non_negative_index("equal", "p", p);
+      current_statement__ = 115;
+      stan::math::validate_non_negative_index("equal", "p", p);
+      current_statement__ = 116;
       context__.validate_dims("data initialization","equal","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -1096,28 +1098,28 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> equal_flat__;
-        current_statement__ = 114;
+        current_statement__ = 116;
         equal_flat__ = context__.vals_r("equal");
-        current_statement__ = 114;
+        current_statement__ = 116;
         pos__ = 1;
-        current_statement__ = 114;
+        current_statement__ = 116;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 114;
+          current_statement__ = 116;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 114;
+            current_statement__ = 116;
             stan::model::assign(equal, equal_flat__[(pos__ - 1)],
               "assigning variable equal", stan::model::index_uni(sym2__),
                                             stan::model::index_uni(sym1__));
-            current_statement__ = 114;
+            current_statement__ = 116;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 115;
-      stan::math::validate_non_negative_index("bp_lin", "p", p);
-      current_statement__ = 116;
-      stan::math::validate_non_negative_index("bp_lin", "p", p);
       current_statement__ = 117;
+      stan::math::validate_non_negative_index("bp_lin", "p", p);
+      current_statement__ = 118;
+      stan::math::validate_non_negative_index("bp_lin", "p", p);
+      current_statement__ = 119;
       context__.validate_dims("data initialization","bp_lin","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -1129,28 +1131,28 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> bp_lin_flat__;
-        current_statement__ = 117;
+        current_statement__ = 119;
         bp_lin_flat__ = context__.vals_r("bp_lin");
-        current_statement__ = 117;
+        current_statement__ = 119;
         pos__ = 1;
-        current_statement__ = 117;
+        current_statement__ = 119;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 117;
+          current_statement__ = 119;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 117;
+            current_statement__ = 119;
             stan::model::assign(bp_lin, bp_lin_flat__[(pos__ - 1)],
               "assigning variable bp_lin", stan::model::index_uni(sym2__),
                                              stan::model::index_uni(sym1__));
-            current_statement__ = 117;
+            current_statement__ = 119;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 118;
-      stan::math::validate_non_negative_index("bp_square", "p", p);
-      current_statement__ = 119;
-      stan::math::validate_non_negative_index("bp_square", "p", p);
       current_statement__ = 120;
+      stan::math::validate_non_negative_index("bp_square", "p", p);
+      current_statement__ = 121;
+      stan::math::validate_non_negative_index("bp_square", "p", p);
+      current_statement__ = 122;
       context__.validate_dims("data initialization","bp_square","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -1162,28 +1164,28 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> bp_square_flat__;
-        current_statement__ = 120;
+        current_statement__ = 122;
         bp_square_flat__ = context__.vals_r("bp_square");
-        current_statement__ = 120;
+        current_statement__ = 122;
         pos__ = 1;
-        current_statement__ = 120;
+        current_statement__ = 122;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 120;
+          current_statement__ = 122;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 120;
+            current_statement__ = 122;
             stan::model::assign(bp_square, bp_square_flat__[(pos__ - 1)],
               "assigning variable bp_square", stan::model::index_uni(sym2__),
                                                 stan::model::index_uni(sym1__));
-            current_statement__ = 120;
+            current_statement__ = 122;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 121;
-      stan::math::validate_non_negative_index("bp_cube", "p", p);
-      current_statement__ = 122;
-      stan::math::validate_non_negative_index("bp_cube", "p", p);
       current_statement__ = 123;
+      stan::math::validate_non_negative_index("bp_cube", "p", p);
+      current_statement__ = 124;
+      stan::math::validate_non_negative_index("bp_cube", "p", p);
+      current_statement__ = 125;
       context__.validate_dims("data initialization","bp_cube","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -1195,28 +1197,28 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> bp_cube_flat__;
-        current_statement__ = 123;
+        current_statement__ = 125;
         bp_cube_flat__ = context__.vals_r("bp_cube");
-        current_statement__ = 123;
+        current_statement__ = 125;
         pos__ = 1;
-        current_statement__ = 123;
+        current_statement__ = 125;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 123;
+          current_statement__ = 125;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 123;
+            current_statement__ = 125;
             stan::model::assign(bp_cube, bp_cube_flat__[(pos__ - 1)],
               "assigning variable bp_cube", stan::model::index_uni(sym2__),
                                               stan::model::index_uni(sym1__));
-            current_statement__ = 123;
+            current_statement__ = 125;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 124;
-      stan::math::validate_non_negative_index("bp_quart", "p", p);
-      current_statement__ = 125;
-      stan::math::validate_non_negative_index("bp_quart", "p", p);
       current_statement__ = 126;
+      stan::math::validate_non_negative_index("bp_quart", "p", p);
+      current_statement__ = 127;
+      stan::math::validate_non_negative_index("bp_quart", "p", p);
+      current_statement__ = 128;
       context__.validate_dims("data initialization","bp_quart","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -1228,105 +1230,105 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       
       {
         std::vector<local_scalar_t__> bp_quart_flat__;
-        current_statement__ = 126;
+        current_statement__ = 128;
         bp_quart_flat__ = context__.vals_r("bp_quart");
-        current_statement__ = 126;
+        current_statement__ = 128;
         pos__ = 1;
-        current_statement__ = 126;
+        current_statement__ = 128;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 126;
+          current_statement__ = 128;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 126;
+            current_statement__ = 128;
             stan::model::assign(bp_quart, bp_quart_flat__[(pos__ - 1)],
               "assigning variable bp_quart", stan::model::index_uni(sym2__),
                                                stan::model::index_uni(sym1__));
-            current_statement__ = 126;
+            current_statement__ = 128;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 127;
+      current_statement__ = 129;
       S = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 127;
+      current_statement__ = 129;
       S = 1;
-      current_statement__ = 128;
+      current_statement__ = 130;
       C = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 128;
+      current_statement__ = 130;
       C = 3;
-      current_statement__ = 129;
+      current_statement__ = 131;
       stan::math::validate_non_negative_index("y_train_mis", "N_tb_mis",
                                               N_tb_mis);
-      current_statement__ = 130;
-      stan::math::validate_non_negative_index("Z", "R", R);
-      current_statement__ = 131;
-      stan::math::validate_non_negative_index("phi_init", "T_all", T_all);
       current_statement__ = 132;
-      stan::math::validate_non_negative_index("phi_init", "S", S);
+      stan::math::validate_non_negative_index("Z", "R", R);
       current_statement__ = 133;
-      stan::math::validate_non_negative_index("phi_init", "R", R);
+      stan::math::validate_non_negative_index("phi_init", "T_all", T_all);
       current_statement__ = 134;
-      stan::math::validate_non_negative_index("beta", "S", S);
+      stan::math::validate_non_negative_index("phi_init", "S", S);
       current_statement__ = 135;
-      stan::math::validate_non_negative_index("beta", "p", p);
+      stan::math::validate_non_negative_index("phi_init", "R", R);
       current_statement__ = 136;
-      stan::math::validate_non_negative_index("beta", "R", R);
+      stan::math::validate_non_negative_index("beta", "S", S);
       current_statement__ = 137;
-      stan::math::validate_non_negative_index("tau_init", "S", S);
+      stan::math::validate_non_negative_index("beta", "p", p);
       current_statement__ = 138;
-      stan::math::validate_non_negative_index("eta", "S", S);
+      stan::math::validate_non_negative_index("beta", "R", R);
       current_statement__ = 139;
-      stan::math::validate_non_negative_index("bp_init", "S", S);
+      stan::math::validate_non_negative_index("tau_init", "S", S);
       current_statement__ = 140;
-      stan::math::validate_non_negative_index("rho1", "C", C);
+      stan::math::validate_non_negative_index("eta", "S", S);
       current_statement__ = 141;
-      stan::math::validate_non_negative_index("rho_sum", "C", C);
+      stan::math::validate_non_negative_index("bp_init", "S", S);
       current_statement__ = 142;
-      stan::math::validate_non_negative_index("y_train", "N_tb_all", N_tb_all);
+      stan::math::validate_non_negative_index("rho1", "C", C);
       current_statement__ = 143;
-      stan::math::validate_non_negative_index("phi", "S", S);
+      stan::math::validate_non_negative_index("rho_sum", "C", C);
       current_statement__ = 144;
-      stan::math::validate_non_negative_index("phi", "T_all", T_all);
+      stan::math::validate_non_negative_index("y_train", "N_tb_all", N_tb_all);
       current_statement__ = 145;
-      stan::math::validate_non_negative_index("phi", "R", R);
+      stan::math::validate_non_negative_index("phi", "S", S);
       current_statement__ = 146;
-      stan::math::validate_non_negative_index("reg", "S", S);
+      stan::math::validate_non_negative_index("phi", "T_all", T_all);
       current_statement__ = 147;
-      stan::math::validate_non_negative_index("reg", "T_train", T_train);
+      stan::math::validate_non_negative_index("phi", "R", R);
       current_statement__ = 148;
-      stan::math::validate_non_negative_index("reg", "R", R);
+      stan::math::validate_non_negative_index("reg", "S", S);
       current_statement__ = 149;
-      stan::math::validate_non_negative_index("bp", "S", S);
+      stan::math::validate_non_negative_index("reg", "T_train", T_train);
       current_statement__ = 150;
-      stan::math::validate_non_negative_index("tau", "S", S);
+      stan::math::validate_non_negative_index("reg", "R", R);
       current_statement__ = 151;
-      stan::math::validate_non_negative_index("rho2", "C", C);
+      stan::math::validate_non_negative_index("bp", "S", S);
       current_statement__ = 152;
-      stan::math::validate_non_negative_index("cov_ar1", "S", S);
+      stan::math::validate_non_negative_index("tau", "S", S);
       current_statement__ = 153;
-      stan::math::validate_non_negative_index("cov_ar1", "p", p);
-      current_statement__ = 153;
-      stan::math::validate_non_negative_index("cov_ar1", "p", p);
+      stan::math::validate_non_negative_index("rho2", "C", C);
       current_statement__ = 154;
-      stan::math::validate_non_negative_index("corr", "C", C);
+      stan::math::validate_non_negative_index("cov_ar1", "S", S);
       current_statement__ = 155;
-      stan::math::validate_non_negative_index("corr", "R", R);
+      stan::math::validate_non_negative_index("cov_ar1", "p", p);
       current_statement__ = 155;
-      stan::math::validate_non_negative_index("corr", "R", R);
+      stan::math::validate_non_negative_index("cov_ar1", "p", p);
       current_statement__ = 156;
-      stan::math::validate_non_negative_index("ri_init", "R", R);
+      stan::math::validate_non_negative_index("corr", "C", C);
       current_statement__ = 157;
-      stan::math::validate_non_negative_index("ri_matrix", "T_all", T_all);
+      stan::math::validate_non_negative_index("corr", "R", R);
+      current_statement__ = 157;
+      stan::math::validate_non_negative_index("corr", "R", R);
       current_statement__ = 158;
+      stan::math::validate_non_negative_index("ri_init", "R", R);
+      current_statement__ = 159;
+      stan::math::validate_non_negative_index("ri_matrix", "T_all", T_all);
+      current_statement__ = 160;
       stan::math::validate_non_negative_index("ri_matrix", "R", R);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
-    num_params_r__ = N_tb_mis + R + (T_all * S * R) + (S * p * R) + S + 
-      S + S + C + C;
+    num_params_r__ = N_tb_mis + (R * 2) + (T_all * S * R) + (S * p * R) + 
+      S + S + S + C + C;
     
   }
   
@@ -1354,10 +1356,10 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       y_train_mis = in__.template read_constrain_lb<
                       std::vector<local_scalar_t__>, jacobian__>(y_min, lp__,
                       N_tb_mis);
-      Eigen::Matrix<local_scalar_t__, -1, 1> Z =
-         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(R, DUMMY_VAR__);
+      Eigen::Matrix<local_scalar_t__, -1, -1> Z =
+         Eigen::Matrix<local_scalar_t__, -1, -1>::Constant(R, 2, DUMMY_VAR__);
       current_statement__ = 2;
-      Z = in__.template read<Eigen::Matrix<local_scalar_t__, -1, 1>>(R);
+      Z = in__.template read<Eigen::Matrix<local_scalar_t__, -1, -1>>(R, 2);
       std::vector<std::vector<Eigen::Matrix<local_scalar_t__, 1, -1>>> phi_init =
          std::vector<std::vector<Eigen::Matrix<local_scalar_t__, 1, -1>>>(
            T_all, 
@@ -1441,11 +1443,13 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
          std::vector<Eigen::Matrix<local_scalar_t__, -1, -1>>(C, 
            Eigen::Matrix<local_scalar_t__, -1, -1>::Constant(R, R,
              DUMMY_VAR__));
-      Eigen::Matrix<local_scalar_t__, -1, 1> ri_init =
-         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(R, DUMMY_VAR__);
-      Eigen::Matrix<local_scalar_t__, -1, -1> ri_matrix =
-         Eigen::Matrix<local_scalar_t__, -1, -1>::Constant(T_all, R,
-           DUMMY_VAR__);
+      std::vector<Eigen::Matrix<local_scalar_t__, -1, 1>> ri_init =
+         std::vector<Eigen::Matrix<local_scalar_t__, -1, 1>>(2, 
+           Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(R, DUMMY_VAR__));
+      std::vector<Eigen::Matrix<local_scalar_t__, -1, -1>> ri_matrix =
+         std::vector<Eigen::Matrix<local_scalar_t__, -1, -1>>(2, 
+           Eigen::Matrix<local_scalar_t__, -1, -1>::Constant(T_all, R,
+             DUMMY_VAR__));
       current_statement__ = 20;
       stan::model::assign(y_train, y_train_obs,
         "assigning variable y_train", stan::model::index_multi(ii_tb_obs));
@@ -1465,20 +1469,29 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
               stan::model::rvalue(rho1, "rho1", stan::model::index_uni(c)),
               l1)), "assigning variable corr", stan::model::index_uni(c));
       }
-      current_statement__ = 25;
-      stan::model::assign(ri_init,
-        stan::math::multiply(
-          stan::math::transpose(
-            stan::math::cholesky_decompose(
-              stan::model::rvalue(corr, "corr", stan::model::index_uni(3)))),
-          Z), "assigning variable ri_init");
-      current_statement__ = 26;
-      stan::model::assign(ri_matrix,
-        stan::math::rep_matrix(stan::math::transpose(ri_init), T_all),
-        "assigning variable ri_matrix");
-      current_statement__ = 36;
+      current_statement__ = 28;
+      for (int i = 1; i <= 2; ++i) {
+        current_statement__ = 25;
+        stan::model::assign(ri_init,
+          stan::math::multiply(
+            stan::math::transpose(
+              stan::math::cholesky_decompose(
+                stan::model::rvalue(corr, "corr",
+                  stan::model::index_uni((i + 1))))),
+            stan::model::rvalue(Z, "Z",
+              stan::model::index_omni(), stan::model::index_uni(i))),
+          "assigning variable ri_init", stan::model::index_uni(i));
+        current_statement__ = 26;
+        stan::model::assign(ri_matrix,
+          stan::math::rep_matrix(
+            stan::math::transpose(
+              stan::model::rvalue(ri_init, "ri_init",
+                stan::model::index_uni(i))), T_all),
+          "assigning variable ri_matrix", stan::model::index_uni(i));
+      }
+      current_statement__ = 38;
       for (int s = 1; s <= S; ++s) {
-        current_statement__ = 27;
+        current_statement__ = 29;
         stan::model::assign(cov_ar1,
           stan::math::add(
             stan::math::add(
@@ -1500,7 +1513,7 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                 stan::model::rvalue(bp, "bp", stan::model::index_uni(s)), 4),
               bp_quart)),
           "assigning variable cov_ar1", stan::model::index_uni(s));
-        current_statement__ = 28;
+        current_statement__ = 30;
         stan::model::assign(phi,
           stan::math::multiply(
             (1 / stan::model::rvalue(tau, "tau", stan::model::index_uni(s))),
@@ -1509,9 +1522,9 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
           "assigning variable phi", stan::model::index_uni(s),
                                       stan::model::index_uni(1),
                                       stan::model::index_omni());
-        current_statement__ = 31;
+        current_statement__ = 33;
         for (int t = 2; t <= T_all; ++t) {
-          current_statement__ = 29;
+          current_statement__ = 31;
           stan::model::assign(phi,
             stan::math::add(
               stan::math::multiply(
@@ -1530,9 +1543,9 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                                         stan::model::index_uni(t),
                                         stan::model::index_omni());
         }
-        current_statement__ = 34;
+        current_statement__ = 36;
         for (int r = 1; r <= R; ++r) {
-          current_statement__ = 32;
+          current_statement__ = 34;
           stan::model::assign(reg,
             stan::math::add(
               stan::math::multiply(
@@ -1564,12 +1577,12 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       current_statement__ = 17;
       stan::math::check_corr_matrix(function__, "corr", corr);
       {
-        current_statement__ = 37;
+        current_statement__ = 39;
         stan::math::validate_non_negative_index("nu", "N_tb_all", N_tb_all);
         Eigen::Matrix<local_scalar_t__, -1, 1> nu =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
-        current_statement__ = 38;
+        current_statement__ = 40;
         stan::model::assign(nu,
           stan::model::rvalue(
             stan::math::exp(
@@ -1577,74 +1590,80 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
     stan::model::rvalue(reg, "reg", stan::model::index_uni(1)))),
             "exp(to_vector(reg[1]))", stan::model::index_multi(ii_tb_all)),
           "assigning variable nu");
-        current_statement__ = 39;
+        current_statement__ = 41;
         stan::math::validate_non_negative_index("xi", "N_tb_all", N_tb_all);
         Eigen::Matrix<local_scalar_t__, -1, 1> xi =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
-        current_statement__ = 40;
+        current_statement__ = 42;
         stan::model::assign(xi,
           stan::model::rvalue(
             stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg, "reg", stan::model::index_uni(2)))),
-            "exp(to_vector(reg[2]))", stan::model::index_multi(ii_tb_all)),
-          "assigning variable xi");
-        current_statement__ = 41;
+    stan::model::rvalue(
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)),
+      "ri_matrix[1]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+            "exp(to_vector(ri_matrix[1][idx_train_er, :]))",
+            stan::model::index_multi(ii_tb_all)), "assigning variable xi");
+        current_statement__ = 43;
         stan::math::validate_non_negative_index("gamma", "N_tb_all", N_tb_all);
         Eigen::Matrix<local_scalar_t__, -1, 1> gamma =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
-        current_statement__ = 42;
+        current_statement__ = 44;
         stan::model::assign(gamma,
           stan::model::rvalue(
             stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(ri_matrix, "ri_matrix",
+    stan::model::rvalue(
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)),
+      "ri_matrix[2]",
       stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
-            "exp(to_vector(ri_matrix[idx_train_er, :]))",
+            "exp(to_vector(ri_matrix[2][idx_train_er, :]))",
             stan::model::index_multi(ii_tb_all)), "assigning variable gamma");
-        current_statement__ = 43;
+        current_statement__ = 45;
         stan::math::validate_non_negative_index("sigma", "N_tb_all", N_tb_all);
         Eigen::Matrix<local_scalar_t__, -1, 1> sigma =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
-        current_statement__ = 44;
+        current_statement__ = 46;
         stan::model::assign(sigma,
           stan::math::elt_divide(nu, stan::math::add(1, xi)),
           "assigning variable sigma");
-        current_statement__ = 45;
-        lp_accum__.add(stan::math::std_normal_lpdf<propto__>(Z));
-        current_statement__ = 46;
+        current_statement__ = 47;
+        lp_accum__.add(
+          stan::math::std_normal_lpdf<propto__>(stan::math::to_vector(Z)));
+        current_statement__ = 48;
         lp_accum__.add(
           stan::math::uniform_lpdf<propto__>(stan::math::to_vector(bp_init),
             0, 1));
-        current_statement__ = 47;
+        current_statement__ = 49;
         lp_accum__.add(
           stan::math::beta_lpdf<propto__>(stan::math::to_vector(eta), 3, 4));
-        current_statement__ = 48;
+        current_statement__ = 50;
         lp_accum__.add(
           stan::math::exponential_lpdf<propto__>(
             stan::math::to_vector(tau_init), 1));
-        current_statement__ = 49;
+        current_statement__ = 51;
         lp_accum__.add(
           stan::math::beta_lpdf<propto__>(stan::math::to_vector(rho1), 3, 4));
-        current_statement__ = 50;
+        current_statement__ = 52;
         lp_accum__.add(
           stan::math::beta_lpdf<propto__>(stan::math::to_vector(rho_sum), 8,
             2));
-        current_statement__ = 57;
+        current_statement__ = 59;
         for (int s = 1; s <= S; ++s) {
-          current_statement__ = 51;
+          current_statement__ = 53;
           lp_accum__.add(
             matnormal_lpdf<false>(
               stan::model::rvalue(beta, "beta", stan::model::index_uni(s)),
               stan::model::rvalue(cov_ar1, "cov_ar1",
                 stan::model::index_uni(s)),
               stan::model::rvalue(corr, "corr", stan::model::index_uni(s)), pstream__));
-          current_statement__ = 55;
+          current_statement__ = 57;
           for (int t = 1; t <= T_all; ++t) {
-            current_statement__ = 52;
+            current_statement__ = 54;
             lp_accum__.add(
               (-.5 *
                 stan::math::dot_self(
@@ -1657,7 +1676,7 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                       stan::model::rvalue(phi_init, "phi_init",
   stan::model::index_uni(t), stan::model::index_uni(s)),
                       "phi_init[t, s]", stan::model::index_multi(node2))))));
-            current_statement__ = 53;
+            current_statement__ = 55;
             lp_accum__.add(
               stan::math::normal_lpdf<propto__>(
                 stan::math::sum(
@@ -1666,9 +1685,9 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                 0, (0.001 * R)));
           }
         }
-        current_statement__ = 60;
+        current_statement__ = 62;
         for (int n = 1; n <= N_tb_all; ++n) {
-          current_statement__ = 58;
+          current_statement__ = 60;
           lp_accum__.add(
             egpd_lpdf<false>(
               stan::model::rvalue(y_train, "y_train",
@@ -1717,11 +1736,11 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       y_train_mis = in__.template read_constrain_lb<
                       std::vector<local_scalar_t__>, jacobian__>(y_min, lp__,
                       N_tb_mis);
-      Eigen::Matrix<double, -1, 1> Z =
-         Eigen::Matrix<double, -1, 1>::Constant(R,
+      Eigen::Matrix<double, -1, -1> Z =
+         Eigen::Matrix<double, -1, -1>::Constant(R, 2,
            std::numeric_limits<double>::quiet_NaN());
       current_statement__ = 2;
-      Z = in__.template read<Eigen::Matrix<local_scalar_t__, -1, 1>>(R);
+      Z = in__.template read<Eigen::Matrix<local_scalar_t__, -1, -1>>(R, 2);
       std::vector<std::vector<Eigen::Matrix<double, 1, -1>>> phi_init =
          std::vector<std::vector<Eigen::Matrix<double, 1, -1>>>(T_all, 
            std::vector<Eigen::Matrix<double, 1, -1>>(S, 
@@ -1805,12 +1824,14 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
          std::vector<Eigen::Matrix<double, -1, -1>>(C, 
            Eigen::Matrix<double, -1, -1>::Constant(R, R,
              std::numeric_limits<double>::quiet_NaN()));
-      Eigen::Matrix<double, -1, 1> ri_init =
-         Eigen::Matrix<double, -1, 1>::Constant(R,
-           std::numeric_limits<double>::quiet_NaN());
-      Eigen::Matrix<double, -1, -1> ri_matrix =
-         Eigen::Matrix<double, -1, -1>::Constant(T_all, R,
-           std::numeric_limits<double>::quiet_NaN());
+      std::vector<Eigen::Matrix<double, -1, 1>> ri_init =
+         std::vector<Eigen::Matrix<double, -1, 1>>(2, 
+           Eigen::Matrix<double, -1, 1>::Constant(R,
+             std::numeric_limits<double>::quiet_NaN()));
+      std::vector<Eigen::Matrix<double, -1, -1>> ri_matrix =
+         std::vector<Eigen::Matrix<double, -1, -1>>(2, 
+           Eigen::Matrix<double, -1, -1>::Constant(T_all, R,
+             std::numeric_limits<double>::quiet_NaN()));
       out__.write(y_train_mis);
       out__.write(Z);
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
@@ -1869,20 +1890,29 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
               stan::model::rvalue(rho1, "rho1", stan::model::index_uni(c)),
               l1)), "assigning variable corr", stan::model::index_uni(c));
       }
-      current_statement__ = 25;
-      stan::model::assign(ri_init,
-        stan::math::multiply(
-          stan::math::transpose(
-            stan::math::cholesky_decompose(
-              stan::model::rvalue(corr, "corr", stan::model::index_uni(3)))),
-          Z), "assigning variable ri_init");
-      current_statement__ = 26;
-      stan::model::assign(ri_matrix,
-        stan::math::rep_matrix(stan::math::transpose(ri_init), T_all),
-        "assigning variable ri_matrix");
-      current_statement__ = 36;
+      current_statement__ = 28;
+      for (int i = 1; i <= 2; ++i) {
+        current_statement__ = 25;
+        stan::model::assign(ri_init,
+          stan::math::multiply(
+            stan::math::transpose(
+              stan::math::cholesky_decompose(
+                stan::model::rvalue(corr, "corr",
+                  stan::model::index_uni((i + 1))))),
+            stan::model::rvalue(Z, "Z",
+              stan::model::index_omni(), stan::model::index_uni(i))),
+          "assigning variable ri_init", stan::model::index_uni(i));
+        current_statement__ = 26;
+        stan::model::assign(ri_matrix,
+          stan::math::rep_matrix(
+            stan::math::transpose(
+              stan::model::rvalue(ri_init, "ri_init",
+                stan::model::index_uni(i))), T_all),
+          "assigning variable ri_matrix", stan::model::index_uni(i));
+      }
+      current_statement__ = 38;
       for (int s = 1; s <= S; ++s) {
-        current_statement__ = 27;
+        current_statement__ = 29;
         stan::model::assign(cov_ar1,
           stan::math::add(
             stan::math::add(
@@ -1904,7 +1934,7 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                 stan::model::rvalue(bp, "bp", stan::model::index_uni(s)), 4),
               bp_quart)),
           "assigning variable cov_ar1", stan::model::index_uni(s));
-        current_statement__ = 28;
+        current_statement__ = 30;
         stan::model::assign(phi,
           stan::math::multiply(
             (1 / stan::model::rvalue(tau, "tau", stan::model::index_uni(s))),
@@ -1913,9 +1943,9 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
           "assigning variable phi", stan::model::index_uni(s),
                                       stan::model::index_uni(1),
                                       stan::model::index_omni());
-        current_statement__ = 31;
+        current_statement__ = 33;
         for (int t = 2; t <= T_all; ++t) {
-          current_statement__ = 29;
+          current_statement__ = 31;
           stan::model::assign(phi,
             stan::math::add(
               stan::math::multiply(
@@ -1934,9 +1964,9 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                                         stan::model::index_uni(t),
                                         stan::model::index_omni());
         }
-        current_statement__ = 34;
+        current_statement__ = 36;
         for (int r = 1; r <= R; ++r) {
-          current_statement__ = 32;
+          current_statement__ = 34;
           stan::model::assign(reg,
             stan::math::add(
               stan::math::multiply(
@@ -2016,8 +2046,22 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
             }
           }
         }
-        out__.write(ri_init);
-        out__.write(ri_matrix);
+        for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
+          for (int sym2__ = 1; sym2__ <= 2; ++sym2__) {
+            out__.write(ri_init[(sym2__ - 1)][(sym1__ - 1)]);
+          }
+        }
+        for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
+          for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
+            for (int sym3__ = 1; sym3__ <= 2; ++sym3__) {
+              out__.write(
+                stan::model::rvalue(ri_matrix, "ri_matrix",
+                  stan::model::index_uni(sym3__),
+                    stan::model::index_uni(sym2__),
+                    stan::model::index_uni(sym1__)));
+            }
+          }
+        }
       } 
       if (stan::math::logical_negation(emit_generated_quantities__)) {
         return ;
@@ -2048,11 +2092,14 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
         y_train_mis[(sym1__ - 1)] = in__.read<local_scalar_t__>();
       }
       out__.write_free_lb(y_min, y_train_mis);
-      Eigen::Matrix<local_scalar_t__, -1, 1> Z =
-         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(R, DUMMY_VAR__);
-      for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-        stan::model::assign(Z, in__.read<local_scalar_t__>(),
-          "assigning variable Z", stan::model::index_uni(sym1__));
+      Eigen::Matrix<local_scalar_t__, -1, -1> Z =
+         Eigen::Matrix<local_scalar_t__, -1, -1>::Constant(R, 2, DUMMY_VAR__);
+      for (int sym1__ = 1; sym1__ <= 2; ++sym1__) {
+        for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
+          stan::model::assign(Z, in__.read<local_scalar_t__>(),
+            "assigning variable Z", stan::model::index_uni(sym2__),
+                                      stan::model::index_uni(sym1__));
+        }
       }
       out__.write(Z);
       std::vector<std::vector<Eigen::Matrix<local_scalar_t__, 1, -1>>> phi_init =
@@ -2140,7 +2187,7 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
     dimss__ = std::vector<std::vector<size_t>>{std::vector<size_t>{
                                                                    static_cast<size_t>(N_tb_mis)
                                                                    },
-      std::vector<size_t>{static_cast<size_t>(R)},
+      std::vector<size_t>{static_cast<size_t>(R), static_cast<size_t>(2)},
       std::vector<size_t>{static_cast<size_t>(T_all), static_cast<size_t>(S),
                           static_cast<size_t>(R)},
       std::vector<size_t>{static_cast<size_t>(S), static_cast<size_t>(p),
@@ -2163,8 +2210,9 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                           static_cast<size_t>(p)},
       std::vector<size_t>{static_cast<size_t>(C), static_cast<size_t>(R),
                           static_cast<size_t>(R)},
-      std::vector<size_t>{static_cast<size_t>(R)},
-      std::vector<size_t>{static_cast<size_t>(T_all), static_cast<size_t>(R)}};
+      std::vector<size_t>{static_cast<size_t>(2), static_cast<size_t>(R)},
+      std::vector<size_t>{static_cast<size_t>(2), static_cast<size_t>(T_all),
+                          static_cast<size_t>(R)}};
     
     } // get_dims() 
     
@@ -2179,9 +2227,13 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
         param_names__.emplace_back(std::string() + "y_train_mis" + '.' + std::to_string(sym1__));
       } 
     }
-    for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
+    for (int sym1__ = 1; sym1__ <= 2; ++sym1__) {
       {
-        param_names__.emplace_back(std::string() + "Z" + '.' + std::to_string(sym1__));
+        for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
+          {
+            param_names__.emplace_back(std::string() + "Z" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+          } 
+        }
       } 
     }
     for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
@@ -2310,14 +2362,22 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       }
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
         {
-          param_names__.emplace_back(std::string() + "ri_init" + '.' + std::to_string(sym1__));
+          for (int sym2__ = 1; sym2__ <= 2; ++sym2__) {
+            {
+              param_names__.emplace_back(std::string() + "ri_init" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+            } 
+          }
         } 
       }
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
         {
           for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
             {
-              param_names__.emplace_back(std::string() + "ri_matrix" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+              for (int sym3__ = 1; sym3__ <= 2; ++sym3__) {
+                {
+                  param_names__.emplace_back(std::string() + "ri_matrix" + '.' + std::to_string(sym3__) + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+                } 
+              }
             } 
           }
         } 
@@ -2341,9 +2401,13 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
         param_names__.emplace_back(std::string() + "y_train_mis" + '.' + std::to_string(sym1__));
       } 
     }
-    for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
+    for (int sym1__ = 1; sym1__ <= 2; ++sym1__) {
       {
-        param_names__.emplace_back(std::string() + "Z" + '.' + std::to_string(sym1__));
+        for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
+          {
+            param_names__.emplace_back(std::string() + "Z" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+          } 
+        }
       } 
     }
     for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
@@ -2464,14 +2528,22 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
       }
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
         {
-          param_names__.emplace_back(std::string() + "ri_init" + '.' + std::to_string(sym1__));
+          for (int sym2__ = 1; sym2__ <= 2; ++sym2__) {
+            {
+              param_names__.emplace_back(std::string() + "ri_init" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+            } 
+          }
         } 
       }
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
         {
           for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
             {
-              param_names__.emplace_back(std::string() + "ri_matrix" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+              for (int sym3__ = 1; sym3__ <= 2; ++sym3__) {
+                {
+                  param_names__.emplace_back(std::string() + "ri_matrix" + '.' + std::to_string(sym3__) + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
+                } 
+              }
             } 
           }
         } 
@@ -2486,13 +2558,13 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
     
   inline std::string get_constrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"}]");
+    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(2) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"}]");
     
     } // get_constrained_sizedtypes() 
     
   inline std::string get_unconstrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"}]");
+    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(2) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"}]");
     
     } // get_unconstrained_sizedtypes() 
     
@@ -2506,11 +2578,11 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                             const bool emit_generated_quantities = true,
                             std::ostream* pstream = nullptr) const {
       const size_t num_params__ = 
-  ((((((((N_tb_mis + R) + ((T_all * S) * R)) + ((S * p) * R)) + S) + S) + S)
-     + C) + C);
+  ((((((((N_tb_mis + (R * 2)) + ((T_all * S) * R)) + ((S * p) * R)) + S) + S)
+      + S) + C) + C);
       const size_t num_transformed = emit_transformed_parameters * 
   (((((((((N_tb_all + ((S * T_all) * R)) + ((S * T_train) * R)) + S) + S) +
-        C) + ((S * p) * p)) + ((C * R) * R)) + R) + (T_all * R));
+        C) + ((S * p) * p)) + ((C * R) * R)) + (2 * R)) + ((2 * T_all) * R));
       const size_t num_gen_quantities = emit_generated_quantities * 0;
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
@@ -2529,11 +2601,11 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                             bool emit_generated_quantities = true,
                             std::ostream* pstream = nullptr) const {
       const size_t num_params__ = 
-  ((((((((N_tb_mis + R) + ((T_all * S) * R)) + ((S * p) * R)) + S) + S) + S)
-     + C) + C);
+  ((((((((N_tb_mis + (R * 2)) + ((T_all * S) * R)) + ((S * p) * R)) + S) + S)
+      + S) + C) + C);
       const size_t num_transformed = emit_transformed_parameters * 
   (((((((((N_tb_all + ((S * T_all) * R)) + ((S * T_train) * R)) + S) + S) +
-        C) + ((S * p) * p)) + ((C * R) * R)) + R) + (T_all * R));
+        C) + ((S * p) * p)) + ((C * R) * R)) + (2 * R)) + ((2 * T_all) * R));
       const size_t num_gen_quantities = emit_generated_quantities * 0;
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
@@ -2574,8 +2646,8 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                               std::ostream* pstream__ = nullptr) const {
      constexpr std::array<const char*, 9> names__{"y_train_mis", "Z",
       "phi_init", "beta", "tau_init", "eta", "bp_init", "rho1", "rho_sum"};
-      const std::array<Eigen::Index, 9> constrain_param_sizes__{N_tb_mis, 
-       R, (T_all * S * R), (S * p * R), S, S, S, C, C};
+      const std::array<Eigen::Index, 9> constrain_param_sizes__{N_tb_mis,
+       (R * 2), (T_all * S * R), (S * p * R), S, S, S, C, C};
       const auto num_constrained_params__ = std::accumulate(
         constrain_param_sizes__.begin(), constrain_param_sizes__.end(), 0);
     

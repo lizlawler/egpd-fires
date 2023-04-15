@@ -1465,10 +1465,10 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
            Eigen::Matrix<local_scalar_t__, -1, -1>::Constant(R, R,
              DUMMY_VAR__));
       std::vector<Eigen::Matrix<local_scalar_t__, -1, 1>> ri_init =
-         std::vector<Eigen::Matrix<local_scalar_t__, -1, 1>>(2, 
+         std::vector<Eigen::Matrix<local_scalar_t__, -1, 1>>(3, 
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(R, DUMMY_VAR__));
       std::vector<Eigen::Matrix<local_scalar_t__, -1, -1>> ri_matrix =
-         std::vector<Eigen::Matrix<local_scalar_t__, -1, -1>>(2, 
+         std::vector<Eigen::Matrix<local_scalar_t__, -1, -1>>(3, 
            Eigen::Matrix<local_scalar_t__, -1, -1>::Constant(T_all, R,
              DUMMY_VAR__));
       current_statement__ = 20;
@@ -1622,10 +1622,10 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
             stan::math::exp(
   stan::math::to_vector(
     stan::model::rvalue(
-      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)),
-      "ri_matrix[2]",
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)),
+      "ri_matrix[1]",
       stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
-            "exp(to_vector(ri_matrix[2][idx_train_er, :]))",
+            "exp(to_vector(ri_matrix[1][idx_train_er, :]))",
             stan::model::index_multi(ii_tb_all)), "assigning variable kappa");
         current_statement__ = 43;
         stan::math::validate_non_negative_index("xi", "N_tb_all", N_tb_all);
@@ -1863,11 +1863,11 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
            Eigen::Matrix<double, -1, -1>::Constant(R, R,
              std::numeric_limits<double>::quiet_NaN()));
       std::vector<Eigen::Matrix<double, -1, 1>> ri_init =
-         std::vector<Eigen::Matrix<double, -1, 1>>(2, 
+         std::vector<Eigen::Matrix<double, -1, 1>>(3, 
            Eigen::Matrix<double, -1, 1>::Constant(R,
              std::numeric_limits<double>::quiet_NaN()));
       std::vector<Eigen::Matrix<double, -1, -1>> ri_matrix =
-         std::vector<Eigen::Matrix<double, -1, -1>>(2, 
+         std::vector<Eigen::Matrix<double, -1, -1>>(3, 
            Eigen::Matrix<double, -1, -1>::Constant(T_all, R,
              std::numeric_limits<double>::quiet_NaN()));
       out__.write(y_train_mis);
@@ -2085,13 +2085,13 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
           }
         }
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          for (int sym2__ = 1; sym2__ <= 2; ++sym2__) {
+          for (int sym2__ = 1; sym2__ <= 3; ++sym2__) {
             out__.write(ri_init[(sym2__ - 1)][(sym1__ - 1)]);
           }
         }
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
           for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
-            for (int sym3__ = 1; sym3__ <= 2; ++sym3__) {
+            for (int sym3__ = 1; sym3__ <= 3; ++sym3__) {
               out__.write(
                 stan::model::rvalue(ri_matrix, "ri_matrix",
                   stan::model::index_uni(sym3__),
@@ -2248,8 +2248,8 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
                           static_cast<size_t>(p)},
       std::vector<size_t>{static_cast<size_t>(C), static_cast<size_t>(R),
                           static_cast<size_t>(R)},
-      std::vector<size_t>{static_cast<size_t>(2), static_cast<size_t>(R)},
-      std::vector<size_t>{static_cast<size_t>(2), static_cast<size_t>(T_all),
+      std::vector<size_t>{static_cast<size_t>(3), static_cast<size_t>(R)},
+      std::vector<size_t>{static_cast<size_t>(3), static_cast<size_t>(T_all),
                           static_cast<size_t>(R)}};
     
     } // get_dims() 
@@ -2400,7 +2400,7 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
       }
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
         {
-          for (int sym2__ = 1; sym2__ <= 2; ++sym2__) {
+          for (int sym2__ = 1; sym2__ <= 3; ++sym2__) {
             {
               param_names__.emplace_back(std::string() + "ri_init" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
             } 
@@ -2411,7 +2411,7 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
         {
           for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
             {
-              for (int sym3__ = 1; sym3__ <= 2; ++sym3__) {
+              for (int sym3__ = 1; sym3__ <= 3; ++sym3__) {
                 {
                   param_names__.emplace_back(std::string() + "ri_matrix" + '.' + std::to_string(sym3__) + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
                 } 
@@ -2566,7 +2566,7 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
       }
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
         {
-          for (int sym2__ = 1; sym2__ <= 2; ++sym2__) {
+          for (int sym2__ = 1; sym2__ <= 3; ++sym2__) {
             {
               param_names__.emplace_back(std::string() + "ri_init" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
             } 
@@ -2577,7 +2577,7 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
         {
           for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
             {
-              for (int sym3__ = 1; sym3__ <= 2; ++sym3__) {
+              for (int sym3__ = 1; sym3__ <= 3; ++sym3__) {
                 {
                   param_names__.emplace_back(std::string() + "ri_matrix" + '.' + std::to_string(sym3__) + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
                 } 
@@ -2596,13 +2596,13 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
     
   inline std::string get_constrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(3) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"}]");
+    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(3) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(3) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(3) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"}]");
     
     } // get_constrained_sizedtypes() 
     
   inline std::string get_unconstrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(3) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"}]");
+    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(3) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(3) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(3) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"}]");
     
     } // get_unconstrained_sizedtypes() 
     
@@ -2620,7 +2620,7 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
       + S) + C) + C);
       const size_t num_transformed = emit_transformed_parameters * 
   (((((((((N_tb_all + ((S * T_all) * R)) + ((S * T_train) * R)) + S) + S) +
-        C) + ((S * p) * p)) + ((C * R) * R)) + (2 * R)) + ((2 * T_all) * R));
+        C) + ((S * p) * p)) + ((C * R) * R)) + (3 * R)) + ((3 * T_all) * R));
       const size_t num_gen_quantities = emit_generated_quantities * 0;
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
@@ -2643,7 +2643,7 @@ class g4_kappa_ri_xi_ri_model final : public model_base_crtp<g4_kappa_ri_xi_ri_m
       + S) + C) + C);
       const size_t num_transformed = emit_transformed_parameters * 
   (((((((((N_tb_all + ((S * T_all) * R)) + ((S * T_train) * R)) + S) + S) +
-        C) + ((S * p) * p)) + ((C * R) * R)) + (2 * R)) + ((2 * T_all) * R));
+        C) + ((S * p) * p)) + ((C * R) * R)) + (3 * R)) + ((3 * T_all) * R));
       const size_t num_gen_quantities = emit_generated_quantities * 0;
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;

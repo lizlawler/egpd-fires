@@ -198,7 +198,7 @@ static constexpr std::array<const char*, 209> locations_array__ =
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_nu-ri_xi-ri.stan', line 25, column 4 to column 59)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_nu-ri_xi-ri.stan', line 26, column 4 to column 64)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_nu-ri_xi-ri.stan', line 27, column 4 to column 58)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_nu-ri_xi-ri.stan', line 28, column 4 to column 77)",
+ " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_nu-ri_xi-ri.stan', line 28, column 4 to column 67)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_nu-ri_xi-ri.stan', line 29, column 4 to column 67)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_nu-ri_xi-ri.stan', line 30, column 4 to column 29)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/burns/g2/stan/g2_nu-ri_xi-ri.stan', line 22, column 91 to line 31, column 3)",
@@ -394,22 +394,22 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
       w = (1 + (xi * (y / sigma)));
       local_scalar_t__ first = DUMMY_VAR__;
       current_statement__ = 186;
-      first = stan::math::pow(
-                ((kappa1 * p) * (1 - stan::math::pow(w, (-1 / xi)))),
-                (kappa1 - 1));
+      first = ((kappa1 * p) *
+                stan::math::pow((1 - stan::math::pow(w, (-1 / xi))),
+                  (kappa1 - 1)));
       local_scalar_t__ second = DUMMY_VAR__;
       current_statement__ = 187;
-      second = stan::math::pow(
-                 ((kappa2 * (1 - p)) * (1 - stan::math::pow(w, (-1 / xi)))),
-                 (kappa2 - 1));
+      second = ((kappa2 * (1 - p)) *
+                 stan::math::pow((1 - stan::math::pow(w, (-1 / xi))),
+                   (kappa2 - 1)));
       local_scalar_t__ cst_term = DUMMY_VAR__;
       current_statement__ = 188;
       cst_term = (1 -
                    stan::math::pow((1 + (xi * (ymin / sigma))), (-1 / xi)));
       local_scalar_t__ cst = DUMMY_VAR__;
       current_statement__ = 189;
-      cst = ((p * stan::math::pow(cst_term, (kappa1 - 1))) +
-              ((1 - p) * stan::math::pow(cst_term, (kappa2 - 1))));
+      cst = ((p * stan::math::pow(cst_term, kappa1)) +
+              ((1 - p) * stan::math::pow(cst_term, kappa2)));
       current_statement__ = 190;
       lpdf = ((-stan::math::log(sigma) -
                 (((1 / xi) + 1) * stan::math::log(w))) +

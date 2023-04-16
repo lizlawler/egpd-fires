@@ -1,0 +1,43 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+[1] "Filenames being used are:"
+[1] "./full-model/fire-sims/burns/lognorm/csv-fits/lognorm_og_sigma-ri_0.9_15Apr2023_1330_1.csv"
+[2] "./full-model/fire-sims/burns/lognorm/csv-fits/lognorm_og_sigma-ri_0.9_15Apr2023_1330_2.csv"
+[3] "./full-model/fire-sims/burns/lognorm/csv-fits/lognorm_og_sigma-ri_0.9_15Apr2023_1330_3.csv"
+[1] "Creating cmdstan fit object..."
+Warning: 2548 of 3000 (85.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 251 of 3000 (8.0%) transitions hit the maximum treedepth limit of 10.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 1 of 3 chains had an E-BFMI less than 0.2.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 2548 of 3000 (85.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 251 of 3000 (8.0%) transitions hit the maximum treedepth limit of 10.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 1 of 3 chains had an E-BFMI less than 0.2.
+See https://mc-stan.org/misc/warnings for details.
+
+$num_divergent
+[1] 910 839 799
+
+$num_max_treedepth
+[1]  90 161   0
+
+$ebfmi
+[1] 0.1154467 0.4285015 0.3585516
+
+[1] "Creating mcmc list from cmdstan object..."
+[1] "Creating traceplot of rhos..."
+Error in pdf(file = file_out) : 
+  cannot open file '/gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/./full-model/figures/lognorm/trace/lognorm_og_sigma-ri_0.9_15Apr2023_1330_rho.pdf'
+Calls: MCMCtrace -> pdf
+Execution halted

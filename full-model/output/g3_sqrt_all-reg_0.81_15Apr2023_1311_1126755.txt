@@ -138,3 +138,4 @@ Exception: cholesky_decompose: Matrix m is not positive definite (in '../../../.
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+slurmstepd: error: *** JOB 1126755 ON c3cpu-a7-u7-4 CANCELLED AT 2023-04-20T13:18:51 DUE TO TIME LIMIT ***

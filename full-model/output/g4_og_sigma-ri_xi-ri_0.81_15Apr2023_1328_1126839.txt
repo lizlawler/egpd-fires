@@ -1749,3 +1749,5 @@ Chain [3] Iteration: 2000 / 4000 [ 50%]  (Warmup)
 Chain [3] Iteration: 2001 / 4000 [ 50%]  (Sampling)
 Chain [2] Iteration: 1900 / 4000 [ 47%]  (Warmup)
 Chain [1] Iteration: 3000 / 4000 [ 75%]  (Sampling)
+Chain [3] Iteration: 2100 / 4000 [ 52%]  (Sampling)
+slurmstepd: error: *** JOB 1126839 ON c3cpu-c11-u1-4 CANCELLED AT 2023-04-20T15:07:41 DUE TO TIME LIMIT ***

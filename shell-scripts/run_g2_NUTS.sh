@@ -6,6 +6,7 @@
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
+stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="burns"
 modname="g2"
 for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"

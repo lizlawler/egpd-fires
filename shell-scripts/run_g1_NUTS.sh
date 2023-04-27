@@ -8,7 +8,8 @@ conda activate stan
 
 modtype="burns"
 modname="g1"
-for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
+# for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
+for params in "all-reg_comp" "xi-ri_comp" "nu-ri_xi-ri_comp" "kappa-ri_xi-ri_comp" "sigma-ri_xi-ri_comp"
 do
 # compile model and link c++ 
 object="full-model/fire-sims/${modtype}/${modname}/stan/${modname}_${params}"

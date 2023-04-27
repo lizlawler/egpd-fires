@@ -1,4 +1,4 @@
-#include g1_fcns.stan
+#include /g1_fcns.stan
 data {
   int<lower=1> R; // # of regions
   int<lower=1> p; // # of parameters

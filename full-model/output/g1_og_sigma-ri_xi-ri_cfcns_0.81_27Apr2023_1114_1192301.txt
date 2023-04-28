@@ -547,3 +547,313 @@ Exception: Exception: Exception: kappa<=0; found kappa = 9.38309e-16 (in 'full-m
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Chain [1] Iteration: 1400 / 4000 [ 35%]  (Warmup)
+Chain [3] Iteration: 1400 / 4000 [ 35%]  (Warmup)
+Chain [2] Iteration: 1400 / 4000 [ 35%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.95297e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.84106e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.90399e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 1500 / 4000 [ 37%]  (Warmup)
+Chain [3] Iteration: 1500 / 4000 [ 37%]  (Warmup)
+Chain [2] Iteration: 1500 / 4000 [ 37%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.1991e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.04188e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 1600 / 4000 [ 40%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.60277e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 8.97571e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 1600 / 4000 [ 40%]  (Warmup)
+Chain [2] Iteration: 1600 / 4000 [ 40%]  (Warmup)
+Chain [1] Iteration: 1700 / 4000 [ 42%]  (Warmup)
+Chain [3] Iteration: 1700 / 4000 [ 42%]  (Warmup)
+Chain [2] Iteration: 1700 / 4000 [ 42%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.57293e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.69522e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 1800 / 4000 [ 45%]  (Warmup)
+Chain [3] Iteration: 1800 / 4000 [ 45%]  (Warmup)
+Chain [2] Iteration: 1800 / 4000 [ 45%]  (Warmup)
+Chain [1] Iteration: 1900 / 4000 [ 47%]  (Warmup)
+Chain [3] Iteration: 1900 / 4000 [ 47%]  (Warmup)
+Chain [2] Iteration: 1900 / 4000 [ 47%]  (Warmup)
+Chain [3] Iteration: 2000 / 4000 [ 50%]  (Warmup)
+Chain [3] Iteration: 2001 / 4000 [ 50%]  (Sampling)
+Chain [1] Iteration: 2000 / 4000 [ 50%]  (Warmup)
+Chain [1] Iteration: 2001 / 4000 [ 50%]  (Sampling)
+Chain [2] Iteration: 2000 / 4000 [ 50%]  (Warmup)
+Chain [2] Iteration: 2001 / 4000 [ 50%]  (Sampling)
+Chain [3] Iteration: 2100 / 4000 [ 52%]  (Sampling)
+Chain [1] Iteration: 2100 / 4000 [ 52%]  (Sampling)
+Chain [2] Iteration: 2100 / 4000 [ 52%]  (Sampling)
+Chain [3] Iteration: 2200 / 4000 [ 55%]  (Sampling)
+Chain [1] Iteration: 2200 / 4000 [ 55%]  (Sampling)
+Chain [2] Iteration: 2200 / 4000 [ 55%]  (Sampling)
+Chain [3] Iteration: 2300 / 4000 [ 57%]  (Sampling)
+Chain [1] Iteration: 2300 / 4000 [ 57%]  (Sampling)
+Chain [2] Iteration: 2300 / 4000 [ 57%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.77557e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 2400 / 4000 [ 60%]  (Sampling)
+Chain [1] Iteration: 2400 / 4000 [ 60%]  (Sampling)
+Chain [2] Iteration: 2400 / 4000 [ 60%]  (Sampling)
+Chain [3] Iteration: 2500 / 4000 [ 62%]  (Sampling)
+Chain [1] Iteration: 2500 / 4000 [ 62%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.38701e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [2] Iteration: 2500 / 4000 [ 62%]  (Sampling)
+Chain [3] Iteration: 2600 / 4000 [ 65%]  (Sampling)
+Chain [1] Iteration: 2600 / 4000 [ 65%]  (Sampling)
+Chain [2] Iteration: 2600 / 4000 [ 65%]  (Sampling)
+Chain [3] Iteration: 2700 / 4000 [ 67%]  (Sampling)
+Chain [1] Iteration: 2700 / 4000 [ 67%]  (Sampling)
+Chain [2] Iteration: 2700 / 4000 [ 67%]  (Sampling)
+Chain [3] Iteration: 2800 / 4000 [ 70%]  (Sampling)
+Chain [1] Iteration: 2800 / 4000 [ 70%]  (Sampling)
+Chain [2] Iteration: 2800 / 4000 [ 70%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.61424e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 2900 / 4000 [ 72%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.33377e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 2900 / 4000 [ 72%]  (Sampling)
+Chain [2] Iteration: 2900 / 4000 [ 72%]  (Sampling)
+Chain [3] Iteration: 3000 / 4000 [ 75%]  (Sampling)
+Chain [1] Iteration: 3000 / 4000 [ 75%]  (Sampling)
+Chain [2] Iteration: 3000 / 4000 [ 75%]  (Sampling)
+Chain [3] Iteration: 3100 / 4000 [ 77%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.58989e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 3100 / 4000 [ 77%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.61254e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [2] Iteration: 3100 / 4000 [ 77%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.54398e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 3200 / 4000 [ 80%]  (Sampling)
+Chain [1] Iteration: 3200 / 4000 [ 80%]  (Sampling)
+Chain [2] Iteration: 3200 / 4000 [ 80%]  (Sampling)
+Chain [3] Iteration: 3300 / 4000 [ 82%]  (Sampling)
+Chain [1] Iteration: 3300 / 4000 [ 82%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.46521e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [2] Iteration: 3300 / 4000 [ 82%]  (Sampling)
+Chain [3] Iteration: 3400 / 4000 [ 85%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.97025e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.92911e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.6692e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.5437e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.53241e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.60341e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.54932e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.97595e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 3400 / 4000 [ 85%]  (Sampling)
+Chain [2] Iteration: 3400 / 4000 [ 85%]  (Sampling)
+Chain [3] Iteration: 3500 / 4000 [ 87%]  (Sampling)
+Chain [1] Iteration: 3500 / 4000 [ 87%]  (Sampling)
+Chain [2] Iteration: 3500 / 4000 [ 87%]  (Sampling)
+Chain [3] Iteration: 3600 / 4000 [ 90%]  (Sampling)
+Chain [1] Iteration: 3600 / 4000 [ 90%]  (Sampling)
+Chain [2] Iteration: 3600 / 4000 [ 90%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 8.67504e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 3700 / 4000 [ 92%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.44532e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 3700 / 4000 [ 92%]  (Sampling)
+Chain [2] Iteration: 3700 / 4000 [ 92%]  (Sampling)
+Chain [3] Iteration: 3800 / 4000 [ 95%]  (Sampling)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.05669e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.8095e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa<=0; found kappa = 9.46332e-16 (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 11, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stan', line 40, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 76)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 3800 / 4000 [ 95%]  (Sampling)
+Chain [2] Iteration: 3800 / 4000 [ 95%]  (Sampling)
+Chain [3] Iteration: 3900 / 4000 [ 97%]  (Sampling)
+Chain [1] Iteration: 3900 / 4000 [ 97%]  (Sampling)
+Chain [2] Iteration: 3900 / 4000 [ 97%]  (Sampling)
+Chain [3] Iteration: 4000 / 4000 [100%]  (Sampling)
+
+ Elapsed Time: 40055.1 seconds (Warm-up)
+               31402.1 seconds (Sampling)
+               71457.2 seconds (Total)
+
+Chain [1] Iteration: 4000 / 4000 [100%]  (Sampling)
+
+ Elapsed Time: 40123.8 seconds (Warm-up)
+               31875.3 seconds (Sampling)
+               71999 seconds (Total)
+
+Chain [2] Iteration: 4000 / 4000 [100%]  (Sampling)
+
+ Elapsed Time: 40554.5 seconds (Warm-up)
+               31853.6 seconds (Sampling)
+               72408.1 seconds (Total)
+
+Model has finished running all 3 chains

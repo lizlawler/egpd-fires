@@ -8,7 +8,7 @@ library(stringr)
 
 
 # following code is for the counts -------
-count_fits <- paste0("full-model/fire-sims/counts/", list.files(path = "full-model/fire-sims/counts/", pattern = "*.RDS", recursive = TRUE))
+count_fits <- paste0("full-model/fire-sims/counts/", list.files(path = "full-model/fire-sims/counts/", pattern = "*.csv", recursive = TRUE))
 extraction <- function(file_path) {
   object <- readRDS(file_path)
   file <- basename(file_path)

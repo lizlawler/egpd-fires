@@ -2,7 +2,7 @@
   real gpareto_lpdf(real y, real sigma, real xi) {
     real inv_xi = inv(xi);
     if (xi < 0 && y/sigma > -inv_xi) {
-      reject("xi<0 and max(y)/sigma > -1/xi; found xi = ", xi, " sigma = ", sigma);
+      reject("xi<0 and y/sigma > -1/xi; found xi = ", xi, " sigma = ", sigma);
     }
     else if (sigma < 1e-15) {
       reject("sigma<=0; found sigma = ", sigma);
@@ -17,7 +17,7 @@
   real gpareto_cdf(real y, real sigma, real xi) {
     real inv_xi = inv(xi);
     if (xi < 0 && y/sigma > -inv_xi) {
-      reject("xi<0 and max(y)/sigma > -1/xi; found xi = ", xi, " sigma = ", sigma);
+      reject("xi<0 and y/sigma > -1/xi; found xi = ", xi, " sigma = ", sigma);
     }
     else if (sigma < 1e-15) {
       reject("sigma<=0; found sigma = ", sigma);

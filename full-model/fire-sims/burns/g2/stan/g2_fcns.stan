@@ -6,9 +6,9 @@ functions{
     if (prob <= 1e-15 || prob > 1) {
       reject("not a valid probability; found prob = ", prob);
     }
-    else if (kappa1 > kappa2) {
-      reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
-    }
+    // else if (kappa1 > kappa2) {
+    //   reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    // }
     else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
       return gpareto_lpdf(y | sigma, xi) + log_sum_exp(
               log(kappa1) + (kappa1-1) * (log(prob) + gpareto_lcdf(y | sigma, xi)),
@@ -22,9 +22,9 @@ functions{
     if (prob <= 1e-15 || prob > 1) {
       reject("not a valid probability; found prob = ", prob);
     }
-    else if (kappa1 > kappa2) {
-      reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
-    }
+    // else if (kappa1 > kappa2) {
+    //   reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    // }
     else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
       return exp(log(prob) + kappa1 * gpareto_lcdf(y | sigma, xi)) + 
               exp(log1m(prob) + kappa2 * gpareto_lcdf(y | sigma, xi));
@@ -37,9 +37,9 @@ functions{
     if (prob <= 1e-15 || prob > 1) {
       reject("not a valid probability; found prob = ", prob);
     }
-    else if (kappa1 > kappa2) {
-      reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
-    }
+    // else if (kappa1 > kappa2) {
+    //   reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    // }
     else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
       return log_sum_exp(
               log(prob) + kappa1 * gpareto_lcdf(y | sigma, xi), 
@@ -53,9 +53,9 @@ functions{
     if (prob <= 1e-15 || prob > 1) {
       reject("not a valid probability; found prob = ", prob);
     }
-    else if (kappa1 > kappa2) {
-      reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
-    }
+    // else if (kappa1 > kappa2) {
+    //   reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    // }
     else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
       return log1m(exp(log(prob) + kappa1 * gpareto_lcdf(y | sigma, xi)) + 
               exp(log1m(prob) + kappa2 * gpareto_lcdf(y | sigma, xi)));

@@ -6,12 +6,16 @@
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
+stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="burns"
 modname="g3"
-for params in "all-reg" "xi-ri"
+# for params in "all-reg" "xi-ri"
+for params in "all-reg_cfcns" "xi-ri_cfcns"
 do
 # compile model and link c++ 
+inc_path="full-model/fire-sims/${modtype}/${modname}/stan/"
 object="full-model/fire-sims/${modtype}/${modname}/stan/${modname}_${params}"
+${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
 for suffix in "sqrt" "og"
 do

@@ -246,7 +246,7 @@ static constexpr std::array<const char*, 271> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 12, column 47, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 12, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 7, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 6, column 35, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 6, column 30, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 6, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 5, column 83, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 33, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
@@ -255,7 +255,7 @@ static constexpr std::array<const char*, 271> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 28, column 47, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 28, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 23, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 22, column 35, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 22, column 30, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 22, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 21, column 82, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 49, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
@@ -264,7 +264,7 @@ static constexpr std::array<const char*, 271> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 43, column 47, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 43, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 38, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 37, column 35, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 37, column 30, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 37, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 36, column 83, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 64, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
@@ -273,7 +273,7 @@ static constexpr std::array<const char*, 271> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 59, column 47, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 59, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 54, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 53, column 35, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 53, column 30, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 53, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 52, column 84, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 69, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_cfcns.stan', line 1, column 0)",
@@ -737,8 +737,8 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       current_statement__ = 238;
-      if ((stan::math::primitive_value(stan::math::logical_lte(prob, 1e-15))
-          || stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
+      if ((stan::math::primitive_value(stan::math::logical_lt(prob, 0)) ||
+          stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
         current_statement__ = 236;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "not a valid probability; found prob = ");
@@ -797,8 +797,8 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       current_statement__ = 247;
-      if ((stan::math::primitive_value(stan::math::logical_lte(prob, 1e-15))
-          || stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
+      if ((stan::math::primitive_value(stan::math::logical_lt(prob, 0)) ||
+          stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
         current_statement__ = 245;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "not a valid probability; found prob = ");
@@ -853,8 +853,8 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       current_statement__ = 256;
-      if ((stan::math::primitive_value(stan::math::logical_lte(prob, 1e-15))
-          || stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
+      if ((stan::math::primitive_value(stan::math::logical_lt(prob, 0)) ||
+          stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
         current_statement__ = 254;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "not a valid probability; found prob = ");
@@ -908,8 +908,8 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       current_statement__ = 265;
-      if ((stan::math::primitive_value(stan::math::logical_lte(prob, 1e-15))
-          || stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
+      if ((stan::math::primitive_value(stan::math::logical_lt(prob, 0)) ||
+          stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
         current_statement__ = 263;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "not a valid probability; found prob = ");

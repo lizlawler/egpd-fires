@@ -11,8 +11,8 @@ functions{
     // }
     else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
       return gpareto_lpdf(y | sigma, xi) + log_sum_exp(
-              log(kappa1) + (kappa1-1) * (log(prob) + gpareto_lcdf(y | sigma, xi)),
-              log(kappa2) + (kappa2-1) * (log1m(prob) + gpareto_lcdf(y | sigma, xi)));
+              log(kappa1) + log(prob) + (kappa1-1) * gpareto_lcdf(y | sigma, xi),
+              log(kappa2) + log1m(prob) + (kappa2-1) * gpareto_lcdf(y | sigma, xi));
     }
     else {
       reject("kappa1 or kappa2 <=0; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
@@ -42,8 +42,8 @@ functions{
     // }
     else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
       return log_sum_exp(
-              log(prob) + kappa1 * gpareto_lcdf(y | sigma, xi), 
-              log1m(prob) + kappa2 * gpareto_lcdf(y | sigma, xi));
+              (log(prob) + kappa1 * gpareto_lcdf(y | sigma, xi)), 
+              (log1m(prob) + kappa2 * gpareto_lcdf(y | sigma, xi)));
     }
     else {
       reject("kappa1 or kappa2 <=0; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);

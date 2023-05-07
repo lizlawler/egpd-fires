@@ -88,7 +88,7 @@ model {
   
   // likelihood
   for (n in 1:N_tb_all) {
-    target += egpd_lpdf(y_train[n] | y_min, sigma[n], xi[n], gamma[n]);
+    target += egpd_trunc_lpdf(y_train[n] | y_min, sigma[n], xi[n], gamma[n]);
   }
 }
 

@@ -35,11 +35,11 @@ functions{
       reject("kappa<=0; found kappa = ", kappa);
     }
   }  
-  // censored EGPD distribution
+  // truncated EGPD distribution
   real egpd_cens_lpdf(real y, real ymin, real sigma, real xi, real kappa) {
     real lpdf = egpd_lpdf(y | sigma, xi, kappa);
-    real cens = egpd_lccdf(ymin | sigma, xi, kappa);
-    return lpdf - cens;
+    real cst = egpd_lccdf(ymin | sigma, xi, kappa);
+    return lpdf - cst;
   }
   //forecast function
   // vector forecast_rng(int n_pred, real ymin, real sigma, real xi, real kappa) {

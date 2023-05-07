@@ -3,7 +3,7 @@ functions{
 #include /../../gpd_fcns.stan
   // custom distribution functions of EGPD
   real egpd_lpdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
-    if (prob <= 1e-15 || prob > 1) {
+    if (prob < 0 || prob > 1) {
       reject("not a valid probability; found prob = ", prob);
     }
     // else if (kappa1 > kappa2) {
@@ -19,7 +19,7 @@ functions{
     }
   }  
   real egpd_cdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
-    if (prob <= 1e-15 || prob > 1) {
+    if (prob < 0 || prob > 1) {
       reject("not a valid probability; found prob = ", prob);
     }
     // else if (kappa1 > kappa2) {
@@ -34,7 +34,7 @@ functions{
     }
   }
   real egpd_lcdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
-    if (prob <= 1e-15 || prob > 1) {
+    if (prob < 0 || prob > 1) {
       reject("not a valid probability; found prob = ", prob);
     }
     // else if (kappa1 > kappa2) {
@@ -50,7 +50,7 @@ functions{
     }
   }  
   real egpd_lccdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
-    if (prob <= 1e-15 || prob > 1) {
+    if (prob < 0 || prob > 1) {
       reject("not a valid probability; found prob = ", prob);
     }
     // else if (kappa1 > kappa2) {

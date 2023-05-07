@@ -753,14 +753,10 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
           current_statement__ = 233;
           return (gpareto_lpdf<false>(y, sigma, xi, pstream__) +
                    stan::math::log_sum_exp(
-                     (stan::math::log(kappa1) +
-                       ((kappa1 - 1) *
-                         (stan::math::log(prob) +
-                           gpareto_lcdf(y, sigma, xi, pstream__)))),
-                     (stan::math::log(kappa2) +
-                       ((kappa2 - 1) *
-                         (stan::math::log1m(prob) +
-                           gpareto_lcdf(y, sigma, xi, pstream__))))));
+                     ((stan::math::log(kappa1) + stan::math::log(prob)) +
+                       ((kappa1 - 1) * gpareto_lcdf(y, sigma, xi, pstream__))),
+                     ((stan::math::log(kappa2) + stan::math::log1m(prob)) +
+                       ((kappa2 - 1) * gpareto_lcdf(y, sigma, xi, pstream__)))));
         } else {
           current_statement__ = 231;
           std::stringstream errmsg_stream__;

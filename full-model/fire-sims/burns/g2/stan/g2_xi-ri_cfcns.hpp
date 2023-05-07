@@ -8,7 +8,7 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 283> locations_array__ = 
+static constexpr std::array<const char*, 271> locations_array__ = 
 {" (found before start of program)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 8, column 2 to column 48)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 9, column 2 to column 14)",
@@ -245,9 +245,6 @@ static constexpr std::array<const char*, 283> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 13, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 12, column 47, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 12, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 10, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 9, column 30, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 9, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 7, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 6, column 35, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 6, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
@@ -257,9 +254,6 @@ static constexpr std::array<const char*, 283> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 29, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 28, column 47, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 28, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 26, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 25, column 30, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 25, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 23, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 22, column 35, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 22, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
@@ -269,9 +263,6 @@ static constexpr std::array<const char*, 283> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 44, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 43, column 47, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 43, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 41, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 40, column 30, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 40, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 38, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 37, column 35, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 37, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
@@ -281,9 +272,6 @@ static constexpr std::array<const char*, 283> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 60, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 59, column 47, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 59, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 57, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 56, column 30, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 56, column 9, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 54, column 6, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 53, column 35, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stan', line 53, column 4, included from\n'full-model/fire-sims/burns/g2/stan/g2_xi-ri_cfcns.stan', line 1, column 0)",
@@ -748,50 +736,39 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 241;
+      current_statement__ = 238;
       if ((stan::math::primitive_value(stan::math::logical_lte(prob, 1e-15))
           || stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
-        current_statement__ = 239;
+        current_statement__ = 236;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "not a valid probability; found prob = ");
         stan::math::stan_print(&errmsg_stream__, prob);
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 238;
-        if (stan::math::logical_gt(kappa1, kappa2)) {
-          current_statement__ = 236;
+        current_statement__ = 235;
+        if ((stan::math::primitive_value(
+            stan::math::logical_gt(kappa1, 1e-15)) &&
+            stan::math::primitive_value(
+            stan::math::logical_gt(kappa2, 1e-15)))) {
+          current_statement__ = 233;
+          return (gpareto_lpdf<false>(y, sigma, xi, pstream__) +
+                   stan::math::log_sum_exp(
+                     (stan::math::log(kappa1) +
+                       ((kappa1 - 1) *
+                         (stan::math::log(prob) +
+                           gpareto_lcdf(y, sigma, xi, pstream__)))),
+                     (stan::math::log(kappa2) +
+                       ((kappa2 - 1) *
+                         (stan::math::log1m(prob) +
+                           gpareto_lcdf(y, sigma, xi, pstream__))))));
+        } else {
+          current_statement__ = 231;
           std::stringstream errmsg_stream__;
-          stan::math::stan_print(&errmsg_stream__, "kappa1 > kappa2; found kappa1 = ");
+          stan::math::stan_print(&errmsg_stream__, "kappa1 or kappa2 <=0; found kappa1 = ");
           stan::math::stan_print(&errmsg_stream__, kappa1);
           stan::math::stan_print(&errmsg_stream__, ", kappa2 = ");
           stan::math::stan_print(&errmsg_stream__, kappa2);
           throw std::domain_error(errmsg_stream__.str());
-        } else {
-          current_statement__ = 235;
-          if ((stan::math::primitive_value(
-              stan::math::logical_gt(kappa1, 1e-15)) &&
-              stan::math::primitive_value(
-              stan::math::logical_gt(kappa2, 1e-15)))) {
-            current_statement__ = 233;
-            return (gpareto_lpdf<false>(y, sigma, xi, pstream__) +
-                     stan::math::log_sum_exp(
-                       (stan::math::log(kappa1) +
-                         ((kappa1 - 1) *
-                           (stan::math::log(prob) +
-                             gpareto_lcdf(y, sigma, xi, pstream__)))),
-                       (stan::math::log(kappa2) +
-                         ((kappa2 - 1) *
-                           (stan::math::log1m(prob) +
-                             gpareto_lcdf(y, sigma, xi, pstream__))))));
-          } else {
-            current_statement__ = 231;
-            std::stringstream errmsg_stream__;
-            stan::math::stan_print(&errmsg_stream__, "kappa1 or kappa2 <=0; found kappa1 = ");
-            stan::math::stan_print(&errmsg_stream__, kappa1);
-            stan::math::stan_print(&errmsg_stream__, ", kappa2 = ");
-            stan::math::stan_print(&errmsg_stream__, kappa2);
-            throw std::domain_error(errmsg_stream__.str());
-          }
         }
       }
     } catch (const std::exception& e) {
@@ -819,46 +796,35 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 253;
+      current_statement__ = 247;
       if ((stan::math::primitive_value(stan::math::logical_lte(prob, 1e-15))
           || stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
-        current_statement__ = 251;
+        current_statement__ = 245;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "not a valid probability; found prob = ");
         stan::math::stan_print(&errmsg_stream__, prob);
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 250;
-        if (stan::math::logical_gt(kappa1, kappa2)) {
-          current_statement__ = 248;
+        current_statement__ = 244;
+        if ((stan::math::primitive_value(
+            stan::math::logical_gt(kappa1, 1e-15)) &&
+            stan::math::primitive_value(
+            stan::math::logical_gt(kappa2, 1e-15)))) {
+          current_statement__ = 242;
+          return (stan::math::exp(
+                    (stan::math::log(prob) +
+                      (kappa1 * gpareto_lcdf(y, sigma, xi, pstream__)))) +
+                   stan::math::exp(
+                     (stan::math::log1m(prob) +
+                       (kappa2 * gpareto_lcdf(y, sigma, xi, pstream__)))));
+        } else {
+          current_statement__ = 240;
           std::stringstream errmsg_stream__;
-          stan::math::stan_print(&errmsg_stream__, "kappa1 > kappa2; found kappa1 = ");
+          stan::math::stan_print(&errmsg_stream__, "kappa1 or kappa2 <=0; found kappa1 = ");
           stan::math::stan_print(&errmsg_stream__, kappa1);
           stan::math::stan_print(&errmsg_stream__, ", kappa2 = ");
           stan::math::stan_print(&errmsg_stream__, kappa2);
           throw std::domain_error(errmsg_stream__.str());
-        } else {
-          current_statement__ = 247;
-          if ((stan::math::primitive_value(
-              stan::math::logical_gt(kappa1, 1e-15)) &&
-              stan::math::primitive_value(
-              stan::math::logical_gt(kappa2, 1e-15)))) {
-            current_statement__ = 245;
-            return (stan::math::exp(
-                      (stan::math::log(prob) +
-                        (kappa1 * gpareto_lcdf(y, sigma, xi, pstream__)))) +
-                     stan::math::exp(
-                       (stan::math::log1m(prob) +
-                         (kappa2 * gpareto_lcdf(y, sigma, xi, pstream__)))));
-          } else {
-            current_statement__ = 243;
-            std::stringstream errmsg_stream__;
-            stan::math::stan_print(&errmsg_stream__, "kappa1 or kappa2 <=0; found kappa1 = ");
-            stan::math::stan_print(&errmsg_stream__, kappa1);
-            stan::math::stan_print(&errmsg_stream__, ", kappa2 = ");
-            stan::math::stan_print(&errmsg_stream__, kappa2);
-            throw std::domain_error(errmsg_stream__.str());
-          }
         }
       }
     } catch (const std::exception& e) {
@@ -886,45 +852,34 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 265;
+      current_statement__ = 256;
       if ((stan::math::primitive_value(stan::math::logical_lte(prob, 1e-15))
           || stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
-        current_statement__ = 263;
+        current_statement__ = 254;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "not a valid probability; found prob = ");
         stan::math::stan_print(&errmsg_stream__, prob);
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 262;
-        if (stan::math::logical_gt(kappa1, kappa2)) {
-          current_statement__ = 260;
+        current_statement__ = 253;
+        if ((stan::math::primitive_value(
+            stan::math::logical_gt(kappa1, 1e-15)) &&
+            stan::math::primitive_value(
+            stan::math::logical_gt(kappa2, 1e-15)))) {
+          current_statement__ = 251;
+          return stan::math::log_sum_exp(
+                   (stan::math::log(prob) +
+                     (kappa1 * gpareto_lcdf(y, sigma, xi, pstream__))),
+                   (stan::math::log1m(prob) +
+                     (kappa2 * gpareto_lcdf(y, sigma, xi, pstream__))));
+        } else {
+          current_statement__ = 249;
           std::stringstream errmsg_stream__;
-          stan::math::stan_print(&errmsg_stream__, "kappa1 > kappa2; found kappa1 = ");
+          stan::math::stan_print(&errmsg_stream__, "kappa1 or kappa2 <=0; found kappa1 = ");
           stan::math::stan_print(&errmsg_stream__, kappa1);
           stan::math::stan_print(&errmsg_stream__, ", kappa2 = ");
           stan::math::stan_print(&errmsg_stream__, kappa2);
           throw std::domain_error(errmsg_stream__.str());
-        } else {
-          current_statement__ = 259;
-          if ((stan::math::primitive_value(
-              stan::math::logical_gt(kappa1, 1e-15)) &&
-              stan::math::primitive_value(
-              stan::math::logical_gt(kappa2, 1e-15)))) {
-            current_statement__ = 257;
-            return stan::math::log_sum_exp(
-                     (stan::math::log(prob) +
-                       (kappa1 * gpareto_lcdf(y, sigma, xi, pstream__))),
-                     (stan::math::log1m(prob) +
-                       (kappa2 * gpareto_lcdf(y, sigma, xi, pstream__))));
-          } else {
-            current_statement__ = 255;
-            std::stringstream errmsg_stream__;
-            stan::math::stan_print(&errmsg_stream__, "kappa1 or kappa2 <=0; found kappa1 = ");
-            stan::math::stan_print(&errmsg_stream__, kappa1);
-            stan::math::stan_print(&errmsg_stream__, ", kappa2 = ");
-            stan::math::stan_print(&errmsg_stream__, kappa2);
-            throw std::domain_error(errmsg_stream__.str());
-          }
         }
       }
     } catch (const std::exception& e) {
@@ -952,48 +907,36 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 277;
+      current_statement__ = 265;
       if ((stan::math::primitive_value(stan::math::logical_lte(prob, 1e-15))
           || stan::math::primitive_value(stan::math::logical_gt(prob, 1)))) {
-        current_statement__ = 275;
+        current_statement__ = 263;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "not a valid probability; found prob = ");
         stan::math::stan_print(&errmsg_stream__, prob);
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 274;
-        if (stan::math::logical_gt(kappa1, kappa2)) {
-          current_statement__ = 272;
+        current_statement__ = 262;
+        if ((stan::math::primitive_value(
+            stan::math::logical_gt(kappa1, 1e-15)) &&
+            stan::math::primitive_value(
+            stan::math::logical_gt(kappa2, 1e-15)))) {
+          current_statement__ = 260;
+          return stan::math::log1m(
+                   (stan::math::exp(
+                      (stan::math::log(prob) +
+                        (kappa1 * gpareto_lcdf(y, sigma, xi, pstream__)))) +
+                     stan::math::exp(
+                       (stan::math::log1m(prob) +
+                         (kappa2 * gpareto_lcdf(y, sigma, xi, pstream__))))));
+        } else {
+          current_statement__ = 258;
           std::stringstream errmsg_stream__;
-          stan::math::stan_print(&errmsg_stream__, "kappa1 > kappa2; found kappa1 = ");
+          stan::math::stan_print(&errmsg_stream__, "kappa1 or kappa2 <=0; found kappa1 = ");
           stan::math::stan_print(&errmsg_stream__, kappa1);
           stan::math::stan_print(&errmsg_stream__, ", kappa2 = ");
           stan::math::stan_print(&errmsg_stream__, kappa2);
           throw std::domain_error(errmsg_stream__.str());
-        } else {
-          current_statement__ = 271;
-          if ((stan::math::primitive_value(
-              stan::math::logical_gt(kappa1, 1e-15)) &&
-              stan::math::primitive_value(
-              stan::math::logical_gt(kappa2, 1e-15)))) {
-            current_statement__ = 269;
-            return stan::math::log1m(
-                     (stan::math::exp(
-                        (stan::math::log(prob) +
-                          (kappa1 * gpareto_lcdf(y, sigma, xi, pstream__))))
-                       +
-                       stan::math::exp(
-                         (stan::math::log1m(prob) +
-                           (kappa2 * gpareto_lcdf(y, sigma, xi, pstream__))))));
-          } else {
-            current_statement__ = 267;
-            std::stringstream errmsg_stream__;
-            stan::math::stan_print(&errmsg_stream__, "kappa1 or kappa2 <=0; found kappa1 = ");
-            stan::math::stan_print(&errmsg_stream__, kappa1);
-            stan::math::stan_print(&errmsg_stream__, ", kappa2 = ");
-            stan::math::stan_print(&errmsg_stream__, kappa2);
-            throw std::domain_error(errmsg_stream__.str());
-          }
         }
       }
     } catch (const std::exception& e) {
@@ -1022,12 +965,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
-      current_statement__ = 279;
+      current_statement__ = 267;
       lpdf = egpd_lpdf<false>(y, sigma, xi, kappa1, kappa2, prob, pstream__);
       local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 280;
+      current_statement__ = 268;
       cst = egpd_lccdf(ymin, sigma, xi, kappa1, kappa2, prob, pstream__);
-      current_statement__ = 281;
+      current_statement__ = 269;
       return (lpdf - cst);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);

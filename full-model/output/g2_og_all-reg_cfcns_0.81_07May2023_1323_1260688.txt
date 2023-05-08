@@ -481,3 +481,6 @@ Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0.799737, 
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Chain [1] Iteration: 2600 / 4000 [ 65%]  (Sampling)
+Chain [1] Iteration: 2700 / 4000 [ 67%]  (Sampling)
+Chain [1] Iteration: 2800 / 4000 [ 70%]  (Sampling)

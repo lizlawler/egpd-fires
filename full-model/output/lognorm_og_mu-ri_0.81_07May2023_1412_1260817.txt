@@ -25,12 +25,12 @@ method = sample (Default)
     num_chains = 3
 id = 1 (Default)
 data
-  file = ../../../data/stan_data_sqrt.json
+  file = ../../../data/stan_data_og.json
 init = 0.01
 random
-  seed = 255140 (Default)
+  seed = 10127899 (Default)
 output
-  file = csv-fits/lognorm_sqrt_mu-ri_0.81_07May2023_1412.csv
+  file = csv-fits/lognorm_og_mu-ri_0.81_07May2023_1412.csv
   diagnostic_file =  (Default)
   refresh = 100 (Default)
   sig_figs = -1 (Default)
@@ -38,20 +38,20 @@ output
 num_threads = 3
 
 
-Gradient evaluation took 0.019847 seconds
-1000 transitions using 10 leapfrog steps per transition would take 198.47 seconds.
+Gradient evaluation took 0.018805 seconds
+1000 transitions using 10 leapfrog steps per transition would take 188.05 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.014527 seconds
-1000 transitions using 10 leapfrog steps per transition would take 145.27 seconds.
+Gradient evaluation took 0.013968 seconds
+1000 transitions using 10 leapfrog steps per transition would take 139.68 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.015509 seconds
-1000 transitions using 10 leapfrog steps per transition would take 155.09 seconds.
+Gradient evaluation took 0.014004 seconds
+1000 transitions using 10 leapfrog steps per transition would take 140.04 seconds.
 Adjust your expectations accordingly!
 
 
@@ -82,40 +82,6 @@ but if this warning occurs often then your model may be either severely ill-cond
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
 Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
-Chain [2] Iteration:    1 / 4000 [  0%]  (Warmup)
-Chain [3] Iteration:    1 / 4000 [  0%]  (Warmup)
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: lognormal_lccdf: Scale parameter is 0, but must be positive finite! (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 5, column 4, included from
-'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 1, column 0) (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 87, column 4 to column 70)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
@@ -126,108 +92,138 @@ If this warning occurs sporadically, such as for highly constrained variable typ
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: cholesky_decompose: Matrix m is not positive definite (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 38, column 2 to column 45)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: cholesky_decompose: Matrix m is not positive definite (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 38, column 2 to column 45)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
-Chain [2] Iteration:  100 / 4000 [  2%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: lognormal_lccdf: Scale parameter is inf, but must be positive finite! (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 5, column 4, included from
+'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 1, column 0) (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 87, column 4 to column 70)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: lognormal_lccdf: Scale parameter is inf, but must be positive finite! (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 5, column 4, included from
+'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 1, column 0) (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 87, column 4 to column 70)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [2] Iteration:    1 / 4000 [  0%]  (Warmup)
+Chain [3] Iteration:    1 / 4000 [  0%]  (Warmup)
+Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_mu-ri.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
 Chain [1] Iteration:  100 / 4000 [  2%]  (Warmup)
 Chain [3] Iteration:  100 / 4000 [  2%]  (Warmup)
+Chain [2] Iteration:  100 / 4000 [  2%]  (Warmup)
+Chain [1] Iteration:  200 / 4000 [  5%]  (Warmup)
 Chain [2] Iteration:  200 / 4000 [  5%]  (Warmup)
 Chain [3] Iteration:  200 / 4000 [  5%]  (Warmup)
-Chain [1] Iteration:  200 / 4000 [  5%]  (Warmup)
+Chain [1] Iteration:  300 / 4000 [  7%]  (Warmup)
 Chain [2] Iteration:  300 / 4000 [  7%]  (Warmup)
 Chain [3] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [1] Iteration:  300 / 4000 [  7%]  (Warmup)
+Chain [1] Iteration:  400 / 4000 [ 10%]  (Warmup)
 Chain [2] Iteration:  400 / 4000 [ 10%]  (Warmup)
 Chain [3] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [1] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [2] Iteration:  500 / 4000 [ 12%]  (Warmup)
-Chain [3] Iteration:  500 / 4000 [ 12%]  (Warmup)
 Chain [1] Iteration:  500 / 4000 [ 12%]  (Warmup)
-Chain [2] Iteration:  600 / 4000 [ 15%]  (Warmup)
-Chain [3] Iteration:  600 / 4000 [ 15%]  (Warmup)
+Chain [3] Iteration:  500 / 4000 [ 12%]  (Warmup)
+Chain [2] Iteration:  500 / 4000 [ 12%]  (Warmup)
 Chain [1] Iteration:  600 / 4000 [ 15%]  (Warmup)
+Chain [3] Iteration:  600 / 4000 [ 15%]  (Warmup)
+Chain [2] Iteration:  600 / 4000 [ 15%]  (Warmup)
+Chain [1] Iteration:  700 / 4000 [ 17%]  (Warmup)
 Chain [2] Iteration:  700 / 4000 [ 17%]  (Warmup)
 Chain [3] Iteration:  700 / 4000 [ 17%]  (Warmup)
-Chain [1] Iteration:  700 / 4000 [ 17%]  (Warmup)
 Chain [2] Iteration:  800 / 4000 [ 20%]  (Warmup)
-Chain [3] Iteration:  800 / 4000 [ 20%]  (Warmup)
 Chain [1] Iteration:  800 / 4000 [ 20%]  (Warmup)
+Chain [3] Iteration:  800 / 4000 [ 20%]  (Warmup)
 Chain [3] Iteration:  900 / 4000 [ 22%]  (Warmup)
-Chain [2] Iteration:  900 / 4000 [ 22%]  (Warmup)
 Chain [1] Iteration:  900 / 4000 [ 22%]  (Warmup)
+Chain [2] Iteration:  900 / 4000 [ 22%]  (Warmup)
 Chain [3] Iteration: 1000 / 4000 [ 25%]  (Warmup)
 Chain [2] Iteration: 1000 / 4000 [ 25%]  (Warmup)
-Chain [3] Iteration: 1100 / 4000 [ 27%]  (Warmup)
 Chain [1] Iteration: 1000 / 4000 [ 25%]  (Warmup)
+Chain [3] Iteration: 1100 / 4000 [ 27%]  (Warmup)
 Chain [2] Iteration: 1100 / 4000 [ 27%]  (Warmup)
-Chain [3] Iteration: 1200 / 4000 [ 30%]  (Warmup)
 Chain [1] Iteration: 1100 / 4000 [ 27%]  (Warmup)
+Chain [3] Iteration: 1200 / 4000 [ 30%]  (Warmup)
 Chain [2] Iteration: 1200 / 4000 [ 30%]  (Warmup)
-Chain [3] Iteration: 1300 / 4000 [ 32%]  (Warmup)
 Chain [1] Iteration: 1200 / 4000 [ 30%]  (Warmup)
+Chain [3] Iteration: 1300 / 4000 [ 32%]  (Warmup)
 Chain [2] Iteration: 1300 / 4000 [ 32%]  (Warmup)
-Chain [3] Iteration: 1400 / 4000 [ 35%]  (Warmup)
-Chain [3] Iteration: 1500 / 4000 [ 37%]  (Warmup)
-Chain [2] Iteration: 1400 / 4000 [ 35%]  (Warmup)
 Chain [1] Iteration: 1300 / 4000 [ 32%]  (Warmup)
-Chain [3] Iteration: 1600 / 4000 [ 40%]  (Warmup)
-Chain [2] Iteration: 1500 / 4000 [ 37%]  (Warmup)
+Chain [3] Iteration: 1400 / 4000 [ 35%]  (Warmup)
+Chain [2] Iteration: 1400 / 4000 [ 35%]  (Warmup)
 Chain [1] Iteration: 1400 / 4000 [ 35%]  (Warmup)
-Chain [3] Iteration: 1700 / 4000 [ 42%]  (Warmup)
-Chain [2] Iteration: 1600 / 4000 [ 40%]  (Warmup)
+Chain [3] Iteration: 1500 / 4000 [ 37%]  (Warmup)
+Chain [2] Iteration: 1500 / 4000 [ 37%]  (Warmup)
 Chain [1] Iteration: 1500 / 4000 [ 37%]  (Warmup)
-Chain [3] Iteration: 1800 / 4000 [ 45%]  (Warmup)
-Chain [2] Iteration: 1700 / 4000 [ 42%]  (Warmup)
+Chain [2] Iteration: 1600 / 4000 [ 40%]  (Warmup)
+Chain [3] Iteration: 1600 / 4000 [ 40%]  (Warmup)
 Chain [1] Iteration: 1600 / 4000 [ 40%]  (Warmup)
-Chain [3] Iteration: 1900 / 4000 [ 47%]  (Warmup)
+Chain [2] Iteration: 1700 / 4000 [ 42%]  (Warmup)
+Chain [3] Iteration: 1700 / 4000 [ 42%]  (Warmup)
 Chain [1] Iteration: 1700 / 4000 [ 42%]  (Warmup)
 Chain [2] Iteration: 1800 / 4000 [ 45%]  (Warmup)
-Chain [3] Iteration: 2000 / 4000 [ 50%]  (Warmup)
-Chain [3] Iteration: 2001 / 4000 [ 50%]  (Sampling)
+Chain [3] Iteration: 1800 / 4000 [ 45%]  (Warmup)
 Chain [1] Iteration: 1800 / 4000 [ 45%]  (Warmup)
 Chain [2] Iteration: 1900 / 4000 [ 47%]  (Warmup)
-Chain [3] Iteration: 2100 / 4000 [ 52%]  (Sampling)
+Chain [3] Iteration: 1900 / 4000 [ 47%]  (Warmup)
 Chain [1] Iteration: 1900 / 4000 [ 47%]  (Warmup)
 Chain [2] Iteration: 2000 / 4000 [ 50%]  (Warmup)
 Chain [2] Iteration: 2001 / 4000 [ 50%]  (Sampling)
-Chain [3] Iteration: 2200 / 4000 [ 55%]  (Sampling)
+Chain [3] Iteration: 2000 / 4000 [ 50%]  (Warmup)
+Chain [3] Iteration: 2001 / 4000 [ 50%]  (Sampling)
 Chain [1] Iteration: 2000 / 4000 [ 50%]  (Warmup)
 Chain [1] Iteration: 2001 / 4000 [ 50%]  (Sampling)
 Chain [2] Iteration: 2100 / 4000 [ 52%]  (Sampling)
-Chain [3] Iteration: 2300 / 4000 [ 57%]  (Sampling)
-Chain [1] Iteration: 2100 / 4000 [ 52%]  (Sampling)
+Chain [3] Iteration: 2100 / 4000 [ 52%]  (Sampling)
 Chain [2] Iteration: 2200 / 4000 [ 55%]  (Sampling)
-Chain [3] Iteration: 2400 / 4000 [ 60%]  (Sampling)
-Chain [1] Iteration: 2200 / 4000 [ 55%]  (Sampling)
+Chain [1] Iteration: 2100 / 4000 [ 52%]  (Sampling)
+Chain [3] Iteration: 2200 / 4000 [ 55%]  (Sampling)
 Chain [2] Iteration: 2300 / 4000 [ 57%]  (Sampling)
-Chain [3] Iteration: 2500 / 4000 [ 62%]  (Sampling)
-Chain [1] Iteration: 2300 / 4000 [ 57%]  (Sampling)
+Chain [1] Iteration: 2200 / 4000 [ 55%]  (Sampling)
+Chain [3] Iteration: 2300 / 4000 [ 57%]  (Sampling)
 Chain [2] Iteration: 2400 / 4000 [ 60%]  (Sampling)
-Chain [3] Iteration: 2600 / 4000 [ 65%]  (Sampling)
-Chain [1] Iteration: 2400 / 4000 [ 60%]  (Sampling)
+Chain [1] Iteration: 2300 / 4000 [ 57%]  (Sampling)
+Chain [3] Iteration: 2400 / 4000 [ 60%]  (Sampling)
 Chain [2] Iteration: 2500 / 4000 [ 62%]  (Sampling)
-Chain [3] Iteration: 2700 / 4000 [ 67%]  (Sampling)
-Chain [1] Iteration: 2500 / 4000 [ 62%]  (Sampling)
-Chain [2] Iteration: 2600 / 4000 [ 65%]  (Sampling)
-Chain [3] Iteration: 2800 / 4000 [ 70%]  (Sampling)
-Chain [1] Iteration: 2600 / 4000 [ 65%]  (Sampling)
-Chain [2] Iteration: 2700 / 4000 [ 67%]  (Sampling)
-Chain [2] Iteration: 2800 / 4000 [ 70%]  (Sampling)
-Chain [1] Iteration: 2700 / 4000 [ 67%]  (Sampling)
-Chain [2] Iteration: 2900 / 4000 [ 72%]  (Sampling)
-Chain [3] Iteration: 2900 / 4000 [ 72%]  (Sampling)
-Chain [1] Iteration: 2800 / 4000 [ 70%]  (Sampling)
-Chain [1] Iteration: 2900 / 4000 [ 72%]  (Sampling)
-Chain [1] Iteration: 3000 / 4000 [ 75%]  (Sampling)
-Chain [2] Iteration: 3000 / 4000 [ 75%]  (Sampling)
-Chain [3] Iteration: 3000 / 4000 [ 75%]  (Sampling)
-Chain [1] Iteration: 3100 / 4000 [ 77%]  (Sampling)
-Chain [3] Iteration: 3100 / 4000 [ 77%]  (Sampling)
-Chain [2] Iteration: 3100 / 4000 [ 77%]  (Sampling)
+Chain [1] Iteration: 2400 / 4000 [ 60%]  (Sampling)

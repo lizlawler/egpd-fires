@@ -160,3 +160,4 @@ Exception: Exception: Exception: gamma<=0; found gamma = 0 (in 'full-model/fire-
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Chain [3] Iteration:  100 / 4000 [  2%]  (Warmup)

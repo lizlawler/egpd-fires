@@ -183,3 +183,25 @@ Chain [2] Iteration:  900 / 4000 [ 22%]  (Warmup)
 Chain [3] Iteration:  600 / 4000 [ 15%]  (Warmup)
 Chain [2] Iteration: 1000 / 4000 [ 25%]  (Warmup)
 Chain [3] Iteration:  700 / 4000 [ 17%]  (Warmup)
+Chain [2] Iteration: 1100 / 4000 [ 27%]  (Warmup)
+Chain [3] Iteration:  800 / 4000 [ 20%]  (Warmup)
+Chain [2] Iteration: 1200 / 4000 [ 30%]  (Warmup)
+Chain [3] Iteration:  900 / 4000 [ 22%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: gamma or kappa <=0; found gamma = 1.22589 kappa = 9.75342e-16 (in 'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 16, column 6, included from
+'full-model/fire-sims/burns/g4/stan/g4_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 51, column 4, included from
+'full-model/fire-sims/burns/g4/stan/g4_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan/g4_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 87)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 1000 / 4000 [ 25%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: gamma or kappa <=0; found gamma = 1.3193 kappa = 9.95931e-16 (in 'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 16, column 6, included from
+'full-model/fire-sims/burns/g4/stan/g4_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 51, column 4, included from
+'full-model/fire-sims/burns/g4/stan/g4_sigma-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan/g4_sigma-ri_xi-ri_cfcns.stan', line 91, column 4 to column 87)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 1100 / 4000 [ 27%]  (Warmup)
+Chain [2] Iteration: 1300 / 4000 [ 32%]  (Warmup)
+Chain [3] Iteration: 1200 / 4000 [ 30%]  (Warmup)

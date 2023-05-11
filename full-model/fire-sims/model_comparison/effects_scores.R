@@ -1,36 +1,43 @@
+library(cmdstanr)
+set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
+check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(tidyverse)
-library(cowplot)
-library(tidyverse)
-library(patchwork)
-library(ggrepel)
-library(rstan)
+# library(cowplot)
+# library(patchwork)
+# library(ggrepel)
 library(stringr)
+library(posterior)
 
 
 # following code is for the counts -------
 count_fits <- paste0("full-model/fire-sims/counts/", list.files(path = "full-model/fire-sims/counts/", pattern = "*.csv", recursive = TRUE))
-extraction <- function(file_path) {
-  object <- readRDS(file_path)
-  file <- basename(file_path)
-  model <- str_remove(file, "_\\d{2}-Jan-2023_\\d{4}_\\d{4}.RDS")
-  loglik_chr <- str_subset(object@model_pars, "log")
-  betas_chr <- str_subset(object@model_pars, "beta")
-  loglik <- extract(object, pars = loglik_chr)
-  betas <- extract(object, pars = betas_chr)
-  temp <- list(betas, loglik)
+nfits <- length(count_fits)/3
+fit_groups <- vector(mode = "list", nfits)
+for(i in 1:nfits) {
+  fit_groups[[i]] <- count_fits[(3*i-2):(3*i)]
+}
+
+extraction <- function(file_group) {
+  object <- as_cmdstan_fit(file_group)
+  file <- basename(file_group[1])
+  model <- str_remove(file, "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")
+  train_loglik <- object$draws(variables = "train_loglik")
+  holdout_loglik <- object$draws(variables = "holdout_loglik")
+  betas <- object$draws(variables = "beta")
+  temp <- list(betas, train_loglik, holdout_loglik)
   assign(model, temp, parent.frame())
   rm(object)
 }
 
-for(i in 1:length(count_fits)) {
-  extraction(count_fits[i])
+for(i in 1:nfits) {
+  extraction(fit_groups[[i]])
 }
 
-count_names <- lapply(count_fits, function(x) str_remove(basename(x), "_\\d{2}-Jan-2023_\\d{4}_\\d{4}.RDS")) %>% unlist()
-holdout_loglik_counts <- vector("list", length(count_names))
-train_loglik_counts <- vector("list", length(count_names))
+count_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
+holdout_loglik_counts <- vector("list", nfits)
+train_loglik_counts <- vector("list", nfits)
 for(i in seq_along(count_names)) {
-  count_loglik <- get(count_names[[i]])[[2]]
+  count_loglik <- get(count_names[[i]])[[2:3]]
   holdout_loglik_counts[[i]] <- count_loglik$holdout_loglik %>%
     apply(., 1, c) %>%
     as_tibble() %>%

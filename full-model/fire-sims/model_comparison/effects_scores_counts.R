@@ -116,24 +116,7 @@ ll_comp_test_0.81 <- ll_full_0.81 %>% filter(chain == 'mean_ax_cns') %>%
   summarize(mean_diff = mean(value),
             sd_diff = sd(value)) %>%
   arrange(-mean_diff)
-ll_comp_test_0.81
 
-ll_ranked_test_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>%
-  group_by(model) %>%
-  summarize(mean_test = mean(test),
-            sd_test = sd(test)) %>%
-  arrange(-mean_test)
-top_mod_test_0.90 <- ll_ranked_test_0.90$model[1]
-
-ll_comp_test_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1, 3:4)) %>% pivot_wider(names_from = model, values_from = test) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_test_0.90))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_test_0.90
 
 ll_ranked_train <- ll_full %>% filter(chain == 'mean_ax_cns') %>%
   group_by(model) %>%
@@ -150,42 +133,6 @@ ll_comp_train <- ll_full %>% filter(chain == 'mean_ax_cns') %>%
   summarize(mean_diff = mean(value),
             sd_diff = sd(value)) %>%
   arrange(-mean_diff)
-ll_comp_train
-
-ll_ranked_train_0.81 <- ll_full_0.81 %>% filter(chain == 'mean_ax_cns') %>%
-  group_by(model) %>%
-  summarize(mean_train = mean(train),
-            sd_train = sd(train)) %>%
-  arrange(-mean_train)
-top_mod_train_0.81 <- ll_ranked_train_0.81$model[1]
-
-ll_comp_train_0.81 <- ll_full_0.81 %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1,3,5)) %>% pivot_wider(names_from = model, values_from = train) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_train_0.81))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_train_0.81
-
-ll_ranked_train_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>%
-  group_by(model) %>%
-  summarize(mean_train = mean(train),
-            sd_train = sd(train)) %>%
-  arrange(-mean_train)
-top_mod_train_0.90 <- ll_ranked_train_0.90$model[1]
-
-ll_comp_train_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1,3,5)) %>% pivot_wider(names_from = model, values_from = train) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_train_0.90))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_train_0.90
-
 
 saveRDS(ll_full, file = "full-model/figures/model-comp/ll_full_counts_12may2023.RDS")
 

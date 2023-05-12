@@ -24,7 +24,7 @@ extraction <- function(file_group) {
   # train_loglik <- object$draws(variables = "train_loglik")
   # holdout_loglik <- object$draws(variables = "holdout_loglik")
   betas <- object$draws(variables = "beta")
-  temp <- list(betas, train_loglik, holdout_loglik)
+  temp <- list(betas)
   assign(model, temp, parent.frame())
   rm(object)
   gc()

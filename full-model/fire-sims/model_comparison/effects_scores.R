@@ -29,6 +29,8 @@ extraction <- function(file_group) {
   rm(object)
 }
 
+# extraction(fit_groups[[1]])
+
 for(i in 1:nfits) {
   extraction(fit_groups[[i]])
 }
@@ -37,25 +39,53 @@ count_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2
 holdout_loglik_counts <- vector("list", nfits)
 train_loglik_counts <- vector("list", nfits)
 for(i in seq_along(count_names)) {
-  count_loglik <- get(count_names[[i]])[[2:3]]
-  holdout_loglik_counts[[i]] <- count_loglik$holdout_loglik %>%
-    apply(., 1, c) %>%
-    as_tibble() %>%
-    pivot_longer(cols = everything(), names_to = "iter") %>%
-    mutate(iter = as.numeric(gsub("V", "", iter))) %>%
+  count_loglik <- get(count_names[i])[2:3]
+  holdout_loglik_counts[[i]] <- count_loglik[[2]] %>%
+    as_tibble() %>% 
+    rowid_to_column(var = "iter") %>% 
+    pivot_longer(cols = !iter, names_to = "chain") %>%
+    mutate(chain = as.numeric(gsub("\\.holdout_loglik\\[\\d{1+},\\d{1+}\\]", "", chain))) %>%
+    group_by(chain, iter) %>%
+    summarize(value = sum(value)) %>% 
     group_by(iter) %>%
-    summarize(value = sum(value)) %>%
+    summarize(mean_score = mean(value)) %>%
     mutate(model = count_names[i], train = FALSE)
-  train_loglik_counts[[i]] <- count_loglik$train_loglik %>%
-    apply(., 1, c) %>%
-    as_tibble() %>%
-    pivot_longer(cols = everything(), names_to = "iter") %>%
-    mutate(iter = as.numeric(gsub("V", "", iter))) %>%
+  train_loglik_counts[[i]] <- count_loglik[[1]] %>%
+    as_tibble() %>% 
+    rowid_to_column(var = "iter") %>% 
+    pivot_longer(cols = !iter, names_to = "chain") %>%
+    mutate(chain = as.numeric(gsub("\\.train_loglik\\[\\d{1+},\\d{1+}\\]", "", chain))) %>%
+    group_by(chain, iter) %>%
+    summarize(value = sum(value)) %>% 
     group_by(iter) %>%
-    summarize(value = sum(value)) %>%
+    summarize(mean_score = mean(value)) %>%
     mutate(model = count_names[i], train = TRUE)
 }
-# 
+
+count_loglik <- get(count_names[1])[2:3]
+holdout_loglik_counts[[1]] <- count_loglik[[2]] %>%
+  as_tibble() %>% 
+  rowid_to_column(var = "iter") %>% 
+  pivot_longer(cols = !iter, names_to = "chain") %>%
+  mutate(chain = as.numeric(gsub("\\.holdout_loglik\\[\\d{1+},\\d{1+}\\]", "", chain))) %>%
+  pivot_wider(names_from = chain, names_prefix = "chain_", values_from = value, values_fn = ~sum(.x))
+# %>%
+#   group_by(chain, iter) %>%
+#   summarize(value = sum(value)) %>% 
+#   group_by(iter) %>%
+#   summarize(mean_score = mean(value)) %>%
+#   mutate(model = count_names[i], train = FALSE)
+train_loglik_counts[[i]] <- count_loglik[[1]] %>%
+  as_tibble() %>% 
+  rowid_to_column(var = "iter") %>% 
+  pivot_longer(cols = !iter, names_to = "chain") %>%
+  mutate(chain = as.numeric(gsub("\\.train_loglik\\[\\d{1+},\\d{1+}\\]", "", chain))) %>%
+  group_by(chain, iter) %>%
+  summarize(value = sum(value)) %>% 
+  group_by(iter) %>%
+  summarize(mean_score = mean(value)) %>%
+  mutate(model = count_names[i], train = TRUE)
+
 holdout_loglik_c <- bind_rows(holdout_loglik_counts)
 train_loglik_c <- bind_rows(train_loglik_counts)
 # 

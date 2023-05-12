@@ -1,5 +1,5 @@
 library(cmdstanr)
-set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
+# set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(tidyverse)
 # library(cowplot)
@@ -27,10 +27,10 @@ extraction <- function(file_group) {
   temp <- list(betas, train_loglik, holdout_loglik)
   assign(model, temp, parent.frame())
   rm(object)
+  gc()
 }
 
 # extraction(fit_groups[[1]])
-
 for(i in 1:nfits) {
   extraction(fit_groups[[i]])
 }
@@ -41,50 +41,22 @@ train_loglik_counts <- vector("list", nfits)
 for(i in seq_along(count_names)) {
   count_loglik <- get(count_names[i])[2:3]
   holdout_loglik_counts[[i]] <- count_loglik[[2]] %>%
+    apply(., c(1,2), sum) %>% 
     as_tibble() %>% 
-    rowid_to_column(var = "iter") %>% 
-    pivot_longer(cols = !iter, names_to = "chain") %>%
-    mutate(chain = as.numeric(gsub("\\.holdout_loglik\\[\\d{1+},\\d{1+}\\]", "", chain))) %>%
-    group_by(chain, iter) %>%
-    summarize(value = sum(value)) %>% 
-    group_by(iter) %>%
-    summarize(mean_score = mean(value)) %>%
+    rowid_to_column(var = "iter") %>%
+    mutate(mean_ax_cns = rowMeans(select(., !iter))) %>%
+    pivot_longer(cols = !iter, names_to = "chain") %>% 
+    mutate(chain = as.factor(chain)) %>%
     mutate(model = count_names[i], train = FALSE)
   train_loglik_counts[[i]] <- count_loglik[[1]] %>%
+    apply(., c(1,2), sum) %>% 
     as_tibble() %>% 
-    rowid_to_column(var = "iter") %>% 
-    pivot_longer(cols = !iter, names_to = "chain") %>%
-    mutate(chain = as.numeric(gsub("\\.train_loglik\\[\\d{1+},\\d{1+}\\]", "", chain))) %>%
-    group_by(chain, iter) %>%
-    summarize(value = sum(value)) %>% 
-    group_by(iter) %>%
-    summarize(mean_score = mean(value)) %>%
+    rowid_to_column(var = "iter") %>%
+    mutate(mean_ax_cns = rowMeans(select(., !iter))) %>%
+    pivot_longer(cols = !iter, names_to = "chain") %>% 
+    mutate(chain = as.factor(chain)) %>%
     mutate(model = count_names[i], train = TRUE)
 }
-
-count_loglik <- get(count_names[1])[2:3]
-holdout_loglik_counts[[1]] <- count_loglik[[2]] %>%
-  as_tibble() %>% 
-  rowid_to_column(var = "iter") %>% 
-  pivot_longer(cols = !iter, names_to = "chain") %>%
-  mutate(chain = as.numeric(gsub("\\.holdout_loglik\\[\\d{1+},\\d{1+}\\]", "", chain))) %>%
-  pivot_wider(names_from = chain, names_prefix = "chain_", values_from = value, values_fn = ~sum(.x))
-# %>%
-#   group_by(chain, iter) %>%
-#   summarize(value = sum(value)) %>% 
-#   group_by(iter) %>%
-#   summarize(mean_score = mean(value)) %>%
-#   mutate(model = count_names[i], train = FALSE)
-train_loglik_counts[[i]] <- count_loglik[[1]] %>%
-  as_tibble() %>% 
-  rowid_to_column(var = "iter") %>% 
-  pivot_longer(cols = !iter, names_to = "chain") %>%
-  mutate(chain = as.numeric(gsub("\\.train_loglik\\[\\d{1+},\\d{1+}\\]", "", chain))) %>%
-  group_by(chain, iter) %>%
-  summarize(value = sum(value)) %>% 
-  group_by(iter) %>%
-  summarize(mean_score = mean(value)) %>%
-  mutate(model = count_names[i], train = TRUE)
 
 holdout_loglik_c <- bind_rows(holdout_loglik_counts)
 train_loglik_c <- bind_rows(train_loglik_counts)
@@ -94,39 +66,47 @@ ll_full <- holdout_loglik_c %>%
   mutate(train = ifelse(train == TRUE, 'train', 'test')) %>%
   pivot_wider(names_from = train, values_from = value)
 
-ll_full %>% pivot_longer(cols = c("test", "train"), names_to = "dataset") %>%
-  ggplot(aes(model, value, color = dataset)) + geom_boxplot() + theme_minimal()
-ggsave("full-model/figures/model-comp/logscores_counts.png", dpi = 320, type = "cairo", bg = "white")
+ll_boxplot <- ll_full %>% pivot_longer(cols = c("test", "train"), names_to = "dataset") %>% 
+              filter(chain == 'mean_ax_cns') %>% 
+              ggplot(aes(model, value, color = dataset)) + geom_boxplot() + theme_minimal()
+ggsave("full-model/figures/model-comp/logscores_counts_12may2023.png", plot = ll_boxplot,
+       dpi = 320, type = "cairo", bg = "white")
 
-ll_full %>%
+ll_ranked_test <- ll_full %>% filter(chain == 'mean_ax_cns') %>%
   group_by(model) %>%
   summarize(mean_test = mean(test),
             sd_test = sd(test)) %>%
   arrange(-mean_test)
+top_mod_test <- ll_ranked_test$model[1]
 
-ll_full %>% select(c(1:3)) %>% pivot_wider(names_from = model, values_from = test) %>% 
-  mutate(across(.cols = c(2:7), ~ .x - `zinb_er_pi-ri`)) %>% pivot_longer(cols = c(2:7), names_to = "model") %>%
+ll_comp_test <- ll_full %>% filter(chain == 'mean_ax_cns') %>% 
+  select(c(1, 3:4)) %>% pivot_wider(names_from = model, values_from = test) %>% 
+  mutate(across(.cols = -1, ~ .x - get(top_mod_test))) %>% 
+  pivot_longer(cols = -1, names_to = "model") %>%
   group_by(model) %>%
   summarize(mean_diff = mean(value),
             sd_diff = sd(value)) %>%
   arrange(-mean_diff)
 
-ll_full %>%
+ll_ranked_train <- ll_full %>% filter(chain == 'mean_ax_cns') %>%
   group_by(model) %>%
   summarize(mean_train = mean(train),
             sd_train = sd(train)) %>%
   arrange(-mean_train)
+top_mod_train <- ll_ranked_train$model[1]
 
-ll_full %>% select(c(1,2,4)) %>% pivot_wider(names_from = model, values_from = train) %>% 
-  mutate(across(.cols = c(2:7), ~ .x - `zip_pi-reg`)) %>% pivot_longer(cols = c(2:7), names_to = "model") %>%
+ll_comp_train <- ll_full %>% filter(chain == 'mean_ax_cns') %>% 
+  select(c(1,3,5)) %>% pivot_wider(names_from = model, values_from = train) %>% 
+  mutate(across(.cols = -1, ~ .x - get(top_mod_train))) %>% 
+  pivot_longer(cols = -1, names_to = "model") %>%
   group_by(model) %>%
   summarize(mean_diff = mean(value),
             sd_diff = sd(value)) %>%
   arrange(-mean_diff)
 
-saveRDS(ll_full, file = "full-model/figures/model-comp/ll_full_counts.RDS")
+saveRDS(ll_full, file = "full-model/figures/model-comp/ll_full_counts_12may2023.RDS")
 
-stan_data <- readRDS("full-model/data/stan_data_sqrt.RDS")
+stan_data <- readRDS("full-model/data/stan_data_og.rds")
 X <- stan_data$X_train
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',

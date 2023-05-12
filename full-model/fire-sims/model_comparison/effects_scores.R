@@ -34,7 +34,7 @@ extraction <- function(file_group) {
 for(i in 1:nfits) {
   extraction(fit_groups[[i]])
 }
-
+## log score calculations ---------
 count_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
 holdout_loglik_counts <- vector("list", nfits)
 train_loglik_counts <- vector("list", nfits)
@@ -100,6 +100,7 @@ ll_comp_test <- ll_full %>% filter(chain == 'mean_ax_cns') %>%
   summarize(mean_diff = mean(value),
             sd_diff = sd(value)) %>%
   arrange(-mean_diff)
+ll_comp_test
 
 ll_ranked_test_0.81 <- ll_full_0.81 %>% filter(chain == 'mean_ax_cns') %>%
   group_by(model) %>%
@@ -186,8 +187,8 @@ ll_comp_train_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>%
   arrange(-mean_diff)
 ll_comp_train_0.90
 
-
 saveRDS(ll_full, file = "full-model/figures/model-comp/ll_full_counts_12may2023.RDS")
+
 
 stan_data <- readRDS("full-model/data/stan_data_og.rds")
 X <- stan_data$X_train
@@ -211,12 +212,27 @@ full_reg_key <- as_tibble(region_key) %>%
          NA_L3CODE = as.factor(NA_L3CODE))
 reg_cols <- full_reg_key$region
 r <- 84
-t <- 252
+t <- stan_data$T_train
 lambda_counts <- vector("list", length(count_names))
+
 for(i in seq_along(count_names)) {
-  count_beta <- get(count_names[[i]])[[1]]
-  temp_df <- count_beta$beta_lambda %>%
-    apply(., c(2,3), median)
+  # count_beta <- get(count_names[[i]])[[1]]
+  temp_df <- count_beta[[i]] %>%
+    apply(., c(2,3), median) %>% 
+    as_tibble() %>% pivot_longer(cols=everything(), names_to = "param_coef_reg", values_to = "value") %>%
+    group_by(param_coef_reg) %>% summarize(value = mean(value)) %>%
+    mutate(param_coef_reg = str_extract(param_coef_reg, "\\d{1},\\d{1,},\\d{1,}")) %>%
+    separate(., param_coef_reg, into=c("param", "coef", "region"), ",") %>%
+    mutate(param = case_when(
+      grepl("1", param) ~ "lambda",
+      grepl("2", param) ~ "pi",
+      grepl("3", param) ~ "delta",
+      TRUE ~ param),
+      param = as.factor(param),
+      coef = as.numeric(coef),
+      region = as.numeric(region)) %>%
+    filter(param == "lambda") %>% select(-param) %>% arrange(coef, region) %>%
+    pivot_wider(names_from = region, values_from = value) %>% select(-coef) %>% as.matrix()
   coef_df_list <- list()
   for(k in seq_along(vars)) {
     stored_df <- matrix(NA, t, r)

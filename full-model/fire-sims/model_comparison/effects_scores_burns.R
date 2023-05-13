@@ -31,7 +31,7 @@ extraction <- function(file_group) {
 }
 
 # extraction(fit_groups[[1]])
-for(i in 1:nfits) {
+for(i in 1:3) {
   extraction(fit_groups[[i]])
 }
 

@@ -2,9 +2,6 @@ library(cmdstanr)
 # set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(tidyverse)
-# library(cowplot)
-# library(patchwork)
-# library(ggrepel)
 library(stringr)
 library(posterior)
 
@@ -37,7 +34,7 @@ for(i in 1:3) {
 
 save.image()
 ## log score calculations ---------
-# burn_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
+burn_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
 # holdout_loglik_counts <- vector("list", nfits)
 # train_loglik_counts <- vector("list", nfits)
 # for(i in seq_along(count_names)) {
@@ -215,7 +212,7 @@ full_reg_key <- as_tibble(region_key) %>%
 reg_cols <- full_reg_key$region
 r <- 84
 t <- stan_data$T_train
-lambda_counts <- vector("list", length(count_names))
+nu_burns <- vector("list", length(burn_names))
 
 for(i in seq_along(count_names)) {
   # count_beta <- get(count_names[[i]])[[1]]
@@ -250,6 +247,48 @@ for(i in seq_along(count_names)) {
   }
   lambda_counts[[i]] <- bind_rows(coef_df_list) %>% as_tibble() %>% mutate(model = count_names[i]) %>% left_join(., full_reg_key)
 }
+
+temp_df <- `g1_og_kappa-ri_xi-ri_cfcns_0.81`[[1]] %>%
+  apply(., c(1,2,3), median) %>% 
+  as_tibble() %>% pivot_longer(cols=everything(), names_to = "param_coef_reg", values_to = "value") %>%
+  group_by(param_coef_reg) %>% summarize(value = mean(value)) %>%
+  mutate(param_coef_reg = str_extract(param_coef_reg, "\\d{1},\\d{1,},\\d{1,}")) %>%
+  separate(., param_coef_reg, into=c("param", "coef", "region"), ",") %>%
+  mutate(param = case_when(
+    grepl("1", param) ~ "nu",
+    grepl("2", param) ~ "kappa",
+    grepl("3", param) ~ "xi",
+    TRUE ~ param),
+    param = as.factor(param),
+    coef = as.numeric(coef),
+    region = as.numeric(region)) 
+# kappa_df <- temp_df %>% filter(param == "kappa") %>% select(-param) %>% arrange(coef, region) %>%
+#   pivot_wider(names_from = region, values_from = value) %>% select(-coef) %>% as.matrix()
+nu_df <- temp_df %>% filter(param == "nu") %>% select(-param) %>% arrange(coef, region) %>%
+  pivot_wider(names_from = region, values_from = value) %>% select(-coef) %>% as.matrix()
+# xi_df <- temp_df %>% filter(param == "xi") %>% select(-param) %>% arrange(coef, region) %>%
+#   pivot_wider(names_from = region, values_from = value) %>% select(-coef) %>% as.matrix()
+
+coef_df_list <- list()
+for(k in seq_along(vars)) {
+  stored_df <- matrix(NA, t, r)
+  for(j in 1:r) {
+    stored_df[, j] <- X[j, , X_cols[[k]]] %*% nu_df[X_cols[[k]], j]
+  }
+  coef_df_list[[k]] <- stored_df %>% 
+    as_tibble() %>% 
+    rename_with(., ~ reg_cols) %>% 
+    mutate(time = c(1:t)) %>% 
+    pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
+    mutate(region = as.numeric(region), covar = vars[k], linear = c(X[,,X_cols[[k]][2]]))
+}
+nu_burns[[3]] <- bind_rows(coef_df_list) %>% as_tibble() %>% mutate(model = burn_names[3]) %>% left_join(., full_reg_key)
+
+ggplot(nu_burns[[3]], aes(x = linear, y = effect, group = region)) + 
+  geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE), show.legend = FALSE) +
+  facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle(burn_names[3])
+file_name <- paste0("full-model/figures/model-comp/", count_names[i], ".png")
+
 
 for(i in 1:length(count_names)) {
   p <- ggplot(lambda_counts[[i]], aes(x = linear, y = effect, group = region)) + 

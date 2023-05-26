@@ -1,6 +1,5 @@
 .Rproj.user
 .Rhistory
-.RData
 .Ruserdata
 
 .DS_store
@@ -33,7 +32,7 @@ full-model/fire-sims/counts/zip/post_params_26oct2022.RDS
 
 slurm*
 
-full-model/data/processed/
+full-model/data/processed/**/*.tif
 
 full-model/data/raw/
 

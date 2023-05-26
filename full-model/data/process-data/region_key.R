@@ -1,7 +1,13 @@
-source('R/import_data.R')
+library(tidyverse)
+source('full-model/data/process-data/helpers.R')
+ecoregions <- load_ecoregions()
 
 # region ---------
-region_key <- ecoregions %>% st_set_geometry(NULL) %>% 
+region_key <- ecoregions %>% as_tibble() %>% dplyr::select(-c("Shape_Leng", "Shape_Area")) %>%
+  mutate(NA_L3NAME = as.character(NA_L3NAME),
+         NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert',
+                            'Chihuahuan Deserts',
+                            NA_L3NAME)) %>%
   dplyr::select(c(3,4,5,7)) %>% distinct() %>% 
   arrange(NA_L3NAME)
 level3 <- matrix(0, 84, 84)
@@ -24,6 +30,3 @@ for(i in 1:84) {
     }
   }
 }
-test <- 0.1*level1 + 0.5*level2 +level3
-chol(test)
-test[1:10, 1:10]

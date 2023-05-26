@@ -6,8 +6,10 @@ library(assertthat)
 source('./full-model/data/process-data/helpers.R')
 
 # Extracting monthly climate summaries for ecoregions ---------------------
-ecoregion_shp <- load_ecoregions() %>%
-  project("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0")
+ecoregion_shp <- load_ecoregions() 
+
+# %>%
+#   project("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0")
 
 
 ecoregion_shp$NA_L3NAME <- as.character(ecoregion_shp$NA_L3NAME)

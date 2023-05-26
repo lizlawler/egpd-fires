@@ -22,21 +22,28 @@ extraction <- function(file_group) {
   model <- str_remove(file, "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")
   # train_loglik <- object$draws(variables = "train_loglik")
   # holdout_loglik <- object$draws(variables = "holdout_loglik")
-  betas <- object$draws(variables = "beta")
-  temp <- list(betas)
+  if (grepl("xi-ri", file)) {
+    betas <- object$draws(variables = "beta")
+    ri_matrix <- object$draws(variables = "ri_matrix")
+    temp <- list(betas, ri_matrix)
+  } else {
+    betas <- object$draws(variables = "beta")
+    temp <- list(betas)
+  }
   assign(model, temp, parent.frame())
   rm(object)
   gc()
 }
 
 # extraction(fit_groups[[1]])
-for(i in 1:3) {
+for(i in 1:20) {
   extraction(fit_groups[[i]])
 }
 
+burn_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
+
 save.image()
 ## log score calculations ---------
-burn_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
 # holdout_loglik_counts <- vector("list", nfits)
 # train_loglik_counts <- vector("list", nfits)
 # for(i in seq_along(burn_names)) {
@@ -189,7 +196,7 @@ burn_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}
 # ll_comp_train_0.90
 # 
 # saveRDS(ll_full, file = "full-model/figures/model-comp/ll_full_counts_12may2023.RDS")
-
+## ---------
 
 stan_data_og <- readRDS("full-model/data/stan_data_og.rds")
 X_og <- stan_data_og$X_train

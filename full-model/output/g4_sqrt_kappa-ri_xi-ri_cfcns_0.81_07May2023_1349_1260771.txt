@@ -365,3 +365,32 @@ but if this warning occurs often then your model may be either severely ill-cond
 
 Chain [1] Iteration:  600 / 4000 [ 15%]  (Warmup)
 Chain [2] Iteration:  600 / 4000 [ 15%]  (Warmup)
+Chain [1] Iteration:  700 / 4000 [ 17%]  (Warmup)
+Chain [1] Iteration:  800 / 4000 [ 20%]  (Warmup)
+Chain [2] Iteration:  700 / 4000 [ 17%]  (Warmup)
+Chain [1] Iteration:  900 / 4000 [ 22%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.85382e-16 (in 'full-model/fire-sims/burns/g4/stan///../../gpd_fcns.stan', line 53, column 6, included from
+'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 3, column 0, included from
+'full-model/fire-sims/burns/g4/stan/g4_kappa-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 9, column 6, included from
+'full-model/fire-sims/burns/g4/stan/g4_kappa-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 51, column 4, included from
+'full-model/fire-sims/burns/g4/stan/g4_kappa-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan/g4_kappa-ri_xi-ri_cfcns.stan', line 92, column 4 to column 87)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.09253e-16 (in 'full-model/fire-sims/burns/g4/stan///../../gpd_fcns.stan', line 53, column 6, included from
+'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 3, column 0, included from
+'full-model/fire-sims/burns/g4/stan/g4_kappa-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 9, column 6, included from
+'full-model/fire-sims/burns/g4/stan/g4_kappa-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan//g4_fcns.stan', line 51, column 4, included from
+'full-model/fire-sims/burns/g4/stan/g4_kappa-ri_xi-ri_cfcns.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g4/stan/g4_kappa-ri_xi-ri_cfcns.stan', line 92, column 4 to column 87)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration: 1000 / 4000 [ 25%]  (Warmup)
+Chain [2] Iteration:  800 / 4000 [ 20%]  (Warmup)
+Chain [1] Iteration: 1100 / 4000 [ 27%]  (Warmup)
+Chain [1] Iteration: 1200 / 4000 [ 30%]  (Warmup)
+Chain [1] Iteration: 1300 / 4000 [ 32%]  (Warmup)
+Chain [2] Iteration:  900 / 4000 [ 22%]  (Warmup)
+slurmstepd: error: *** JOB 1260771 ON c3cpu-c11-u5-1 CANCELLED AT 2023-05-14T16:07:38 DUE TO TIME LIMIT ***

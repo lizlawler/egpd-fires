@@ -162,3 +162,9 @@ If this warning occurs sporadically, such as for highly constrained variable typ
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Chain [3] Iteration:  400 / 4000 [ 10%]  (Warmup)
+Chain [2] Iteration:  400 / 4000 [ 10%]  (Warmup)
+Chain [3] Iteration:  500 / 4000 [ 12%]  (Warmup)
+Chain [1] Iteration:  300 / 4000 [  7%]  (Warmup)
+Chain [1] Iteration:  400 / 4000 [ 10%]  (Warmup)
+Chain [2] Iteration:  500 / 4000 [ 12%]  (Warmup)
+slurmstepd: error: *** JOB 1260761 ON c3cpu-c11-u9-4 CANCELLED AT 2023-05-14T15:50:38 DUE TO TIME LIMIT ***

@@ -166,3 +166,4 @@ Exception: Exception: Exception: gamma<=0; found gamma = 6.46675e-221 (in 'full-
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+slurmstepd: error: *** JOB 1260403 ON c3cpu-c11-u5-2 CANCELLED AT 2023-05-14T12:07:31 DUE TO TIME LIMIT ***

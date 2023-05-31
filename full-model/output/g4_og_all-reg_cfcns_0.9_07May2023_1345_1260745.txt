@@ -190,3 +190,5 @@ but if this warning occurs often then your model may be either severely ill-cond
 Chain [1] Iteration:  300 / 4000 [  7%]  (Warmup)
 Chain [3] Iteration:  300 / 4000 [  7%]  (Warmup)
 Chain [2] Iteration:  200 / 4000 [  5%]  (Warmup)
+Chain [2] Iteration:  300 / 4000 [  7%]  (Warmup)
+slurmstepd: error: *** JOB 1260745 ON c3cpu-c11-u5-3 CANCELLED AT 2023-05-14T15:13:08 DUE TO TIME LIMIT ***

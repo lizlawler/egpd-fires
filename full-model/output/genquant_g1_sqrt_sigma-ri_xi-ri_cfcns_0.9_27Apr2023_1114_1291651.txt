@@ -1,0 +1,20 @@
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 411011844 (Default)
+output
+  file = csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114_genquant.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+Can't open specified file, "csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114.csv"
+
+Generated quantities have all been calculated

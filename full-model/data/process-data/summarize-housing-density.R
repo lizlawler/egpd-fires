@@ -14,6 +14,16 @@ library(assertthat)
 # 4) select "mean" as aggregation method
 # 5) save as .shp file
 # Note: to avoid any errors, choose "do not filter" as method of dealing with "invalid geometry"
+# code to run from the python console within QGIS is as follows for 'HUDEN1990':
+# processing.run("qgis:joinbylocationsummary", 
+  # {'INPUT':QgsProcessingFeatureSourceDefinition('/Users/lizlawler/Desktop/research/egpd-fires/full-model/data/raw/us_eco_l3/us_eco_l3.shp', 
+  # selectedFeaturesOnly=False, featureLimit=-1, flags=QgsProcessingFeatureSourceDefinition.FlagOverrideDefaultGeometryCheck, 
+  # geometryCheck=QgsFeatureRequest.GeometryNoCheck),'PREDICATE':[0],
+  # 'JOIN':QgsProcessingFeatureSourceDefinition('/Users/lizlawler/Desktop/research/egpd-fires/full-model/data/raw/conus_wui_blk20.gdb|layername=CONUS_WUI_block_1990_2020_change', 
+  # selectedFeaturesOnly=False, featureLimit=-1, flags=QgsProcessingFeatureSourceDefinition.FlagOverrideDefaultGeometryCheck, 
+  # geometryCheck=QgsFeatureRequest.GeometryNoCheck),'JOIN_FIELDS':['HUDEN1990'],'SUMMARIES':[6],'DISCARD_NONMATCHING':False,
+  # 'OUTPUT':'/Users/lizlawler/Desktop/research/egpd-fires/full-model/data/processed/housing-density/huden1990_byeco.shp'})
+
 
 dens_files <- paste0("full-model/data/processed/qgis_extraction/", c("1990", "2000", "2010", "2020"), "/")
 dens_layer <- paste0("eco_conus_", c("1990", "2000", "2010", "2020"))

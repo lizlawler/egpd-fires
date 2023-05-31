@@ -1,8 +1,8 @@
 #!/bin/zsh
 
 # Download data from internet
-wget -O data/raw/conus_blk20.zip http://silvis.forest.wisc.edu/GeoData/block_change_2020/zip/fgdb/CONUS_blk20_Census_change_1990_2020_HU_PLA_fgdb.zip
-7z e data/raw/conus_blk20.zip -odata/raw/conus_blk20_v2/
+wget -O raw/conus_wui_blk20.zip https://geoserver.silvis.forest.wisc.edu/geodata/wui_change_2020/zip/fgdb/CONUS_WUI_block_1990_2020_change_fgdb.zip
+7z e raw/conus_wui_blk20.zip -oraw/conus_wui_blk20/
 
 # ogr2ogr -f 'ESRI Shapefile' data/processed/conus_blk20 data/raw/conus_blk20.gdb
 

@@ -2,7 +2,7 @@
 
 # Download data from internet
 wget -O raw/conus_wui_blk20.zip https://geoserver.silvis.forest.wisc.edu/geodata/wui_change_2020/zip/fgdb/CONUS_WUI_block_1990_2020_change_fgdb.zip
-7z e raw/conus_wui_blk20.zip -oraw/conus_wui_blk20/
+7z e raw/conus_wui_blk20.zip -oraw/conus_wui_blk20.gdb/
 
 # ogr2ogr -f 'ESRI Shapefile' data/processed/conus_blk20 data/raw/conus_blk20.gdb
 

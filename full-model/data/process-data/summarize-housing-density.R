@@ -29,6 +29,19 @@ dens_files <- paste0("full-model/data/processed/qgis_extraction/", c("1990", "20
 dens_layer <- paste0("eco_conus_", c("1990", "2000", "2010", "2020"))
 extractions <- mapply(function(z, y) vect(x = z, layer = y), z = dens_files, y = dens_layer)
 
+test_extract <- vect(x="full-model/data/processed/housing-density/2020/", layer = "huden2020")
+test <- test_extract %>% data.frame() %>% as_tibble() %>% select(c("NA_L3NAME", "Shape_Area"), contains("HUDEN")) %>% 
+  pivot_longer(!c("NA_L3NAME", "Shape_Area"), names_to = "year", values_to = "value") %>% filter(!is.na(value)) %>%
+  mutate(year = case_when(
+    year == 'HUDEN2020_' ~ 2021
+  ),
+  NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME)) %>%
+  group_by(NA_L3NAME, year) %>%
+  summarize(wmean = weighted.mean(value, Shape_Area)) %>%
+  ungroup
+  
+
+
 extraction_df <- lapply(
   extractions, function(x) pivot_longer(
     (data.frame(x) %>% as_tibble() %>% 

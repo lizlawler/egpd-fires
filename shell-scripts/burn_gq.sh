@@ -11,7 +11,7 @@ model="stan/${modname}_${params}"
 fitted="csv-fits/${modname}_${suffix}_${params}_${delta}_${sttime}"
 
 # generate quantities using already fitted parameters
-./${model} generate_quantities fitted_params=${fitted}.csv \
+./${model} generate_quantities fitted_params=${fitted}_*.csv \
                   data file=${datafile} \
                   output file=${fitted}_genquant.csv
 

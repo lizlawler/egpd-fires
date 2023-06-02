@@ -132,13 +132,13 @@ generated quantities {
     // condition determines if the data read in are the sqrt or original burn areas
     // training log-likelihood
     for (n in 1:N_tb_obs) {
-      train_loglik[n] = egpd_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n])
+      train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n])
                         + log(0.5) - log(y_train_obs[n]);
     }
     // holdout scores
     for (n in 1:N_hold_obs) {
       // log-likelihood
-      holdout_loglik[n] = egpd_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n])
+      holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n])
                           + log(0.5) - log(y_hold_obs[n]);
       // twCRPS
       holdout_twcrps[n] = twCRPS(y_hold_obs[n],
@@ -149,12 +149,12 @@ generated quantities {
   } else {
     // training log-likelihood
     for (n in 1:N_tb_obs) {
-      train_loglik[n] = egpd_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n]);
+      train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n]);
     }
     // holdout scores
     for (n in 1:N_hold_obs) {
       // log-likelihood
-      holdout_loglik[n] = egpd_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
+      holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
       // twCRPS
       holdout_twcrps[n] = twCRPS(y_hold_obs[n],
                                  forecast_rng(n_pred, y_min, sigma_hold[n],

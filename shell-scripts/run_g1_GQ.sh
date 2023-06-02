@@ -17,9 +17,9 @@ inc_path="full-model/fire-sims/${modtype}/${modname}/stan/"
 object="full-model/fire-sims/${modtype}/${modname}/stan/${modname}_${params}"
 ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
-for suffix in "sqrt" "og"
+for suffix in "sqrt"
 do
-for delta in 0.81 0.9
+for delta in 0.81
 do
 export modtype modname params suffix delta \
 # sbatch --job-name genquant_${modname}_${suffix}_${params}_${delta}_${sttime} \

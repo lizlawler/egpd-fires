@@ -24,7 +24,7 @@ do
 export modtype modname params suffix delta \
 # sbatch --job-name genquant_${modname}_${suffix}_${params}_${delta}_${sttime} \
 # --output="./full-model/output/%x_%j.txt" \
-shell-scripts/call_gq.sh
+shell-scripts/call_gq.sh &
 sleep 1
 done
 done

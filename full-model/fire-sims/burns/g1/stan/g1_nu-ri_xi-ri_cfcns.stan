@@ -92,78 +92,78 @@ model {
   }
 }
 
-// generated quantities {
-//   array[S] matrix[T_all, R] reg_full;
-//   
-//   vector<lower=0>[N_tb_obs] kappa_train;
-//   vector<lower=0>[N_tb_obs] nu_train;
-//   vector<lower=0>[N_tb_obs] xi_train;
-//   vector<lower=0>[N_tb_obs] sigma_train;
-//   
-//   vector<lower=0>[N_hold_obs] kappa_hold;
-//   vector<lower=0>[N_hold_obs] nu_hold;
-//   vector<lower=0>[N_hold_obs] xi_hold;
-//   vector<lower=0>[N_hold_obs] sigma_hold;
-//   
-//   array[N_tb_obs] real train_loglik;
-//   array[N_hold_obs] real holdout_loglik;
-//   array[N_hold_obs] real holdout_twcrps;
-//   
-//   // variables needed for estimation of twCRPS integral via summation
-//   real interval = max(y_hold_obs) - min(y_hold_obs);
-//   int n_pred = 10000;
-//   real delta = interval / n_pred;
-//   
-//   for (s in 1:S) {
-//     for (r in 1:R) {
-//       reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
-//     }
-//   }
-//   
-//   kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
-//   nu_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
-//   xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs];
-//   sigma_train = nu_train ./ (1 + xi_train);
-//   
-//   kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
-//   nu_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
-//   xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs];
-//   sigma_hold = nu_hold ./ (1 + xi_hold);
-//   
-//   if (max(y_train_obs) < 50) {
-//     // condition determines if the data read in are the sqrt or original burn areas
-//     // training log-likelihood
-//     for (n in 1:N_tb_obs) {
-//       train_loglik[n] = egpd_lpdf(y_train_obs[n] | sigma_train[n], xi_train[n], kappa_train[n])
-//                         + log(0.5) - log(y_train_obs[n]);
-//     }
-//     // holdout scores
-//     for (n in 1:N_hold_obs) {
-//       // log-likelihood
-//       holdout_loglik[n] = egpd_lpdf(y_hold_obs[n] | sigma_hold[n], xi_hold[n], kappa_hold[n])
-//                           + log(0.5) - log(y_hold_obs[n]);
-//       // twCRPS
-//       holdout_twcrps[n] = twCRPS(y_hold_obs[n],
-//                                  forecast_rng(n_pred, sigma_hold[n],
-//                                               xi_hold[n], kappa_hold[n]),
-//                                  delta, sqrt(21), 3);
-//     }
-//   } else {
-//     // training log-likelihood
-//     for (n in 1:N_tb_obs) {
-//       train_loglik[n] = egpd_lpdf(y_train_obs[n] | sigma_train[n], xi_train[n], kappa_train[n]);
-//     }
-//     // holdout scores
-//     for (n in 1:N_hold_obs) {
-//       // log-likelihood
-//       holdout_loglik[n] = egpd_lpdf(y_hold_obs[n] | sigma_hold[n], xi_hold[n], kappa_hold[n]);
-//       // twCRPS 
-//       holdout_twcrps[n] = twCRPS(y_hold_obs[n],
-//                                  forecast_rng(n_pred, sigma_hold[n],
-//                                               xi_hold[n], kappa_hold[n]),
-//                                  delta, 21, 9);
-//     }
-//   }
-// }
-// 
-// 
+generated quantities {
+  array[S] matrix[T_all, R] reg_full;
+
+  vector<lower=0>[N_tb_obs] kappa_train;
+  vector<lower=0>[N_tb_obs] nu_train;
+  vector<lower=0>[N_tb_obs] xi_train;
+  vector<lower=0>[N_tb_obs] sigma_train;
+
+  vector<lower=0>[N_hold_obs] kappa_hold;
+  vector<lower=0>[N_hold_obs] nu_hold;
+  vector<lower=0>[N_hold_obs] xi_hold;
+  vector<lower=0>[N_hold_obs] sigma_hold;
+
+  array[N_tb_obs] real train_loglik;
+  array[N_hold_obs] real holdout_loglik;
+  array[N_hold_obs] real holdout_twcrps;
+
+  // variables needed for estimation of twCRPS integral via summation
+  real interval = max(y_hold_obs) - min(y_hold_obs);
+  int n_pred = 10000;
+  real delta = interval / n_pred;
+
+  for (s in 1:S) {
+    for (r in 1:R) {
+      reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
+    }
+  }
+
+  kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
+  nu_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
+  xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs];
+  sigma_train = nu_train ./ (1 + xi_train);
+
+  kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
+  nu_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
+  xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs];
+  sigma_hold = nu_hold ./ (1 + xi_hold);
+
+  if (max(y_train_obs) < 50) {
+    // condition determines if the data read in are the sqrt or original burn areas
+    // training log-likelihood
+    for (n in 1:N_tb_obs) {
+      train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n])
+                        + log(0.5) - log(y_train_obs[n]);
+    }
+    // holdout scores
+    for (n in 1:N_hold_obs) {
+      // log-likelihood
+      holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n])
+                          + log(0.5) - log(y_hold_obs[n]);
+      // twCRPS
+      holdout_twcrps[n] = twCRPS(y_hold_obs[n],
+                                 forecast_rng(n_pred, y_min, sigma_hold[n],
+                                              xi_hold[n], kappa_hold[n]),
+                                 delta, sqrt(21), 3);
+    }
+  } else {
+    // training log-likelihood
+    for (n in 1:N_tb_obs) {
+      train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] |y_min, sigma_train[n], xi_train[n], kappa_train[n]);
+    }
+    // holdout scores
+    for (n in 1:N_hold_obs) {
+      // log-likelihood
+      holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
+      // twCRPS
+      holdout_twcrps[n] = twCRPS(y_hold_obs[n],
+                                 forecast_rng(n_pred, y_min, sigma_hold[n],
+                                              xi_hold[n], kappa_hold[n]),
+                                 delta, 21, 9);
+    }
+  }
+}
+
+

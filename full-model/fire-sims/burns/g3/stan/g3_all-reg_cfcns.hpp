@@ -8,7 +8,7 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 263> locations_array__ = 
+static constexpr std::array<const char*, 269> locations_array__ = 
 {" (found before start of program)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 8, column 2 to column 48)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 9, column 2 to column 14)",
@@ -236,6 +236,12 @@ static constexpr std::array<const char*, 263> locations_array__ =
  " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 49, column 37, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 49, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 47, column 50, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 69, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 67, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 66, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 65, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 64, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stan', line 62, column 49, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 6, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 7, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stan', line 14, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_all-reg_cfcns.stan', line 1, column 0)",
@@ -386,6 +392,15 @@ struct gpareto_lpdf_functor__ {
                                 stan::is_stan_scalar<T2__>>* = nullptr>
   stan::promote_args_t<T0__, T1__, T2__>
   operator()(const T0__& y, const T1__& sigma, const T2__& xi,
+             std::ostream* pstream__) const;
+};
+struct gpareto_icdf_functor__ {
+  template <typename T0__, typename T1__, typename T2__,
+            stan::require_all_t<stan::is_stan_scalar<T0__>,
+                                stan::is_stan_scalar<T1__>,
+                                stan::is_stan_scalar<T2__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__>
+  operator()(const T0__& u, const T1__& sigma, const T2__& xi,
              std::ostream* pstream__) const;
 };
 
@@ -690,6 +705,41 @@ template <typename T0__, typename T1__, typename T2__,
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
     }
+template <typename T0__, typename T1__, typename T2__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__>
+  gpareto_icdf(const T0__& u, const T1__& sigma, const T2__& xi,
+               std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      current_statement__ = 231;
+      if (stan::math::logical_lt(sigma, 1e-15)) {
+        current_statement__ = 230;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma =");
+        stan::math::stan_print(&errmsg_stream__, sigma);
+        throw std::domain_error(errmsg_stream__.str());
+      } else {
+        current_statement__ = 229;
+        if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
+          current_statement__ = 228;
+          return ((sigma / xi) * (stan::math::pow((1 - u), -xi) - 1));
+        } else {
+          current_statement__ = 227;
+          return (-sigma * stan::math::log1m(u));
+        }
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
 template <bool propto__, typename T0__, typename T1__, typename T2__,
           typename T3__,
           stan::require_all_t<stan::is_stan_scalar<T0__>,
@@ -705,14 +755,14 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 227;
+      current_statement__ = 233;
       alpha = (1 / gamma);
       local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 228;
+      current_statement__ = 234;
       beta = 2;
-      current_statement__ = 233;
+      current_statement__ = 239;
       if (stan::math::logical_gt(gamma, 1e-15)) {
-        current_statement__ = 231;
+        current_statement__ = 237;
         return (((stan::math::log(gamma) +
                    ((gamma - 1) * gpareto_lccdf(y, sigma, xi, pstream__))) +
                   gpareto_lpdf<false>(y, sigma, xi, pstream__)) +
@@ -721,7 +771,7 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
                      (gamma * gpareto_lccdf(y, sigma, xi, pstream__))),
                    alpha, beta));
       } else {
-        current_statement__ = 229;
+        current_statement__ = 235;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "gamma<=0; found gamma = ");
         stan::math::stan_print(&errmsg_stream__, gamma);
@@ -747,14 +797,14 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 235;
+      current_statement__ = 241;
       alpha = (1 / gamma);
       local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 236;
+      current_statement__ = 242;
       beta = 2;
-      current_statement__ = 241;
+      current_statement__ = 247;
       if (stan::math::logical_gt(gamma, 1e-15)) {
-        current_statement__ = 239;
+        current_statement__ = 245;
         return stan::math::exp(
                  stan::math::log1m_exp(
                    stan::math::beta_lcdf(
@@ -762,7 +812,7 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
                        (gamma * gpareto_lccdf(y, sigma, xi, pstream__))),
                      alpha, beta)));
       } else {
-        current_statement__ = 237;
+        current_statement__ = 243;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "gamma<=0; found gamma = ");
         stan::math::stan_print(&errmsg_stream__, gamma);
@@ -788,21 +838,21 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 243;
+      current_statement__ = 249;
       alpha = (1 / gamma);
       local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 244;
+      current_statement__ = 250;
       beta = 2;
-      current_statement__ = 249;
+      current_statement__ = 255;
       if (stan::math::logical_gt(gamma, 1e-15)) {
-        current_statement__ = 247;
+        current_statement__ = 253;
         return stan::math::log1m_exp(
                  stan::math::beta_lcdf(
                    stan::math::exp(
                      (gamma * gpareto_lccdf(y, sigma, xi, pstream__))),
                    alpha, beta));
       } else {
-        current_statement__ = 245;
+        current_statement__ = 251;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "gamma<=0; found gamma = ");
         stan::math::stan_print(&errmsg_stream__, gamma);
@@ -828,20 +878,20 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 251;
+      current_statement__ = 257;
       alpha = (1 / gamma);
       local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 252;
+      current_statement__ = 258;
       beta = 2;
-      current_statement__ = 257;
+      current_statement__ = 263;
       if (stan::math::logical_gt(gamma, 1e-15)) {
-        current_statement__ = 255;
+        current_statement__ = 261;
         return stan::math::beta_lcdf(
                  stan::math::exp(
                    (gamma * gpareto_lccdf(y, sigma, xi, pstream__))), alpha,
                  beta);
       } else {
-        current_statement__ = 253;
+        current_statement__ = 259;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "gamma<=0; found gamma = ");
         stan::math::stan_print(&errmsg_stream__, gamma);
@@ -868,12 +918,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
-      current_statement__ = 259;
+      current_statement__ = 265;
       lpdf = egpd_lpdf<false>(y, sigma, xi, gamma, pstream__);
       local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 260;
+      current_statement__ = 266;
       cst = egpd_lccdf(ymin, sigma, xi, gamma, pstream__);
-      current_statement__ = 261;
+      current_statement__ = 267;
       return (lpdf - cst);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -1027,6 +1077,18 @@ gpareto_lpdf_functor__::operator()(const T0__& y, const T1__& sigma,
 const
 {
   return gpareto_lpdf<propto__>(y, sigma, xi, pstream__);
+}
+
+template <typename T0__, typename T1__, typename T2__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>>*>
+stan::promote_args_t<T0__, T1__, T2__>
+gpareto_icdf_functor__::operator()(const T0__& u, const T1__& sigma,
+                                   const T2__& xi, std::ostream* pstream__) 
+const
+{
+  return gpareto_icdf(u, sigma, xi, pstream__);
 }
 
 

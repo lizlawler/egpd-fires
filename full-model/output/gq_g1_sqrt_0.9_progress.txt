@@ -1,0 +1,261 @@
+nohup: ignoring input
+./shell-scripts/run_g1_GQ.sh:19: command not found: cmdstan_model
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_all-reg_cfcns_0.9_27Apr2023_1107_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266385918 (Default)
+output
+  file = csv-fits/g1_sqrt_all-reg_cfcns_0.9_27Apr2023_1107_1_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_all-reg_cfcns_0.9_27Apr2023_1107_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266385919 (Default)
+output
+  file = csv-fits/g1_sqrt_all-reg_cfcns_0.9_27Apr2023_1107_2_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_all-reg_cfcns_0.9_27Apr2023_1107_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266385920 (Default)
+output
+  file = csv-fits/g1_sqrt_all-reg_cfcns_0.9_27Apr2023_1107_3_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+./shell-scripts/run_g1_GQ.sh:19: command not found: cmdstan_model
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_xi-ri_cfcns_0.9_27Apr2023_1108_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266387068 (Default)
+output
+  file = csv-fits/g1_sqrt_xi-ri_cfcns_0.9_27Apr2023_1108_1_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_xi-ri_cfcns_0.9_27Apr2023_1108_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266387068 (Default)
+output
+  file = csv-fits/g1_sqrt_xi-ri_cfcns_0.9_27Apr2023_1108_2_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_xi-ri_cfcns_0.9_27Apr2023_1108_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266387070 (Default)
+output
+  file = csv-fits/g1_sqrt_xi-ri_cfcns_0.9_27Apr2023_1108_3_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+./shell-scripts/run_g1_GQ.sh:19: command not found: cmdstan_model
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_nu-ri_xi-ri_cfcns_0.9_27Apr2023_1110_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266388222 (Default)
+output
+  file = csv-fits/g1_sqrt_nu-ri_xi-ri_cfcns_0.9_27Apr2023_1110_1_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_nu-ri_xi-ri_cfcns_0.9_27Apr2023_1110_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266388223 (Default)
+output
+  file = csv-fits/g1_sqrt_nu-ri_xi-ri_cfcns_0.9_27Apr2023_1110_2_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_nu-ri_xi-ri_cfcns_0.9_27Apr2023_1110_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266388224 (Default)
+output
+  file = csv-fits/g1_sqrt_nu-ri_xi-ri_cfcns_0.9_27Apr2023_1110_3_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+./shell-scripts/run_g1_GQ.sh:19: command not found: cmdstan_model
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_kappa-ri_xi-ri_cfcns_0.9_27Apr2023_1111_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266389428 (Default)
+output
+  file = csv-fits/g1_sqrt_kappa-ri_xi-ri_cfcns_0.9_27Apr2023_1111_1_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_kappa-ri_xi-ri_cfcns_0.9_27Apr2023_1111_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266389429 (Default)
+output
+  file = csv-fits/g1_sqrt_kappa-ri_xi-ri_cfcns_0.9_27Apr2023_1111_2_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_kappa-ri_xi-ri_cfcns_0.9_27Apr2023_1111_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266389430 (Default)
+output
+  file = csv-fits/g1_sqrt_kappa-ri_xi-ri_cfcns_0.9_27Apr2023_1111_3_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+./shell-scripts/run_g1_GQ.sh:19: command not found: cmdstan_model
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266390598 (Default)
+output
+  file = csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114_1_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266390598 (Default)
+output
+  file = csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114_2_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2266390600 (Default)
+output
+  file = csv-fits/g1_sqrt_sigma-ri_xi-ri_cfcns_0.9_27Apr2023_1114_3_gq.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+

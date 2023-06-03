@@ -19,7 +19,7 @@ ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
 for suffix in "og"
 do
-for delta in 0.9
+for delta in 0.81
 do
 export modtype modname params suffix delta \
 # sbatch --job-name genquant_${modname}_${suffix}_${params}_${delta}_${sttime} \

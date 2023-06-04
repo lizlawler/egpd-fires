@@ -13,5 +13,5 @@ do
 # generate quantities using already fitted parameters
   nohup ./${model} generate_quantities fitted_params=$fit \
                    data file=${datafile} \
-                   output file=csv-fits/${gq_file}_gq.csv &
+                   output file=csv-fits/gq_${gq_file}.csv &
 done

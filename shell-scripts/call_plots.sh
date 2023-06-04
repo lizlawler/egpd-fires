@@ -12,6 +12,8 @@
 
 export TMPDIR=/scratch/alpine/$USER/tmp/
 export TMP=${TMPDIR}
+export TEMP=${TMPDIR}
+export TEMPDIR=${TMPDIR}
 mkdir -p $TMPDIR
 
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh

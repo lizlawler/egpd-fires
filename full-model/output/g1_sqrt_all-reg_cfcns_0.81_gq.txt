@@ -1,0 +1,51 @@
+method = generate_quantities
+method = generate_quantities
+  generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_all-reg_cfcns_0.81_27Apr2023_1107_2.csv
+    fitted_params = csv-fits/g1_sqrt_all-reg_cfcns_0.81_27Apr2023_1107_1.csv
+id = 1 (Default)
+id = 1 (Default)
+data
+data
+  file = ../../../data/stan_data_sqrt.json
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+init = 2 (Default)
+random
+random
+  seed = 2330120013 (Default)
+  seed = 2330120013 (Default)
+output
+output
+  file = csv-fits/gq_g1_sqrt_all-reg_cfcns_0.81_27Apr2023_1107_2.csv
+  file = csv-fits/gq_g1_sqrt_all-reg_cfcns_0.81_27Apr2023_1107_1.csv
+  diagnostic_file =  (Default)
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+num_threads = 1 (Default)
+
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_sqrt_all-reg_cfcns_0.81_27Apr2023_1107_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 2330120014 (Default)
+output
+  file = csv-fits/gq_g1_sqrt_all-reg_cfcns_0.81_27Apr2023_1107_3.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+

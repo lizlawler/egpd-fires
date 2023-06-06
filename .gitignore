@@ -5,10 +5,9 @@
 
 .DS_store
 
-josephs-scripts/
-
 toy-sim/output/
 
+full-model/fire-sims/model_comparison/gen_quant/*.RData
 full-model/output/*.csv
 sim-study/models/**/data/
 sim-study/models/**/stan-fits/
@@ -18,12 +17,6 @@ Rplots.pdf
 **/trace/**/*.pdf
 
 /maps/
-<<<<<<< HEAD
-=======
-full-model/naveau-dist/dist_sheet_cache/
-
-full-model/naveau-dist/dist_sheet_files/
->>>>>>> 5334a23e4533995ecbddddadf6072c5028e04c90
 
 full-model/fire-sims/counts/zinb/zinb_byER_post_params_26oct2022.RDS
 full-model/fire-sims/burns/g1/g1_ogY_post_params_27oct2022.RDS

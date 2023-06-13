@@ -15,7 +15,7 @@ ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
 for suffix in "og" "sqrt"
 do
-for delta in 0.81 0.9
+for delta in 0.81
 do
 sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params suffix delta sttime

@@ -3,6 +3,7 @@
 transformed data {
   int S = 3; // # of parameters with regression (ranges from 1 to 3)
   int C = 3; // # of parameters with correlation (either regression or random intercept)
+  int n_pred = 5000; // number of observations for each forecast
 }
 parameters {
   array[N_tb_mis] real<lower=y_min> y_train_mis;
@@ -80,75 +81,96 @@ model {
   }
 }
 generated quantities {
-  array[S] matrix[T_all, R] reg_full;
-
-  vector[N_tb_obs] kappa_train;
-  vector[N_tb_obs] nu_train;
-  vector[N_tb_obs] xi_train;
-  vector[N_tb_obs] sigma_train;
-
-  vector[N_hold_obs] kappa_hold;
-  vector[N_hold_obs] nu_hold;
-  vector[N_hold_obs] xi_hold;
-  vector[N_hold_obs] sigma_hold;
-
   array[N_tb_obs] real train_loglik;
   array[N_hold_obs] real holdout_loglik;
-  array[N_hold_obs] real holdout_twcrps;
+  array[N_tb_obs] vector[n_pred] train_forecast;
+  array[N_hold_obs] vector[n_pred] holdout_forecast;
 
-  // variables needed for estimation of twCRPS integral via summation
-  real interval = max(y_hold_obs) - min(y_hold_obs);
-  int n_pred = 10000;
-  real delta = interval / n_pred;
-
-  for (s in 1:S) {
-    for (r in 1:R) {
-      reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
-    }
-  }
-
-  kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
-  nu_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs];
-  xi_train = exp(to_vector(reg_full[3]))[ii_tb_all][ii_tb_obs];
-  sigma_train = nu_train ./ (1 + xi_train);
-
-  kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
-  nu_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs];
-  xi_hold = exp(to_vector(reg_full[3]))[ii_hold_all][ii_hold_obs];
-  sigma_hold = nu_hold ./ (1 + xi_hold);
-
+  // condition determines if the data read in are the sqrt or original burn areas
   if (max(y_train_obs) < 50) {
-    // condition determines if the data read in are the sqrt or original burn areas
-    // training log-likelihood
+    // declaring the below as "local" variables so they don't contribute to csv size
+    array[S] matrix[T_all, R] reg_full;
+    vector[N_tb_obs] kappa_train;
+    vector[N_tb_obs] nu_train;
+    vector[N_tb_obs] xi_train;
+    vector[N_tb_obs] sigma_train;
+  
+    vector[N_hold_obs] kappa_hold;
+    vector[N_hold_obs] nu_hold;
+    vector[N_hold_obs] xi_hold;
+    vector[N_hold_obs] sigma_hold;
+  
+    for (s in 1:S) {
+      for (r in 1:R) {
+        reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
+      }
+    }
+  
+    kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
+    nu_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs];
+    xi_train = exp(to_vector(reg_full[3]))[ii_tb_all][ii_tb_obs];
+    sigma_train = nu_train ./ (1 + xi_train);
+  
+    kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
+    nu_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs];
+    xi_hold = exp(to_vector(reg_full[3]))[ii_hold_all][ii_hold_obs];
+    sigma_hold = nu_hold ./ (1 + xi_hold);
+    
+    // training scores
     for (n in 1:N_tb_obs) {
       train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n])
                         + log(0.5) - log(y_train_obs[n]);
+      // forecast on training dataset
+      train_forecast[n] = forecast_rng(n_pred, y_min, sigma_train[n], xi_train[n], kappa_train[n]);
     }
     // holdout scores
     for (n in 1:N_hold_obs) {
       // log-likelihood
       holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n])
                           + log(0.5) - log(y_hold_obs[n]);
-      // twCRPS
-      holdout_twcrps[n] = twCRPS(y_hold_obs[n],
-                                 forecast_rng(n_pred, y_min, sigma_hold[n],
-                                              xi_hold[n], kappa_hold[n]),
-                                 delta, sqrt(21), 3);
+      // forecast on holdout dataset
+      holdout_forecast[n] = forecast_rng(n_pred, y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
     }
   } else {
-    // training log-likelihood
+    array[S] matrix[T_all, R] reg_full;
+    vector[N_tb_obs] kappa_train;
+    vector[N_tb_obs] nu_train;
+    vector[N_tb_obs] xi_train;
+    vector[N_tb_obs] sigma_train;
+  
+    vector[N_hold_obs] kappa_hold;
+    vector[N_hold_obs] nu_hold;
+    vector[N_hold_obs] xi_hold;
+    vector[N_hold_obs] sigma_hold;
+  
+    for (s in 1:S) {
+      for (r in 1:R) {
+        reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
+      }
+    }
+  
+    kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
+    nu_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs];
+    xi_train = exp(to_vector(reg_full[3]))[ii_tb_all][ii_tb_obs];
+    sigma_train = nu_train ./ (1 + xi_train);
+  
+    kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
+    nu_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs];
+    xi_hold = exp(to_vector(reg_full[3]))[ii_hold_all][ii_hold_obs];
+    sigma_hold = nu_hold ./ (1 + xi_hold);
+    
+    // training scores
     for (n in 1:N_tb_obs) {
       train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n]);
+      // forecast on training dataset
+      train_forecast[n] = forecast_rng(n_pred, y_min, sigma_train[n], xi_train[n], kappa_train[n]);
     }
     // holdout scores
     for (n in 1:N_hold_obs) {
       // log-likelihood
       holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
-      // twCRPS
-      holdout_twcrps[n] = twCRPS(y_hold_obs[n],
-                                 forecast_rng(n_pred, y_min, sigma_hold[n],
-                                              xi_hold[n], kappa_hold[n]),
-                                 delta, 21, 9);
+      // forecast on holdout dataset
+      holdout_forecast[n] = forecast_rng(n_pred, y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
     }
   }
 }

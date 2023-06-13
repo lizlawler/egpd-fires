@@ -4,7 +4,7 @@ check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(tidyverse)
 library(stringr)
 library(posterior)
-
+library(scoringRules)
 
 # following code is for the counts -------
 burn_fits <- paste0("full-model/fire-sims/burns/g1/", 
@@ -249,6 +249,34 @@ t <- stan_data_og$T_train
 kappa_burns <- list()
 nu_burns <- list()
 xi_burns <- list()
+kappa_idx <- which(grepl("beta\\[1,", variables(`g1_sqrt_all-reg_0.81`[[1]])))
+nu_idx <- which(grepl("beta\\[2,", variables(`g1_sqrt_all-reg_0.81`[[1]])))
+xi_idx <- which(grepl("beta\\[3,", variables(`g1_sqrt_all-reg_0.81`[[1]])))
+variables(`g1_sqrt_all-reg_0.81`[[1]])[kappa_idx]
+betas_kappa <- `g1_sqrt_all-reg_0.81`[[1]][,,kappa_idx]
+betas_nu <- `g1_sqrt_all-reg_0.81`[[1]][,,nu_idx]
+betas_xi <- `g1_sqrt_all-reg_0.81`[[1]][,,xi_idx]
+
+kappa_df <- betas_kappa %>% merge_chains() %>% as_draws_df() %>% as_tibble() %>% pivot_longer(!c(".chain", ".iteration", ".draw"), names_to = "combo", values_to = "value")
+kappa_df <- kappa_df %>% rename(chain = ".chain", iter = ".iteration", draw = ".draw") %>% select(-c("chain", "draw")) %>%
+  separate(., combo, into=c("param", "covar", "region"), sep=",") %>% select(-param) %>% mutate(region = as.numeric(gsub("\\]", "", region))) %>%
+  pivot_wider(names_from = region, values_from = value)
+
+kappa_df_list <- lapply(split(kappa_df, kappa_df$iter), function(x) {select(x, -c("iter", "covar")) %>% as.matrix()})
+
+iter_kappa_effects_list <- lapply(kappa_df_list, function(x) {
+  coef_df_list_kappa <- list()
+  for(k in seq_along(vars)) {
+    stored_df_kappa <- matrix(NA, t, r)
+    for(j in 1:r) {
+      stored_df_kappa[,j] <- X_sqrt[j,,X_cols[[k]]] %*% x[X_cols[[k]], j]
+    }
+    coef_df_list_kappa[[k]] <- covar_effect(stored_df_kappa, vars[k], c(X_sqrt[,,X_cols[[k]][2]]))
+  }
+  return(coef_df_list_kappa)
+})
+
+
 egpd_param <- function(df, param_num) {
   return(
     df %>% select(-c("combo", "dataset", "delta")) %>%
@@ -259,7 +287,7 @@ egpd_param <- function(df, param_num) {
 }
 covar_effect <- function(egpd_param_df, covar_term, linear_term) {
   return(
-    egpd_param_df %>% as_tibble() %>% rename_with(., ~ reg_cols) %>% 
+    egpd_param_df %>% as_tibble() %>% rename_with(., ~ as.character(reg_cols)) %>% 
       mutate(time = c(1:t)) %>% 
       pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
       mutate(region = as.numeric(region), covar = covar_term, linear = linear_term)

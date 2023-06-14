@@ -46,4 +46,9 @@ data {
   matrix[p, p] bp_square;
   matrix[p, p] bp_cube;
   matrix[p, p] bp_quart;
+  
+  // twCRPS approximation
+  int<lower=1> n_int;
+  real<lower=1> y_int;
+  vector<lower=y_min>[n_int] int_pts;
 }

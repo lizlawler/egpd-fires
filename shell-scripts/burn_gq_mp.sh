@@ -6,6 +6,7 @@ datafile="../../../data/stan_data_${suffix}.json"
 basedir="./full-model/fire-sims/${modtype}/${modname}/"
 cd ${basedir}
 model="stan/${modname}_${params}"
+sttime=$(date +"%d%b%Y_%H%M")
 
 for fit in csv-fits/${modname}_${suffix}_${params}_${delta}*.csv
 do

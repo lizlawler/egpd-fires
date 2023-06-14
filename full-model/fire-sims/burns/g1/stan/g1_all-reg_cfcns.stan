@@ -83,11 +83,11 @@ model {
 generated quantities {
   array[N_tb_obs] real train_loglik;
   array[N_hold_obs] real holdout_loglik;
-  array[N_tb_obs] vector[n_pred] train_forecast;
-  array[N_hold_obs] vector[n_pred] holdout_forecast;
+  array[N_tb_obs] real train_twcrps;
+  array[N_hold_obs] real holdout_twcrps;
 
   // condition determines if the data read in are the sqrt or original burn areas
-  if (max(y_train_obs) < 50) {
+  if (y_int < 50) {
     // declaring the below as "local" variables so they don't contribute to csv size
     array[S] matrix[T_all, R] reg_full;
     vector[N_tb_obs] kappa_train;
@@ -120,16 +120,16 @@ generated quantities {
     for (n in 1:N_tb_obs) {
       train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n])
                         + log(0.5) - log(y_train_obs[n]);
-      // forecast on training dataset
-      train_forecast[n] = forecast_rng(n_pred, y_min, sigma_train[n], xi_train[n], kappa_train[n]);
+      // forecasting then twCRPS, on training dataset
+      train_twcrps[n] = twCRPS(y_train_obs[n], n_int, y_int, int_pts, y_min, sigma_train[n], xi_train[n], kappa_train[n], sqrt(21), 3);
     }
     // holdout scores
     for (n in 1:N_hold_obs) {
       // log-likelihood
       holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n])
                           + log(0.5) - log(y_hold_obs[n]);
-      // forecast on holdout dataset
-      holdout_forecast[n] = forecast_rng(n_pred, y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
+      // forecasting then twCRPS, on holdout dataset
+      holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, y_int, int_pts, y_min, sigma_hold[n], xi_hold[n], kappa_hold[n], sqrt(21), 3);
     }
   } else {
     array[S] matrix[T_all, R] reg_full;
@@ -162,15 +162,15 @@ generated quantities {
     // training scores
     for (n in 1:N_tb_obs) {
       train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n]);
-      // forecast on training dataset
-      train_forecast[n] = forecast_rng(n_pred, y_min, sigma_train[n], xi_train[n], kappa_train[n]);
+      // forecasting then twCRPS, on training dataset
+      train_twcrps[n] = twCRPS(y_train_obs[n], n_int, y_int, int_pts, y_min, sigma_train[n], xi_train[n], kappa_train[n], 21, 9);
     }
     // holdout scores
     for (n in 1:N_hold_obs) {
       // log-likelihood
       holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
-      // forecast on holdout dataset
-      holdout_forecast[n] = forecast_rng(n_pred, y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
+      // forecasting then twCRPS, on holdout dataset
+      holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, y_int, int_pts, y_min, sigma_hold[n], xi_hold[n], kappa_hold[n], 21, 9);
     }
   }
 }

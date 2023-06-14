@@ -325,8 +325,8 @@ stan_data_og <- list(
   
   # for twCRPS
   y_int = int_og,
-  n_int = 66750,
-  int_pts = min(burn_hold_obs_og, burn_train_obs_og) + int_og * (1:66750)/66750
+  n_int = 10000,
+  int_pts = min(burn_hold_obs_og, burn_train_obs_og) + int_og * (1:10000)/10000
 )
 
 stan_data_sqrt <- list(
@@ -383,8 +383,8 @@ stan_data_sqrt <- list(
   
   # for twCRPS
   y_int = int_sqrt,
-  n_int = 2000,
-  int_pts = min(burn_hold_obs_sqrt, burn_train_obs_sqrt) + int_sqrt * (1:2000)/2000
+  n_int = 3000,
+  int_pts = min(burn_hold_obs_sqrt, burn_train_obs_sqrt) + int_sqrt * (1:3000)/3000
 )
 
 # assert that there are no missing values in stan_d

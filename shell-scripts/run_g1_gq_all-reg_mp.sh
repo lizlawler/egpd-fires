@@ -16,7 +16,7 @@ ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
 for suffix in "og" "sqrt"
 do
-for delta in 0.81
+for delta in 0.81 0.9
 do
 export modtype modname params suffix delta sttime
 nohup ./shell-scripts/burn_gq_mp.sh > full-model/output/${modname}_${suffix}_${params}_${delta}_${sttime}_gq.txt 2>&1 &

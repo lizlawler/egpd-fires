@@ -51,16 +51,16 @@ functions{
     return lpdf - cst;
   }
   // forecast function
-  vector forecast_rng(int n_pred, real ymin, real sigma, real xi, real kappa) {
-    vector[n_pred] forecast;
-    vector[n_pred] a = rep_vector(0, n_pred);
-    vector[n_pred] b = rep_vector(1, n_pred);
-    array[n_pred] real u = uniform_rng(a, b);
-    real cst = exp(egpd_lcdf(ymin | sigma, xi, kappa));
-    for (n in 1:n_pred) {
-      real u_adj = u[n] * (1 - cst) + cst;
-      forecast[n] = egpd_icdf(u_adj, sigma, xi, kappa);
-    }
-    return forecast;
-  }
+  // vector forecast_rng(int n_pred, real ymin, real sigma, real xi, real kappa) {
+  //   vector[n_pred] forecast;
+  //   vector[n_pred] a = rep_vector(0, n_pred);
+  //   vector[n_pred] b = rep_vector(1, n_pred);
+  //   array[n_pred] real u = uniform_rng(a, b);
+  //   real cst = exp(egpd_lcdf(ymin | sigma, xi, kappa));
+  //   for (n in 1:n_pred) {
+  //     real u_adj = u[n] * (1 - cst) + cst;
+  //     forecast[n] = egpd_icdf(u_adj, sigma, xi, kappa);
+  //   }
+  //   return forecast;
+  // }
 }

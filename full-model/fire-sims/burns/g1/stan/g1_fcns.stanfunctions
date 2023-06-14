@@ -1,6 +1,3 @@
-functions{
-#include /../../twcrps_matnorm_fcns.stan
-#include /../../gpd_fcns.stan
   // custom distribution functions of EGPD
   real egpd_lpdf(real y, real sigma, real xi, real kappa) {
     if (kappa > 1e-15) {
@@ -63,4 +60,3 @@ functions{
   //   }
   //   return forecast;
   // }
-}

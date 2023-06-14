@@ -1,9 +1,12 @@
-#include g1_fcns.stan
+functions {
+  #include /../../gpd_fcns.stanfunctions
+  #include g1_fcns.stanfunctions
+  #include /../../twcrps_matnorm_fcns.stanfunctions
+}
 #include /../../burns_data.stan
 transformed data {
   int S = 3; // # of parameters with regression (ranges from 1 to 3)
   int C = 3; // # of parameters with correlation (either regression or random intercept)
-  int n_pred = 5000; // number of observations for each forecast
 }
 parameters {
   array[N_tb_mis] real<lower=y_min> y_train_mis;

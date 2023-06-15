@@ -10,15 +10,14 @@
     return pred_probs;
   }  
   
-  real twCRPS(real y, int n_int, real y_int, vector int_pts, real ymin, real sigma, real xi, real kappa, real w_mean, real w_sd) {
+  real twCRPS(real y, int n_int, real y_int, vector int_pts, vector pred_probs) {
     real score;
     real summand;
     real delta = y_int/(n_int - 1);
-    vector[n_int] pred_probs = prob_forecast(n_int, int_pts, ymin, sigma, xi, kappa);
     summand = 0;
     for (n in 1:n_int) {
       summand += (pred_probs[n] - step(int_pts[n] - y)) ^ 2
-                 * normal_cdf(int_pts[n] | w_mean, w_sd);
+                 * normal_cdf(int_pts[n] | 21, 9);
     }
     score = summand * delta;
     return score;

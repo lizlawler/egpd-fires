@@ -1,10 +1,10 @@
 library(tidyverse)
 library(lubridate)
-library(rstan)
+library(cmdstanr)
 library(assertthat)
-library(sf)
-library(spdep)
-library(spatialreg)
+# library(sf)
+# library(spdep)
+# library(spatialreg)
 library(splines)
 
 # Albers equal area (AEA) conic projection of North America
@@ -267,8 +267,9 @@ for(i in 1:84) {
   X_array_full[i, ,] <- as.matrix(X_list_full[[i]])
 }
 
-int_og <- ceiling(max(burn_hold_obs_og, burn_train_obs_og) - min(burn_hold_obs_og, burn_train_obs_og))
-int_sqrt <- ceiling(max(burn_hold_obs_sqrt, burn_hold_obs_sqrt) - min(burn_hold_obs_sqrt, burn_hold_obs_sqrt))
+n_int <- 5000
+int_og <- max(burn_hold_obs_og, burn_train_obs_og) - min(burn_hold_obs_og, burn_train_obs_og)
+int_pts_og <- min(burn_hold_obs_og, burn_train_obs_og) + (1:n_int)*(int_og/n_int)
 
 # Bundle up data into a list too pass to Stan -----------------------------
 stan_data_og <- list(
@@ -325,8 +326,8 @@ stan_data_og <- list(
   
   # for twCRPS
   y_int = int_og,
-  n_int = 10000,
-  int_pts = min(burn_hold_obs_og, burn_train_obs_og) + int_og * (1:10000)/10000
+  n_int = n_int,
+  int_pts = int_pts_og
 )
 
 stan_data_sqrt <- list(
@@ -382,9 +383,9 @@ stan_data_sqrt <- list(
   node2 = B@j + 1,
   
   # for twCRPS
-  y_int = int_sqrt,
-  n_int = 3000,
-  int_pts = min(burn_hold_obs_sqrt, burn_train_obs_sqrt) + int_sqrt * (1:3000)/3000
+  y_int = int_og,
+  n_int = n_int,
+  int_pts = int_pts_og
 )
 
 # assert that there are no missing values in stan_d

@@ -5,54 +5,54 @@ library(tidyverse)
 library(stringr)
 library(posterior)
 
-# # following code is for extracting from the actual model fit -------
-# burn_fits <- paste0("full-model/fire-sims/burns/g1/", 
-#                     list.files(path = "full-model/fire-sims/burns/g1", 
-#                                pattern = "*.csv", recursive = TRUE))
-# # gqidx <- which(grepl("Jun2023", burn_fits))
-# # burn_fits <- burn_fits[-gqidx]
-# nfits <- length(burn_fits)/3
-# fit_groups <- vector(mode = "list", nfits)
-# for(i in 1:nfits) {
-#   fit_groups[[i]] <- burn_fits[(3*i-2):(3*i)]
-# }
+# following code is for extracting from the actual model fit -------
+burn_fits <- paste0("full-model/fire-sims/burns/g1/",
+                    list.files(path = "full-model/fire-sims/burns/g1",
+                               pattern = "*.csv", recursive = TRUE))
+gqidx <- which(grepl("gq", burn_fits))
+burn_fits <- burn_fits[-gqidx]
+nfits <- length(burn_fits)/3
+fit_groups <- vector(mode = "list", nfits)
+for(i in 1:nfits) {
+  fit_groups[[i]] <- burn_fits[(3*i-2):(3*i)]
+}
+
+burn_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), "cfcns_")) %>% unlist()
+all_idx <- which(grepl("all-reg", burn_names))
+sqrt_xi_idx <- which(grepl("sqrt_xi-ri", burn_names))
+og_xi_idx <- which(grepl("og_xi-ri", burn_names))
+kappa_xi_idx <- which(grepl("kappa-ri_xi-ri", burn_names))
+nu_reg_idx <- c(all_idx, sqrt_xi_idx, og_xi_idx, kappa_xi_idx) %>% sort()
+nu_reg_burns <- burn_names[nu_reg_idx]
+sqrt_only <- grepl("sqrt", nu_reg_burns)
+nu_reg_burns <- nu_reg_burns[sqrt_only]
+ogdelta <- grepl("0.81", nu_reg_burns)
+nu_reg_burns <- nu_reg_burns[ogdelta]
+
+idx <- which(burn_names %in% nu_reg_burns)
 # 
-# burn_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), "cfcns_")) %>% unlist()
-# all_idx <- which(grepl("all-reg", burn_names))
-# sqrt_xi_idx <- which(grepl("sqrt_xi-ri", burn_names))
-# og_xi_idx <- which(grepl("og_xi-ri", burn_names))
-# kappa_xi_idx <- which(grepl("kappa-ri_xi-ri", burn_names))
-# nu_reg_idx <- c(all_idx, sqrt_xi_idx, og_xi_idx, kappa_xi_idx) %>% sort()
-# nu_reg_burns <- burn_names[nu_reg_idx]
-# sqrt_only <- grepl("sqrt", nu_reg_burns)
-# nu_reg_burns <- nu_reg_burns[sqrt_only]
-# ogdelta <- grepl("0.81", nu_reg_burns)
-# nu_reg_burns <- nu_reg_burns[ogdelta]
+extraction <- function(file_group, burn_name) {
+  object <- as_cmdstan_fit(file_group)
+  if (grepl("xi-ri", burn_name)) {
+    betas <- object$draws(variables = "beta")
+    ri_matrix <- object$draws(variables = "ri_matrix")
+    temp <- list(betas, ri_matrix)
+    names(temp) <- c("betas", "ri_matrix")
+  } else {
+    betas <- object$draws(variables = "beta")
+    temp <- list(betas)
+    names(temp) <- "betas"
+  }
+  assign(burn_name, temp, parent.frame())
+  rm(object)
+  gc()
+}
+
+for(i in idx) {
+  extraction(fit_groups[[i]], burn_names[i])
+}
 # 
-# idx <- which(burn_names %in% nu_reg_burns)
-# 
-# extraction <- function(file_group) {
-#   object <- as_cmdstan_fit(file_group)
-#   file <- basename(file_group[1])
-#   model <- str_remove(str_remove(file, "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), "cfcns_")
-#   if (grepl("xi-ri", file)) {
-#     betas <- object$draws(variables = "beta")
-#     ri_matrix <- object$draws(variables = "ri_matrix")
-#     temp <- list(betas = betas, ri_matrix = ri_matrix)
-#   } else {
-#     betas <- object$draws(variables = "beta")
-#     temp <- list(betas = betas)
-#   }
-#   assign(model, temp, parent.frame())
-#   rm(object)
-#   gc()
-# }
-# 
-# for(i in idx) {
-#   extraction(fit_groups[[i]])
-# }
-# 
-# save(list=ls(pattern="g1_sqrt_xi-ri_0.81"), file = "full-model/fire-sims/model_comparison/nu_data/g1_sqrt_xi-ri_0.81.RData")
+save(list=ls(pattern="g1_sqrt"), file = "full-model/fire-sims/model_comparison/nu_data/g1_sqrt.RData")
 # rm("g1_sqrt_xi-ri_0.81")
 # gc()
 # # extraction(fit_groups[[1]])

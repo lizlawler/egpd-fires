@@ -100,13 +100,13 @@ transformed data {
 }
 parameters {
   array[N_tb_mis] real<lower=y_min> y_train_mis;
-  matrix[R, 2] Z; // 1 = nu, 2 = xi
+  matrix[R, 2] Z; // 1 = kappas, 2 = xi
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
   vector<lower=0>[S] tau_init;
   vector<lower=0, upper = 1>[S] eta;
   vector<lower=0, upper = 1>[S] bp_init;
-  vector<lower=0, upper = 1>[C] rho1; // 1 = kappa, 2 = nu, 3 = xi
+  vector<lower=0, upper = 1>[C] rho1; // ordering: 1=nu, 2=kappas, 3 = xi
   vector<lower=rho1, upper = 1>[C] rho_sum;
 }
 transformed parameters {
@@ -117,11 +117,11 @@ transformed parameters {
   vector<lower=0>[S] tau = tau_init / 2;
   vector[C] rho2 = rho_sum - rho1;
   array[S] cov_matrix[p] cov_ar1;
-  array[C] corr_matrix[R] corr;
+  array[C] corr_matrix[R] corr; // 1 = nu, 2 = kappa, 3 = xi
   
-  array[2] vector[R] ri_init; // random intercept vector
+  array[2] vector[R] ri_init; // random intercept vector; 1= kappa, 2=xi
   array[2] matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
-  
+
   y_train[ii_tb_obs] = y_train_obs;
   y_train[ii_tb_mis] = y_train_mis;
   
@@ -152,8 +152,8 @@ transformed parameters {
   }
 }
 model {
-  vector[N_tb_all] kappa = exp(to_vector(reg[1]))[ii_tb_all];
-  vector[N_tb_all] nu = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] kappa = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] nu = exp(to_vector(reg[1]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
   vector[N_tb_all] sigma = nu ./ (1 + xi);
   
@@ -214,13 +214,13 @@ model {
 //     }
 //   }
 //   
-//   kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
-//   nu_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
+//   kappa_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
+//   nu_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
 //   xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs];
 //   sigma_train = nu_train ./ (1 + xi_train);
 //   
-//   kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
-//   nu_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
+//   kappa_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
+//   nu_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
 //   xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs];
 //   sigma_hold = nu_hold ./ (1 + xi_hold);
 //   

@@ -3,8 +3,7 @@ type <- args[1]
 model <- args[2]
 suffix <- args[3]
 params <- args[4]
-delta <- args[5]
-sttime <- args[6]
+sttime <- args[5]
 
 library(cmdstanr)
 set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
@@ -13,7 +12,7 @@ library(MCMCvis)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/", model, "/csv-fits/")
 plotbase <- paste0("./full-model/figures/", model, "/trace/")
-csvpattern <- paste0(model, "_", suffix, "_", params, "_", delta, "_", sttime)
+csvpattern <- paste0(model, "_", suffix, "_", params, "_", sttime)
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 
 print("Filenames being used are:")

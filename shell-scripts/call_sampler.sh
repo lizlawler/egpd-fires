@@ -19,4 +19,4 @@ mkdir -p $TMPDIR
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
-./shell-scripts/burn_sampling.sh ${modtype} ${modname} ${suffix} ${params} ${delta} ${sttime}
+./shell-scripts/burn_sampling.sh ${modtype} ${modname} ${suffix} ${params} ${sttime}

@@ -433,7 +433,7 @@ sigma_withregions %>% filter(covar == "pr") %>% ggplot(aes(x = linear, y = mean_
 ## following code is for model evaluation (scoring) ---------
 gq_fits <- paste0("full-model/fire-sims/burns/g1/", 
                     list.files(path = "full-model/fire-sims/burns/g1", 
-                               pattern = "gq", recursive = TRUE))
+                               pattern = "gq_15Jun", recursive = TRUE))
 nfits <- length(gq_fits)/3
 fit_groups <- vector(mode = "list", nfits)
 for(i in 1:nfits) {
@@ -675,9 +675,6 @@ top_mod_train_tw_og <- paste0(train_twcrps_sort_og$params[1], train_twcrps_sort_
 top_mod_train_tw_sqrt <- paste0(train_twcrps_sort_sqrt$params[1], train_twcrps_sort_sqrt$stepsize[1], train_twcrps_sort_sqrt$dataset[1])
 
 test_twcrps_sort <- twcrps_full %>% filter(train == FALSE) %>% group_by(dataset, params, stepsize) %>% summarize(mean_test_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_test_twcrps)
-twcrps_full %>% mutate(twcrps = case_when(dataset =="og" ~ twcrps/(1068/32),
-                                          dataset == "sqrt" ~ twcrps)) %>% 
-  filter(train == FALSE) %>% group_by(dataset, params, stepsize) %>% summarize(mean_test_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_test_twcrps)
 test_twcrps_sort_og <- test_twcrps_sort %>% filter(dataset == "og")
 test_twcrps_sort_sqrt <- test_twcrps_sort %>% filter(dataset == "sqrt")
 top_mod_test_tw <- paste0(test_twcrps_sort$params[1], test_twcrps_sort$stepsize[1], test_twcrps_sort$dataset[1])

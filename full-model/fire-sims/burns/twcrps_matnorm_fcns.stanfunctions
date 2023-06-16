@@ -10,10 +10,10 @@
     return pred_probs;
   }  
   
-  real twCRPS(real y, int n_int, real y_int, vector int_pts, vector pred_probs) {
+  real twCRPS(real y, int n_int, real interval, vector int_pts, vector pred_probs) {
     real score;
     real summand;
-    real delta = y_int/(n_int - 1);
+    real delta = interval/(n_int - 1);
     summand = 0;
     for (n in 1:n_int) {
       summand += (pred_probs[n] - step(int_pts[n] - y)) ^ 2

@@ -103,7 +103,7 @@ generated quantities {
   array[N_hold_obs] real holdout_twcrps;  
 
   // condition determines if the data read in are the sqrt or original burn areas
-  if (y_int < 50) {
+  if (max(y_train_obs) < 30) {
     // declaring the below as "local" variables so they don't contribute to csv size
     array[S] matrix[T_all, R] reg_full;
     for (s in 1:S) {
@@ -124,8 +124,9 @@ generated quantities {
       train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n])
                         + log(0.5) - log(y_train_obs[n]);
       // forecasting then twCRPS, on training dataset
-      vector[n_int] pred_probs_train = prob_forecast(n_int, sqrt(int_pts), y_min, sigma_train[n], xi_train[n], kappa_train[n]);
-      train_twcrps[n] = twCRPS((y_train_obs[n])^2, n_int, y_int, int_pts, pred_probs_train);
+      vector[n_int] pred_probs_train = prob_forecast(n_int, sqrt(int_pts_train), y_min, 
+                                                sigma_train[n], xi_train[n], kappa_train[n]);
+      train_twcrps[n] = twCRPS((y_train_obs[n])^2, n_int, int_train, int_pts_train, pred_probs_train);
     }
     // holdout scores
     for (n in 1:N_hold_obs) {
@@ -133,8 +134,9 @@ generated quantities {
       holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n])
                           + log(0.5) - log(y_hold_obs[n]);
       // forecasting then twCRPS, on holdout dataset
-      vector[n_int] pred_probs_hold = prob_forecast(n_int, sqrt(int_pts), y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
-      holdout_twcrps[n] = twCRPS((y_hold_obs[n])^2, n_int, y_int, int_pts, pred_probs_hold);
+      vector[n_int] pred_probs_hold = prob_forecast(n_int, sqrt(int_pts_holdout), y_min, 
+                                                sigma_hold[n], xi_hold[n], kappa_hold[n]);
+      holdout_twcrps[n] = twCRPS((y_hold_obs[n])^2, n_int, int_holdout, int_pts_holdout, pred_probs_hold);
     }
   } else {
     array[S] matrix[T_all, R] reg_full;
@@ -155,16 +157,18 @@ generated quantities {
     for (n in 1:N_tb_obs) {
       train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train[n], xi_train[n], kappa_train[n]);
       // forecasting then twCRPS, on training dataset
-      vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts, y_min, sigma_train[n], xi_train[n], kappa_train[n]);
-      train_twcrps[n] = twCRPS(y_train_obs[n], n_int, y_int, int_pts, pred_probs_train);
+      vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, 
+                                              sigma_train[n], xi_train[n], kappa_train[n]);
+      train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
     }
     // holdout scores
     for (n in 1:N_hold_obs) {
       // log-likelihood
       holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
       // forecasting then twCRPS, on holdout dataset
-      vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts, y_min, sigma_hold[n], xi_hold[n], kappa_hold[n]);
-      holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, y_int, int_pts, pred_probs_hold);
+      vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_train, y_min, 
+                                            sigma_hold[n], xi_hold[n], kappa_hold[n]);
+      holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_train, int_pts_train, pred_probs_hold);
     }
   }
 }

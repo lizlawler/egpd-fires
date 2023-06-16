@@ -268,8 +268,10 @@ for(i in 1:84) {
 }
 
 n_int <- 5000
-int_og <- max(burn_hold_obs_og, burn_train_obs_og) - min(burn_hold_obs_og, burn_train_obs_og)
-int_pts_og <- min(burn_hold_obs_og, burn_train_obs_og) + (1:n_int)*(int_og/n_int)
+int_holdout <- max(burn_hold_obs_og) - min(burn_hold_obs_og)
+int_train <- max(burn_train_obs_og) - min(burn_train_obs_og)
+int_pts_holdout <- min(burn_hold_obs_og) + (1:n_int)*(int_holdout/n_int)
+int_pts_train <- min(burn_train_obs_og) + (1:n_int)*(int_train/n_int)
 
 # Bundle up data into a list too pass to Stan -----------------------------
 stan_data_og <- list(
@@ -325,9 +327,11 @@ stan_data_og <- list(
   node2 = B@j + 1,
   
   # for twCRPS
-  y_int = int_og,
   n_int = n_int,
-  int_pts = int_pts_og
+  int_train = int_train,
+  int_pts_train = int_pts_train,
+  int_holdout = int_holdout,
+  int_pts_holdout = int_pts_holdout
 )
 
 stan_data_sqrt <- list(
@@ -383,9 +387,11 @@ stan_data_sqrt <- list(
   node2 = B@j + 1,
   
   # for twCRPS
-  y_int = int_og,
   n_int = n_int,
-  int_pts = int_pts_og
+  int_train = int_train,
+  int_pts_train = int_pts_train,
+  int_holdout = int_holdout,
+  int_pts_holdout = int_pts_holdout
 )
 
 # assert that there are no missing values in stan_d

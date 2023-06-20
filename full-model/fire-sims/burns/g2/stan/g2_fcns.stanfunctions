@@ -1,6 +1,3 @@
-functions{
-#include /../../twcrps_matnorm_fcns.stan
-#include /../../gpd_fcns.stan
   // custom distribution functions of EGPD
   real egpd_lpdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
     if (prob < 0 || prob > 1) {
@@ -70,17 +67,15 @@ functions{
     real cst = egpd_lccdf(ymin | sigma, xi, kappa1, kappa2, prob);
     return lpdf - cst;
   }
-  //forecast function
-  // vector forecast_rng(int n_pred, real ymin, real sigma, real xi, real kappa) {
-  //   vector[n_pred] forecast;
-  //   vector[n_pred] a = rep_vector(0, n_pred);
-  //   vector[n_pred] b = rep_vector(1, n_pred);
-  //   array[n_pred] real u = uniform_rng(a, b);
-  //   real cst = (1 - (1 + xi * (ymin / sigma)) ^ (-1 / xi)) ^ kappa;
-  //   for (n in 1:n_pred) {
-  //     real u_adj = u[n] * (1 - cst) + cst;
-  //     forecast[n] = (sigma / xi) * ((1 - u_adj ^ (1 / kappa)) ^ -xi - 1);
-  //   }
-  //   return forecast;
-  // }
-}
+  
+  // probability forecast
+  vector prob_forecast(int n_int, vector int_pts, real ymin, real sigma, real xi, real kappa1, real kappa2, real prob) {
+    vector[n_int] pred_probs;
+    real numer_cst = egpd_cdf(ymin | sigma, xi, kappa1, kappa2, prob);
+    real denom_cst = exp(egpd_lccdf(ymin | sigma, xi, kappa1, kappa2, prob));
+    for (n in 1:n_int) {
+      real unnorm_pred_prob = egpd_cdf(int_pts[n] | sigma, xi, kappa1, kappa2, prob);
+      pred_probs[n] = (unnorm_pred_prob - numer_cst)/denom_cst;
+    }
+    return pred_probs;
+  } 

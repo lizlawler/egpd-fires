@@ -9,7 +9,7 @@ conda activate stan
 stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="burns"
 modname="g1"
-for params in "all-reg_sigma-reg" "xi-ri_sigma-reg"
+for params in "kappa-ri_xi-ri_sigma-reg"
 do
 # compile model and link c++ 
 inc_path="full-model/fire-sims/${modtype}/${modname}/stan/"

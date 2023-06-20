@@ -13,26 +13,28 @@ ecoregion_shp <- load_ecoregions()
 
 
 ecoregion_shp$NA_L3NAME <- as.character(ecoregion_shp$NA_L3NAME)
-
 ecoregion_shp$NA_L3NAME <- ifelse(ecoregion_shp$NA_L3NAME == 'Chihuahuan Desert',
                                   'Chihuahuan Deserts',
                                   ecoregion_shp$NA_L3NAME)
 
-tifs <- list.files("./full-model/data/processed/climate-data",
+tifs <- list.files("./full-model/data/processed/climate-data/",
                    pattern = ".tif",
                    recursive = TRUE,
                    full.names = TRUE)
 
 # remove any housing density geotiffs that matched the file listing
 tifs <- tifs[!grepl('den[0-9]{2}\\.tif', tifs)]
-
+tifs <- tifs[!grepl('daily', tifs)] # remove daily weather tifs
 # grab ERC tifs only
 erc_tifs <- tifs[grepl('erc_', tifs)]
+tifs <- tifs[!grepl('erc', tifs)]
 
 # Generate indices from polygons for raster extraction --------------------
-r <- raster::brick(tifs[1])
-shp_raster_idx <- cellFromPolygon(r, ecoregion_shp)
-names(shp_raster_idx) <- ecoregion_shp$NA_L3NAME
+r <- terra::rast(tifs[1])
+ecoregion_shp <- terra::project(ecoregion_shp, terra::crs(r))
+shp_raster_idx <- terra::cells(r, ecoregion_shp)
+shp_raster_idx_list <- split(shp_raster_idx, shp_raster_idx[,1])
+names(shp_raster_idx_list) <- ecoregion_shp$NA_L3NAME
 
 # this list of indices has one element per polygon, but we want one per region
 ecoregion_raster_idx <- vector(mode = 'list',
@@ -40,10 +42,10 @@ ecoregion_raster_idx <- vector(mode = 'list',
 ecoregion_names <- sort(unique(ecoregion_shp$NA_L3NAME))
 names(ecoregion_raster_idx) <- ecoregion_names
 for (i in seq_along(ecoregion_names)) {
-  list_elements <- names(shp_raster_idx) == ecoregion_names[i]
+  list_elements <- names(shp_raster_idx_list) == ecoregion_names[i]
   assert_that(any(list_elements))
   ecoregion_raster_idx[[i]] <- shp_raster_idx[list_elements] %>%
-    unlist
+    unlist() %>% unique()
 }
 
 # verify that no cells are duplicated
@@ -58,7 +60,7 @@ assert_that(ecoregion_raster_idx %>%
 
 # define an efficient extraction function to get mean values by polygon
 fast_extract <- function(rasterfile, index_list) {
-  r <- raster::brick(rasterfile)
+  r <- terra::rast(rasterfile)
   var_yr <- stringr::str_replace(stringr::str_extract(rasterfile, "\\w+.\\d{4}"), "monthly_", "")
 
   polygon_means <- lapply(index_list, function(x) {

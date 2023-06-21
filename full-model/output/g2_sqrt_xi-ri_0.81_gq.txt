@@ -1,0 +1,52 @@
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_sqrt_xi-ri_cfcns_0.81_07May2023_1323_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 3796367614 (Default)
+output
+  file = csv-fits/gq_20Jun2023_1723_g2_sqrt_xi-ri_cfcns_0.81_07May2023_1323_1.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_sqrt_xi-ri_cfcns_0.81_07May2023_1323_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 3796367615 (Default)
+output
+  file = csv-fits/gq_20Jun2023_1723_g2_sqrt_xi-ri_cfcns_0.81_07May2023_1323_2.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_sqrt_xi-ri_cfcns_0.81_07May2023_1323_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_sqrt.json
+init = 2 (Default)
+random
+  seed = 3796367616 (Default)
+output
+  file = csv-fits/gq_20Jun2023_1723_g2_sqrt_xi-ri_cfcns_0.81_07May2023_1323_3.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+Exception: lb_free: Lower bounded variable is 0, but must be greater than or equal to 1.000500 (found before start of program)

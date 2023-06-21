@@ -1,0 +1,51 @@
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_og_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_og.json
+init = 2 (Default)
+random
+  seed = 3830660258 (Default)
+output
+  file = csv-fits/gq_21Jun2023_0254_g2_og_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_2.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_og_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_og.json
+init = 2 (Default)
+random
+  seed = 3830660258 (Default)
+output
+  file = csv-fits/gq_21Jun2023_0254_g2_og_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_1.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_og_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_og.json
+init = 2 (Default)
+random
+  seed = 3830660258 (Default)
+output
+  file = csv-fits/gq_21Jun2023_0254_g2_og_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_3.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+

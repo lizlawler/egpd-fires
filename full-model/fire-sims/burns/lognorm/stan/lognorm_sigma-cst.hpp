@@ -8,150 +8,222 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 143> locations_array__ = 
+static constexpr std::array<const char*, 215> locations_array__ = 
 {" (found before start of program)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 2 to column 48)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 5, column 2 to column 38)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 6, column 2 to column 20)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 7, column 2 to column 25)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 8, column 2 to column 31)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 9, column 2 to column 35)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 10, column 2 to column 32)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 11, column 2 to column 38)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 12, column 2 to column 22)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 15, column 2 to column 40)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 16, column 2 to column 23)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 17, column 2 to column 25)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 18, column 2 to column 33)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 19, column 2 to column 35)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 20, column 2 to column 29)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 21, column 2 to column 24)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 22, column 2 to column 22)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 24, column 2 to column 35)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 25, column 2 to column 35)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 27, column 2 to column 36)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 28, column 2 to line 29, column 56)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 32, column 2 to column 35)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 34, column 4 to line 35, column 40)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 33, column 21 to line 36, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 33, column 2 to line 36, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 40, column 4 to column 61)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 39, column 17 to line 41, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 39, column 2 to line 41, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 44, column 9 to column 17)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 44, column 2 to column 50)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 47, column 2 to column 26)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 50, column 2 to column 19)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 51, column 2 to column 28)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 54, column 2 to column 20)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 55, column 2 to column 23)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 58, column 2 to column 49)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 61, column 4 to column 70)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 62, column 4 to column 44)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 60, column 21 to line 63, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 60, column 2 to line 63, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 66, column 2 to column 29)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 70, column 4 to column 67)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 69, column 24 to line 71, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 69, column 2 to line 71, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 2, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 3, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 4, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 5, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 6, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 9, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 9, column 18, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 9, column 25, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 9, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 10, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 10, column 18, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 10, column 27, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 10, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 13, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 16, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 17, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 18, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 19, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 19, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 20, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 20, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 21, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 21, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 22, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 22, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 23, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 23, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 26, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 27, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 28, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 28, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 29, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 29, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 30, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 30, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 31, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 31, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 34, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 35, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 35, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 36, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 36, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 39, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 39, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 39, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 40, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 40, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 40, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 41, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 41, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 41, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 44, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 44, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 44, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 45, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 45, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 45, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 46, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 46, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 46, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 47, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 47, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 47, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 48, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 48, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 48, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 8 to column 16)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 5, column 8 to column 13)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 5, column 26 to column 27)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 6, column 9 to column 10)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 6, column 12 to column 13)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 15, column 8 to column 16)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 16, column 9 to column 14)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 16, column 16 to column 17)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 17, column 9 to column 16)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 17, column 18 to column 19)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 21, column 13 to column 14)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 22, column 14 to column 15)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 3, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 4, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 5, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 6, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 8, column 6, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 7, column 19, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 7, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 11, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 12, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 2, column 75, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 16, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 17, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 18, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 19, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 22, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan///../../twcrps_matnorm_fcns.stan', line 15, column 57, included from\n'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 2, column 0, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 5, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 6, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 7, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stan', line 4, column 66, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 1, column 0)"};
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 6, column 2 to column 48)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 7, column 2 to column 38)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 8, column 2 to column 20)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 9, column 2 to column 25)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 10, column 2 to column 31)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 11, column 2 to column 35)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 12, column 2 to column 32)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 13, column 2 to column 38)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 14, column 2 to column 22)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 17, column 2 to column 40)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 18, column 2 to column 23)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 19, column 2 to column 25)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 20, column 2 to column 33)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 21, column 2 to column 35)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 22, column 2 to column 29)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 23, column 2 to column 24)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 24, column 2 to column 22)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 26, column 2 to column 35)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 27, column 2 to column 35)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 29, column 2 to column 36)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 30, column 2 to line 31, column 56)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 34, column 2 to column 35)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 36, column 4 to line 37, column 40)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 35, column 21 to line 38, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 35, column 2 to line 38, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 42, column 4 to column 61)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 41, column 17 to line 43, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 41, column 2 to line 43, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 76, column 2 to column 36)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 77, column 2 to column 40)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 78, column 2 to column 36)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 79, column 2 to column 40)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 110, column 11 to column 16)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 110, column 18 to column 19)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 110, column 4 to column 30)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 112, column 6 to column 55)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 111, column 19 to line 113, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 111, column 4 to line 113, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 114, column 11 to column 19)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 114, column 4 to column 74)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 115, column 11 to column 21)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 115, column 4 to column 79)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 119, column 6 to column 87)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 121, column 13 to column 18)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 121, column 6 to line 122, column 67)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 123, column 6 to column 98)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 118, column 26 to line 124, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 118, column 4 to line 124, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 128, column 6 to column 87)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 130, column 13 to column 18)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 130, column 6 to line 131, column 66)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 132, column 6 to column 102)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 126, column 28 to line 133, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 126, column 4 to line 133, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 109, column 9 to line 134, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 83, column 11 to column 16)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 83, column 18 to column 19)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 83, column 4 to column 30)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 85, column 6 to column 55)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 84, column 19 to line 86, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 84, column 4 to line 86, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 87, column 11 to column 19)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 87, column 4 to column 74)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 88, column 11 to column 21)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 88, column 4 to column 79)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 92, column 6 to line 93, column 57)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 95, column 13 to column 18)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 95, column 6 to line 96, column 67)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 97, column 6 to column 102)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 91, column 26 to line 98, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 91, column 4 to line 98, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 102, column 6 to line 103, column 58)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 105, column 13 to column 18)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 105, column 6 to line 106, column 66)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 107, column 6 to column 106)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 100, column 28 to line 108, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 100, column 4 to line 108, column 5)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 82, column 29 to line 109, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 82, column 2 to line 134, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 46, column 9 to column 17)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 46, column 2 to column 50)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 49, column 2 to column 26)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 52, column 2 to column 19)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 53, column 2 to column 28)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 56, column 2 to column 20)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 57, column 2 to column 23)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 60, column 2 to column 49)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 63, column 4 to column 70)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 64, column 4 to column 44)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 62, column 21 to line 65, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 62, column 2 to line 65, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 68, column 2 to column 29)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 72, column 4 to column 67)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 71, column 24 to line 73, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 71, column 2 to line 73, column 3)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 2, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 3, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 4, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 5, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 6, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 9, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 9, column 18, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 9, column 25, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 9, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 10, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 10, column 18, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 10, column 27, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 10, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 13, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 16, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 17, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 18, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 19, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 19, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 20, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 20, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 21, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 21, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 22, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 22, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 23, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 23, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 26, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 27, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 28, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 28, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 29, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 29, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 30, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 30, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 31, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 31, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 34, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 35, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 35, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 36, column 8, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 36, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 39, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 39, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 39, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 40, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 40, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 40, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 41, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 41, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 41, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 44, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 44, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 44, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 45, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 45, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 45, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 46, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 46, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 46, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 47, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 47, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 47, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 48, column 9, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 48, column 12, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 48, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 51, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 52, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 53, column 22, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 53, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 54, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 55, column 22, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan///../../burns_data.stan', line 55, column 2, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 4, column 0)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 6, column 8 to column 16)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 7, column 8 to column 13)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 7, column 26 to column 27)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 8, column 9 to column 10)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 8, column 12 to column 13)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 17, column 8 to column 16)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 18, column 9 to column 14)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 18, column 16 to column 17)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 19, column 9 to column 16)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 19, column 18 to column 19)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 23, column 13 to column 14)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 24, column 14 to column 15)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 76, column 8 to column 16)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 77, column 8 to column 18)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 78, column 8 to column 16)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 79, column 8 to column 18)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 3, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 4, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 5, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 2, column 66, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 10, column 11, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 10, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 11, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 12, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 14, column 6, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 15, column 6, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 13, column 23, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 13, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 17, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 9, column 82, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 21, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 22, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 23, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 24, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 26, column 6, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 25, column 23, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 25, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 29, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 30, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 20, column 83, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 34, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 35, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 36, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 37, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 40, column 4, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan//lognorm_fcns.stanfunctions', line 33, column 57, included from\n'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 2, column 2)"};
 
 struct lognorm_trunc_lpdf_functor__ {
   template <bool propto__, typename T0__, typename T1__, typename T2__,
@@ -165,17 +237,18 @@ struct lognorm_trunc_lpdf_functor__ {
              const T3__& sigma, std::ostream* pstream__) const;
 };
 struct twCRPS_functor__ {
-  template <typename T0__, typename T1__, typename T2__, typename T3__,
-            typename T4__,
+  template <typename T0__, typename T2__, typename T3__, typename T4__,
             stan::require_all_t<stan::is_stan_scalar<T0__>,
-                                stan::is_col_vector<T1__>,
-                                stan::is_vt_not_complex<T1__>,
                                 stan::is_stan_scalar<T2__>,
-                                stan::is_stan_scalar<T3__>,
-                                stan::is_stan_scalar<T4__>>* = nullptr>
-  stan::promote_args_t<T0__, stan::base_type_t<T1__>, T2__, T3__, T4__>
-  operator()(const T0__& y, const T1__& forecast, const T2__& delta,
-             const T3__& w_mean, const T4__& w_sd, std::ostream* pstream__) const;
+                                stan::is_col_vector<T3__>,
+                                stan::is_vt_not_complex<T3__>,
+                                stan::is_col_vector<T4__>,
+                                stan::is_vt_not_complex<T4__>>* = nullptr>
+  stan::promote_args_t<T0__, T2__, stan::base_type_t<T3__>,
+                       stan::base_type_t<T4__>>
+  operator()(const T0__& y, const int& n_int, const T2__& interval,
+             const T3__& int_pts, const T4__& pred_probs,
+             std::ostream* pstream__) const;
 };
 struct matnormal_lpdf_functor__ {
   template <bool propto__, typename T0__, typename T1__, typename T2__,
@@ -190,23 +263,110 @@ struct matnormal_lpdf_functor__ {
   operator()(const T0__& y, const T1__& cov, const T2__& corr,
              std::ostream* pstream__) const;
 };
+struct prob_forecast_functor__ {
+  template <typename T1__, typename T2__, typename T3__, typename T4__,
+            stan::require_all_t<stan::is_col_vector<T1__>,
+                                stan::is_vt_not_complex<T1__>,
+                                stan::is_stan_scalar<T2__>,
+                                stan::is_stan_scalar<T3__>,
+                                stan::is_stan_scalar<T4__>>* = nullptr>
+  Eigen::Matrix<stan::promote_args_t<stan::base_type_t<T1__>, T2__, T3__, T4__>, -1, 1>
+  operator()(const int& n_int, const T1__& int_pts, const T2__& ymin,
+             const T3__& mu, const T4__& sigma, std::ostream* pstream__) const;
+};
 
-template <typename T0__, typename T1__, typename T2__, typename T3__,
-          typename T4__,
+template <bool propto__, typename T0__, typename T1__, typename T2__,
+          typename T3__,
           stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_col_vector<T1__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__, T3__>
+  lognorm_trunc_lpdf(const T0__& y, const T1__& ymin, const T2__& mu,
+                     const T3__& sigma, std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
+    int current_statement__ = 0; 
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ cst = DUMMY_VAR__;
+      current_statement__ = 185;
+      cst = stan::math::lognormal_lccdf(ymin, mu, sigma);
+      local_scalar_t__ lpdf = DUMMY_VAR__;
+      current_statement__ = 186;
+      lpdf = stan::math::lognormal_lpdf<false>(y, mu, sigma);
+      current_statement__ = 187;
+      return (lpdf - cst);
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T1__, typename T2__, typename T3__, typename T4__,
+          stan::require_all_t<stan::is_col_vector<T1__>,
                               stan::is_vt_not_complex<T1__>,
                               stan::is_stan_scalar<T2__>,
                               stan::is_stan_scalar<T3__>,
                               stan::is_stan_scalar<T4__>>* = nullptr>
-  stan::promote_args_t<T0__, stan::base_type_t<T1__>, T2__, T3__, T4__>
-  twCRPS(const T0__& y, const T1__& forecast_arg__, const T2__& delta,
-         const T3__& w_mean, const T4__& w_sd, std::ostream* pstream__) {
+  Eigen::Matrix<stan::promote_args_t<stan::base_type_t<T1__>, T2__, T3__, T4__>, -1, 1>
+  prob_forecast(const int& n_int, const T1__& int_pts_arg__,
+                const T2__& ymin, const T3__& mu, const T4__& sigma,
+                std::ostream* pstream__) {
     using local_scalar_t__ =
-            stan::promote_args_t<T0__, stan::base_type_t<T1__>, T2__, T3__,
-                                 T4__>;
+            stan::promote_args_t<stan::base_type_t<T1__>, T2__, T3__, T4__>;
     int current_statement__ = 0; 
-    const auto& forecast = stan::math::to_ref(forecast_arg__);
+    const auto& int_pts = stan::math::to_ref(int_pts_arg__);
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      current_statement__ = 189;
+      stan::math::validate_non_negative_index("pred_probs", "n_int", n_int);
+      Eigen::Matrix<local_scalar_t__, -1, 1> pred_probs =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n_int, DUMMY_VAR__);
+      local_scalar_t__ numer_cst = DUMMY_VAR__;
+      current_statement__ = 191;
+      numer_cst = stan::math::lognormal_cdf(ymin, mu, sigma);
+      local_scalar_t__ denom_cst = DUMMY_VAR__;
+      current_statement__ = 192;
+      denom_cst = stan::math::exp(
+                    stan::math::lognormal_lccdf(ymin, mu, sigma));
+      current_statement__ = 196;
+      for (int n = 1; n <= n_int; ++n) {
+        local_scalar_t__ unnorm_pred_prob = DUMMY_VAR__;
+        current_statement__ = 193;
+        unnorm_pred_prob = stan::math::lognormal_cdf(
+                             stan::model::rvalue(int_pts, "int_pts",
+                               stan::model::index_uni(n)), mu, sigma);
+        current_statement__ = 194;
+        stan::model::assign(pred_probs,
+          ((unnorm_pred_prob - numer_cst) / denom_cst),
+          "assigning variable pred_probs", stan::model::index_uni(n));
+      }
+      current_statement__ = 197;
+      return pred_probs;
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T2__, typename T3__, typename T4__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_col_vector<T3__>,
+                              stan::is_vt_not_complex<T3__>,
+                              stan::is_col_vector<T4__>,
+                              stan::is_vt_not_complex<T4__>>* = nullptr>
+  stan::promote_args_t<T0__, T2__, stan::base_type_t<T3__>,
+                     stan::base_type_t<T4__>>
+  twCRPS(const T0__& y, const int& n_int, const T2__& interval,
+         const T3__& int_pts_arg__, const T4__& pred_probs_arg__,
+         std::ostream* pstream__) {
+    using local_scalar_t__ =
+            stan::promote_args_t<T0__, T2__, stan::base_type_t<T3__>,
+                                 stan::base_type_t<T4__>>;
+    int current_statement__ = 0; 
+    const auto& int_pts = stan::math::to_ref(int_pts_arg__);
+    const auto& pred_probs = stan::math::to_ref(pred_probs_arg__);
     static constexpr bool propto__ = true;
     (void) propto__;
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
@@ -214,28 +374,28 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     try {
       local_scalar_t__ score = DUMMY_VAR__;
       local_scalar_t__ summand = DUMMY_VAR__;
-      int N = std::numeric_limits<int>::min();
-      current_statement__ = 125;
-      N = stan::math::rows(forecast);
-      current_statement__ = 126;
+      local_scalar_t__ delta = DUMMY_VAR__;
+      current_statement__ = 201;
+      delta = (interval / (n_int - 1));
+      current_statement__ = 202;
       summand = 0;
-      current_statement__ = 129;
-      for (int n = 1; n <= N; ++n) {
-        current_statement__ = 127;
+      current_statement__ = 205;
+      for (int n = 1; n <= n_int; ++n) {
+        current_statement__ = 203;
         summand = (summand +
                     (stan::math::pow(
-                       (stan::model::rvalue(forecast, "forecast",
+                       (stan::model::rvalue(pred_probs, "pred_probs",
                           stan::model::index_uni(n)) -
                          stan::math::step(
-                           (stan::model::rvalue(forecast, "forecast",
+                           (stan::model::rvalue(int_pts, "int_pts",
                               stan::model::index_uni(n)) - y))), 2) *
                       stan::math::normal_cdf(
-                        stan::model::rvalue(forecast, "forecast",
-                          stan::model::index_uni(n)), w_mean, w_sd)));
+                        stan::model::rvalue(int_pts, "int_pts",
+                          stan::model::index_uni(n)), 21, 9)));
       }
-      current_statement__ = 130;
+      current_statement__ = 206;
       score = (summand * delta);
-      current_statement__ = 131;
+      current_statement__ = 207;
       return score;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -265,12 +425,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
       local_scalar_t__ r = DUMMY_VAR__;
-      current_statement__ = 134;
+      current_statement__ = 210;
       r = stan::math::rows(corr);
       local_scalar_t__ p = DUMMY_VAR__;
-      current_statement__ = 135;
+      current_statement__ = 211;
       p = stan::math::rows(cov);
-      current_statement__ = 136;
+      current_statement__ = 212;
       lpdf = ((((-((r * p) / 2) * stan::math::log((2 * stan::math::pi()))) -
                  ((p / 2) * stan::math::log_determinant(corr))) -
                 ((r / 2) * stan::math::log_determinant(cov))) -
@@ -280,34 +440,8 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
                      stan::math::mdivide_right_spd(
                        stan::math::mdivide_left_spd(corr,
                          stan::math::transpose(y)), cov), y))));
-      current_statement__ = 137;
+      current_statement__ = 213;
       return lpdf;
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <bool propto__, typename T0__, typename T1__, typename T2__,
-          typename T3__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>,
-                              stan::is_stan_scalar<T3__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__, T3__>
-  lognorm_trunc_lpdf(const T0__& y, const T1__& ymin, const T2__& mu,
-                     const T3__& sigma, std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
-    int current_statement__ = 0; 
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 139;
-      cst = stan::math::lognormal_lccdf(ymin, mu, sigma);
-      local_scalar_t__ lpdf = DUMMY_VAR__;
-      current_statement__ = 140;
-      lpdf = stan::math::lognormal_lpdf<false>(y, mu, sigma);
-      current_statement__ = 141;
-      return (lpdf - cst);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -326,21 +460,21 @@ lognorm_trunc_lpdf_functor__::operator()(const T0__& y, const T1__& ymin,
   return lognorm_trunc_lpdf<propto__>(y, ymin, mu, sigma, pstream__);
 }
 
-template <typename T0__, typename T1__, typename T2__, typename T3__,
-          typename T4__,
+template <typename T0__, typename T2__, typename T3__, typename T4__,
           stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_col_vector<T1__>,
-                              stan::is_vt_not_complex<T1__>,
                               stan::is_stan_scalar<T2__>,
-                              stan::is_stan_scalar<T3__>,
-                              stan::is_stan_scalar<T4__>>*>
-stan::promote_args_t<T0__, stan::base_type_t<T1__>, T2__, T3__, T4__>
-twCRPS_functor__::operator()(const T0__& y, const T1__& forecast,
-                             const T2__& delta, const T3__& w_mean,
-                             const T4__& w_sd, std::ostream* pstream__) 
+                              stan::is_col_vector<T3__>,
+                              stan::is_vt_not_complex<T3__>,
+                              stan::is_col_vector<T4__>,
+                              stan::is_vt_not_complex<T4__>>*>
+stan::promote_args_t<T0__, T2__, stan::base_type_t<T3__>,
+                     stan::base_type_t<T4__>>
+twCRPS_functor__::operator()(const T0__& y, const int& n_int,
+                             const T2__& interval, const T3__& int_pts,
+                             const T4__& pred_probs, std::ostream* pstream__) 
 const
 {
-  return twCRPS(y, forecast, delta, w_mean, w_sd, pstream__);
+  return twCRPS(y, n_int, interval, int_pts, pred_probs, pstream__);
 }
 
 template <bool propto__, typename T0__, typename T1__, typename T2__,
@@ -357,6 +491,21 @@ matnormal_lpdf_functor__::operator()(const T0__& y, const T1__& cov,
                                      std::ostream* pstream__)  const
 {
   return matnormal_lpdf<propto__>(y, cov, corr, pstream__);
+}
+
+template <typename T1__, typename T2__, typename T3__, typename T4__,
+          stan::require_all_t<stan::is_col_vector<T1__>,
+                              stan::is_vt_not_complex<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>,
+                              stan::is_stan_scalar<T4__>>*>
+Eigen::Matrix<stan::promote_args_t<stan::base_type_t<T1__>, T2__, T3__, T4__>, -1, 1>
+prob_forecast_functor__::operator()(const int& n_int, const T1__& int_pts,
+                                    const T2__& ymin, const T3__& mu,
+                                    const T4__& sigma,
+                                    std::ostream* pstream__)  const
+{
+  return prob_forecast(n_int, int_pts, ymin, mu, sigma, pstream__);
 }
 
 
@@ -395,7 +544,12 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
   Eigen::Matrix<double, -1, -1> bp_lin_data__;
   Eigen::Matrix<double, -1, -1> bp_square_data__;
   Eigen::Matrix<double, -1, -1> bp_cube_data__;
-  Eigen::Matrix<double, -1, -1> bp_quart_data__; 
+  Eigen::Matrix<double, -1, -1> bp_quart_data__;
+  int n_int;
+  double int_holdout;
+  Eigen::Matrix<double, -1, 1> int_pts_holdout_data__;
+  double int_train;
+  Eigen::Matrix<double, -1, 1> int_pts_train_data__; 
   Eigen::Map<Eigen::Matrix<double, -1, -1>> l3{nullptr, 0, 0};
   Eigen::Map<Eigen::Matrix<double, -1, -1>> l2{nullptr, 0, 0};
   Eigen::Map<Eigen::Matrix<double, -1, -1>> l1{nullptr, 0, 0};
@@ -404,6 +558,8 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
   Eigen::Map<Eigen::Matrix<double, -1, -1>> bp_square{nullptr, 0, 0};
   Eigen::Map<Eigen::Matrix<double, -1, -1>> bp_cube{nullptr, 0, 0};
   Eigen::Map<Eigen::Matrix<double, -1, -1>> bp_quart{nullptr, 0, 0};
+  Eigen::Map<Eigen::Matrix<double, -1, 1>> int_pts_holdout{nullptr, 0};
+  Eigen::Map<Eigen::Matrix<double, -1, 1>> int_pts_train{nullptr, 0};
  
  public:
   ~lognorm_sigma_cst_model() { }
@@ -430,63 +586,63 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
     try {
       int pos__ = std::numeric_limits<int>::min();
       pos__ = 1;
-      current_statement__ = 45;
+      current_statement__ = 96;
       context__.validate_dims("data initialization","R","int",
            std::vector<size_t>{});
       R = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 45;
+      current_statement__ = 96;
       R = context__.vals_i("R")[(1 - 1)];
-      current_statement__ = 45;
+      current_statement__ = 96;
       stan::math::check_greater_or_equal(function__, "R", R, 1);
-      current_statement__ = 46;
+      current_statement__ = 97;
       context__.validate_dims("data initialization","p","int",
            std::vector<size_t>{});
       p = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 46;
+      current_statement__ = 97;
       p = context__.vals_i("p")[(1 - 1)];
-      current_statement__ = 46;
+      current_statement__ = 97;
       stan::math::check_greater_or_equal(function__, "p", p, 1);
-      current_statement__ = 47;
+      current_statement__ = 98;
       context__.validate_dims("data initialization","T_all","int",
            std::vector<size_t>{});
       T_all = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 47;
+      current_statement__ = 98;
       T_all = context__.vals_i("T_all")[(1 - 1)];
-      current_statement__ = 47;
+      current_statement__ = 98;
       stan::math::check_greater_or_equal(function__, "T_all", T_all, 1);
-      current_statement__ = 48;
+      current_statement__ = 99;
       context__.validate_dims("data initialization","T_train","int",
            std::vector<size_t>{});
       T_train = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 48;
+      current_statement__ = 99;
       T_train = context__.vals_i("T_train")[(1 - 1)];
-      current_statement__ = 48;
+      current_statement__ = 99;
       stan::math::check_greater_or_equal(function__, "T_train", T_train, 1);
-      current_statement__ = 49;
+      current_statement__ = 100;
       context__.validate_dims("data initialization","T_hold","int",
            std::vector<size_t>{});
       T_hold = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 49;
+      current_statement__ = 100;
       T_hold = context__.vals_i("T_hold")[(1 - 1)];
-      current_statement__ = 49;
+      current_statement__ = 100;
       stan::math::check_greater_or_equal(function__, "T_hold", T_hold, 1);
-      current_statement__ = 50;
+      current_statement__ = 101;
       stan::math::validate_non_negative_index("X_full", "R", R);
-      current_statement__ = 51;
+      current_statement__ = 102;
       stan::math::validate_non_negative_index("X_full", "T_all", T_all);
-      current_statement__ = 52;
+      current_statement__ = 103;
       stan::math::validate_non_negative_index("X_full", "p", p);
-      current_statement__ = 53;
+      current_statement__ = 104;
       context__.validate_dims("data initialization","X_full","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(T_all), static_cast<size_t>(p)});
@@ -498,34 +654,34 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> X_full_flat__;
-        current_statement__ = 53;
+        current_statement__ = 104;
         X_full_flat__ = context__.vals_r("X_full");
-        current_statement__ = 53;
+        current_statement__ = 104;
         pos__ = 1;
-        current_statement__ = 53;
+        current_statement__ = 104;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 53;
+          current_statement__ = 104;
           for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
-            current_statement__ = 53;
+            current_statement__ = 104;
             for (int sym3__ = 1; sym3__ <= R; ++sym3__) {
-              current_statement__ = 53;
+              current_statement__ = 104;
               stan::model::assign(X_full, X_full_flat__[(pos__ - 1)],
                 "assigning variable X_full", stan::model::index_uni(sym3__),
                                                stan::model::index_uni(sym2__),
                                                stan::model::index_uni(sym1__));
-              current_statement__ = 53;
+              current_statement__ = 104;
               pos__ = (pos__ + 1);
             }
           }
         }
       }
-      current_statement__ = 54;
+      current_statement__ = 105;
       stan::math::validate_non_negative_index("X_train", "R", R);
-      current_statement__ = 55;
+      current_statement__ = 106;
       stan::math::validate_non_negative_index("X_train", "T_train", T_train);
-      current_statement__ = 56;
+      current_statement__ = 107;
       stan::math::validate_non_negative_index("X_train", "p", p);
-      current_statement__ = 57;
+      current_statement__ = 108;
       context__.validate_dims("data initialization","X_train","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(T_train), static_cast<size_t>(p)});
@@ -537,69 +693,69 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> X_train_flat__;
-        current_statement__ = 57;
+        current_statement__ = 108;
         X_train_flat__ = context__.vals_r("X_train");
-        current_statement__ = 57;
+        current_statement__ = 108;
         pos__ = 1;
-        current_statement__ = 57;
+        current_statement__ = 108;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 57;
+          current_statement__ = 108;
           for (int sym2__ = 1; sym2__ <= T_train; ++sym2__) {
-            current_statement__ = 57;
+            current_statement__ = 108;
             for (int sym3__ = 1; sym3__ <= R; ++sym3__) {
-              current_statement__ = 57;
+              current_statement__ = 108;
               stan::model::assign(X_train, X_train_flat__[(pos__ - 1)],
                 "assigning variable X_train", stan::model::index_uni(sym3__),
                                                 stan::model::index_uni(sym2__),
                                                 stan::model::index_uni(sym1__));
-              current_statement__ = 57;
+              current_statement__ = 108;
               pos__ = (pos__ + 1);
             }
           }
         }
       }
-      current_statement__ = 58;
+      current_statement__ = 109;
       context__.validate_dims("data initialization","y_min","double",
            std::vector<size_t>{});
       y_min = std::numeric_limits<double>::quiet_NaN();
       
       
-      current_statement__ = 58;
+      current_statement__ = 109;
       y_min = context__.vals_r("y_min")[(1 - 1)];
-      current_statement__ = 59;
+      current_statement__ = 110;
       context__.validate_dims("data initialization","N_tb_obs","int",
            std::vector<size_t>{});
       N_tb_obs = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 59;
+      current_statement__ = 110;
       N_tb_obs = context__.vals_i("N_tb_obs")[(1 - 1)];
-      current_statement__ = 59;
+      current_statement__ = 110;
       stan::math::check_greater_or_equal(function__, "N_tb_obs", N_tb_obs, 1);
-      current_statement__ = 60;
+      current_statement__ = 111;
       context__.validate_dims("data initialization","N_tb_mis","int",
            std::vector<size_t>{});
       N_tb_mis = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 60;
+      current_statement__ = 111;
       N_tb_mis = context__.vals_i("N_tb_mis")[(1 - 1)];
-      current_statement__ = 60;
+      current_statement__ = 111;
       stan::math::check_greater_or_equal(function__, "N_tb_mis", N_tb_mis, 1);
-      current_statement__ = 61;
+      current_statement__ = 112;
       context__.validate_dims("data initialization","N_tb_all","int",
            std::vector<size_t>{});
       N_tb_all = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 61;
+      current_statement__ = 112;
       N_tb_all = context__.vals_i("N_tb_all")[(1 - 1)];
-      current_statement__ = 61;
+      current_statement__ = 112;
       stan::math::check_greater_or_equal(function__, "N_tb_all", N_tb_all, 1);
-      current_statement__ = 62;
+      current_statement__ = 113;
       stan::math::validate_non_negative_index("y_train_obs", "N_tb_obs",
                                               N_tb_obs);
-      current_statement__ = 63;
+      current_statement__ = 114;
       context__.validate_dims("data initialization","y_train_obs","double",
            std::vector<size_t>{static_cast<size_t>(N_tb_obs)});
       y_train_obs = 
@@ -607,133 +763,133 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
           std::numeric_limits<double>::quiet_NaN());
       
       
-      current_statement__ = 63;
+      current_statement__ = 114;
       y_train_obs = context__.vals_r("y_train_obs");
-      current_statement__ = 63;
+      current_statement__ = 114;
       stan::math::check_greater_or_equal(function__, "y_train_obs",
                                             y_train_obs, y_min);
-      current_statement__ = 64;
+      current_statement__ = 115;
       stan::math::validate_non_negative_index("ii_tb_obs", "N_tb_obs",
                                               N_tb_obs);
-      current_statement__ = 65;
+      current_statement__ = 116;
       context__.validate_dims("data initialization","ii_tb_obs","int",
            std::vector<size_t>{static_cast<size_t>(N_tb_obs)});
       ii_tb_obs = 
         std::vector<int>(N_tb_obs, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 65;
+      current_statement__ = 116;
       ii_tb_obs = context__.vals_i("ii_tb_obs");
-      current_statement__ = 65;
+      current_statement__ = 116;
       stan::math::check_greater_or_equal(function__, "ii_tb_obs", ii_tb_obs,
                                             1);
-      current_statement__ = 66;
+      current_statement__ = 117;
       stan::math::validate_non_negative_index("ii_tb_mis", "N_tb_mis",
                                               N_tb_mis);
-      current_statement__ = 67;
+      current_statement__ = 118;
       context__.validate_dims("data initialization","ii_tb_mis","int",
            std::vector<size_t>{static_cast<size_t>(N_tb_mis)});
       ii_tb_mis = 
         std::vector<int>(N_tb_mis, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 67;
+      current_statement__ = 118;
       ii_tb_mis = context__.vals_i("ii_tb_mis");
-      current_statement__ = 67;
+      current_statement__ = 118;
       stan::math::check_greater_or_equal(function__, "ii_tb_mis", ii_tb_mis,
                                             1);
-      current_statement__ = 67;
+      current_statement__ = 118;
       stan::math::check_less_or_equal(function__, "ii_tb_mis", ii_tb_mis,
                                          N_tb_all);
-      current_statement__ = 68;
+      current_statement__ = 119;
       stan::math::validate_non_negative_index("ii_tb_all", "N_tb_all",
                                               N_tb_all);
-      current_statement__ = 69;
+      current_statement__ = 120;
       context__.validate_dims("data initialization","ii_tb_all","int",
            std::vector<size_t>{static_cast<size_t>(N_tb_all)});
       ii_tb_all = 
         std::vector<int>(N_tb_all, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 69;
+      current_statement__ = 120;
       ii_tb_all = context__.vals_i("ii_tb_all");
-      current_statement__ = 69;
+      current_statement__ = 120;
       stan::math::check_greater_or_equal(function__, "ii_tb_all", ii_tb_all,
                                             1);
-      current_statement__ = 69;
+      current_statement__ = 120;
       stan::math::check_less_or_equal(function__, "ii_tb_all", ii_tb_all,
                                          N_tb_all);
-      current_statement__ = 70;
+      current_statement__ = 121;
       stan::math::validate_non_negative_index("idx_train_er", "T_train",
                                               T_train);
-      current_statement__ = 71;
+      current_statement__ = 122;
       context__.validate_dims("data initialization","idx_train_er","int",
            std::vector<size_t>{static_cast<size_t>(T_train)});
       idx_train_er = 
         std::vector<int>(T_train, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 71;
+      current_statement__ = 122;
       idx_train_er = context__.vals_i("idx_train_er");
-      current_statement__ = 71;
+      current_statement__ = 122;
       stan::math::check_greater_or_equal(function__, "idx_train_er",
                                             idx_train_er, 1);
-      current_statement__ = 72;
+      current_statement__ = 123;
       context__.validate_dims("data initialization","N_hold_obs","int",
            std::vector<size_t>{});
       N_hold_obs = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 72;
+      current_statement__ = 123;
       N_hold_obs = context__.vals_i("N_hold_obs")[(1 - 1)];
-      current_statement__ = 72;
+      current_statement__ = 123;
       stan::math::check_greater_or_equal(function__, "N_hold_obs",
                                             N_hold_obs, 1);
-      current_statement__ = 73;
+      current_statement__ = 124;
       context__.validate_dims("data initialization","N_hold_all","int",
            std::vector<size_t>{});
       N_hold_all = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 73;
+      current_statement__ = 124;
       N_hold_all = context__.vals_i("N_hold_all")[(1 - 1)];
-      current_statement__ = 73;
+      current_statement__ = 124;
       stan::math::check_greater_or_equal(function__, "N_hold_all",
                                             N_hold_all, 1);
-      current_statement__ = 74;
+      current_statement__ = 125;
       stan::math::validate_non_negative_index("ii_hold_obs", "N_hold_obs",
                                               N_hold_obs);
-      current_statement__ = 75;
+      current_statement__ = 126;
       context__.validate_dims("data initialization","ii_hold_obs","int",
            std::vector<size_t>{static_cast<size_t>(N_hold_obs)});
       ii_hold_obs = 
         std::vector<int>(N_hold_obs, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 75;
+      current_statement__ = 126;
       ii_hold_obs = context__.vals_i("ii_hold_obs");
-      current_statement__ = 75;
+      current_statement__ = 126;
       stan::math::check_greater_or_equal(function__, "ii_hold_obs",
                                             ii_hold_obs, 1);
-      current_statement__ = 76;
+      current_statement__ = 127;
       stan::math::validate_non_negative_index("ii_hold_all", "N_hold_all",
                                               N_hold_all);
-      current_statement__ = 77;
+      current_statement__ = 128;
       context__.validate_dims("data initialization","ii_hold_all","int",
            std::vector<size_t>{static_cast<size_t>(N_hold_all)});
       ii_hold_all = 
         std::vector<int>(N_hold_all, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 77;
+      current_statement__ = 128;
       ii_hold_all = context__.vals_i("ii_hold_all");
-      current_statement__ = 77;
+      current_statement__ = 128;
       stan::math::check_greater_or_equal(function__, "ii_hold_all",
                                             ii_hold_all, 1);
-      current_statement__ = 78;
+      current_statement__ = 129;
       stan::math::validate_non_negative_index("y_hold_obs", "N_hold_obs",
                                               N_hold_obs);
-      current_statement__ = 79;
+      current_statement__ = 130;
       context__.validate_dims("data initialization","y_hold_obs","double",
            std::vector<size_t>{static_cast<size_t>(N_hold_obs)});
       y_hold_obs = 
@@ -741,68 +897,68 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
           std::numeric_limits<double>::quiet_NaN());
       
       
-      current_statement__ = 79;
+      current_statement__ = 130;
       y_hold_obs = context__.vals_r("y_hold_obs");
-      current_statement__ = 79;
+      current_statement__ = 130;
       stan::math::check_greater_or_equal(function__, "y_hold_obs",
                                             y_hold_obs, 1);
-      current_statement__ = 80;
+      current_statement__ = 131;
       stan::math::validate_non_negative_index("idx_hold_er", "T_hold", T_hold);
-      current_statement__ = 81;
+      current_statement__ = 132;
       context__.validate_dims("data initialization","idx_hold_er","int",
            std::vector<size_t>{static_cast<size_t>(T_hold)});
       idx_hold_er = 
         std::vector<int>(T_hold, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 81;
+      current_statement__ = 132;
       idx_hold_er = context__.vals_i("idx_hold_er");
-      current_statement__ = 81;
+      current_statement__ = 132;
       stan::math::check_greater_or_equal(function__, "idx_hold_er",
                                             idx_hold_er, 1);
-      current_statement__ = 82;
+      current_statement__ = 133;
       context__.validate_dims("data initialization","n_edges","int",
            std::vector<size_t>{});
       n_edges = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 82;
+      current_statement__ = 133;
       n_edges = context__.vals_i("n_edges")[(1 - 1)];
-      current_statement__ = 82;
+      current_statement__ = 133;
       stan::math::check_greater_or_equal(function__, "n_edges", n_edges, 0);
-      current_statement__ = 83;
+      current_statement__ = 134;
       stan::math::validate_non_negative_index("node1", "n_edges", n_edges);
-      current_statement__ = 84;
+      current_statement__ = 135;
       context__.validate_dims("data initialization","node1","int",
            std::vector<size_t>{static_cast<size_t>(n_edges)});
       node1 = std::vector<int>(n_edges, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 84;
+      current_statement__ = 135;
       node1 = context__.vals_i("node1");
-      current_statement__ = 84;
+      current_statement__ = 135;
       stan::math::check_greater_or_equal(function__, "node1", node1, 1);
-      current_statement__ = 84;
+      current_statement__ = 135;
       stan::math::check_less_or_equal(function__, "node1", node1, R);
-      current_statement__ = 85;
+      current_statement__ = 136;
       stan::math::validate_non_negative_index("node2", "n_edges", n_edges);
-      current_statement__ = 86;
+      current_statement__ = 137;
       context__.validate_dims("data initialization","node2","int",
            std::vector<size_t>{static_cast<size_t>(n_edges)});
       node2 = std::vector<int>(n_edges, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 86;
+      current_statement__ = 137;
       node2 = context__.vals_i("node2");
-      current_statement__ = 86;
+      current_statement__ = 137;
       stan::math::check_greater_or_equal(function__, "node2", node2, 1);
-      current_statement__ = 86;
+      current_statement__ = 137;
       stan::math::check_less_or_equal(function__, "node2", node2, R);
-      current_statement__ = 87;
+      current_statement__ = 138;
       stan::math::validate_non_negative_index("l3", "R", R);
-      current_statement__ = 88;
+      current_statement__ = 139;
       stan::math::validate_non_negative_index("l3", "R", R);
-      current_statement__ = 89;
+      current_statement__ = 140;
       context__.validate_dims("data initialization","l3","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -814,28 +970,28 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> l3_flat__;
-        current_statement__ = 89;
+        current_statement__ = 140;
         l3_flat__ = context__.vals_r("l3");
-        current_statement__ = 89;
+        current_statement__ = 140;
         pos__ = 1;
-        current_statement__ = 89;
+        current_statement__ = 140;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 89;
+          current_statement__ = 140;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 89;
+            current_statement__ = 140;
             stan::model::assign(l3, l3_flat__[(pos__ - 1)],
               "assigning variable l3", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 89;
+            current_statement__ = 140;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 90;
+      current_statement__ = 141;
       stan::math::validate_non_negative_index("l2", "R", R);
-      current_statement__ = 91;
+      current_statement__ = 142;
       stan::math::validate_non_negative_index("l2", "R", R);
-      current_statement__ = 92;
+      current_statement__ = 143;
       context__.validate_dims("data initialization","l2","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -847,28 +1003,28 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> l2_flat__;
-        current_statement__ = 92;
+        current_statement__ = 143;
         l2_flat__ = context__.vals_r("l2");
-        current_statement__ = 92;
+        current_statement__ = 143;
         pos__ = 1;
-        current_statement__ = 92;
+        current_statement__ = 143;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 92;
+          current_statement__ = 143;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 92;
+            current_statement__ = 143;
             stan::model::assign(l2, l2_flat__[(pos__ - 1)],
               "assigning variable l2", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 92;
+            current_statement__ = 143;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 93;
+      current_statement__ = 144;
       stan::math::validate_non_negative_index("l1", "R", R);
-      current_statement__ = 94;
+      current_statement__ = 145;
       stan::math::validate_non_negative_index("l1", "R", R);
-      current_statement__ = 95;
+      current_statement__ = 146;
       context__.validate_dims("data initialization","l1","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -880,28 +1036,28 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> l1_flat__;
-        current_statement__ = 95;
+        current_statement__ = 146;
         l1_flat__ = context__.vals_r("l1");
-        current_statement__ = 95;
+        current_statement__ = 146;
         pos__ = 1;
-        current_statement__ = 95;
+        current_statement__ = 146;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 95;
+          current_statement__ = 146;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 95;
+            current_statement__ = 146;
             stan::model::assign(l1, l1_flat__[(pos__ - 1)],
               "assigning variable l1", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 95;
+            current_statement__ = 146;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 96;
+      current_statement__ = 147;
       stan::math::validate_non_negative_index("equal", "p", p);
-      current_statement__ = 97;
+      current_statement__ = 148;
       stan::math::validate_non_negative_index("equal", "p", p);
-      current_statement__ = 98;
+      current_statement__ = 149;
       context__.validate_dims("data initialization","equal","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -913,28 +1069,28 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> equal_flat__;
-        current_statement__ = 98;
+        current_statement__ = 149;
         equal_flat__ = context__.vals_r("equal");
-        current_statement__ = 98;
+        current_statement__ = 149;
         pos__ = 1;
-        current_statement__ = 98;
+        current_statement__ = 149;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 98;
+          current_statement__ = 149;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 98;
+            current_statement__ = 149;
             stan::model::assign(equal, equal_flat__[(pos__ - 1)],
               "assigning variable equal", stan::model::index_uni(sym2__),
                                             stan::model::index_uni(sym1__));
-            current_statement__ = 98;
+            current_statement__ = 149;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 99;
+      current_statement__ = 150;
       stan::math::validate_non_negative_index("bp_lin", "p", p);
-      current_statement__ = 100;
+      current_statement__ = 151;
       stan::math::validate_non_negative_index("bp_lin", "p", p);
-      current_statement__ = 101;
+      current_statement__ = 152;
       context__.validate_dims("data initialization","bp_lin","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -946,28 +1102,28 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> bp_lin_flat__;
-        current_statement__ = 101;
+        current_statement__ = 152;
         bp_lin_flat__ = context__.vals_r("bp_lin");
-        current_statement__ = 101;
+        current_statement__ = 152;
         pos__ = 1;
-        current_statement__ = 101;
+        current_statement__ = 152;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 101;
+          current_statement__ = 152;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 101;
+            current_statement__ = 152;
             stan::model::assign(bp_lin, bp_lin_flat__[(pos__ - 1)],
               "assigning variable bp_lin", stan::model::index_uni(sym2__),
                                              stan::model::index_uni(sym1__));
-            current_statement__ = 101;
+            current_statement__ = 152;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 102;
+      current_statement__ = 153;
       stan::math::validate_non_negative_index("bp_square", "p", p);
-      current_statement__ = 103;
+      current_statement__ = 154;
       stan::math::validate_non_negative_index("bp_square", "p", p);
-      current_statement__ = 104;
+      current_statement__ = 155;
       context__.validate_dims("data initialization","bp_square","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -979,28 +1135,28 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> bp_square_flat__;
-        current_statement__ = 104;
+        current_statement__ = 155;
         bp_square_flat__ = context__.vals_r("bp_square");
-        current_statement__ = 104;
+        current_statement__ = 155;
         pos__ = 1;
-        current_statement__ = 104;
+        current_statement__ = 155;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 104;
+          current_statement__ = 155;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 104;
+            current_statement__ = 155;
             stan::model::assign(bp_square, bp_square_flat__[(pos__ - 1)],
               "assigning variable bp_square", stan::model::index_uni(sym2__),
                                                 stan::model::index_uni(sym1__));
-            current_statement__ = 104;
+            current_statement__ = 155;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 105;
+      current_statement__ = 156;
       stan::math::validate_non_negative_index("bp_cube", "p", p);
-      current_statement__ = 106;
+      current_statement__ = 157;
       stan::math::validate_non_negative_index("bp_cube", "p", p);
-      current_statement__ = 107;
+      current_statement__ = 158;
       context__.validate_dims("data initialization","bp_cube","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -1012,28 +1168,28 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> bp_cube_flat__;
-        current_statement__ = 107;
+        current_statement__ = 158;
         bp_cube_flat__ = context__.vals_r("bp_cube");
-        current_statement__ = 107;
+        current_statement__ = 158;
         pos__ = 1;
-        current_statement__ = 107;
+        current_statement__ = 158;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 107;
+          current_statement__ = 158;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 107;
+            current_statement__ = 158;
             stan::model::assign(bp_cube, bp_cube_flat__[(pos__ - 1)],
               "assigning variable bp_cube", stan::model::index_uni(sym2__),
                                               stan::model::index_uni(sym1__));
-            current_statement__ = 107;
+            current_statement__ = 158;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 108;
+      current_statement__ = 159;
       stan::math::validate_non_negative_index("bp_quart", "p", p);
-      current_statement__ = 109;
+      current_statement__ = 160;
       stan::math::validate_non_negative_index("bp_quart", "p", p);
-      current_statement__ = 110;
+      current_statement__ = 161;
       context__.validate_dims("data initialization","bp_quart","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -1045,52 +1201,157 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       
       {
         std::vector<local_scalar_t__> bp_quart_flat__;
-        current_statement__ = 110;
+        current_statement__ = 161;
         bp_quart_flat__ = context__.vals_r("bp_quart");
-        current_statement__ = 110;
+        current_statement__ = 161;
         pos__ = 1;
-        current_statement__ = 110;
+        current_statement__ = 161;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 110;
+          current_statement__ = 161;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 110;
+            current_statement__ = 161;
             stan::model::assign(bp_quart, bp_quart_flat__[(pos__ - 1)],
               "assigning variable bp_quart", stan::model::index_uni(sym2__),
                                                stan::model::index_uni(sym1__));
-            current_statement__ = 110;
+            current_statement__ = 161;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 111;
+      current_statement__ = 162;
+      context__.validate_dims("data initialization","n_int","int",
+           std::vector<size_t>{});
+      n_int = std::numeric_limits<int>::min();
+      
+      
+      current_statement__ = 162;
+      n_int = context__.vals_i("n_int")[(1 - 1)];
+      current_statement__ = 162;
+      stan::math::check_greater_or_equal(function__, "n_int", n_int, 1);
+      current_statement__ = 163;
+      context__.validate_dims("data initialization","int_holdout","double",
+           std::vector<size_t>{});
+      int_holdout = std::numeric_limits<double>::quiet_NaN();
+      
+      
+      current_statement__ = 163;
+      int_holdout = context__.vals_r("int_holdout")[(1 - 1)];
+      current_statement__ = 163;
+      stan::math::check_greater_or_equal(function__, "int_holdout",
+                                            int_holdout, 1);
+      current_statement__ = 164;
+      stan::math::validate_non_negative_index("int_pts_holdout", "n_int",
+                                              n_int);
+      current_statement__ = 165;
+      context__.validate_dims("data initialization","int_pts_holdout",
+          "double", std::vector<size_t>{static_cast<size_t>(n_int)});
+      int_pts_holdout_data__ = 
+        Eigen::Matrix<double, -1, 1>::Constant(n_int,
+          std::numeric_limits<double>::quiet_NaN());
+      new (&int_pts_holdout) Eigen::Map<Eigen::Matrix<double, -1, 1>>(int_pts_holdout_data__.data(), n_int);
+        
+      
+      {
+        std::vector<local_scalar_t__> int_pts_holdout_flat__;
+        current_statement__ = 165;
+        int_pts_holdout_flat__ = context__.vals_r("int_pts_holdout");
+        current_statement__ = 165;
+        pos__ = 1;
+        current_statement__ = 165;
+        for (int sym1__ = 1; sym1__ <= n_int; ++sym1__) {
+          current_statement__ = 165;
+          stan::model::assign(int_pts_holdout,
+            int_pts_holdout_flat__[(pos__ - 1)],
+            "assigning variable int_pts_holdout", stan::model::index_uni(sym1__));
+          current_statement__ = 165;
+          pos__ = (pos__ + 1);
+        }
+      }
+      current_statement__ = 165;
+      stan::math::check_greater_or_equal(function__, "int_pts_holdout",
+                                            int_pts_holdout, y_min);
+      current_statement__ = 166;
+      context__.validate_dims("data initialization","int_train","double",
+           std::vector<size_t>{});
+      int_train = std::numeric_limits<double>::quiet_NaN();
+      
+      
+      current_statement__ = 166;
+      int_train = context__.vals_r("int_train")[(1 - 1)];
+      current_statement__ = 166;
+      stan::math::check_greater_or_equal(function__, "int_train", int_train,
+                                            1);
+      current_statement__ = 167;
+      stan::math::validate_non_negative_index("int_pts_train", "n_int", n_int);
+      current_statement__ = 168;
+      context__.validate_dims("data initialization","int_pts_train","double",
+           std::vector<size_t>{static_cast<size_t>(n_int)});
+      int_pts_train_data__ = 
+        Eigen::Matrix<double, -1, 1>::Constant(n_int,
+          std::numeric_limits<double>::quiet_NaN());
+      new (&int_pts_train) Eigen::Map<Eigen::Matrix<double, -1, 1>>(int_pts_train_data__.data(), n_int);
+        
+      
+      {
+        std::vector<local_scalar_t__> int_pts_train_flat__;
+        current_statement__ = 168;
+        int_pts_train_flat__ = context__.vals_r("int_pts_train");
+        current_statement__ = 168;
+        pos__ = 1;
+        current_statement__ = 168;
+        for (int sym1__ = 1; sym1__ <= n_int; ++sym1__) {
+          current_statement__ = 168;
+          stan::model::assign(int_pts_train,
+            int_pts_train_flat__[(pos__ - 1)],
+            "assigning variable int_pts_train", stan::model::index_uni(sym1__));
+          current_statement__ = 168;
+          pos__ = (pos__ + 1);
+        }
+      }
+      current_statement__ = 168;
+      stan::math::check_greater_or_equal(function__, "int_pts_train",
+                                            int_pts_train, y_min);
+      current_statement__ = 169;
       stan::math::validate_non_negative_index("y_train_mis", "N_tb_mis",
                                               N_tb_mis);
-      current_statement__ = 112;
+      current_statement__ = 170;
       stan::math::validate_non_negative_index("phi_init", "T_all", T_all);
-      current_statement__ = 113;
+      current_statement__ = 171;
       stan::math::validate_non_negative_index("phi_init", "R", R);
-      current_statement__ = 114;
+      current_statement__ = 172;
       stan::math::validate_non_negative_index("beta", "p", p);
-      current_statement__ = 115;
+      current_statement__ = 173;
       stan::math::validate_non_negative_index("beta", "R", R);
-      current_statement__ = 116;
+      current_statement__ = 174;
       stan::math::validate_non_negative_index("y_train", "N_tb_all", N_tb_all);
-      current_statement__ = 117;
+      current_statement__ = 175;
       stan::math::validate_non_negative_index("phi", "T_all", T_all);
-      current_statement__ = 118;
+      current_statement__ = 176;
       stan::math::validate_non_negative_index("phi", "R", R);
-      current_statement__ = 119;
+      current_statement__ = 177;
       stan::math::validate_non_negative_index("reg", "T_train", T_train);
-      current_statement__ = 120;
+      current_statement__ = 178;
       stan::math::validate_non_negative_index("reg", "R", R);
-      current_statement__ = 121;
+      current_statement__ = 179;
       stan::math::validate_non_negative_index("cov_ar1", "p", p);
-      current_statement__ = 121;
+      current_statement__ = 179;
       stan::math::validate_non_negative_index("cov_ar1", "p", p);
-      current_statement__ = 122;
+      current_statement__ = 180;
       stan::math::validate_non_negative_index("corr", "R", R);
-      current_statement__ = 122;
+      current_statement__ = 180;
       stan::math::validate_non_negative_index("corr", "R", R);
+      current_statement__ = 181;
+      stan::math::validate_non_negative_index("train_loglik", "N_tb_obs",
+                                              N_tb_obs);
+      current_statement__ = 182;
+      stan::math::validate_non_negative_index("holdout_loglik", "N_hold_obs",
+                                              N_hold_obs);
+      current_statement__ = 183;
+      stan::math::validate_non_negative_index("train_twcrps", "N_tb_obs",
+                                              N_tb_obs);
+      current_statement__ = 184;
+      stan::math::validate_non_negative_index("holdout_twcrps", "N_hold_obs",
+                                              N_hold_obs);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -1249,30 +1510,30 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       current_statement__ = 17;
       stan::math::check_corr_matrix(function__, "corr", corr);
       {
-        current_statement__ = 29;
+        current_statement__ = 80;
         stan::math::validate_non_negative_index("mu", "N_tb_all", N_tb_all);
         Eigen::Matrix<local_scalar_t__, -1, 1> mu =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
-        current_statement__ = 30;
+        current_statement__ = 81;
         stan::model::assign(mu,
           stan::model::rvalue(stan::math::to_vector(reg), "to_vector(reg)",
             stan::model::index_multi(ii_tb_all)), "assigning variable mu");
-        current_statement__ = 31;
+        current_statement__ = 82;
         lp_accum__.add(stan::math::uniform_lpdf<propto__>(bp_init, 0, 1));
-        current_statement__ = 32;
+        current_statement__ = 83;
         lp_accum__.add(stan::math::beta_lpdf<propto__>(eta, 3, 4));
-        current_statement__ = 33;
+        current_statement__ = 84;
         lp_accum__.add(stan::math::exponential_lpdf<propto__>(tau_init, 1));
-        current_statement__ = 34;
+        current_statement__ = 85;
         lp_accum__.add(stan::math::beta_lpdf<propto__>(rho1, 3, 4));
-        current_statement__ = 35;
+        current_statement__ = 86;
         lp_accum__.add(stan::math::beta_lpdf<propto__>(rho_sum, 8, 2));
-        current_statement__ = 36;
+        current_statement__ = 87;
         lp_accum__.add(matnormal_lpdf<false>(beta, cov_ar1, corr, pstream__));
-        current_statement__ = 40;
+        current_statement__ = 91;
         for (int t = 1; t <= T_all; ++t) {
-          current_statement__ = 37;
+          current_statement__ = 88;
           lp_accum__.add(
             (-.5 *
               stan::math::dot_self(
@@ -1283,18 +1544,18 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
                   stan::model::rvalue(
                     stan::model::rvalue(phi_init, "phi_init", stan::model::index_uni(t)),
                     "phi_init[t]", stan::model::index_multi(node2))))));
-          current_statement__ = 38;
+          current_statement__ = 89;
           lp_accum__.add(
             stan::math::normal_lpdf<propto__>(
               stan::math::sum(
                 stan::model::rvalue(phi_init, "phi_init",
                   stan::model::index_uni(t))), 0, (0.001 * R)));
         }
-        current_statement__ = 41;
+        current_statement__ = 92;
         lp_accum__.add(stan::math::student_t_lpdf<propto__>(sigma, 4, 0, 1));
-        current_statement__ = 44;
+        current_statement__ = 95;
         for (int n = 1; n <= N_tb_all; ++n) {
-          current_statement__ = 42;
+          current_statement__ = 93;
           lp_accum__.add(
             lognorm_trunc_lpdf<false>(
               stan::model::rvalue(y_train, "y_train",
@@ -1503,6 +1764,256 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       if (stan::math::logical_negation(emit_generated_quantities__)) {
         return ;
       } 
+      std::vector<double> train_loglik =
+         std::vector<double>(N_tb_obs, 
+           std::numeric_limits<double>::quiet_NaN());
+      std::vector<double> holdout_loglik =
+         std::vector<double>(N_hold_obs, 
+           std::numeric_limits<double>::quiet_NaN());
+      std::vector<double> train_twcrps =
+         std::vector<double>(N_tb_obs, 
+           std::numeric_limits<double>::quiet_NaN());
+      std::vector<double> holdout_twcrps =
+         std::vector<double>(N_hold_obs, 
+           std::numeric_limits<double>::quiet_NaN());
+      current_statement__ = 79;
+      if (stan::math::logical_lt(stan::math::max(y_train_obs), 30)) {
+        current_statement__ = 56;
+        stan::math::validate_non_negative_index("reg_full", "T_all", T_all);
+        current_statement__ = 57;
+        stan::math::validate_non_negative_index("reg_full", "R", R);
+        Eigen::Matrix<double, -1, -1> reg_full =
+           Eigen::Matrix<double, -1, -1>::Constant(T_all, R,
+             std::numeric_limits<double>::quiet_NaN());
+        current_statement__ = 61;
+        for (int r = 1; r <= R; ++r) {
+          current_statement__ = 59;
+          stan::model::assign(reg_full,
+            stan::math::add(
+              stan::math::multiply(
+                stan::model::rvalue(X_full, "X_full",
+                  stan::model::index_uni(r)),
+                stan::model::rvalue(beta, "beta",
+                  stan::model::index_omni(), stan::model::index_uni(r))),
+              stan::model::rvalue(phi, "phi",
+                stan::model::index_omni(), stan::model::index_uni(r))),
+            "assigning variable reg_full", stan::model::index_omni(),
+                                             stan::model::index_uni(r));
+        }
+        current_statement__ = 62;
+        stan::math::validate_non_negative_index("mu_train", "N_tb_obs",
+                                                N_tb_obs);
+        Eigen::Matrix<double, -1, 1> mu_train =
+           Eigen::Matrix<double, -1, 1>::Constant(N_tb_obs,
+             std::numeric_limits<double>::quiet_NaN());
+        current_statement__ = 63;
+        stan::model::assign(mu_train,
+          stan::model::rvalue(
+            stan::model::rvalue(stan::math::to_vector(reg_full), "to_vector(reg_full)",
+  stan::model::index_multi(ii_tb_all)),
+            "to_vector(reg_full)[ii_tb_all]",
+            stan::model::index_multi(ii_tb_obs)),
+          "assigning variable mu_train");
+        current_statement__ = 64;
+        stan::math::validate_non_negative_index("mu_hold", "N_hold_obs",
+                                                N_hold_obs);
+        Eigen::Matrix<double, -1, 1> mu_hold =
+           Eigen::Matrix<double, -1, 1>::Constant(N_hold_obs,
+             std::numeric_limits<double>::quiet_NaN());
+        current_statement__ = 65;
+        stan::model::assign(mu_hold,
+          stan::model::rvalue(
+            stan::model::rvalue(stan::math::to_vector(reg_full), "to_vector(reg_full)",
+  stan::model::index_multi(ii_hold_all)),
+            "to_vector(reg_full)[ii_hold_all]",
+            stan::model::index_multi(ii_hold_obs)),
+          "assigning variable mu_hold");
+        current_statement__ = 71;
+        for (int n = 1; n <= N_tb_obs; ++n) {
+          current_statement__ = 66;
+          stan::model::assign(train_loglik,
+            ((lognorm_trunc_lpdf<false>(
+                stan::model::rvalue(y_train_obs, "y_train_obs",
+                  stan::model::index_uni(n)), y_min,
+                stan::model::rvalue(mu_train, "mu_train",
+                  stan::model::index_uni(n)), sigma, pstream__) +
+               stan::math::log(0.5)) -
+              stan::math::log(
+                stan::model::rvalue(y_train_obs, "y_train_obs",
+                  stan::model::index_uni(n)))),
+            "assigning variable train_loglik", stan::model::index_uni(n));
+          current_statement__ = 67;
+          stan::math::validate_non_negative_index("pred_probs_train",
+                                                  "n_int", n_int);
+          Eigen::Matrix<double, -1, 1> pred_probs_train =
+             Eigen::Matrix<double, -1, 1>::Constant(n_int,
+               std::numeric_limits<double>::quiet_NaN());
+          current_statement__ = 68;
+          stan::model::assign(pred_probs_train,
+            prob_forecast(n_int, stan::math::sqrt(int_pts_train), y_min,
+              stan::model::rvalue(mu_train, "mu_train",
+                stan::model::index_uni(n)), sigma, pstream__),
+            "assigning variable pred_probs_train");
+          current_statement__ = 69;
+          stan::model::assign(train_twcrps,
+            twCRPS(
+              stan::math::pow(
+                stan::model::rvalue(y_train_obs, "y_train_obs",
+                  stan::model::index_uni(n)), 2), n_int, int_train,
+              int_pts_train, pred_probs_train, pstream__),
+            "assigning variable train_twcrps", stan::model::index_uni(n));
+        }
+        current_statement__ = 77;
+        for (int n = 1; n <= N_hold_obs; ++n) {
+          current_statement__ = 72;
+          stan::model::assign(holdout_loglik,
+            ((lognorm_trunc_lpdf<false>(
+                stan::model::rvalue(y_hold_obs, "y_hold_obs",
+                  stan::model::index_uni(n)), y_min,
+                stan::model::rvalue(mu_hold, "mu_hold",
+                  stan::model::index_uni(n)), sigma, pstream__) +
+               stan::math::log(0.5)) -
+              stan::math::log(
+                stan::model::rvalue(y_hold_obs, "y_hold_obs",
+                  stan::model::index_uni(n)))),
+            "assigning variable holdout_loglik", stan::model::index_uni(n));
+          current_statement__ = 73;
+          stan::math::validate_non_negative_index("pred_probs_hold", "n_int",
+                                                  n_int);
+          Eigen::Matrix<double, -1, 1> pred_probs_hold =
+             Eigen::Matrix<double, -1, 1>::Constant(n_int,
+               std::numeric_limits<double>::quiet_NaN());
+          current_statement__ = 74;
+          stan::model::assign(pred_probs_hold,
+            prob_forecast(n_int, stan::math::sqrt(int_pts_holdout), y_min,
+              stan::model::rvalue(mu_hold, "mu_hold",
+                stan::model::index_uni(n)), sigma, pstream__),
+            "assigning variable pred_probs_hold");
+          current_statement__ = 75;
+          stan::model::assign(holdout_twcrps,
+            twCRPS(
+              stan::math::pow(
+                stan::model::rvalue(y_hold_obs, "y_hold_obs",
+                  stan::model::index_uni(n)), 2), n_int, int_holdout,
+              int_pts_holdout, pred_probs_hold, pstream__),
+            "assigning variable holdout_twcrps", stan::model::index_uni(n));
+        }
+      } else {
+        current_statement__ = 33;
+        stan::math::validate_non_negative_index("reg_full", "T_all", T_all);
+        current_statement__ = 34;
+        stan::math::validate_non_negative_index("reg_full", "R", R);
+        Eigen::Matrix<double, -1, -1> reg_full =
+           Eigen::Matrix<double, -1, -1>::Constant(T_all, R,
+             std::numeric_limits<double>::quiet_NaN());
+        current_statement__ = 38;
+        for (int r = 1; r <= R; ++r) {
+          current_statement__ = 36;
+          stan::model::assign(reg_full,
+            stan::math::add(
+              stan::math::multiply(
+                stan::model::rvalue(X_full, "X_full",
+                  stan::model::index_uni(r)),
+                stan::model::rvalue(beta, "beta",
+                  stan::model::index_omni(), stan::model::index_uni(r))),
+              stan::model::rvalue(phi, "phi",
+                stan::model::index_omni(), stan::model::index_uni(r))),
+            "assigning variable reg_full", stan::model::index_omni(),
+                                             stan::model::index_uni(r));
+        }
+        current_statement__ = 39;
+        stan::math::validate_non_negative_index("mu_train", "N_tb_obs",
+                                                N_tb_obs);
+        Eigen::Matrix<double, -1, 1> mu_train =
+           Eigen::Matrix<double, -1, 1>::Constant(N_tb_obs,
+             std::numeric_limits<double>::quiet_NaN());
+        current_statement__ = 40;
+        stan::model::assign(mu_train,
+          stan::model::rvalue(
+            stan::model::rvalue(stan::math::to_vector(reg_full), "to_vector(reg_full)",
+  stan::model::index_multi(ii_tb_all)),
+            "to_vector(reg_full)[ii_tb_all]",
+            stan::model::index_multi(ii_tb_obs)),
+          "assigning variable mu_train");
+        current_statement__ = 41;
+        stan::math::validate_non_negative_index("mu_hold", "N_hold_obs",
+                                                N_hold_obs);
+        Eigen::Matrix<double, -1, 1> mu_hold =
+           Eigen::Matrix<double, -1, 1>::Constant(N_hold_obs,
+             std::numeric_limits<double>::quiet_NaN());
+        current_statement__ = 42;
+        stan::model::assign(mu_hold,
+          stan::model::rvalue(
+            stan::model::rvalue(stan::math::to_vector(reg_full), "to_vector(reg_full)",
+  stan::model::index_multi(ii_hold_all)),
+            "to_vector(reg_full)[ii_hold_all]",
+            stan::model::index_multi(ii_hold_obs)),
+          "assigning variable mu_hold");
+        current_statement__ = 48;
+        for (int n = 1; n <= N_tb_obs; ++n) {
+          current_statement__ = 43;
+          stan::model::assign(train_loglik,
+            lognorm_trunc_lpdf<false>(
+              stan::model::rvalue(y_train_obs, "y_train_obs",
+                stan::model::index_uni(n)), y_min,
+              stan::model::rvalue(mu_train, "mu_train",
+                stan::model::index_uni(n)), sigma, pstream__),
+            "assigning variable train_loglik", stan::model::index_uni(n));
+          current_statement__ = 44;
+          stan::math::validate_non_negative_index("pred_probs_train",
+                                                  "n_int", n_int);
+          Eigen::Matrix<double, -1, 1> pred_probs_train =
+             Eigen::Matrix<double, -1, 1>::Constant(n_int,
+               std::numeric_limits<double>::quiet_NaN());
+          current_statement__ = 45;
+          stan::model::assign(pred_probs_train,
+            prob_forecast(n_int, int_pts_train, y_min,
+              stan::model::rvalue(mu_train, "mu_train",
+                stan::model::index_uni(n)), sigma, pstream__),
+            "assigning variable pred_probs_train");
+          current_statement__ = 46;
+          stan::model::assign(train_twcrps,
+            twCRPS(
+              stan::model::rvalue(y_train_obs, "y_train_obs",
+                stan::model::index_uni(n)), n_int, int_train, int_pts_train,
+              pred_probs_train, pstream__),
+            "assigning variable train_twcrps", stan::model::index_uni(n));
+        }
+        current_statement__ = 54;
+        for (int n = 1; n <= N_hold_obs; ++n) {
+          current_statement__ = 49;
+          stan::model::assign(holdout_loglik,
+            lognorm_trunc_lpdf<false>(
+              stan::model::rvalue(y_hold_obs, "y_hold_obs",
+                stan::model::index_uni(n)), y_min,
+              stan::model::rvalue(mu_hold, "mu_hold",
+                stan::model::index_uni(n)), sigma, pstream__),
+            "assigning variable holdout_loglik", stan::model::index_uni(n));
+          current_statement__ = 50;
+          stan::math::validate_non_negative_index("pred_probs_hold", "n_int",
+                                                  n_int);
+          Eigen::Matrix<double, -1, 1> pred_probs_hold =
+             Eigen::Matrix<double, -1, 1>::Constant(n_int,
+               std::numeric_limits<double>::quiet_NaN());
+          current_statement__ = 51;
+          stan::model::assign(pred_probs_hold,
+            prob_forecast(n_int, int_pts_holdout, y_min,
+              stan::model::rvalue(mu_hold, "mu_hold",
+                stan::model::index_uni(n)), sigma, pstream__),
+            "assigning variable pred_probs_hold");
+          current_statement__ = 52;
+          stan::model::assign(holdout_twcrps,
+            twCRPS(
+              stan::model::rvalue(y_hold_obs, "y_hold_obs",
+                stan::model::index_uni(n)), n_int, int_holdout,
+              int_pts_holdout, pred_probs_hold, pstream__),
+            "assigning variable holdout_twcrps", stan::model::index_uni(n));
+        }
+      }
+      out__.write(train_loglik);
+      out__.write(holdout_loglik);
+      out__.write(train_twcrps);
+      out__.write(holdout_twcrps);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -1577,7 +2088,8 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
     
     names__ = std::vector<std::string>{"y_train_mis", "phi_init", "beta",
       "tau_init", "eta", "bp_init", "rho1", "rho_sum", "sigma", "y_train",
-      "phi", "reg", "bp", "tau", "rho2", "cov_ar1", "corr"};
+      "phi", "reg", "bp", "tau", "rho2", "cov_ar1", "corr", "train_loglik",
+      "holdout_loglik", "train_twcrps", "holdout_twcrps"};
     
     } // get_param_names() 
     
@@ -1596,7 +2108,11 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
                           static_cast<size_t>(R)}, std::vector<size_t>{
       }, std::vector<size_t>{}, std::vector<size_t>{},
       std::vector<size_t>{static_cast<size_t>(p), static_cast<size_t>(p)},
-      std::vector<size_t>{static_cast<size_t>(R), static_cast<size_t>(R)}};
+      std::vector<size_t>{static_cast<size_t>(R), static_cast<size_t>(R)},
+      std::vector<size_t>{static_cast<size_t>(N_tb_obs)},
+      std::vector<size_t>{static_cast<size_t>(N_hold_obs)},
+      std::vector<size_t>{static_cast<size_t>(N_tb_obs)},
+      std::vector<size_t>{static_cast<size_t>(N_hold_obs)}};
     
     } // get_dims() 
     
@@ -1683,7 +2199,26 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
     }
     
     if (emit_generated_quantities__) {
-      
+      for (int sym1__ = 1; sym1__ <= N_tb_obs; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "train_loglik" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= N_hold_obs; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "holdout_loglik" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= N_tb_obs; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "train_twcrps" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= N_hold_obs; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "holdout_twcrps" + '.' + std::to_string(sym1__));
+        } 
+      }
     }
     
     } // constrained_param_names() 
@@ -1763,20 +2298,39 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
     }
     
     if (emit_generated_quantities__) {
-      
+      for (int sym1__ = 1; sym1__ <= N_tb_obs; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "train_loglik" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= N_hold_obs; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "holdout_loglik" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= N_tb_obs; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "train_twcrps" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= N_hold_obs; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "holdout_twcrps" + '.' + std::to_string(sym1__));
+        } 
+      }
     }
     
     } // unconstrained_param_names() 
     
   inline std::string get_constrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"sigma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"}]");
+    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"sigma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"train_loglik\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"train_twcrps\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"holdout_twcrps\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"}]");
     
     } // get_constrained_sizedtypes() 
     
   inline std::string get_unconstrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"sigma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "},\"block\":\"transformed_parameters\"}]");
+    return std::string("[{\"name\":\"y_train_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"sigma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_train\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "},\"block\":\"transformed_parameters\"},{\"name\":\"train_loglik\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"train_twcrps\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"holdout_twcrps\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"}]");
     
     } // get_unconstrained_sizedtypes() 
     
@@ -1794,7 +2348,8 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       const size_t num_transformed = emit_transformed_parameters * 
   (((((((N_tb_all + (T_all * R)) + (T_train * R)) + 1) + 1) + 1) + (p * p)) +
     (R * R));
-      const size_t num_gen_quantities = emit_generated_quantities * 0;
+      const size_t num_gen_quantities = emit_generated_quantities * 
+  (((N_tb_obs + N_hold_obs) + N_tb_obs) + N_hold_obs);
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
       std::vector<int> params_i;
@@ -1816,7 +2371,8 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
       const size_t num_transformed = emit_transformed_parameters * 
   (((((((N_tb_all + (T_all * R)) + (T_train * R)) + 1) + 1) + 1) + (p * p)) +
     (R * R));
-      const size_t num_gen_quantities = emit_generated_quantities * 0;
+      const size_t num_gen_quantities = emit_generated_quantities * 
+  (((N_tb_obs + N_hold_obs) + N_tb_obs) + N_hold_obs);
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
       vars = std::vector<double>(num_to_write,

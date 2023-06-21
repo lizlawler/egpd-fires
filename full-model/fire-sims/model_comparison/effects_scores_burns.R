@@ -374,20 +374,22 @@ ggsave(file_name, p, dpi = 320, type = "cairo", bg = "white")
 #        height = 11, width = 17)
 
 ## following code is for model evaluation (scoring) ---------
-gq_fits <- paste0("full-model/fire-sims/burns/g1/csv-fits/", 
-                    list.files(path = "full-model/fire-sims/burns/g1/csv-fits/", 
-                               pattern = "gq_16Jun", recursive = TRUE))
+gq_fits <- paste0("full-model/fire-sims/burns/lognorm/csv-fits/", 
+                    list.files(path = "full-model/fire-sims/burns/lognorm/csv-fits/", 
+                               pattern = "gq_19Jun", recursive = TRUE))
 
-sigma_reg_fits <- paste0("full-model/fire-sims/burns/g1/csv-fits/", 
-                    list.files(path = "full-model/fire-sims/burns/g1/csv-fits/",
-                             pattern = "sigma-reg", recursive = TRUE))
+# sigma_reg_fits <- paste0("full-model/fire-sims/burns/g1/csv-fits/", 
+#                     list.files(path = "full-model/fire-sims/burns/g1/csv-fits/",
+#                              pattern = "sigma-reg", recursive = TRUE))
 
-gq_fits <- c(gq_fits, sigma_reg_fits)
+# gq_fits <- c(gq_fits, sigma_reg_fits)
 nfits <- length(gq_fits)/3
 gq_fit_groups <- vector(mode = "list", nfits)
 for(i in 1:nfits) {
   gq_fit_groups[[i]] <- gq_fits[(3*i-2):(3*i)]
 }
+
+gq_lognorm_mod_chains <- str_remove(str_remove(str_remove(basename(burn_fits), ".csv"), "gq_19Jun2023_\\d{4}_"), "\\d{2}May2023_\\d{4}_")
 gq_mod_names <- lapply(gq_fit_groups, function(x) str_remove(str_remove(str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), 
                                                                      "cfcns_"), 
                                                           "gq_\\d{2}\\w{3}2023_\\d{4}_")) %>% unlist()
@@ -399,43 +401,59 @@ holdout_ll_idx <- which(grepl("holdout_loglik", variables(one_fit$generated_quan
 train_twcrps_idx <- which(grepl("train_twcrps", variables(one_fit$generated_quantities)))
 holdout_twcrps_idx <- which(grepl("holdout_twcrps", variables(one_fit$generated_quantities)))
 
-extraction_gq <- function(file_group, model_name) {
-  if(file.info(file_group[1])$size/1e6 > 300){
-    model_object <- as_cmdstan_fit(file_group)
-    train_loglik <- model_object$draws(variables = "train_loglik")
-    holdout_loglik <- model_object$draws(variables = "holdout_loglik")
-    train_twcrps <- model_object$draws(variables = "train_twcrps")
-    holdout_twcrps <- model_object$draws(variables = "holdout_twcrps")
-    rm(model_object)
-  } else {
-    gen_quants <- read_cmdstan_csv(file_group)
-    train_loglik <- gen_quants$generated_quantities[,,train_ll_idx]
-    holdout_loglik <- gen_quants$generated_quantities[,,holdout_ll_idx]
-    train_twcrps <- gen_quants$generated_quantities[,,train_twcrps_idx]
-    holdout_twcrps <- gen_quants$generated_quantities[,,holdout_twcrps_idx]
-    rm(gen_quants)
-  }
+extraction <- function(file_name, model_name) {
+  gen_quants <- read_cmdstan_csv(file_name)
+  train_loglik <- gen_quants$generated_quantities[,,train_ll_idx]
+  holdout_loglik <- gen_quants$generated_quantities[,,holdout_ll_idx]
+  train_twcrps <- gen_quants$generated_quantities[,,train_twcrps_idx]
+  holdout_twcrps <- gen_quants$generated_quantities[,,holdout_twcrps_idx]
+  rm(gen_quants)
   temp <- list(train_loglik, holdout_loglik, train_twcrps, holdout_twcrps)
   names(temp) <- c("train_loglik", "holdout_loglik", "train_twcrps", "holdout_twcrps")
   assign(model_name, temp, parent.frame())
   gc()
 }
 
+
+# extraction_gq <- function(file_group, model_name) {
+#   if(file.info(file_group[1])$size/1e6 > 300){
+#     model_object <- as_cmdstan_fit(file_group)
+#     train_loglik <- model_object$draws(variables = "train_loglik")
+#     holdout_loglik <- model_object$draws(variables = "holdout_loglik")
+#     train_twcrps <- model_object$draws(variables = "train_twcrps")
+#     holdout_twcrps <- model_object$draws(variables = "holdout_twcrps")
+#     rm(model_object)
+#   } else {
+#     gen_quants <- read_cmdstan_csv(file_group)
+#     train_loglik <- gen_quants$generated_quantities[,,train_ll_idx]
+#     holdout_loglik <- gen_quants$generated_quantities[,,holdout_ll_idx]
+#     train_twcrps <- gen_quants$generated_quantities[,,train_twcrps_idx]
+#     holdout_twcrps <- gen_quants$generated_quantities[,,holdout_twcrps_idx]
+#     rm(gen_quants)
+#   }
+#   temp <- list(train_loglik, holdout_loglik, train_twcrps, holdout_twcrps)
+#   names(temp) <- c("train_loglik", "holdout_loglik", "train_twcrps", "holdout_twcrps")
+#   assign(model_name, temp, parent.frame())
+#   gc()
+# }
+
 rm(one_fit)
 gc()
 
-for(i in 1:nfits) {
-  extraction_gq(gq_fit_groups[[i]], gq_mod_names[i])
+for(i in 1:length(gq_fits)) {
+  extraction(gq_fits[i], gq_lognorm_mod_chains[i])
 }
 
+nfits <- length(gq_fits)
 train_loglik_list <- vector("list", nfits)
 holdout_loglik_list <- vector("list", nfits)
 train_twcrps_list <- vector("list", nfits)
 holdout_twcrps_list <- vector("list", nfits)
 
+gq_mod_names <- gq_lognorm_mod_chains
 for(i in seq_along(gq_mod_names)) {
   model_string <- str_split(gq_mod_names[i], pattern = "_")[[1]]
-  model_string <- if(length(model_string) > 4) model_string[-4] else model_string
+  # model_string <- if(length(model_string) > 4) model_string[-4] else model_string
   train_loglik_list[[i]] <- get(gq_mod_names[i])[["train_loglik"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
@@ -447,6 +465,7 @@ for(i in seq_along(gq_mod_names)) {
            dataset = model_string[2],
            params = model_string[3],
            stepsize = model_string[4],
+           chain_num = model_string[5],
            train = TRUE)
   holdout_loglik_list[[i]] <- get(gq_mod_names[i])[["holdout_loglik"]] %>%
     as_draws_df() %>%
@@ -459,6 +478,7 @@ for(i in seq_along(gq_mod_names)) {
            dataset = model_string[2],
            params = model_string[3],
            stepsize = model_string[4],
+           chain_num = model_string[5],
            train = FALSE)
   train_twcrps_list[[i]] <- get(gq_mod_names[i])[["train_twcrps"]] %>%
     as_draws_df() %>%
@@ -471,6 +491,7 @@ for(i in seq_along(gq_mod_names)) {
            dataset = model_string[2],
            params = model_string[3],
            stepsize = model_string[4],
+           chain_num = model_string[5],
            train = TRUE)
   holdout_twcrps_list[[i]] <- get(gq_mod_names[i])[["holdout_twcrps"]] %>%
     as_draws_df() %>%
@@ -483,6 +504,7 @@ for(i in seq_along(gq_mod_names)) {
            dataset = model_string[2],
            params = model_string[3],
            stepsize = model_string[4],
+           chain_num = model_string[5],
            train = FALSE)
 }
 
@@ -492,15 +514,19 @@ train_twcrps <- bind_rows(train_twcrps_list)
 holdout_twcrps <- bind_rows(holdout_twcrps_list)
 
 ## log-likelihood aggregation and comparisons --------
+# ll_full <- train_loglik %>% 
+#   full_join(holdout_loglik) %>% 
+#   mutate(sigma_reg = case_when(stepsize == "sigma-reg" ~ TRUE,
+#                                stepsize == "0.81" ~ FALSE,
+#                                stepsize == "0.9" ~ FALSE),
+#          stepsize = case_when(stepsize == "sigma-reg" ~ "0.81",
+#                               TRUE ~ stepsize),
+#          fullname = case_when(sigma_reg == TRUE ~ as.factor(paste0(dataset, "_", params, "_sigma_reg")),
+#                               sigma_reg == FALSE ~ as.factor(paste0(dataset, "_", params, "_", stepsize))))
+
 ll_full <- train_loglik %>% 
   full_join(holdout_loglik) %>% 
-  mutate(sigma_reg = case_when(stepsize == "sigma-reg" ~ TRUE,
-                               stepsize == "0.81" ~ FALSE,
-                               stepsize == "0.9" ~ FALSE),
-         stepsize = case_when(stepsize == "sigma-reg" ~ "0.81",
-                              TRUE ~ stepsize),
-         fullname = case_when(sigma_reg == TRUE ~ as.factor(paste0(dataset, "_", params, "_sigma_reg")),
-                              sigma_reg == FALSE ~ as.factor(paste0(dataset, "_", params, "_", stepsize))))
+  mutate(fullname = as.factor(paste0(dataset, "_", params, "_", stepsize, "_", chain_num)))
 
 limits_og <- ll_full %>% filter(stepsize == 0.81) %>% reframe(limits = quantile(loglik, c(0.05,0.95)))
 ll_boxplot_0.81 <- ll_full %>% filter(stepsize == 0.81) %>%
@@ -538,14 +564,18 @@ ll_boxplot_0.9_rescaled <- ll_full_rescaled %>% filter(stepsize == 0.9) %>%
 ggsave("full-model/figures/model-comp/logscores_burns_0.9_18jun2023_rescaled.png", plot = ll_boxplot_0.9_rescaled,
        dpi = 320, bg = "white")
 
-train_ll_sort <- ll_full %>% filter(train == TRUE) %>% group_by(fullname, dataset) %>% summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
+train_ll_sort <- ll_full %>% filter(train == TRUE) %>% 
+  group_by(fullname, dataset, chain_num) %>% 
+  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
 train_ll_sort_og <- train_ll_sort %>% filter(dataset == "og") %>% select(-dataset) 
 train_ll_sort_sqrt <- train_ll_sort %>% filter(dataset == "sqrt") %>% select(-dataset)
 top_mod_train <- as.character(train_ll_sort$fullname[1])
 top_mod_train_og <- as.character(train_ll_sort_og$fullname[1])
 top_mod_train_sqrt <- as.character(train_ll_sort_sqrt$fullname[1])
 
-test_ll_sort <- ll_full %>% filter(train == FALSE) %>% group_by(fullname, dataset) %>% summarize(med_test_ll = median(loglik)) %>% arrange(-med_test_ll)
+test_ll_sort <- ll_full %>% filter(train == FALSE) %>% 
+  group_by(fullname, dataset, chain_num) %>% 
+  summarize(med_test_ll = median(loglik)) %>% arrange(-med_test_ll)
 test_ll_sort_og <- test_ll_sort %>% filter(dataset == "og") %>% select(-dataset) 
 test_ll_sort_sqrt <- test_ll_sort %>% filter(dataset == "sqrt") %>% select(-dataset) 
 top_mod_test <- as.character(test_ll_sort$fullname[1])
@@ -586,15 +616,18 @@ ll_comp_test_sqrt <- ll_full %>% filter(train == FALSE, dataset == "sqrt") %>% s
 # -----------
 
 ## twCRPS aggregation and comparions ---------
-twcrps_full <- train_twcrps %>% 
-  full_join(holdout_twcrps) %>% 
-  mutate(sigma_reg = case_when(stepsize == "sigma-reg" ~ TRUE,
-                               stepsize == "0.81" ~ FALSE,
-                               stepsize == "0.9" ~ FALSE),
-         stepsize = case_when(stepsize == "sigma-reg" ~ "0.81",
-                              TRUE ~ stepsize),
-         fullname = case_when(sigma_reg == TRUE ~ as.factor(paste0(dataset, "_", params, "_sigma_reg")),
-                              sigma_reg == FALSE ~ as.factor(paste0(dataset, "_", params, "_", stepsize))))
+# twcrps_full <- train_twcrps %>% 
+#   full_join(holdout_twcrps) %>% 
+#   mutate(sigma_reg = case_when(stepsize == "sigma-reg" ~ TRUE,
+#                                stepsize == "0.81" ~ FALSE,
+#                                stepsize == "0.9" ~ FALSE),
+#          stepsize = case_when(stepsize == "sigma-reg" ~ "0.81",
+#                               TRUE ~ stepsize),
+#          fullname = case_when(sigma_reg == TRUE ~ as.factor(paste0(dataset, "_", params, "_sigma_reg")),
+#                               sigma_reg == FALSE ~ as.factor(paste0(dataset, "_", params, "_", stepsize))))
+twcrps_full <- train_twcrps %>%
+  full_join(holdout_twcrps) %>%
+  mutate(fullname = as.factor(paste0(dataset, "_", params, "_", stepsize, "_", chain_num)))
 
 limits_twcrps_og <- twcrps_full %>% filter(stepsize == 0.81) %>% reframe(limits = quantile(twcrps, c(0.05,0.95), na.rm = TRUE))
 twcrps_boxplot_0.81 <- twcrps_full %>% filter(stepsize == 0.81) %>%
@@ -636,14 +669,18 @@ twcrps_boxplot_sqrt <- twcrps_full %>% filter(dataset == "sqrt") %>%
 ggsave("full-model/figures/model-comp/twcrps_g1_sqrtdata_18jun2023.png", plot = twcrps_boxplot_sqrt,
        dpi = 320, bg = "white")
 
-train_twcrps_sort <- twcrps_full %>% filter(train == TRUE) %>% group_by(fullname, dataset) %>% summarize(mean_train_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_train_twcrps)
+train_twcrps_sort <- twcrps_full %>% filter(train == TRUE) %>% 
+  group_by(fullname, dataset, chain_num) %>% 
+  summarize(mean_train_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_train_twcrps)
 train_twcrps_sort_og <- train_twcrps_sort %>% filter(dataset == "og") %>% select(-dataset)
 train_twcrps_sort_sqrt <- train_twcrps_sort %>% filter(dataset == "sqrt")%>% select(-dataset)
 top_mod_train_tw <- as.character(train_twcrps_sort$fullname[1])
 top_mod_train_tw_og <- as.character(train_twcrps_sort_og$fullname[1])
 top_mod_train_tw_sqrt <- as.character(train_twcrps_sort_sqrt$fullname[1])
 
-test_twcrps_sort <- twcrps_full %>% filter(train == FALSE) %>% group_by(fullname, dataset) %>% summarize(mean_test_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_test_twcrps)
+test_twcrps_sort <- twcrps_full %>% filter(train == FALSE) %>% 
+  group_by(fullname, dataset, chain_num) %>% 
+  summarize(mean_test_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_test_twcrps)
 test_twcrps_sort_og <- test_twcrps_sort %>% filter(dataset == "og") %>% select(-dataset)
 test_twcrps_sort_sqrt <- test_twcrps_sort %>% filter(dataset == "sqrt") %>% select(-dataset)
 top_mod_test_tw <- as.character(test_twcrps_sort$fullname[1])

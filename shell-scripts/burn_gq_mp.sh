@@ -8,7 +8,7 @@ cd ${basedir}
 model="stan/${modname}_${params}"
 sttime=$(date +"%d%b%Y_%H%M")
 
-for fit in csv-fits/${modname}_${suffix}_${params}_cfcns_${delta}*.csv
+for fit in csv-fits/${modname}_${suffix}_${params}_cfcns_${delta}_03Jun2023*.csv
 do
   gq_file="$(basename -- $fit .csv)"
 # generate quantities using already fitted parameters

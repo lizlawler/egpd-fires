@@ -1,0 +1,51 @@
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_og_all-reg_cfcns_0.9_03Jun2023_2130_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_og.json
+init = 2 (Default)
+random
+  seed = 3820571853 (Default)
+output
+  file = csv-fits/gq_21Jun2023_0006_g2_og_all-reg_cfcns_0.9_03Jun2023_2130_1.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_og_all-reg_cfcns_0.9_03Jun2023_2130_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_og.json
+init = 2 (Default)
+random
+  seed = 3820571854 (Default)
+output
+  file = csv-fits/gq_21Jun2023_0006_g2_og_all-reg_cfcns_0.9_03Jun2023_2130_2.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_og_all-reg_cfcns_0.9_03Jun2023_2130_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_og.json
+init = 2 (Default)
+random
+  seed = 3820571856 (Default)
+output
+  file = csv-fits/gq_21Jun2023_0006_g2_og_all-reg_cfcns_0.9_03Jun2023_2130_3.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+

@@ -5,7 +5,7 @@
 trap '' HUP
 stanc_exe="/data/accounts/lawler/.conda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="burns"
-modname="g1"
+modname="g2"
 for params in "all-reg" "xi-ri" "nu-ri_xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
 do
 # compile model and link c++ 
@@ -18,7 +18,7 @@ do
 for delta in 0.81 0.9
 do
 export modtype modname params suffix delta
-nohup ./shell-scripts/burn_gq_mp.sh > full-model/output/${modname}_${suffix}_${params}_${delta}_gq.txt 2>&1 &
+nohup ./shell-scripts/burn_gq_mp.sh > full-model/output/${modname}_${suffix}_${params}_${delta}_03jun2023_gq.txt 2>&1 &
 sleep 1
 done
 sleep 1

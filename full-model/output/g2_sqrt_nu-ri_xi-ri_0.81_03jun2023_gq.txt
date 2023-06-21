@@ -1,0 +1,51 @@
+method = generate_quantities
+method = generate_quantities
+method = generate_quantities
+  generate_quantities
+  generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_sqrt_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_1.csv
+    fitted_params = csv-fits/g2_sqrt_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_3.csv
+id = 1 (Default)
+id = 1 (Default)
+    fitted_params = csv-fits/g2_sqrt_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_2.csv
+data
+data
+id = 1 (Default)
+  file = ../../../data/stan_data_sqrt.json
+  file = ../../../data/stan_data_sqrt.json
+data
+init = 2 (Default)
+init = 2 (Default)
+  file = ../../../data/stan_data_sqrt.json
+random
+random
+init = 2 (Default)
+  seed = 3830663277 (Default)
+  seed = 3830663277 (Default)
+random
+output
+output
+  seed = 3830663277 (Default)
+  file = csv-fits/gq_21Jun2023_0254_g2_sqrt_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_1.csv
+  file = csv-fits/gq_21Jun2023_0254_g2_sqrt_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_3.csv
+output
+  diagnostic_file =  (Default)
+  diagnostic_file =  (Default)
+  file = csv-fits/gq_21Jun2023_0254_g2_sqrt_nu-ri_xi-ri_cfcns_0.81_03Jun2023_2132_2.csv
+  refresh = 100 (Default)
+  refresh = 100 (Default)
+  diagnostic_file =  (Default)
+  sig_figs = -1 (Default)
+  sig_figs = -1 (Default)
+  refresh = 100 (Default)
+  profile_file = profile.csv (Default)
+  profile_file = profile.csv (Default)
+  sig_figs = -1 (Default)
+num_threads = 1 (Default)
+num_threads = 1 (Default)
+  profile_file = profile.csv (Default)
+
+
+num_threads = 1 (Default)
+

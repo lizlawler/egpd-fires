@@ -591,5 +591,3 @@ twcrps_comp_test_full <- twcrps_full %>% filter(train == FALSE) %>%
   group_by(model) %>%
   summarize(mean_diff = mean(value, na.rm = TRUE), sd_diff = sd(value, na.rm = TRUE)) %>% arrange(mean_diff)
 
-save.image(file = "full-model/figures/model-comp/loglik_twcrps_calcs_15jun2023.RData")
-

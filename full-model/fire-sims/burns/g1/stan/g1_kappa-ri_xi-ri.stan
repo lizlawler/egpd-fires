@@ -63,9 +63,8 @@ transformed parameters {
 }
 model {
   vector[N_tb_all] kappa = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] nu = exp(to_vector(reg[1]))[ii_tb_all];
+  vector[N_tb_all] sigma = exp(to_vector(reg[1]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] sigma = nu ./ (1 + xi);
   
   to_vector(Z) ~ std_normal();
   
@@ -112,14 +111,12 @@ generated quantities {
       }
     }
     vector[N_tb_obs] kappa_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
-    vector[N_tb_obs] nu_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
+    vector[N_tb_obs] sigma_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
     vector[N_tb_obs] xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs];
-    vector[N_tb_obs] sigma_train = nu_train ./ (1 + xi_train);
   
     vector[N_hold_obs] kappa_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
-    vector[N_hold_obs] nu_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
+    vector[N_hold_obs] sigma_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
     vector[N_hold_obs] xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs];
-    vector[N_hold_obs] sigma_hold = nu_hold ./ (1 + xi_hold);
     
     // training scores
     for (n in 1:N_tb_obs) {
@@ -148,14 +145,12 @@ generated quantities {
       }
     }
     vector[N_tb_obs] kappa_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs];
-    vector[N_tb_obs] nu_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
+    vector[N_tb_obs] sigma_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
     vector[N_tb_obs] xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs];
-    vector[N_tb_obs] sigma_train = nu_train ./ (1 + xi_train);
   
     vector[N_hold_obs] kappa_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs];
-    vector[N_hold_obs] nu_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
+    vector[N_hold_obs] sigma_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
     vector[N_hold_obs] xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs];
-    vector[N_hold_obs] sigma_hold = nu_hold ./ (1 + xi_hold);
     
     // training scores
     for (n in 1:N_tb_obs) {

@@ -47,10 +47,17 @@ save(list=c(ls(pattern="g1"), ls(pattern = "burn_names")), file = "full-model/fi
 # gc()
 # save.image()
 # 
+
+# read in best model - G1 with regression on sigma and kappa
+files <- paste0("full-model/fire-sims/burns/g1/csv-fits/", 
+                list.files(path = "full-model/fire-sims/burns/g1/csv-fits/",
+                           pattern = "og_xi-ri_sigma-reg", recursive = TRUE))
+g1_og_xi_ri <- read_cmdstan_csv(files, variables = "ri_init")
+
 stan_data_og <- readRDS("full-model/data/stan_data_og.rds")
-X_og <- stan_data_og$X_train
-stan_data_sqrt <- readRDS("full-model/data/stan_data_sqrt.rds")
-X_sqrt <- stan_data_sqrt$X_train
+X <- stan_data_og$X_train
+# stan_data_sqrt <- readRDS("full-model/data/stan_data_sqrt.rds")
+# X_sqrt <- stan_data_sqrt$X_train
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',
           'rmin')
@@ -83,10 +90,12 @@ xi_burns <- list()
 # betas_nu <- `g1_sqrt_all-reg_0.81`[[1]][,,nu_idx]
 # betas_xi <- `g1_sqrt_all-reg_0.81`[[1]][,,xi_idx]
 
-all_betas <- `g1_og_xi-ri_sigma-reg`[["betas"]] %>% as_draws_df() %>%
+idx <- which(grepl("beta", variables(g1_og_xi_ri$post_warmup_draws)))
+all_betas <- g1_og_xi_ri$post_warmup_draws[,,idx] %>% as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>% 
   pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>% separate_wider_delim(cols = "name", delim = ",", names = c("param", "coef", "region"))
+  rename(draw = ".draw") %>% 
+  separate_wider_delim(cols = "name", delim = ",", names = c("param", "coef", "region"))
 all_betas <- all_betas %>% 
   mutate(param = as.numeric(gsub("beta\\[", "", param)),
          coef = as.numeric(coef),
@@ -108,42 +117,44 @@ covar_effect <- function(egpd_param_df, covar_term, linear_term) {
   )
 }
 
-all_betas_sqrt <- `g1_sqrt_xi-ri_sigma-reg`[["betas"]] %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>% separate_wider_delim(cols = "name", delim = ",", names = c("param", "coef", "region"))
-all_betas_sqrt <- all_betas_sqrt %>% 
-  mutate(param = as.numeric(gsub("beta\\[", "", param)),
-         coef = as.numeric(coef),
-         region = as.numeric(gsub("\\]", "", region)))
-kappa_betas_sqrt <- all_betas_sqrt %>% filter(param == 1) %>% select(-param)
-sigma_betas_sqrt <- all_betas_sqrt %>% filter(param == 2) %>% select(-param)
-kappa_medians_sqrt <- kappa_betas_sqrt %>% group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
-  pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
-sigma_medians_sqrt <- sigma_betas_sqrt %>% group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
-  pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
-
-coef_df_list_kappa_sqrt <- list()
-coef_df_list_sigma_sqrt <- list()
+coef_df_list_kappa <- list()
+coef_df_list_sigma <- list()
 for(k in seq_along(vars)) {
   stored_df_kappa <- matrix(NA, t, r)
   stored_df_sigma <- matrix(NA, t, r)
   for(j in 1:r) {
-    stored_df_kappa[, j] <- X_sqrt[j, , X_cols[[k]]] %*% kappa_medians_sqrt[X_cols[[k]], j]
-    stored_df_sigma[, j] <- X_sqrt[j, , X_cols[[k]]] %*% sigma_medians_sqrt[X_cols[[k]], j]
+    stored_df_kappa[, j] <- X[j, , X_cols[[k]]] %*% kappa_medians[X_cols[[k]], j]
+    stored_df_sigma[, j] <- X[j, , X_cols[[k]]] %*% sigma_medians[X_cols[[k]], j]
   }
-  coef_df_list_kappa_sqrt[[k]] <- covar_effect(stored_df_kappa, vars[k], c(X_sqrt[,,X_cols[[k]][2]]))
-  coef_df_list_sigma_sqrt[[k]] <- covar_effect(stored_df_sigma, vars[k], c(X_sqrt[,,X_cols[[k]][2]]))
+  coef_df_list_kappa[[k]] <- covar_effect(stored_df_kappa, vars[k], c(X[,,X_cols[[k]][2]]))
+  coef_df_list_sigma[[k]] <- covar_effect(stored_df_sigma, vars[k], c(X[,,X_cols[[k]][2]]))
 }
 
-kappa_burns_sqrt <- bind_rows(coef_df_list_kappa_sqrt) %>% as_tibble() %>% mutate(model = burn_names[2]) %>% left_join(., full_reg_key)
-sigma_burns_sqrt <- bind_rows(coef_df_list_sigma_sqrt) %>% as_tibble() %>% mutate(model = burn_names[2]) %>% left_join(., full_reg_key)
+kappa_burns <- bind_rows(coef_df_list_kappa) %>% as_tibble() %>% left_join(., full_reg_key)
+sigma_burns <- bind_rows(coef_df_list_sigma) %>% as_tibble() %>% left_join(., full_reg_key)
 
-p <- ggplot(sigma_burns_sqrt, aes(x = linear, y = effect, group = region)) + 
-        geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE)) +
-        facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle(paste0("sigma_", unique(sigma_burns_sqrt$model)))
-file_name <- paste0("full-model/figures/g1/effects/sigma_", unique(sigma_burns_sqrt$model), ".png")
+p <- ggplot(sigma_burns, aes(x = linear, y = effect, group = region)) + 
+        geom_line(aes(color = NA_L2CODE)) +
+        facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("sigma_effects")
+file_name <- "full-model/figures/g1/effects/sigma_effects_bestmod_nolevel1.png"
 ggsave(file_name, p, dpi = 320, type = "cairo", bg = "white")
+
+p <- ggplot(kappa_burns, aes(x = linear, y = effect, group = region)) + 
+  geom_line(aes(color = NA_L2CODE)) +
+  facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("kappa_effects")
+file_name <- "full-model/figures/g1/effects/kappa_effects_bestmod_nolevel1.png"
+ggsave(file_name, p, dpi = 320, type = "cairo", bg = "white")
+
+xi_idx <- which(grepl("ri_init", variables(g1_og_xi_ri$post_warmup_draws)))
+xi_vals <- g1_og_xi_ri$post_warmup_draws[,,xi_idx] %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  mutate(region = readr::parse_number(name)) %>%
+  select(-name) %>%
+  mutate(exp_val = exp(value))
+
+xi_vals_med <- xi_vals %>% group_by(region) %>% summarize(med_val = median(exp_val)) %>% ungroup()
 
 
 # kappa_df_list <- lapply(split(kappa_df, kappa_df$iter), function(x) {select(x, -c("iter", "covar")) %>% as.matrix()})

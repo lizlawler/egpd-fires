@@ -2,24 +2,24 @@ library(tidyverse)
 library(lubridate)
 library(cmdstanr)
 library(assertthat)
-# library(sf)
-# library(spdep)
-# library(spatialreg)
+library(raster)
+library(sp)
+library(spdep)
+library(spatialreg)
 library(splines)
 
-# Albers equal area (AEA) conic projection of North America
-aea_proj <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
 source("./full-model/data/process-data/merge-data.R")
 
 # generate spatial neighbors
 if (!file.exists('./full-model/data/processed/nb.rds')) {
-  nb <- poly2nb(as(ecoregions, 'Spatial'))
+  sf_use_s2(FALSE)
+  nb <- poly2nb(as(ecoregion_shp, 'Spatial'))
   write_rds(nb, './full-model/data/processed/nb.rds')
 } else {
   nb <- read_rds('./full-model/data/processed/nb.rds')
 }
 
-nb_agg <- aggregate(nb, ecoregions$NA_L3NAME)
+nb_agg <- aggregate(nb, ecoregion_shp$NA_L3NAME)
 nb_mat <- nb2mat(nb_agg, style = 'B')
 
 # generate neighborhood data for car prior
@@ -29,9 +29,18 @@ B <- as(listw, 'symmetricMatrix')
 # B is suitable for building N, N_edges, node1, and node2
 # following http://mc-stan.org/users/documentation/case-studies/icar_stan.html
 
-# generate correlation indicato matrix matrices
+# generate correlation indicator matrix matrices
 # create correlation matrix from 3 levels of relationships using real ecoregions
-load(file = "./full-model/data/processed/region_key.RData")
+if (!file.exists('./full-model/data/processed/region_key.rds')) {
+  region_key <- ecoregion_shp %>% 
+    as_tibble() %>% 
+    dplyr::select(NA_L3NAME, NA_L3CODE, NA_L2CODE, NA_L1CODE) %>% 
+    unique() %>% arrange(NA_L3NAME, .locale = "en")
+  write_rds(region_key, './full-model/data/processed/region_key.rds')
+} else {
+  region_key <- read_rds('./full-model/data/processed/region_key.rds')
+}
+
 reg_key <- as_tibble(region_key) %>% 
   mutate(region = c(1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
@@ -89,38 +98,40 @@ for(i in cov_vec_idx) {
 }
 
 ## FINAL DATA PROCESSING ## -----------
-ecoregion_df <- as(ecoregions, "Spatial") %>%
-  data.frame
+ecoregion_df <- ecoregion_shp %>% as_tibble()
 
 # get areas for each L3 ecoregion
 area_df <- ecoregion_df %>%
-  as_tibble() %>%
   group_by(NA_L3NAME) %>%
-  summarize(area = sum(Shape_Area)) %>% arrange(NA_L3NAME)
+  summarize(area = sum(Shape_Area)) %>% ungroup() %>%
+  arrange(NA_L3NAME, .locale = "en")
 
-burn_df <- mtbs %>% arrange(NA_L3NAME, ym)
+burn_df <- mtbs_er %>% as_tibble() %>% 
+  dplyr::select(BurnBndAc, fire_yr, fire_mon, ym, 
+         NA_L3CODE, NA_L3NAME, NA_L2CODE, NA_L2NAME, NA_L1CODE, NA_L1NAME, 
+         Shape_Leng, Shape_Area) %>%
+  arrange(NA_L3NAME, ym, .locale = "en")
 
 count_df <- count_df %>%
   left_join(area_df) %>%
-  arrange(NA_L3NAME, ym)
+  arrange(NA_L3NAME, ym, .locale = "en")
 
-er_df <- dplyr::distinct(data.frame(ecoregions),
-                       NA_L3NAME, NA_L2NAME, NA_L1NAME,
-                       NA_L2CODE, NA_L1CODE) %>%
-  as_tibble %>%
+er_df <- ecoregion_df %>% 
+  dplyr::select(NA_L3NAME, NA_L2NAME, NA_L1NAME, NA_L2CODE, NA_L1CODE) %>% 
+  distinct() %>%
   filter(NA_L2NAME != 'UPPER GILA MOUNTAINS (?)')
 
 er_covs <- ecoregion_summaries %>%
   left_join(er_df) %>%
   filter(NA_L2NAME != "UPPER GILA MOUNTAINS (?)",
-         ym >= min(mtbs$ym),
-         ym <= max(mtbs$ym)) %>%
+         ym >= min(mtbs_er$ym),
+         ym <= max(mtbs_er$ym)) %>%
   mutate(log_housing_density = log(housing_density),
          pr = ifelse(pr < 0 , 0, pr)) %>%
   left_join(area_df) %>%
   droplevels() %>%
   mutate(er_ym = paste(NA_L3NAME, ym, sep = "_")) %>%
-  arrange(NA_L3NAME, ym)
+  arrange(NA_L3NAME, ym, .locale = "en")
 
 assert_that(length(setdiff(er_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
 assert_that(!anyDuplicated(er_covs))
@@ -149,14 +160,18 @@ assert_that(all(holdout_counts$er_ym == er_covs[idx_count_hold, ]$er_ym))
 
 # burn split; including missing data
 train_burns_full <- burn_df %>%
-  filter(FIRE_YEAR %in% train_years) %>%
-  right_join(er_covs %>% filter(year %in% train_years)) %>% arrange(NA_L3NAME, ym)
+  filter(fire_yr %in% train_years) %>%
+  right_join(er_covs %>% filter(year %in% train_years), 
+             by = join_by("fire_yr" == "year", "fire_mon" == "month", NA_L3NAME)) %>% 
+  arrange(NA_L3NAME, ym.y, .locale = "en")
 
 holdout_burns_full <-  burn_df %>%
-  filter(FIRE_YEAR %in% test_years) %>%
-  right_join(er_covs %>% filter(year %in% test_years)) %>% arrange(NA_L3NAME, ym)
-unique(holdout_burns_full$year)
-unique(train_burns_full$year)
+  filter(fire_yr %in% test_years) %>%
+  right_join(er_covs %>% filter(year %in% test_years), 
+             by = join_by("fire_yr" == "year", "fire_mon" == "month", NA_L3NAME)) %>% 
+  arrange(NA_L3NAME, ym.y, .locale = "en")
+assert_that(all(unique(holdout_burns_full$fire_yr) == test_years))
+assert_that(all(unique(train_burns_full$fire_yr) == train_years))
 
 # this data frame has no duplicate ecoregion X timestep combos
 N <- as.numeric(length(unique(er_covs$NA_L3NAME)))
@@ -173,10 +188,12 @@ deg_each <- 3
 X_bs <- list()
 X_lin <- list()
 X_bs_df <- list()
+un_std <- list()
 
 for (i in seq_along(vars)) {
   varname <- paste("lin", vars[i], sep = "_")
   # data standardization
+  re_scale_var <- t(c(mean(er_covs[[vars[i]]]), sd(er_covs[[vars[i]]])))
   X_lin[[i]] <- (er_covs[[vars[i]]] - mean(er_covs[[vars[i]]]))/sd(er_covs[[vars[i]]])
   
   # spline creation for each covariate
@@ -188,26 +205,29 @@ for (i in seq_along(vars)) {
   X_bs_df[[i]] <- X_bs_df[[i]] %>%
     mutate(!!varname := X_lin[[i]]) %>%
     relocate(!!varname, before = where(is.character))
+  un_std[[i]] <- re_scale_var %>% as_tibble() %>% rename(mean = V1, sd = V2) %>% mutate(variable = vars[[i]])
 }
 
 X_bs_df <- bind_cols(X_bs_df)
 assert_that(!any(is.na(X_bs_df)))
 
+un_std <- bind_rows(un_std)
+
 X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAME, year = er_covs$year) %>% 
   mutate(intercept = 1, .before = lin_log_housing_density)
-X_train <- X_full %>% filter(year %in% train_years) %>% select(-year)
+X_train <- X_full %>% filter(year %in% train_years) %>% dplyr::select(-year)
 
 # split X_full and X_train into list of 84 design matrices, then reshape to an array for stan model
-X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) dplyr::select(x, -NA_L3NAME))
 assert_that(all(bind_rows(X_list_full)$er_ym == X_full$er_ym))
-X_list_train <- lapply(split(X_train, X_train$NA_L3NAME), function(x) select(x, -NA_L3NAME))
+X_list_train <- lapply(split(X_train, X_train$NA_L3NAME), function(x) dplyr::select(x, -NA_L3NAME))
 assert_that(all(bind_rows(X_list_train)$er_ym == X_train$er_ym))
 
 ## BURN COUNTS ## ----------
 # pull matrix of training counts and make sure it matches training covariates
-nfire_list_train <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
+nfire_list_train <- lapply(split(train_counts, train_counts$NA_L3NAME), function(x) dplyr::select(x, c(n_fire, er_ym)))
 assert_that(all(mapply(function(x, y) identical(x$er_ym, y$er_ym), X_list_train, nfire_list_train)) == TRUE)
-nfire_matrix_train <- matrix(unlist(lapply(nfire_list_train, function(x) select(x, n_fire))), nrow(nfire_list_train[[1]]), 84)
+nfire_matrix_train <- matrix(unlist(lapply(nfire_list_train, function(x) dplyr::select(x, n_fire))), nrow(nfire_list_train[[1]]), 84)
 iden_vec <- c()
 for(i in 1:84) {
   iden_vec[i] <- all(nfire_matrix_train[, i] == nfire_list_train[[i]]$n_fire)
@@ -215,10 +235,10 @@ for(i in 1:84) {
 assert_that(all(iden_vec) == TRUE)
 
 # pull matrix of holdout counts
-nfire_list_hold <- lapply(split(holdout_counts, holdout_counts$NA_L3NAME), function(x) select(x, c(n_fire, er_ym)))
+nfire_list_hold <- lapply(split(holdout_counts, holdout_counts$NA_L3NAME), function(x) dplyr::select(x, c(n_fire, er_ym)))
 idx_count_hold <- match(nfire_list_hold[[1]]$er_ym, X_list_full[[1]]$er_ym)
 assert_that(all(mapply(function(x, y) identical(x[idx_count_hold,]$er_ym, y$er_ym), X_list_full, nfire_list_hold)) == TRUE)
-nfire_matrix_hold <- matrix(unlist(lapply(nfire_list_hold, function(x) select(x, n_fire))), nrow(nfire_list_hold[[1]]), 84)
+nfire_matrix_hold <- matrix(unlist(lapply(nfire_list_hold, function(x) dplyr::select(x, n_fire))), nrow(nfire_list_hold[[1]]), 84)
 iden_vec <- c()
 for(i in 1:84) {
   iden_vec[i] <- all(nfire_matrix_hold[, i] == nfire_list_hold[[i]]$n_fire)
@@ -256,8 +276,8 @@ assert_that(all(!is.na(burn_hold_obs_sqrt)))
 hist(burn_hold_obs_sqrt)
 
 # reshape design matrices into arrays for stan model
-X_list_full <- lapply(X_list_full, function(x) select(x, -c(year, er_ym)))
-X_list_train <- lapply(X_list_train, function(x) select(x, -er_ym))
+X_list_full <- lapply(X_list_full, function(x) dplyr::select(x, -c(year, er_ym)))
+X_list_train <- lapply(X_list_train, function(x) dplyr::select(x, -er_ym))
 t_train <- nrow(X_list_train[[1]])
 t_all <- nrow(X_list_full[[1]])
 X_array_train <- array(NA, dim = c(84, t_train, 37))
@@ -398,10 +418,11 @@ stan_data_sqrt <- list(
 assert_that(!any(lapply(stan_data_og, function(x) any(is.na(x))) %>% unlist))
 assert_that(!any(lapply(stan_data_sqrt, function(x) any(is.na(x))) %>% unlist))
 
-saveRDS(stan_data_og, file = './full-model/data/stan_data_og.RDS')
-saveRDS(stan_data_sqrt, file = './full-model/data/stan_data_sqrt.RDS')
+saveRDS(stan_data_og, file = './full-model/data/stan_data_og_new.RDS')
+saveRDS(stan_data_sqrt, file = './full-model/data/stan_data_sqrt_new.RDS')
 print('stan_data.rds written!')
 
-library(cmdstanr)
-write_stan_json(data = stan_data_og, file = './full-model/data/stan_data_og.json')
-write_stan_json(data = stan_data_sqrt, file = './full-model/data/stan_data_sqrt.json')
+write_stan_json(data = stan_data_og, file = './full-model/data/stan_data_og_new.json')
+write_stan_json(data = stan_data_sqrt, file = './full-model/data/stan_data_sqrt_new.json')
+
+saveRDS(un_std, file = './full-model/data/un_std_data.RDS')

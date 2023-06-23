@@ -1,17 +1,12 @@
 library(tidyverse)
-# library(parallel)
-# library(pbapply)
+library(parallel)
+library(pbapply)
 library(terra)
 library(assertthat)
 source('./full-model/data/process-data/helpers.R')
 
 # Extracting monthly climate summaries for ecoregions ---------------------
 ecoregion_shp <- load_ecoregions() 
-
-# %>%
-#   project("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0")
-
-
 ecoregion_shp$NA_L3NAME <- as.character(ecoregion_shp$NA_L3NAME)
 ecoregion_shp$NA_L3NAME <- ifelse(ecoregion_shp$NA_L3NAME == 'Chihuahuan Desert',
                                   'Chihuahuan Deserts',
@@ -61,17 +56,13 @@ assert_that(ecoregion_raster_idx %>%
 # define an efficient extraction function to get mean values by polygon
 fast_extract <- function(rasterfile, index_list) {
   r <- terra::rast(rasterfile)
-  var_yr <- stringr::str_replace(stringr::str_extract(rasterfile, "\\w+.\\d{4}"), "monthly_", "")
 
   polygon_means <- lapply(index_list, function(x) {
-    extracts <- raster::extract(r, x)
-    colMeans(extracts, na.rm = TRUE)})
+    terra::extract(r, x) %>% colMeans(., na.rm = TRUE)})
 
   list_of_dfs <- lapply(polygon_means, function(x) {
-    df <- as.data.frame(x)
-    df <- tibble::rownames_to_column(df)
-    df <- dplyr::mutate(df, rowname = gsub("layer.", paste0(var_yr, "_"), rowname, fixed = TRUE))
-    dplyr::rename(df, var_ym = rowname)})
+    as.data.frame(x) %>% tibble::rownames_to_column() %>%
+      dplyr::rename(var_ym = "rowname")})
 
   merged_dfs <- dplyr::bind_rows(list_of_dfs, .id = 'NA_L3NAME')
   wide_df <- tidyr::pivot_wider(merged_dfs, names_from = var_ym, values_from = x)
@@ -81,7 +72,8 @@ fast_extract <- function(rasterfile, index_list) {
 # Extract climate data ---------------------------------------
 print('Aggregating monthly climate data to ecoregion means. May take a while...')
 pboptions(type = 'timer', use_lb = TRUE)
-cl <- makeCluster(getOption("cl.cores", detectCores() / 2))
+cl <- makeCluster(getOption("cl.cores", detectCores() / 2), outfile="")
+clusterEvalQ(cl, c(library("terra"), "fast_extract", library("tidyverse")))
 extractions <- pblapply(tifs, 
                         fast_extract, 
                         index_list = ecoregion_raster_idx, 
@@ -94,7 +86,7 @@ ecoregion_summaries <- lapply(extractions, function(x) pivot_longer(x, !NA_L3NAM
   bind_rows() %>%
   separate(variable, into = c("variable", "year", "month"), sep = "_") %>%
   mutate(year = parse_number(year),
-         month = parse_number(month)) %>%
+         month = parse_factor(month)) %>%
   arrange(year, month, variable, NA_L3NAME)
 
 destfile <- "./full-model/data/processed/ecoregion_summaries.csv"
@@ -102,12 +94,12 @@ write_csv(ecoregion_summaries, destfile)
 
 print(paste('Ecoregion climate summaries written to', destfile))
 
-# Calculate FWI from monthly weather variables
-library(cffdrs)
-ecoregion_summaries <- read_csv("data/processed/ecoregion_summaries.csv")
-ecoregion_summaries <- ecoregion_summaries %>% 
-  pivot_wider(names_from = variable, values_from = value) %>% 
-  rename(prec = pr, rh = rmin, temp = tmmx, ws = vs, mon = month, yr = year)
-summary_byer <- split(ecoregion_summaries, ecoregion_summaries$NA_L3NAME)
-fwi_list <- lapply(summary_byer, function(x) fwi(select(x, -NA_L3NAME)))
+# # Calculate FWI from monthly weather variables
+# library(cffdrs)
+# ecoregion_summaries <- read_csv("data/processed/ecoregion_summaries.csv")
+# ecoregion_summaries <- ecoregion_summaries %>% 
+#   pivot_wider(names_from = variable, values_from = value) %>% 
+#   rename(prec = pr, rh = rmin, temp = tmmx, ws = vs, mon = month, yr = year)
+# summary_byer <- split(ecoregion_summaries, ecoregion_summaries$NA_L3NAME)
+# fwi_list <- lapply(summary_byer, function(x) fwi(select(x, -NA_L3NAME)))
 

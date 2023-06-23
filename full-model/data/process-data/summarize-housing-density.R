@@ -6,6 +6,8 @@ library(stars)
 library(terra)
 library(assertthat)
 
+#####################################################################################
+
 # before running this script, need to extract housing density by ecoregion in QGIS:
 # 1) use "join attribute by location (summary), with input layer as the ecoregion file and 
 # comparison layer as the housing file;
@@ -24,23 +26,9 @@ library(assertthat)
   # geometryCheck=QgsFeatureRequest.GeometryNoCheck),'JOIN_FIELDS':['HUDEN1990'],'SUMMARIES':[6],'DISCARD_NONMATCHING':False,
   # 'OUTPUT':'/Users/lizlawler/Desktop/research/egpd-fires/full-model/data/processed/housing-density/huden1990_byeco.shp'})
 
-
-dens_files <- paste0("full-model/data/processed/qgis_extraction/", c("1990", "2000", "2010", "2020"), "/")
-dens_layer <- paste0("eco_conus_", c("1990", "2000", "2010", "2020"))
+dens_files <- paste0("full-model/data/processed/housing-density/", c("1990", "2000", "2010", "2020"), "/")
+dens_layer <- paste0("huden", c("1990", "2000", "2010", "2020"))
 extractions <- mapply(function(z, y) vect(x = z, layer = y), z = dens_files, y = dens_layer)
-
-test_extract <- vect(x="full-model/data/processed/housing-density/2020/", layer = "huden2020")
-test <- test_extract %>% data.frame() %>% as_tibble() %>% select(c("NA_L3NAME", "Shape_Area"), contains("HUDEN")) %>% 
-  pivot_longer(!c("NA_L3NAME", "Shape_Area"), names_to = "year", values_to = "value") %>% filter(!is.na(value)) %>%
-  mutate(year = case_when(
-    year == 'HUDEN2020_' ~ 2021
-  ),
-  NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME)) %>%
-  group_by(NA_L3NAME, year) %>%
-  summarize(wmean = weighted.mean(value, Shape_Area)) %>%
-  ungroup
-  
-
 
 extraction_df <- lapply(
   extractions, function(x) pivot_longer(
@@ -58,7 +46,7 @@ extraction_df <- lapply(
     NA_L3NAME = ifelse(NA_L3NAME == 'Chihuahuan Desert','Chihuahuan Deserts', NA_L3NAME)) %>%
   group_by(NA_L3NAME, year) %>%
   summarize(wmean = weighted.mean(value, Shape_Area)) %>%
-  ungroup
+  ungroup()
 # 
 # ecoregions <- read_rds(file = "./sim-study/shared-data/ecoregions.RDS")
 # 

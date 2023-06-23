@@ -5,8 +5,6 @@
 
 .DS_store
 
-toy-sim/output/
-full-model/figures/**/*.RData
 
 full-model/fire-sims/model_comparison/gen_quant/*.RData
 full-model/fire-sims/model_comparison/nu_data/*.RData
@@ -21,32 +19,28 @@ Rplots.pdf
 
 /maps/
 
-full-model/fire-sims/counts/zinb/zinb_byER_post_params_26oct2022.RDS
-full-model/fire-sims/burns/g1/g1_ogY_post_params_27oct2022.RDS
-full-model/fire-sims/counts/zinb/zinb_post_params_26oct2022.RDS
-full-model/fire-sims/burns/g1/g1_sqrtY_post_params_27oct2022.RDS
-full-model/fire-sims/counts/zip/post_params_26oct2022.RDS
-
 slurm*
 
 full-model/data/processed/**/*.tif
 
 full-model/data/raw/
 
-full-model/fire-sims/burns/g1/stan-fits/fit-params/
 full-model/fire-sims/burns/**/stan-fits/*.RDS
 full-model/fire-sims/burns/**/csv-fits/*.csv
 full-model/fire-sims/burns/**/csv-fits/**/*.csv
 full-model/fire-sims/counts/**/stan-fits/*.RDS
 full-model/fire-sims/**/**/csv-fits/*.csv
-full-model/fire-sims/**/**/cmd-stan-fits/*.RDS
 
 sim-study/models/g1/stan-fits/
-
-full-model/data/burns.RDS
 
 full-model/figures/model-comp/betas_counts_12may2023.RDS
 
 full-model/figures/model-comp/ll_full_counts_12may2023.RDS
 
-full-model/data/processed/daily_climate_extractions.RDS
+full-model/figures/g1/sigma_reg_draws.RData
+
+full-model/figures/model-comp/g1_comps_sigma_reg.RData
+
+full-model/figures/model-comp/g1_comps_loglik.RData
+
+full-model/figures/model-comp/g1_comps_twcrps.RData

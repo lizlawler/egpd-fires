@@ -11,29 +11,38 @@ library(posterior)
 
 # following code is for the counts -------
 count_fits <- paste0("full-model/fire-sims/counts/", list.files(path = "full-model/fire-sims/counts/", pattern = "*.csv", recursive = TRUE))
+exc_idx <- which(grepl('22Jun2023', count_fits))
+count_fits <- count_fits[-exc_idx]
+exc_idx <- which(grepl('0.9', count_fits))
+count_fits <- count_fits[-exc_idx]
 nfits <- length(count_fits)/3
 fit_groups <- vector(mode = "list", nfits)
 for(i in 1:nfits) {
   fit_groups[[i]] <- count_fits[(3*i-2):(3*i)]
 }
 
-extraction <- function(file_group) {
+mod_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]), "_0.81_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), 
+                                                                        "og_")) %>% unlist()
+
+extraction <- function(file_group, model_name) {
   object <- as_cmdstan_fit(file_group)
-  file <- basename(file_group[1])
-  model <- str_remove(file, "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")
   train_loglik <- object$draws(variables = "train_loglik")
   holdout_loglik <- object$draws(variables = "holdout_loglik")
   betas <- object$draws(variables = "beta")
   temp <- list(betas, train_loglik, holdout_loglik)
-  assign(model, temp, parent.frame())
+  names(temp) <- c("betas", "train_loglik", "holdout_loglik")
+  assign(model_name, temp, parent.frame())
   rm(object)
   gc()
 }
 
 # extraction(fit_groups[[1]])
 for(i in 1:nfits) {
-  extraction(fit_groups[[i]])
+  extraction(fit_groups[[i]], mod_names[i])
 }
+
+save(list = ls(pattern = "zi"), file = "full-model/fire-sims/counts/counts_betas_scores.RData")
+
 ## log score calculations ---------
 count_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
 holdout_loglik_counts <- vector("list", nfits)

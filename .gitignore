@@ -23,8 +23,6 @@ slurm*
 
 full-model/data/processed/**/*.tif
 
-full-model/data/raw/
-
 full-model/fire-sims/burns/**/stan-fits/*.RDS
 full-model/fire-sims/burns/**/csv-fits/*.csv
 full-model/fire-sims/burns/**/csv-fits/**/*.csv
@@ -52,3 +50,15 @@ full-model/figures/g1/bestmod_xivals_rerun.RDS
 *.history
 
 full-model/figures/model-comp/counts_betas_scores.RData
+
+full-model/data/raw/conus_wui_blk20.gdb/
+
+full-model/data/raw/conus_wui_blk20.zip
+
+full-model/data/raw/mtbs_fod_pts_data.zip
+
+full-model/data/raw/mtbs_fod_pts_data/
+
+full-model/data/raw/us_eco_l3.zip
+
+full-model/data/raw/us_eco_l3/

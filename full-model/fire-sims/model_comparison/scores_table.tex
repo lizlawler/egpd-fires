@@ -1,0 +1,157 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={scores\_tables},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{scores\_tables}
+\author{}
+\date{\vspace{-2.5em}2023-06-26}
+
+\begin{document}
+\maketitle
+
+\begin{tabular}{cccccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Regression} & \multicolumn{2}{c}{Difference} \\
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-6}
+Model & $\kappa$($\mu$) & $\sigma$ & $\xi$ & Mean & SD\\
+\midrule
+ & $\checkmark$ & -- & -- & 0.000 & 0.000\\
+
+ & -- & $\checkmark$ & -- & 0.060 & 0.093\\
+
+ & $\checkmark$ & $\checkmark$ & -- & 0.119 & 0.138\\
+
+\multirow{-4}{*}{\centering\arraybackslash $G_1$} & $\checkmark$ & $\checkmark$ & $\checkmark$ & 0.199 & 0.159\\
+\cmidrule{1-6}
+$G_2$ & $\checkmark$ & -- & -- & 0.306 & 0.265\\
+\cmidrule{1-6}
+ & ($\checkmark$) & * & -- & 0.214 & 0.106\\
+
+ & ($\checkmark$) & -- & -- & 0.247 & 0.147\\
+
+\multirow{-3}{*}{\centering\arraybackslash Lognormal} & ($\checkmark$) & $\checkmark$ & -- & 0.529 & 0.228\\
+\bottomrule
+\end{tabular}
+
+\begin{tabular}{cccccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Regression} & \multicolumn{2}{c}{Difference} \\
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-6}
+Model & $\kappa$($\mu$) & $\sigma$ & $\xi$ & Mean & SD\\
+\midrule
+ & $\checkmark$ & -- & -- & -105.042 & 912.483\\
+
+ & -- & $\checkmark$ & -- & -130.922 & 75.327\\
+
+ & $\checkmark$ & $\checkmark$ & -- & -398.481 & 901.930\\
+
+\multirow{-4}{*}{\centering\arraybackslash $G_1$} & $\checkmark$ & $\checkmark$ & $\checkmark$ & -4211.536 & 76188.834\\
+\cmidrule{1-6}
+$G_2$ & $\checkmark$ & -- & -- & -311.107 & 234.472\\
+\cmidrule{1-6}
+ & ($\checkmark$) & * & -- & 0.000 & 0.000\\
+
+ & ($\checkmark$) & -- & -- & -112.790 & 80.231\\
+
+\multirow{-3}{*}{\centering\arraybackslash Lognormal} & ($\checkmark$) & $\checkmark$ & -- & -1068.779 & 1468.779\\
+\bottomrule
+\end{tabular}
+
+\begin{tabular}{cccccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Regression} & \multicolumn{2}{c}{Difference} \\
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-6}
+Model & $\lambda$ & $\pi$ & $\delta$ & Mean & SD\\
+\midrule
+ & $\checkmark$ & -- & -- & 0.000 & 0.000\\
+
+ & $\checkmark$ & $\checkmark$ & -- & -88.895 & 250.827\\
+
+ & $\checkmark$ & -- & * & -535.999 & 281.341\\
+
+\multirow{-4}{*}{\centering\arraybackslash ZI-Negative Binomial} & $\checkmark$ & $\checkmark$ & * & -564.844 & 271.064\\
+\cmidrule{1-6}
+ & $\checkmark$ & -- &  & -1239.502 & 301.771\\
+
+\multirow{-2}{*}{\centering\arraybackslash ZI-Poisson} & $\checkmark$ & $\checkmark$ &  & -1277.991 & 288.419\\
+\bottomrule
+\end{tabular}
+
+\end{document}

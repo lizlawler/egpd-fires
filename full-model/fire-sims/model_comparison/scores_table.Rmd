@@ -1,0 +1,144 @@
+---
+title: "scores_tables"
+output: 
+  pdf_document: 
+    keep_tex: yes
+date: "2023-06-26"
+---
+
+```{r echo=FALSE, message=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+load("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/burns_comp_tables.RData")
+idx <- which(grepl("sqrt", twcrps_comp_test_full$model))
+short_twcrps <- twcrps_comp_test_full[-idx,]
+short_twcrps <- short_twcrps %>% 
+  mutate(kappa = case_when(model == 'g1_og_kappa-ri_sigma-reg' ~ 'ri',
+                               TRUE ~ 'reg'),
+         sigma = case_when(model == 'g1_og_sigma-ri' ~ 'ri',
+                               model == 'lognorm_og_sigma-cst' ~ 'cst',
+                               model == 'lognorm_og_sigma-ri' ~ 'ri',
+                               model == 'g2_og_sigma-ri' ~ 'ri',
+                               TRUE ~ 'reg'),
+         xi = case_when(model == 'g1_og_all-reg_sigma-reg' ~ 'reg',
+                            TRUE ~ 'ri')) %>%
+  separate_wider_delim(cols = model, delim = "_", names = "model", too_many = "drop") %>%
+  rename(mdiff = mean_diff, sdiff = sd_diff)
+
+short_twcrps %>% arrange(model, mdiff) %>% 
+  relocate(c('kappa', 'sigma', 'xi'), .before = 'mdiff') %>% mutate_if(is.numeric, round, 3) %>% 
+    mutate(kappa = case_when(kappa == 'reg' & model != 'lognorm' ~ "$\\checkmark$", 
+                             kappa == 'reg' & model == 'lognorm' ~ "($\\checkmark$)", 
+                             kappa == 'ri' ~ "--"),
+           sigma = case_when(sigma == 'reg' ~ "$\\checkmark$",
+                             sigma == 'ri' ~ "--",
+                             sigma == 'cst' ~ "*"),
+           xi = case_when(xi == 'reg' ~ "$\\checkmark$",
+                          xi == 'ri' ~ "--"),
+           model = case_when(model == 'g1' ~ "$G_1$",
+                             model == 'g2' ~ "$G_2$",
+                             model == 'lognorm' ~ "Lognormal")) %>% 
+  rename("$\\kappa$($\\mu$)" = kappa, "$\\sigma$" = sigma, "$\\xi$" = xi, 
+         "Mean" = mdiff, "SD" = sdiff, "Model" = model) %>% 
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% add_header_above(c(" "=1, "Regression" = 3, "Difference" = 2)) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+
+
+```{r echo=FALSE, message=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+load("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/burns_comp_tables.RData")
+test_ll_sort <- ll_full %>% filter(train == FALSE, dataset == "og") %>% 
+  group_by(fullname, model, dataset, params) %>% 
+  summarize(med_test_ll = median(loglik)) %>% arrange(-med_test_ll)
+top_mod_test <- as.character(test_ll_sort$fullname[2])
+
+ll_comp_test_full <- ll_full %>% filter(train == FALSE, dataset == "og") %>% 
+  select(c(draw, fullname, loglik)) %>% 
+  pivot_wider(names_from = fullname, values_from = loglik, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
+  group_by(model) %>%
+  summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-mean_diff)
+
+table_ll_burns <- ll_comp_test_full %>% 
+  mutate(kappa = case_when(model == 'g1_og_kappa-ri_sigma-reg' ~ 'ri',
+                               TRUE ~ 'reg'),
+         sigma = case_when(model == 'g1_og_sigma-ri' ~ 'ri',
+                               model == 'lognorm_og_sigma-cst' ~ 'cst',
+                               model == 'lognorm_og_sigma-ri' ~ 'ri',
+                               model == 'g2_og_sigma-ri' ~ 'ri',
+                               TRUE ~ 'reg'),
+         xi = case_when(model == 'g1_og_all-reg_sigma-reg' ~ 'reg',
+                            TRUE ~ 'ri')) %>%
+  separate_wider_delim(cols = model, delim = "_", names = "model", too_many = "drop") %>%
+  rename(mdiff = mean_diff, sdiff = sd_diff)
+
+table_ll_burns %>% arrange(model) %>% 
+  relocate(c('kappa', 'sigma', 'xi'), .before = 'mdiff') %>% mutate_if(is.numeric, round, 3) %>% 
+    mutate(kappa = case_when(kappa == 'reg' & model != 'lognorm' ~ "$\\checkmark$", 
+                             kappa == 'reg' & model == 'lognorm' ~ "($\\checkmark$)", 
+                             kappa == 'ri' ~ "--"),
+           sigma = case_when(sigma == 'reg' ~ "$\\checkmark$",
+                             sigma == 'ri' ~ "--",
+                             sigma == 'cst' ~ "*"),
+           xi = case_when(xi == 'reg' ~ "$\\checkmark$",
+                          xi == 'ri' ~ "--"),
+           model = case_when(model == 'g1' ~ "$G_1$",
+                             model == 'g2' ~ "$G_2$",
+                             model == 'lognorm' ~ "Lognormal")) %>% 
+  rename("$\\kappa$($\\mu$)" = kappa, "$\\sigma$" = sigma, "$\\xi$" = xi, 
+         "Mean" = mdiff, "SD" = sdiff, "Model" = model) %>% 
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% add_header_above(c(" "=1, "Regression" = 3, "Difference" = 2)) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+
+```{r echo=FALSE, message=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+ll_comp_test_full <- readRDS("full-model/fire-sims/model_comparison/count_scores.RDS")
+
+table_ll_burns <- ll_comp_test_full %>% 
+  mutate(lambda = 'reg',
+         pi = case_when(model == 'zinb_er_pi-ri' ~ 'ri',
+                        model == 'zinb_pi-ri' ~ 'ri',
+                        model == 'zip_pi-ri' ~ 'ri',
+                               TRUE ~ 'reg'),
+         delta = case_when(model == 'zinb_er_pi-ri' ~ 'ri',
+                           model == 'zinb_er_all-reg' ~ 'ri',
+                           model == 'zinb_all-reg' ~ 'cst',
+                           model == 'zinb_pi-ri' ~ 'cst',
+                           TRUE ~ 'NA')) %>%
+  separate_wider_delim(cols = model, delim = "_", names = c("model", "submodel"), too_many = "drop") %>%
+  rename(mdiff = mean_diff, sdiff = sd_diff)
+
+table_ll_burns %>% arrange(model) %>% 
+  relocate(c('lambda', 'pi', 'delta'), .before = 'mdiff') %>% mutate_if(is.numeric, round, 3) %>% 
+    mutate(lambda = case_when(lambda == 'reg' ~ "$\\checkmark$", 
+                             TRUE ~ NA ),
+           pi = case_when(pi == 'reg' ~ "$\\checkmark$",
+                             pi == 'ri' ~ "--",
+                             pi == 'cst' ~ "*"),
+           delta = case_when(delta == 'reg' ~ "$\\checkmark$",
+                             delta == 'ri' ~ "--",
+                             delta == 'cst' ~ "*",
+                             delta == 'NA' ~ ''),
+           model = case_when(model == 'zinb' ~ "ZI-Negative Binomial",
+                             model == 'zip' ~ "ZI-Poisson")) %>% select(-submodel) %>% 
+  rename("$\\lambda$" = lambda, "$\\pi$" = pi, "$\\delta$" = delta, 
+         "Mean" = mdiff, "SD" = sdiff, "Model" = model) %>% 
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% add_header_above(c(" "=1, "Regression" = 3, "Difference" = 2)) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+

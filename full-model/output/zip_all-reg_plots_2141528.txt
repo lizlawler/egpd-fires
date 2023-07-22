@@ -1,0 +1,29 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+
+A newer version of CmdStan is available. See ?install_cmdstan() to install it.
+To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+[1] "Filenames being used are:"
+[1] "./full-model/fire-sims/counts/zip/csv-fits/zip_all-reg_22Jun2023_2147_1.csv"
+[2] "./full-model/fire-sims/counts/zip/csv-fits/zip_all-reg_22Jun2023_2147_2.csv"
+[3] "./full-model/fire-sims/counts/zip/csv-fits/zip_all-reg_22Jun2023_2147_3.csv"
+[1] "Creating cmdstan fit object..."
+$num_divergent
+[1] 0 0 0
+
+$num_max_treedepth
+[1] 0 0 0
+
+$ebfmi
+[1] 0.5518875 0.2814648 0.2340358
+
+[1] "Creating mcmc list from cmdstan object..."
+[1] "Creating traceplot of rhos..."
+[1] "rho traceplots created"
+[1] "Creating traceplot of betas"
+[1] "beta traceplots created"
+[1] "Creating traceplot of phi..."
+[1] "phi traceplots created"

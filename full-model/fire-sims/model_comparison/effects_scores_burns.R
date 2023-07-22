@@ -6,11 +6,13 @@ library(stringr)
 library(posterior)
 
 # following code is for extracting from the actual model fit -------
-burn_fits <- paste0("full-model/fire-sims/burns/g1/csv-fits/",
-                    list.files(path = "full-model/fire-sims/burns/g1/csv-fits",
-                               pattern = "sigma-reg", recursive = TRUE))
-allregidx <- which(grepl("all-reg", burn_fits))
-burn_fits <- burn_fits[-allregidx]
+burn_fits <- paste0("full-model/fire-sims/burns/",
+                    list.files(path = "full-model/fire-sims/burns/",
+                               pattern = "22Jun2023", recursive = TRUE))
+g2sigmari <- which(grepl("g2_sigma-ri", burn_fits))
+burn_fits <- burn_fits[-g2sigmari]
+g1allreg <- which(grepl("g1_all-reg", burn_fits))
+burn_fits <- burn_fits[-g1allreg]
 nfits <- length(burn_fits)/3
 fit_groups <- vector(mode = "list", nfits)
 for(i in 1:nfits) {
@@ -51,13 +53,14 @@ save(list=c(ls(pattern="g1"), ls(pattern = "burn_names")), file = "full-model/fi
 # read in best model - G1 with regression on sigma and kappa
 files <- paste0("full-model/fire-sims/burns/g1/csv-fits/", 
                 list.files(path = "full-model/fire-sims/burns/g1/csv-fits/",
-                           pattern = "og_xi-ri_sigma-reg", recursive = TRUE))
+                           pattern = "g1_xi-ri_22Jun2023", recursive = TRUE))
 g1_og_xi_ri <- read_cmdstan_csv(files, variables = "ri_init")
+saveRDS(g1_og_xi_ri, file = "full-model/figures/g1/bestmod_xivals_rerun.RDS")
 
-stan_data_og <- readRDS("full-model/data/stan_data_og.rds")
-X <- stan_data_og$X_train
-# stan_data_sqrt <- readRDS("full-model/data/stan_data_sqrt.rds")
-# X_sqrt <- stan_data_sqrt$X_train
+best_mod <- read_cmdstan_csv(fit_groups[[3]], variables = c("ri_init", "beta"))
+
+stan_data <- readRDS("full-model/data/stan_data_og_new.RDS")
+X <- stan_data$X_train
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',
           'rmin')
@@ -70,7 +73,7 @@ for(i in seq_along(vars)) {
   start = start + 6
 }
 
-load(file = "./full-model/data/processed/region_key.RData")
+region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
 full_reg_key <- as_tibble(region_key) %>%
   mutate(region = c(1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
@@ -78,7 +81,7 @@ full_reg_key <- as_tibble(region_key) %>%
          NA_L3CODE = as.factor(NA_L3CODE))
 reg_cols <- full_reg_key$region
 r <- 84
-t <- stan_data_og$T_train
+t <- stan_data$T_train
 # 
 kappa_burns <- list()
 nu_burns <- list()
@@ -90,12 +93,18 @@ xi_burns <- list()
 # betas_nu <- `g1_sqrt_all-reg_0.81`[[1]][,,nu_idx]
 # betas_xi <- `g1_sqrt_all-reg_0.81`[[1]][,,xi_idx]
 
-idx <- which(grepl("beta", variables(g1_og_xi_ri$post_warmup_draws)))
-all_betas <- g1_og_xi_ri$post_warmup_draws[,,idx] %>% as_draws_df() %>%
+idx <- which(grepl("beta", variables(best_mod$post_warmup_draws)))
+all_betas <- best_mod$post_warmup_draws[,,idx] %>% as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>% 
   pivot_longer(cols = !".draw") %>%
   rename(draw = ".draw") %>% 
   separate_wider_delim(cols = "name", delim = ",", names = c("param", "coef", "region"))
+
+all_betas <- best_mod$post_warmup_draws[,,idx] %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>% 
+  separate(col = "name", sep = ",", into = c("param", "coef", "region"))
 all_betas <- all_betas %>% 
   mutate(param = as.numeric(gsub("beta\\[", "", param)),
          coef = as.numeric(coef),
@@ -136,13 +145,13 @@ sigma_burns <- bind_rows(coef_df_list_sigma) %>% as_tibble() %>% left_join(., fu
 p <- ggplot(sigma_burns, aes(x = linear, y = effect, group = region)) + 
         geom_line(aes(color = NA_L2CODE)) +
         facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("sigma_effects")
-file_name <- "full-model/figures/g1/effects/sigma_effects_bestmod_nolevel1.png"
+file_name <- "full-model/figures/g1/effects/sigma_effects_bestmod_newdata.png"
 ggsave(file_name, p, dpi = 320, type = "cairo", bg = "white")
 
 p <- ggplot(kappa_burns, aes(x = linear, y = effect, group = region)) + 
   geom_line(aes(color = NA_L2CODE)) +
   facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("kappa_effects")
-file_name <- "full-model/figures/g1/effects/kappa_effects_bestmod_nolevel1.png"
+file_name <- "full-model/figures/g1/effects/kappa_effects_bestmod_newdata.png"
 ggsave(file_name, p, dpi = 320, type = "cairo", bg = "white")
 
 xi_idx <- which(grepl("ri_init", variables(g1_og_xi_ri$post_warmup_draws)))
@@ -451,11 +460,24 @@ extraction <- function(file_group, model_name) {
 rm(one_fit)
 gc()
 
+extraction <- function(file_group, model_name) {
+  model_object <- as_cmdstan_fit(file_group)
+  train_loglik <- model_object$draws(variables = "train_loglik")
+  holdout_loglik <- model_object$draws(variables = "holdout_loglik")
+  train_twcrps <- model_object$draws(variables = "train_twcrps")
+  holdout_twcrps <- model_object$draws(variables = "holdout_twcrps")
+  rm(model_object)
+  temp <- list(train_loglik, holdout_loglik, train_twcrps, holdout_twcrps)
+  names(temp) <- c("train_loglik", "holdout_loglik", "train_twcrps", "holdout_twcrps")
+  assign(model_name, temp, parent.frame())
+  gc()
+}
+
 # remove gen-quant file that didn't complete (will investigate later)
 gq_fit_groups <- c(gq_fit_groups[1:8], list(gq_fit_groups[[9]][2:3]), gq_fit_groups[10:nfits])
 
 for(i in 1:nfits) {
-  extraction(gq_fit_groups[[i]], gq_mod_names[i])
+  extraction(burn_fits[[i]], burn_names[i])
 }
 
 # also excluding lognorm with mu-ri
@@ -467,10 +489,10 @@ holdout_loglik_list <- vector("list", nfits)
 train_twcrps_list <- vector("list", nfits)
 holdout_twcrps_list <- vector("list", nfits)
 
-for(i in seq_along(gq_mod_names)) {
-  model_string <- str_split(gq_mod_names[i], pattern = "_")[[1]]
+for(i in seq_along(burn_names)) {
+  model_string <- str_split(burn_names[i], pattern = "_")[[1]]
   model_string <- if(length(model_string) > 4) model_string[-4] else model_string
-  train_loglik_list[[i]] <- get(gq_mod_names[i])[["train_loglik"]] %>%
+  train_loglik_list[[i]] <- get(burn_names[i])[["train_loglik"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
     pivot_longer(cols = !".draw") %>%
@@ -482,7 +504,7 @@ for(i in seq_along(gq_mod_names)) {
            params = model_string[3],
            stepsize = model_string[4],
            train = TRUE)
-  holdout_loglik_list[[i]] <- get(gq_mod_names[i])[["holdout_loglik"]] %>%
+  holdout_loglik_list[[i]] <- get(burn_names[i])[["holdout_loglik"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
     pivot_longer(cols = !".draw") %>%
@@ -494,7 +516,7 @@ for(i in seq_along(gq_mod_names)) {
            params = model_string[3],
            stepsize = model_string[4],
            train = FALSE)
-  train_twcrps_list[[i]] <- get(gq_mod_names[i])[["train_twcrps"]] %>%
+  train_twcrps_list[[i]] <- get(burn_names[i])[["train_twcrps"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
     pivot_longer(cols = !".draw") %>%
@@ -506,7 +528,7 @@ for(i in seq_along(gq_mod_names)) {
            params = model_string[3],
            stepsize = model_string[4],
            train = TRUE)
-  holdout_twcrps_list[[i]] <- get(gq_mod_names[i])[["holdout_twcrps"]] %>%
+  holdout_twcrps_list[[i]] <- get(burn_names[i])[["holdout_twcrps"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
     pivot_longer(cols = !".draw") %>%
@@ -519,6 +541,52 @@ for(i in seq_along(gq_mod_names)) {
            stepsize = model_string[4],
            train = FALSE)
 }
+
+for(i in seq_along(burn_names)) {
+  model_string <- str_split(burn_names[i], pattern = "_")[[1]]
+  model_string <- if(length(model_string) > 2) model_string[-3] else model_string
+  train_loglik_list[[i]] <- get(burn_names[i])[["train_loglik"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(loglik = sum(value)) %>%
+    mutate(model = model_string[1],
+           params = model_string[2],
+           train = TRUE)
+  holdout_loglik_list[[i]] <- get(burn_names[i])[["holdout_loglik"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(loglik = sum(value)) %>%
+    mutate(model = model_string[1],
+           params = model_string[2],
+           train = FALSE)
+  train_twcrps_list[[i]] <- get(burn_names[i])[["train_twcrps"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(twcrps = mean(value)) %>%
+    mutate(model = model_string[1],
+           params = model_string[2],
+           train = TRUE)
+  holdout_twcrps_list[[i]] <- get(burn_names[i])[["holdout_twcrps"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(twcrps = mean(value)) %>%
+    mutate(model = model_string[1],
+           params = model_string[2],
+           train = FALSE)
+}
+
 
 train_loglik <- bind_rows(train_loglik_list)
 holdout_loglik <- bind_rows(holdout_loglik_list)
@@ -533,13 +601,18 @@ ll_full <- train_loglik %>%
          fullname = paste0(model, "_", dataset, "_", params)) %>%
   select(-stepsize)
 
+ll_full <- train_loglik %>% 
+  full_join(holdout_loglik) %>% 
+  mutate(fullname = paste0(model, "_", params)) %>%
+  filter(fullname != 'g2_kappa-ri', fullname != 'g2_all-reg', fullname != 'lognorm_all-reg')
+
 train_ll_sort <- ll_full %>% filter(train == TRUE) %>% 
-  group_by(fullname, model, dataset, params) %>% 
+  group_by(fullname, model, params) %>% 
   summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
 top_mod_train <- as.character(train_ll_sort$fullname[1])
 
 test_ll_sort <- ll_full %>% filter(train == FALSE) %>% 
-  group_by(fullname, model, dataset, params) %>% 
+  group_by(fullname, model, params) %>% 
   summarize(med_test_ll = median(loglik)) %>% arrange(-med_test_ll)
 top_mod_test <- as.character(test_ll_sort$fullname[1])
 
@@ -563,26 +636,16 @@ ll_comp_test_full <- ll_full %>% filter(train == FALSE) %>%
 ## twCRPS aggregation and comparions ---------
 twcrps_full <- train_twcrps %>%
   full_join(holdout_twcrps) %>%
-  mutate(params = case_when(stepsize == "sigma-reg" ~ paste0(params, "_", stepsize),
-                            TRUE ~ params),
-         fullname = paste0(model, "_", dataset, "_", params)) %>%
-  select(-stepsize)
-
-limits_twcrps_full <- twcrps_full %>% reframe(limits = quantile(twcrps, c(0.05,0.95), na.rm = TRUE))
-twcrps_boxplot_full <- twcrps_full %>%
-  ggplot(aes(fullname, twcrps, color = train)) +
-  geom_boxplot(outlier.shape = NA) + scale_y_continuous(limits = limits_twcrps_og$limits) +
-  theme_minimal()
-ggsave("full-model/figures/model-comp/twcrps_g1_full_18jun2023.png", plot = twcrps_boxplot_full,
-       dpi = 320, bg = "white")
+  mutate(fullname = paste0(model, "_", params)) %>%
+  filter(fullname != 'g2_kappa-ri', fullname != 'g2_all-reg', fullname != 'lognorm_all-reg')
 
 train_twcrps_sort <- twcrps_full %>% filter(train == TRUE) %>% 
-  group_by(fullname, model, dataset, params) %>% 
+  group_by(fullname, model, params) %>% 
   summarize(mean_train_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_train_twcrps)
 top_mod_train_tw <- as.character(train_twcrps_sort$fullname[1])
 
 test_twcrps_sort <- twcrps_full %>% filter(train == FALSE) %>% 
-  group_by(fullname, model, dataset, params) %>% 
+  group_by(fullname, model, params) %>% 
   summarize(mean_test_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_test_twcrps)
 top_mod_test_tw <- as.character(test_twcrps_sort$fullname[1])
 

@@ -74,5 +74,6 @@ while(year >= 1983 & year <= 2021) {
   year <- year + 1
   unlink(temp_files)
   rm(fwi_rast)
+  source("full-model/data/process-data/fwiraster_terra.R")
   gc()
 }

@@ -41,6 +41,8 @@ if (!file.exists('./full-model/data/processed/region_key.rds')) {
   region_key <- read_rds('./full-model/data/processed/region_key.rds')
 }
 
+assert_that(all(region_key$NA_L3NAME == attributes(nb_agg)$region.id))
+
 reg_key <- as_tibble(region_key) %>% 
   mutate(region = c(1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
@@ -68,35 +70,6 @@ for(i in 1:84) {
   }
 }
 
-# generate AR(1) indicator matrices for use in covariance matrix in stan
-p <- 37
-zeroes <- matrix(0, p, p)
-equal <- diag(p)
-bp_lin <- zeroes
-bp_square <- zeroes
-bp_cube <- zeroes
-bp_quart <- zeroes
-cov_vec_idx <- setdiff(c(1:37), c(1, seq(2,37, 6))) # pull indices related to splines only
-
-for(i in cov_vec_idx) {
-  for(j in cov_vec_idx) {
-    if (i + 1 == j | i - 1 == j) {
-      bp_lin[i, j] = 1
-    } else if (i + 2 == j | i - 2 == j) {
-      bp_square[i, j] = 1
-    } else if (i + 3 == j | i - 3 == j) {
-      bp_cube[i, j] = 1
-    } else if (i + 4 == j | i - 4 == j) {
-      bp_quart[i, j] = 1
-    } else {
-      bp_lin[i, j] = 0
-      bp_square[i, j] = 0
-      bp_cube[i, j] = 0
-      bp_quart[i, j] = 0
-    }
-  }
-}
-
 ## FINAL DATA PROCESSING ## -----------
 ecoregion_df <- ecoregion_shp %>% as_tibble()
 
@@ -105,6 +78,7 @@ area_df <- ecoregion_df %>%
   group_by(NA_L3NAME) %>%
   summarize(area = sum(Shape_Area)) %>% ungroup() %>%
   arrange(NA_L3NAME, .locale = "en")
+assert_that(all(region_key$NA_L3NAME == area_df$NA_L3NAME))
 
 burn_df <- mtbs_er %>% as_tibble() %>% 
   dplyr::select(BurnBndAc, fire_yr, fire_mon, ym, 
@@ -112,7 +86,8 @@ burn_df <- mtbs_er %>% as_tibble() %>%
          Shape_Leng, Shape_Area) %>%
   arrange(NA_L3NAME, ym, .locale = "en")
 
-count_df <- count_df %>%
+count_df <- count_df_climate %>% 
+  left_join(count_df_erc) %>% left_join(count_df_fwi) %>%
   left_join(area_df) %>%
   arrange(NA_L3NAME, ym, .locale = "en")
 
@@ -120,6 +95,10 @@ er_df <- ecoregion_df %>%
   dplyr::select(NA_L3NAME, NA_L2NAME, NA_L1NAME, NA_L2CODE, NA_L1CODE) %>% 
   distinct() %>%
   filter(NA_L2NAME != 'UPPER GILA MOUNTAINS (?)')
+
+ecoregion_summaries <- ecoregion_summaries %>% 
+  left_join(ecoregion_summaries_erc) %>%
+  left_join(ecoregion_summaries_fwi)
 
 er_covs <- ecoregion_summaries %>%
   left_join(er_df) %>%
@@ -135,6 +114,7 @@ er_covs <- ecoregion_summaries %>%
 
 assert_that(length(setdiff(er_covs$NA_L3NAME, count_df$NA_L3NAME)) == 0)
 assert_that(!anyDuplicated(er_covs))
+assert_that(all(region_key$NA_L3NAME == unique(er_covs$NA_L3NAME)))
 er_covs$id <- 1:nrow(er_covs)
 
 # Create training and test sets
@@ -154,6 +134,8 @@ holdout_counts <- count_df %>%
   filter(year %in% test_years) %>%
   left_join(er_covs)
 assert_that(sum(nrow(holdout_counts), nrow(train_counts)) == nrow(count_df))
+assert_that(all(region_key$NA_L3NAME == unique(train_counts$NA_L3NAME)))
+assert_that(all(region_key$NA_L3NAME == unique(holdout_counts$NA_L3NAME)))
 
 idx_count_hold <- match(holdout_counts$er_ym, er_covs$er_ym)
 assert_that(all(holdout_counts$er_ym == er_covs[idx_count_hold, ]$er_ym))
@@ -172,6 +154,8 @@ holdout_burns_full <-  burn_df %>%
   arrange(NA_L3NAME, ym.y, .locale = "en")
 assert_that(all(unique(holdout_burns_full$fire_yr) == test_years))
 assert_that(all(unique(train_burns_full$fire_yr) == train_years))
+assert_that(all(region_key$NA_L3NAME == unique(train_burns_full$NA_L3NAME)))
+assert_that(all(region_key$NA_L3NAME == unique(holdout_burns_full$NA_L3NAME)))
 
 # this data frame has no duplicate ecoregion X timestep combos
 N <- as.numeric(length(unique(er_covs$NA_L3NAME)))
@@ -181,7 +165,7 @@ assert_that(nrow(er_covs) == N * T)
 # standardization, then B-spline creation -------
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',
-          'rmin')
+          'rmin', 'erc', 'fwi')
 
 df_each <- 5
 deg_each <- 3
@@ -216,6 +200,11 @@ un_std <- bind_rows(un_std)
 X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAME, year = er_covs$year) %>% 
   mutate(intercept = 1, .before = lin_log_housing_density)
 X_train <- X_full %>% filter(year %in% train_years) %>% dplyr::select(-year)
+erc_idx <- c(1, grep('housing', colnames(X_train)), grep('_erc', colnames(X_train)))
+fwi_idx <- c(1, grep('housing', colnames(X_train)), grep('_fwi', colnames(X_train)))
+climate_idx <- 1:37
+assert_that(all(region_key$NA_L3NAME == unique(X_full$NA_L3NAME)))
+assert_that(all(region_key$NA_L3NAME == unique(X_train$NA_L3NAME)))
 
 # split X_full and X_train into list of 84 design matrices, then reshape to an array for stan model
 X_list_full <- lapply(split(X_full, X_full$NA_L3NAME), function(x) dplyr::select(x, -NA_L3NAME))
@@ -253,7 +242,7 @@ idx_tb_all <- match(train_burns_full$er_ym, X_train$er_ym) # indices to broadcas
 assert_that(all(X_train$er_ym[idx_tb_all] == train_burns_full$er_ym)) # check broadcasting works
 assert_that(all(X_train$er_ym[idx_tb_all][idx_tb_obs] == train_burns_full$er_ym[idx_tb_obs]))
 
-# pull indices from holdout_burns_full for use in log scores
+ # pull indices from holdout_burns_full for use in log scores
 idx_hold_obs <- which(!is.na(holdout_burns_full$BurnBndAc)) # pulls indices wrt holdout dataset
 idx_hold_all <- match(holdout_burns_full$er_ym, X_full$er_ym) # indices of holdout dataset wrt full X
 assert_that(all(X_full$er_ym[idx_hold_all] == holdout_burns_full$er_ym)) 
@@ -267,34 +256,65 @@ burn_hold_obs_og <- holdout_burns_full$BurnBndAc[idx_hold_obs]/1000
 assert_that(all(!is.na(burn_hold_obs_og)))
 hist(burn_hold_obs_og)
 
-# use square root of burn area 
-burn_train_obs_sqrt <- sqrt(burn_train_obs_og)
-assert_that(all(!is.na(burn_train_obs_sqrt)))
-hist(burn_train_obs_sqrt)
-burn_hold_obs_sqrt <- sqrt(burn_hold_obs_og)
-assert_that(all(!is.na(burn_hold_obs_sqrt)))
-hist(burn_hold_obs_sqrt)
-
 # reshape design matrices into arrays for stan model
 X_list_full <- lapply(X_list_full, function(x) dplyr::select(x, -c(year, er_ym)))
 X_list_train <- lapply(X_list_train, function(x) dplyr::select(x, -er_ym))
 t_train <- nrow(X_list_train[[1]])
 t_all <- nrow(X_list_full[[1]])
-X_array_train <- array(NA, dim = c(84, t_train, 37))
-X_array_full <- array(NA, dim = c(84, t_all, 37))
+X_array_train_climate <- array(NA, dim = c(84, t_train, 37))
+X_array_full_climate <- array(NA, dim = c(84, t_all, 37))
+X_array_train_erc <- array(NA, dim = c(84, t_train, 13))
+X_array_full_erc <- array(NA, dim = c(84, t_all, 13))
+X_array_train_fwi <- array(NA, dim = c(84, t_train, 13))
+X_array_full_fwi <- array(NA, dim = c(84, t_all, 13))
 for(i in 1:84) {
-  X_array_train[i, ,] <- as.matrix(X_list_train[[i]])
-  X_array_full[i, ,] <- as.matrix(X_list_full[[i]])
+  X_array_train_climate[i, ,] <- as.matrix(X_list_train[[i]][,climate_idx])
+  X_array_full_climate[i, ,] <- as.matrix(X_list_full[[i]][,climate_idx])
+  X_array_train_erc[i, ,] <- as.matrix(X_list_train[[i]][,erc_idx])
+  X_array_full_erc[i, ,] <- as.matrix(X_list_full[[i]][,erc_idx])
+  X_array_train_fwi[i, ,] <- as.matrix(X_list_train[[i]][,fwi_idx])
+  X_array_full_fwi[i, ,] <- as.matrix(X_list_full[[i]][,fwi_idx])
 }
 
+## MODEL WITH ALL CLIMATE COVARIATES ## -----------------------------------------
+# generate AR(1) indicator matrices for use in covariance matrix
+p <- 37
+zeroes <- matrix(0, p, p)
+equal <- diag(p)
+bp_lin <- zeroes
+bp_square <- zeroes
+bp_cube <- zeroes
+bp_quart <- zeroes
+cov_vec_idx <- setdiff(c(1:37), c(1, seq(2,37, 6))) # pull indices related to splines only
+
+for(i in cov_vec_idx) {
+  for(j in cov_vec_idx) {
+    if (i + 1 == j | i - 1 == j) {
+      bp_lin[i, j] = 1
+    } else if (i + 2 == j | i - 2 == j) {
+      bp_square[i, j] = 1
+    } else if (i + 3 == j | i - 3 == j) {
+      bp_cube[i, j] = 1
+    } else if (i + 4 == j | i - 4 == j) {
+      bp_quart[i, j] = 1
+    } else {
+      bp_lin[i, j] = 0
+      bp_square[i, j] = 0
+      bp_cube[i, j] = 0
+      bp_quart[i, j] = 0
+    }
+  }
+}
+
+# points for twCRPS calculation
 n_int <- 5000
 int_holdout <- max(burn_hold_obs_og) - min(burn_hold_obs_og)
 int_train <- max(burn_train_obs_og) - min(burn_train_obs_og)
 int_pts_holdout <- min(burn_hold_obs_og) + (1:n_int)*(int_holdout/n_int)
 int_pts_train <- min(burn_train_obs_og) + (1:n_int)*(int_train/n_int)
 
-# Bundle up data into a list too pass to Stan -----------------------------
-stan_data_og <- list(
+# Bundle up data into a list to pass to Stan -----------------------------
+stan_data_climate <- list(
   R = 84, # total number of regions
   p = p,
   T_all = t_all,
@@ -302,8 +322,8 @@ stan_data_og <- list(
   T_hold = t_all - t_train,
   
   # covariate data
-  X_full = X_array_full,
-  X_train = X_array_train,
+  X_full = X_array_full_climate,
+  X_train = X_array_train_climate,
   
   # count data
   area_offset = log(area_df$area * 1e-11) / 2,
@@ -354,7 +374,38 @@ stan_data_og <- list(
   int_pts_holdout = int_pts_holdout
 )
 
-stan_data_sqrt <- list(
+## MODEL WITH ERC and HOUSING COVARIATES ## -----------------------------------------
+# generate AR(1) indicator matrices for use in covariance matrix
+p <- 13
+zeroes <- matrix(0, p, p)
+equal <- diag(p)
+bp_lin <- zeroes
+bp_square <- zeroes
+bp_cube <- zeroes
+bp_quart <- zeroes
+cov_vec_idx <- setdiff(c(1:p), c(1, seq(2,p, 6))) # pull indices related to splines only
+
+for(i in cov_vec_idx) {
+  for(j in cov_vec_idx) {
+    if (i + 1 == j | i - 1 == j) {
+      bp_lin[i, j] = 1
+    } else if (i + 2 == j | i - 2 == j) {
+      bp_square[i, j] = 1
+    } else if (i + 3 == j | i - 3 == j) {
+      bp_cube[i, j] = 1
+    } else if (i + 4 == j | i - 4 == j) {
+      bp_quart[i, j] = 1
+    } else {
+      bp_lin[i, j] = 0
+      bp_square[i, j] = 0
+      bp_cube[i, j] = 0
+      bp_quart[i, j] = 0
+    }
+  }
+}
+
+# Bundle up data into a list to pass to Stan -----------------------------
+stan_data_erc <- list(
   R = 84, # total number of regions
   p = p,
   T_all = t_all,
@@ -362,8 +413,8 @@ stan_data_sqrt <- list(
   T_hold = t_all - t_train,
   
   # covariate data
-  X_full = X_array_full,
-  X_train = X_array_train,
+  X_full = X_array_full_erc,
+  X_train = X_array_train_erc,
   
   # count data
   area_offset = log(area_df$area * 1e-11) / 2,
@@ -374,8 +425,8 @@ stan_data_sqrt <- list(
   
   # burn data 
   # training data
-  y_min = min(burn_hold_obs_sqrt, burn_train_obs_sqrt),
-  y_train_obs = burn_train_obs_sqrt,
+  y_min = min(burn_hold_obs_og, burn_train_obs_og),
+  y_train_obs = burn_train_obs_og,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
   ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
@@ -384,7 +435,69 @@ stan_data_sqrt <- list(
   N_tb_all = length(idx_tb_all),
   
   # holdout data
-  y_hold_obs = burn_hold_obs_sqrt,
+  y_hold_obs = burn_hold_obs_og,
+  N_hold_obs = length(idx_hold_obs),
+  N_hold_all = length(idx_hold_all),
+  ii_hold_obs = idx_hold_obs,
+  ii_hold_all = idx_hold_all, 
+  
+  # indicator matrices for region correlation
+  l3 = level3,
+  l2 = level2,
+  l1 = level1,
+  
+  # indicator matrices for AR(1) process
+  equal = equal,
+  bp_lin = bp_lin,
+  bp_square = bp_square,
+  bp_cube = bp_cube,
+  bp_quart = bp_quart,
+  
+  n_edges = length(B@i),
+  node1 = B@i + 1, # add one to offset zero-based index
+  node2 = B@j + 1,
+  
+  # for twCRPS
+  n_int = n_int,
+  int_train = int_train,
+  int_pts_train = int_pts_train,
+  int_holdout = int_holdout,
+  int_pts_holdout = int_pts_holdout
+)
+
+## MODEL WITH FWI and HOUSING COVARIATES ## -----------------------------------------
+# Bundle up data into a list to pass to Stan -----------------------------
+stan_data_fwi <- list(
+  R = 84, # total number of regions
+  p = p,
+  T_all = t_all,
+  T_train = t_train,
+  T_hold = t_all - t_train,
+  
+  # covariate data
+  X_full = X_array_full_fwi,
+  X_train = X_array_train_fwi,
+  
+  # count data
+  area_offset = log(area_df$area * 1e-11) / 2,
+  y_train_count = nfire_matrix_train,
+  y_hold_count = nfire_matrix_hold,
+  idx_train_er = 1:t_train,
+  idx_hold_er = idx_count_hold,
+  
+  # burn data 
+  # training data
+  y_min = min(burn_hold_obs_og, burn_train_obs_og),
+  y_train_obs = burn_train_obs_og,
+  ii_tb_obs = idx_tb_obs,
+  ii_tb_mis = idx_tb_mis,
+  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
+  N_tb_obs = length(idx_tb_obs),
+  N_tb_mis = length(idx_tb_mis),
+  N_tb_all = length(idx_tb_all),
+  
+  # holdout data
+  y_hold_obs = burn_hold_obs_og,
   N_hold_obs = length(idx_hold_obs),
   N_hold_all = length(idx_hold_all),
   ii_hold_obs = idx_hold_obs,
@@ -415,14 +528,13 @@ stan_data_sqrt <- list(
 )
 
 # assert that there are no missing values in stan_d
-assert_that(!any(lapply(stan_data_og, function(x) any(is.na(x))) %>% unlist))
-assert_that(!any(lapply(stan_data_sqrt, function(x) any(is.na(x))) %>% unlist))
-
-saveRDS(stan_data_og, file = './full-model/data/stan_data_og_new.RDS')
-saveRDS(stan_data_sqrt, file = './full-model/data/stan_data_sqrt_new.RDS')
-print('stan_data.rds written!')
-
-write_stan_json(data = stan_data_og, file = './full-model/data/stan_data_og_new.json')
-write_stan_json(data = stan_data_sqrt, file = './full-model/data/stan_data_sqrt_new.json')
-
-saveRDS(un_std, file = './full-model/data/un_std_data.RDS')
+assert_that(!any(lapply(stan_data_climate, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data_erc, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data_fwi, function(x) any(is.na(x))) %>% unlist))
+saveRDS(stan_data_climate, file = './full-model/data/stan_data_climate.RDS')
+saveRDS(stan_data_erc, file = './full-model/data/stan_data_erc.RDS')
+saveRDS(stan_data_fwi, file = './full-model/data/stan_data_fwi.RDS')
+write_stan_json(data = stan_data_climate, file = './full-model/data/stan_data_climate.json')
+write_stan_json(data = stan_data_erc, file = './full-model/data/stan_data_erc.json')
+write_stan_json(data = stan_data_fwi, file = './full-model/data/stan_data_fwi.json')
+saveRDS(un_std, file = './full-model/data/un_std_all.RDS')

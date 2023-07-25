@@ -32,7 +32,7 @@ mtbs <- terra::vect(x = './full-model/data/raw/mtbs_fod_pts_data/', layer = 'mtb
 # using base R to manipulate
 mtbs$BurnBndLat <- as.numeric(mtbs$BurnBndLat)
 mtbs$BurnBndLon <- as.numeric(mtbs$BurnBndLon)
-# only keep lower 48 of uS (including DC)
+# only keep lower 48 of US (including DC)
 idx <- which(mtbs$BurnBndLat < 49.39 & mtbs$BurnBndLat > 24.39 & 
                mtbs$BurnBndLon > -124.848 & mtbs$BurnBndLon < - 66.89 &
                mtbs$BurnBndAc > 1e3 & mtbs$Incid_Type == 'Wildfire')
@@ -69,7 +69,7 @@ assert_that(0 == sum(is.na(count_df$NA_L3NAME)))
 assert_that(sum(count_df$n_fire) == nrow(mtbs_er))
 assert_that(all(ecoregion_shp$NA_L3NAME %in% count_df$NA_L3NAME))
 
-# load covariate data and link to count data frame
+# load climate covariate data and link to count data frame ----
 ecoregion_summaries <- read_csv('./full-model/data/processed/ecoregion_summaries.csv') %>%
   mutate(month = match(month, month.abb),
          ym = as.yearmon(paste0(year, "-", month))) %>%
@@ -79,10 +79,10 @@ ecoregion_summaries <- read_csv('./full-model/data/processed/ecoregion_summaries
 if (!file.exists('./full-model/data/processed/lagged_precip.rds')) {
   lagged_precip <- ecoregion_summaries %>% group_by(NA_L3NAME) %>%
     dplyr::mutate(prev_12mo_precip = rollsumr(pr, k = 12, fill = NA)) %>%
-    ungroup()
+    ungroup() %>%
+    dplyr::select(NA_L3NAME, ym, prev_12mo_precip) 
   
   lagged_precip %>%
-    dplyr::select(NA_L3NAME, ym, prev_12mo_precip) %>%
     write_rds('./full-model/data/processed/lagged_precip.rds')
 } else {
   lagged_precip <- read_rds('./full-model/data/processed/lagged_precip.rds')
@@ -91,16 +91,47 @@ if (!file.exists('./full-model/data/processed/lagged_precip.rds')) {
 housing_df <- read_csv('./full-model/data/processed/housing_density.csv') %>%
   mutate(month = as.integer(month),
          ym = as.yearmon(paste0(year, "-", month))) %>%
-  arrange(NA_L3NAME, year, month)
+  arrange(NA_L3NAME, year, month, .locale = "en")
 
 ecoregion_summaries <- ecoregion_summaries %>%
   left_join(lagged_precip) %>%
   left_join(housing_df) %>%
   filter(year >= 1990, year <= 2020)
 
-count_df <- left_join(count_df, ecoregion_summaries) %>%
+count_df_climate <- left_join(ecoregion_summaries, count_df) %>%
   mutate(er_ym = paste(NA_L3NAME, ym, sep = "_"))
 
-write_csv(count_df, file = './full-model/data/processed/count_df.csv')
-
+write_csv(count_df_climate, file = './full-model/data/processed/count_df.csv')
 print('Count, climate, and housing data integrated and saved in count_df.csv')
+
+# load ERC data and link to count data frame
+ecoregion_summaries_erc <- read_csv('./full-model/data/processed/ecoregion_summaries_erc.csv') %>%
+  mutate(month = match(month, month.abb),
+         ym = as.yearmon(paste0(year, "-", month))) %>%
+  pivot_wider(names_from = variable, values_from = value)
+
+ecoregion_summaries_erc <- ecoregion_summaries_erc %>%
+  left_join(housing_df) %>%
+  filter(year >= 1990, year <= 2020)
+
+count_df_erc <- left_join(ecoregion_summaries_erc, count_df) %>%
+  mutate(er_ym = paste(NA_L3NAME, ym, sep = "_"))
+
+write_csv(count_df_erc, file = './full-model/data/processed/count_df_erc.csv')
+print('Count, ERC, and housing data integrated and saved in count_df_erc.csv')
+
+# load FWI data and link to count data frame
+ecoregion_summaries_fwi <- read_csv('./full-model/data/processed/ecoregion_summaries_fwi.csv') %>%
+  mutate(month = match(month, month.abb),
+         ym = as.yearmon(paste0(year, "-", month))) %>%
+  pivot_wider(names_from = variable, values_from = value)
+
+ecoregion_summaries_fwi <- ecoregion_summaries_fwi %>%
+  left_join(housing_df) %>%
+  filter(year >= 1990, year <= 2020)
+
+count_df_fwi <- left_join(ecoregion_summaries_fwi, count_df) %>%
+  mutate(er_ym = paste(NA_L3NAME, ym, sep = "_"))
+
+write_csv(count_df_fwi, file = './full-model/data/processed/count_df_fwi.csv')
+print('Count, FWI, and housing data integrated and saved in count_df_fwi.csv')

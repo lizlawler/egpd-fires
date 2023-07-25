@@ -20,9 +20,17 @@ tifs <- list.files("./full-model/data/processed/climate-data/",
 # remove any housing density geotiffs that matched the file listing
 tifs <- tifs[!grepl('den[0-9]{2}\\.tif', tifs)]
 tifs <- tifs[!grepl('daily', tifs)] # remove daily weather tifs
-# grab ERC tifs only
+
+# grab ERC and FWI tifs only
 erc_tifs <- tifs[grepl('erc_', tifs)]
-tifs <- tifs[!grepl('erc', tifs)]
+fwi_tifs <- tifs[grepl('fwi_', tifs)]
+
+# grab remaining climate tifs
+tifs <- setdiff(tifs, c(erc_tifs, fwi_tifs))
+
+# confirm crs is the same across tifs, erc_tifs, and fwi_tifs
+same.crs(terra::rast(tifs[1]), terra::rast(fwi_tifs[1]))
+same.crs(terra::rast(tifs[1]), terra::rast(erc_tifs[1]))
 
 # Generate indices from polygons for raster extraction --------------------
 r <- terra::rast(tifs[1])
@@ -36,10 +44,11 @@ ecoregion_raster_idx <- vector(mode = 'list',
                                length = length(unique(ecoregion_shp$NA_L3NAME)))
 ecoregion_names <- sort(unique(ecoregion_shp$NA_L3NAME))
 names(ecoregion_raster_idx) <- ecoregion_names
+# the above sorting places "Southern and Baja ..." after "Southeastern Wisconsin..."
 for (i in seq_along(ecoregion_names)) {
-  list_elements <- names(shp_raster_idx_list) == ecoregion_names[i]
+  list_elements <- names(shp_raster_idx_list) == names(ecoregion_raster_idx)[i]
   assert_that(any(list_elements))
-  ecoregion_raster_idx[[i]] <- shp_raster_idx[list_elements] %>%
+  ecoregion_raster_idx[[i]] <- shp_raster_idx_list[list_elements] %>%
     unlist() %>% unique()
 }
 
@@ -80,6 +89,51 @@ extractions <- pblapply(tifs,
                         cl = cl)
 stopCluster(cl)
 
+# Process extracted climate data values into a usable data frame -----------------------
+ecoregion_summaries <- lapply(extractions, function(x) pivot_longer(x, !NA_L3NAME, names_to = "variable", values_to = "value")) %>% 
+  bind_rows() %>%
+  separate(variable, into = c("variable", "year", "month"), sep = "_") %>%
+  mutate(year = parse_number(year),
+         month = parse_factor(month)) %>%
+  arrange(year, month, variable, NA_L3NAME, .locale = "en")
+
+destfile <- "./full-model/data/processed/ecoregion_summaries.csv"
+write_csv(ecoregion_summaries, destfile)
+print(paste('Ecoregion climate summaries written to', destfile))
+
+# Extract ERC data ---------------------------------------
+print('Aggregating monthly ERC data to ecoregion means. May take a while...')
+pboptions(type = 'timer', use_lb = TRUE)
+cl <- makeCluster(getOption("cl.cores", detectCores() / 2), outfile="")
+clusterEvalQ(cl, c(library("terra"), "fast_extract", library("tidyverse")))
+extractions <- pblapply(erc_tifs, 
+                        fast_extract, 
+                        index_list = ecoregion_raster_idx, 
+                        cl = cl)
+stopCluster(cl)
+
+# Process extracted ERC values into a usable data frame -----------------------
+ecoregion_summaries <- lapply(extractions, function(x) pivot_longer(x, !NA_L3NAME, names_to = "variable", values_to = "value")) %>% 
+  bind_rows() %>%
+  separate(variable, into = c("variable", "year", "month"), sep = "_") %>%
+  mutate(year = parse_number(year),
+         month = parse_factor(month)) %>%
+  arrange(year, month, variable, NA_L3NAME, .locale = "en")
+
+destfile <- "./full-model/data/processed/ecoregion_summaries_erc.csv"
+write_csv(ecoregion_summaries, destfile)
+print(paste('Ecoregion ERC summaries written to', destfile))
+
+# Extract FWI data ---------------------------------------
+print('Aggregating monthly FWI data to ecoregion means. May take a while...')
+pboptions(type = 'timer', use_lb = TRUE)
+cl <- makeCluster(getOption("cl.cores", detectCores() / 2), outfile="")
+clusterEvalQ(cl, c(library("terra"), "fast_extract", library("tidyverse")))
+extractions <- pblapply(fwi_tifs, 
+                        fast_extract, 
+                        index_list = ecoregion_raster_idx, 
+                        cl = cl)
+stopCluster(cl)
 
 # Process extracted values into a usable data frame -----------------------
 ecoregion_summaries <- lapply(extractions, function(x) pivot_longer(x, !NA_L3NAME, names_to = "variable", values_to = "value")) %>% 
@@ -87,19 +141,8 @@ ecoregion_summaries <- lapply(extractions, function(x) pivot_longer(x, !NA_L3NAM
   separate(variable, into = c("variable", "year", "month"), sep = "_") %>%
   mutate(year = parse_number(year),
          month = parse_factor(month)) %>%
-  arrange(year, month, variable, NA_L3NAME)
+  arrange(year, month, variable, NA_L3NAME, .locale = "en")
 
-destfile <- "./full-model/data/processed/ecoregion_summaries.csv"
+destfile <- "./full-model/data/processed/ecoregion_summaries_fwi.csv"
 write_csv(ecoregion_summaries, destfile)
-
-print(paste('Ecoregion climate summaries written to', destfile))
-
-# # Calculate FWI from monthly weather variables
-# library(cffdrs)
-# ecoregion_summaries <- read_csv("data/processed/ecoregion_summaries.csv")
-# ecoregion_summaries <- ecoregion_summaries %>% 
-#   pivot_wider(names_from = variable, values_from = value) %>% 
-#   rename(prec = pr, rh = rmin, temp = tmmx, ws = vs, mon = month, yr = year)
-# summary_byer <- split(ecoregion_summaries, ecoregion_summaries$NA_L3NAME)
-# fwi_list <- lapply(summary_byer, function(x) fwi(select(x, -NA_L3NAME)))
-
+print(paste('Ecoregion FWI summaries written to', destfile))

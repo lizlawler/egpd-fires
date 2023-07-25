@@ -177,8 +177,6 @@ generated quantities {
       vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_train, y_min, 
                                             sigma_hold[n], xi_hold[n], kappa1_train[n], kappa2_train[n], prob);
       holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_train, int_pts_train, pred_probs_hold);    
-    
-
     }
   }
 }

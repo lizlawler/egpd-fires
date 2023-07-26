@@ -1,0 +1,93 @@
+---
+output: 
+  pdf_document: 
+    keep_tex: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  include = TRUE,
+  cache = TRUE,
+  tidy.opts=list(width.cutoff=60),
+  tidy=TRUE,
+  fig.align = "center",
+  out.width = "80%"
+)
+```
+
+### Varying values of parameters
+
+1. $G(v) = v^\kappa, \ \kappa > 0$ 
+$$F_1(x) = \{1 - [1 + \xi(\frac{x}{\sigma})]^{-1/\xi} \}^\kappa$$
+$$f_1(x) = \frac{\kappa}{\sigma}[1 + \xi (\frac{x}{\sigma})]^{-(1/\xi + 1)}\{1 - [1+\xi(\frac{x}{\sigma})]^{-1/\xi} \} ^{\kappa-1}$$
+```{r echo=FALSE}
+g1_pdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
+  lpdf <- log(kappa) - log(sigma) - (1/xi + 1) * log(1 + xi * (x/sigma)) + 
+    (kappa-1) * log(1 - (1 + xi * (x/sigma))^(-1/xi))
+  return(exp(lpdf))
+}
+
+g1_cdf <- function(x, sigma = sigma, xi = xi, kappa = kappa) {
+  (1 - (1 + xi * (x/sigma))^(-1/xi))^kappa
+}
+```
+
+$\kappa$ varying: pdf
+```{r echo=TRUE}
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 1), xlim = c(0, 50))
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 2), xlim = c(0, 50), add = TRUE, col = 'blue')
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 5), xlim = c(0, 50), add = TRUE, col = 'red')
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 8), xlim = c(0, 50), add = TRUE, col = 'green')
+```
+
+$\kappa$ varying: cdf
+```{r echo=FALSE}
+curve(g1_cdf(x, sigma = 1, xi = 0.5, kappa = 1), xlim = c(0, 7.5))
+curve(g1_cdf(x, sigma = 1, xi = 0.5, kappa = 2), xlim = c(0, 7.5), add = TRUE, col = 'blue')
+curve(g1_cdf(x, sigma = 1, xi = 0.5, kappa = 5), xlim = c(0, 7.5), add = TRUE, col = 'red')
+curve(g1_cdf(x, sigma = 1, xi = 0.5, kappa = 8), xlim = c(0, 7.5), add = TRUE, col = 'green')
+```
+\pagebreak
+$\sigma$ varying: pdf
+```{r}
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 1), xlim = c(0, 7.5))
+curve(g1_pdf(x, sigma = 2, xi = 0.5, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'blue')
+curve(g1_pdf(x, sigma = 4, xi = 0.5, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'red')
+curve(g1_pdf(x, sigma = 6, xi = 0.5, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'green')
+```
+```{r}
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 3), xlim = c(0, 50))
+curve(g1_pdf(x, sigma = 2, xi = 0.5, kappa = 3), xlim = c(0, 50), add = TRUE, col = 'blue')
+curve(g1_pdf(x, sigma = 4, xi = 0.5, kappa = 3), xlim = c(0, 50), add = TRUE, col = 'red')
+curve(g1_pdf(x, sigma = 6, xi = 0.5, kappa = 3), xlim = c(0, 50), add = TRUE, col = 'green')
+```
+
+
+$\sigma$ varying: cdf
+```{r}
+curve(g1_cdf(x, sigma = 1, xi = 0.5, kappa = 1), xlim = c(0, 7.5))
+curve(g1_cdf(x, sigma = 2, xi = 0.5, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'blue')
+curve(g1_cdf(x, sigma = 4, xi = 0.5, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'red')
+curve(g1_cdf(x, sigma = 6, xi = 0.5, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'green')
+```
+\pagebreak
+$\xi$ varying: pdf
+```{r}
+curve(g1_pdf(x, sigma = 1, xi = 0.25, kappa = 3), xlim = c(0, 30))
+curve(g1_pdf(x, sigma = 1, xi = 0.5, kappa = 3), xlim = c(0, 30), add = TRUE, col = 'blue')
+curve(g1_pdf(x, sigma = 1, xi = 0.75, kappa = 3), xlim = c(0, 30), add = TRUE, col = 'red')
+curve(g1_pdf(x, sigma = 1, xi = 1, kappa = 3), xlim = c(0, 30), add = TRUE, col = 'green')
+```
+
+
+$\xi$ varying: cdf
+```{r}
+curve(g1_cdf(x, sigma = 1, xi = 0.25, kappa = 1), xlim = c(0, 7.5))
+curve(g1_cdf(x, sigma = 1, xi = 0.5, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'blue')
+curve(g1_cdf(x, sigma = 1, xi = 0.75, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'red')
+curve(g1_cdf(x, sigma = 1, xi = 1, kappa = 1), xlim = c(0, 7.5), add = TRUE, col = 'green')
+```
+

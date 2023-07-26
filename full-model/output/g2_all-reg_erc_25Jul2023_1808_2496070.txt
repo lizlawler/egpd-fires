@@ -28,7 +28,7 @@ data
   file = ../../../data/stan_data_erc.json
 init = 0.01
 random
-  seed = 2528369884 (Default)
+  seed = 2563007190 (Default)
 output
   file = csv-fits/g2_all-reg_erc_25Jul2023_1808.csv
   diagnostic_file =  (Default)
@@ -38,22 +38,27 @@ output
 num_threads = 3
 
 
-Gradient evaluation took 0.106165 seconds
-1000 transitions using 10 leapfrog steps per transition would take 1061.65 seconds.
+Gradient evaluation took 0.095183 seconds
+1000 transitions using 10 leapfrog steps per transition would take 951.83 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.064399 seconds
-1000 transitions using 10 leapfrog steps per transition would take 643.99 seconds.
+Gradient evaluation took 0.071101 seconds
+1000 transitions using 10 leapfrog steps per transition would take 711.01 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.064196 seconds
-1000 transitions using 10 leapfrog steps per transition would take 641.96 seconds.
+Gradient evaluation took 0.071138 seconds
+1000 transitions using 10 leapfrog steps per transition would take 711.38 seconds.
 Adjust your expectations accordingly!
 
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
 Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 20, column 2 to column 43)
@@ -86,11 +91,6 @@ If this warning occurs sporadically, such as for highly constrained variable typ
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 20, column 2 to column 43)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
 Exception: g2_all_reg_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 30, column 2 to column 31)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
@@ -100,18 +100,28 @@ Exception: g2_all_reg_model_namespace::log_prob: corr is not positive definite. 
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
-Chain [3] Iteration:    1 / 4000 [  0%]  (Warmup)
-Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
 Chain [2] Iteration:    1 / 4000 [  0%]  (Warmup)
+Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
+Chain [3] Iteration:    1 / 4000 [  0%]  (Warmup)
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0, kappa2 = 0 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = inf, kappa2 = 0 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 87, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0, kappa2 = 0 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = inf, kappa2 = 4.32321e-82 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 87, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
@@ -128,25 +138,35 @@ If this warning occurs sporadically, such as for highly constrained variable typ
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 20, column 2 to column 43)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0.0226647, kappa2 = 9.55703e-16 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 87, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Chain [1] Iteration:  800 / 4000 [ 20%]  (Warmup)
+Chain [2] Iteration: 1000 / 4000 [ 25%]  (Warmup)
+Chain [3] Iteration:  900 / 4000 [ 22%]  (Warmup)
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 20, column 2 to column 43)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0.0691396, kappa2 = 9.49046e-16 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg.stan', line 87, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
-Chain [2] Iteration:  100 / 4000 [  2%]  (Warmup)
-Chain [1] Iteration:  100 / 4000 [  2%]  (Warmup)
+Chain [1] Iteration:  900 / 4000 [ 22%]  (Warmup)
+Chain [3] Iteration: 1000 / 4000 [ 25%]  (Warmup)
 Chain [3] Iteration:  100 / 4000 [  2%]  (Warmup)
-Chain [2] Iteration:  200 / 4000 [  5%]  (Warmup)
+Chain [2] Iteration: 1100 / 4000 [ 27%]  (Warmup)
+Chain [1] Iteration:  100 / 4000 [  2%]  (Warmup)
+Chain [2] Iteration:  100 / 4000 [  2%]  (Warmup)
+Chain [3] Iteration: 1100 / 4000 [ 27%]  (Warmup)
+Chain [1] Iteration: 1000 / 4000 [ 25%]  (Warmup)
+Chain [2] Iteration: 1200 / 4000 [ 30%]  (Warmup)
 Chain [1] Iteration:  200 / 4000 [  5%]  (Warmup)
 Chain [3] Iteration:  200 / 4000 [  5%]  (Warmup)
-Chain [2] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [3] Iteration:  300 / 4000 [  7%]  (Warmup)
+Chain [2] Iteration:  200 / 4000 [  5%]  (Warmup)
 Chain [1] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [2] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [3] Iteration:  400 / 4000 [ 10%]  (Warmup)
+Chain [3] Iteration:  300 / 4000 [  7%]  (Warmup)
 Chain [1] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [2] Iteration:  500 / 4000 [ 12%]  (Warmup)
+Chain [2] Iteration:  300 / 4000 [  7%]  (Warmup)

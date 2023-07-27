@@ -11,3 +11,19 @@ CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/law
 [2] "./full-model/fire-sims/burns/g1/csv-fits/g1_sigma-ri_xi-ri_erc_25Jul2023_1807_2.csv"
 [3] "./full-model/fire-sims/burns/g1/csv-fits/g1_sigma-ri_xi-ri_erc_25Jul2023_1807_3.csv"
 [1] "Creating cmdstan fit object..."
+$num_divergent
+[1] 0 0 0
+
+$num_max_treedepth
+[1] 0 0 0
+
+$ebfmi
+[1] 0.4678198 0.3395682 0.2941765
+
+[1] "Creating mcmc list from cmdstan object..."
+[1] "Creating traceplot of rhos..."
+[1] "rho traceplots created"
+[1] "Creating traceplot of betas"
+[1] "beta traceplots created"
+[1] "Creating traceplot of phi..."
+[1] "phi traceplots created"

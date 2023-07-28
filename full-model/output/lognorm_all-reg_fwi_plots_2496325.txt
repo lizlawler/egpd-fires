@@ -7,18 +7,24 @@ A newer version of CmdStan is available. See ?install_cmdstan() to install it.
 To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
 CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
 [1] "Filenames being used are:"
-[1] "./full-model/fire-sims/counts/zinb/csv-fits/zinb_all-reg_climate_25Jul2023_1813_1.csv"
-[2] "./full-model/fire-sims/counts/zinb/csv-fits/zinb_all-reg_climate_25Jul2023_1813_2.csv"
-[3] "./full-model/fire-sims/counts/zinb/csv-fits/zinb_all-reg_climate_25Jul2023_1813_3.csv"
+[1] "./full-model/fire-sims/burns/lognorm/csv-fits/lognorm_all-reg_fwi_25Jul2023_1817_1.csv"
+[2] "./full-model/fire-sims/burns/lognorm/csv-fits/lognorm_all-reg_fwi_25Jul2023_1817_2.csv"
+[3] "./full-model/fire-sims/burns/lognorm/csv-fits/lognorm_all-reg_fwi_25Jul2023_1817_3.csv"
 [1] "Creating cmdstan fit object..."
+Warning: 68 of 3000 (2.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 68 of 3000 (2.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
 $num_divergent
-[1] 0 0 0
+[1] 17 17 34
 
 $num_max_treedepth
 [1] 0 0 0
 
 $ebfmi
-[1] 0.2959940 0.2752296 0.2545867
+[1] 0.2187380 0.2685118 0.2543350
 
 [1] "Creating mcmc list from cmdstan object..."
 [1] "Creating traceplot of rhos..."

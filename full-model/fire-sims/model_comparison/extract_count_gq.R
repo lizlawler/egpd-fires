@@ -4,7 +4,6 @@ check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(tidyverse)
 library(stringr)
 library(posterior)
-library(parallel)
 
 # following code is for extracting from the actual model fit -------
 count_fits <- paste0("full-model/fire-sims/counts/",

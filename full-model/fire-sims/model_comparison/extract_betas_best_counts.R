@@ -18,13 +18,14 @@ for(i in 1:nfits) {
 
 count_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
 
-extraction <- function(file_group, count_name) {
+extraction <- function(file_group, model_name) {
   object <- as_cmdstan_fit(file_group)
   betas <- object$draws(variables = "beta")
   temp <- list(betas)
   names(temp) <- c("betas")
   assign(burn_name, temp, parent.frame())
   rm(object)
+  print(paste0(model_name, " complete"))
   gc()
 }
 

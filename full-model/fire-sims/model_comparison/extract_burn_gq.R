@@ -35,7 +35,6 @@ extraction <- function(file_group, model_name) {
 
 for(i in 1:nfits) {
   extraction(fit_groups[[i]], burn_names[i])
-  print(paste0(burn_names[i], " is complete"))
 }
 
 save(list=c(ls(pattern="g1"), ls(pattern="lognorm"), ls(pattern = "burn_names")), 

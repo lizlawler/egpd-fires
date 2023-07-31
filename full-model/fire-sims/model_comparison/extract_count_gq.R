@@ -22,11 +22,9 @@ extraction <- function(file_group, model_name) {
   model_object <- as_cmdstan_fit(file_group)
   train_loglik <- model_object$draws(variables = "train_loglik")
   holdout_loglik <- model_object$draws(variables = "holdout_loglik")
-  train_twcrps <- model_object$draws(variables = "train_twcrps")
-  holdout_twcrps <- model_object$draws(variables = "holdout_twcrps")
   rm(model_object)
-  temp <- list(train_loglik, holdout_loglik, train_twcrps, holdout_twcrps)
-  names(temp) <- c("train_loglik", "holdout_loglik", "train_twcrps", "holdout_twcrps")
+  temp <- list(train_loglik, holdout_loglik)
+  names(temp) <- c("train_loglik", "holdout_loglik")
   assign(model_name, temp, parent.frame())
   print(paste0(model_name, " complete"))
   gc()
@@ -34,7 +32,6 @@ extraction <- function(file_group, model_name) {
 
 for(i in 1:nfits) {
   extraction(fit_groups[[i]], count_names[i])
-  print(paste0(count_names[i], " is complete"))
 }
 
 save(list=c(ls(pattern="zip"), ls(pattern="zinb"), ls(pattern = "count_names")), 

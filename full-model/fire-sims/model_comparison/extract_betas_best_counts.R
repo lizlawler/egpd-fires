@@ -23,7 +23,7 @@ extraction <- function(file_group, model_name) {
   betas <- object$draws(variables = "beta")
   temp <- list(betas)
   names(temp) <- c("betas")
-  assign(burn_name, temp, parent.frame())
+  assign(model_name, temp, parent.frame())
   rm(object)
   print(paste0(model_name, " complete"))
   gc()

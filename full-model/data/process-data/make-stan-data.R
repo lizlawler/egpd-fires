@@ -202,6 +202,7 @@ X_full <- X_bs_df %>% mutate(er_ym = er_covs$er_ym, NA_L3NAME = er_covs$NA_L3NAM
 X_train <- X_full %>% filter(year %in% train_years) %>% dplyr::select(-year)
 erc_idx <- c(1, grep('housing', colnames(X_train)), grep('_erc', colnames(X_train)))
 fwi_idx <- c(1, grep('housing', colnames(X_train)), grep('_fwi', colnames(X_train)))
+erc_fwi_idx <- unique(c(erc_idx, fwi_idx))
 climate_idx <- 1:37
 assert_that(all(region_key$NA_L3NAME == unique(X_full$NA_L3NAME)))
 assert_that(all(region_key$NA_L3NAME == unique(X_train$NA_L3NAME)))
@@ -267,6 +268,8 @@ X_array_train_erc <- array(NA, dim = c(84, t_train, 13))
 X_array_full_erc <- array(NA, dim = c(84, t_all, 13))
 X_array_train_fwi <- array(NA, dim = c(84, t_train, 13))
 X_array_full_fwi <- array(NA, dim = c(84, t_all, 13))
+X_array_train_erc_fwi <- array(NA, dim = c(84, t_train, 19))
+X_array_full_erc_fwi <- array(NA, dim = c(84, t_all, 19))
 for(i in 1:84) {
   X_array_train_climate[i, ,] <- as.matrix(X_list_train[[i]][,climate_idx])
   X_array_full_climate[i, ,] <- as.matrix(X_list_full[[i]][,climate_idx])
@@ -274,6 +277,8 @@ for(i in 1:84) {
   X_array_full_erc[i, ,] <- as.matrix(X_list_full[[i]][,erc_idx])
   X_array_train_fwi[i, ,] <- as.matrix(X_list_train[[i]][,fwi_idx])
   X_array_full_fwi[i, ,] <- as.matrix(X_list_full[[i]][,fwi_idx])
+  X_array_train_erc_fwi[i, ,] <- as.matrix(X_list_train[[i]][,erc_fwi_idx])
+  X_array_full_erc_fwi[i, ,] <- as.matrix(X_list_full[[i]][,erc_fwi_idx])
 }
 
 ## MODEL WITH ALL CLIMATE COVARIATES ## -----------------------------------------
@@ -374,35 +379,74 @@ stan_data_climate <- list(
   int_pts_holdout = int_pts_holdout
 )
 
-## MODEL WITH ERC and HOUSING COVARIATES ## -----------------------------------------
-# generate AR(1) indicator matrices for use in covariance matrix
-p <- 13
-zeroes <- matrix(0, p, p)
-equal <- diag(p)
-bp_lin <- zeroes
-bp_square <- zeroes
-bp_cube <- zeroes
-bp_quart <- zeroes
-cov_vec_idx <- setdiff(c(1:p), c(1, seq(2,p, 6))) # pull indices related to splines only
+## JOINT MODEL ----------------------------
+# climate covariates for count, ERC for burns
+stan_data_joint <- list(
+  R = 84, # total number of regions
+  p = p,
+  p_burn = 13,
+  T_all = t_all,
+  T_train = t_train,
+  T_hold = t_all - t_train,
+  
+  # covariate data
+  X_full_count = X_array_full_climate,
+  X_train_count = X_array_train_climate,
+  X_full_burn = X_array_full_erc,
+  X_train_burn = X_array_train_erc,
+  
+  # count data
+  area_offset = log(area_df$area * 1e-11) / 2,
+  y_train_count = nfire_matrix_train,
+  y_hold_count = nfire_matrix_hold,
+  idx_train_er = 1:t_train,
+  idx_hold_er = idx_count_hold,
+  
+  # burn data 
+  # training data
+  y_min = min(burn_hold_obs_og, burn_train_obs_og),
+  y_train_obs = burn_train_obs_og,
+  ii_tb_obs = idx_tb_obs,
+  ii_tb_mis = idx_tb_mis,
+  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
+  N_tb_obs = length(idx_tb_obs),
+  N_tb_mis = length(idx_tb_mis),
+  N_tb_all = length(idx_tb_all),
+  
+  # holdout data
+  y_hold_obs = burn_hold_obs_og,
+  N_hold_obs = length(idx_hold_obs),
+  N_hold_all = length(idx_hold_all),
+  ii_hold_obs = idx_hold_obs,
+  ii_hold_all = idx_hold_all, 
+  
+  # indicator matrices for region correlation
+  l3 = level3,
+  l2 = level2,
+  l1 = level1,
+  
+  # indicator matrices for AR(1) process
+  equal = equal,
+  bp_lin = bp_lin,
+  bp_square = bp_square,
+  bp_cube = bp_cube,
+  bp_quart = bp_quart,
+  
+  n_edges = length(B@i),
+  node1 = B@i + 1, # add one to offset zero-based index
+  node2 = B@j + 1,
+  
+  # for twCRPS
+  n_int = n_int,
+  int_train = int_train,
+  int_pts_train = int_pts_train,
+  int_holdout = int_holdout,
+  int_pts_holdout = int_pts_holdout
+)
 
-for(i in cov_vec_idx) {
-  for(j in cov_vec_idx) {
-    if (i + 1 == j | i - 1 == j) {
-      bp_lin[i, j] = 1
-    } else if (i + 2 == j | i - 2 == j) {
-      bp_square[i, j] = 1
-    } else if (i + 3 == j | i - 3 == j) {
-      bp_cube[i, j] = 1
-    } else if (i + 4 == j | i - 4 == j) {
-      bp_quart[i, j] = 1
-    } else {
-      bp_lin[i, j] = 0
-      bp_square[i, j] = 0
-      bp_cube[i, j] = 0
-      bp_quart[i, j] = 0
-    }
-  }
-}
+## MODEL WITH ERC and HOUSING COVARIATES ## -----------------------------------------
+# use the first 13 x 13 block from the AR(1) covariance indicator matrices generated above
+p <- 13
 
 # Bundle up data into a list to pass to Stan -----------------------------
 stan_data_erc <- list(
@@ -447,11 +491,11 @@ stan_data_erc <- list(
   l1 = level1,
   
   # indicator matrices for AR(1) process
-  equal = equal,
-  bp_lin = bp_lin,
-  bp_square = bp_square,
-  bp_cube = bp_cube,
-  bp_quart = bp_quart,
+  equal = equal[1:p, 1:p],
+  bp_lin = bp_lin[1:p, 1:p],
+  bp_square = bp_square[1:p, 1:p],
+  bp_cube = bp_cube[1:p, 1:p],
+  bp_quart = bp_quart[1:p, 1:p],
   
   n_edges = length(B@i),
   node1 = B@i + 1, # add one to offset zero-based index
@@ -509,11 +553,74 @@ stan_data_fwi <- list(
   l1 = level1,
   
   # indicator matrices for AR(1) process
-  equal = equal,
-  bp_lin = bp_lin,
-  bp_square = bp_square,
-  bp_cube = bp_cube,
-  bp_quart = bp_quart,
+  equal = equal[1:p, 1:p],
+  bp_lin = bp_lin[1:p, 1:p],
+  bp_square = bp_square[1:p, 1:p],
+  bp_cube = bp_cube[1:p, 1:p],
+  bp_quart = bp_quart[1:p, 1:p],
+  
+  n_edges = length(B@i),
+  node1 = B@i + 1, # add one to offset zero-based index
+  node2 = B@j + 1,
+  
+  # for twCRPS
+  n_int = n_int,
+  int_train = int_train,
+  int_pts_train = int_pts_train,
+  int_holdout = int_holdout,
+  int_pts_holdout = int_pts_holdout
+)
+
+## MODEL WITH ERC, FWI and HOUSING COVARIATES ## -----------------------------------------
+p <- 19
+# Bundle up data into a list to pass to Stan -----------------------------
+stan_data_erc_fwi <- list(
+  R = 84, # total number of regions
+  p = p,
+  T_all = t_all,
+  T_train = t_train,
+  T_hold = t_all - t_train,
+  
+  # covariate data
+  X_full = X_array_full_erc_fwi,
+  X_train = X_array_train_erc_fwi,
+  
+  # count data
+  area_offset = log(area_df$area * 1e-11) / 2,
+  y_train_count = nfire_matrix_train,
+  y_hold_count = nfire_matrix_hold,
+  idx_train_er = 1:t_train,
+  idx_hold_er = idx_count_hold,
+  
+  # burn data 
+  # training data
+  y_min = min(burn_hold_obs_og, burn_train_obs_og),
+  y_train_obs = burn_train_obs_og,
+  ii_tb_obs = idx_tb_obs,
+  ii_tb_mis = idx_tb_mis,
+  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
+  N_tb_obs = length(idx_tb_obs),
+  N_tb_mis = length(idx_tb_mis),
+  N_tb_all = length(idx_tb_all),
+  
+  # holdout data
+  y_hold_obs = burn_hold_obs_og,
+  N_hold_obs = length(idx_hold_obs),
+  N_hold_all = length(idx_hold_all),
+  ii_hold_obs = idx_hold_obs,
+  ii_hold_all = idx_hold_all, 
+  
+  # indicator matrices for region correlation
+  l3 = level3,
+  l2 = level2,
+  l1 = level1,
+  
+  # indicator matrices for AR(1) process
+  equal = equal[1:p, 1:p],
+  bp_lin = bp_lin[1:p, 1:p],
+  bp_square = bp_square[1:p, 1:p],
+  bp_cube = bp_cube[1:p, 1:p],
+  bp_quart = bp_quart[1:p, 1:p],
   
   n_edges = length(B@i),
   node1 = B@i + 1, # add one to offset zero-based index
@@ -531,10 +638,16 @@ stan_data_fwi <- list(
 assert_that(!any(lapply(stan_data_climate, function(x) any(is.na(x))) %>% unlist))
 assert_that(!any(lapply(stan_data_erc, function(x) any(is.na(x))) %>% unlist))
 assert_that(!any(lapply(stan_data_fwi, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data_erc_fwi, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data_joint, function(x) any(is.na(x))) %>% unlist))
 saveRDS(stan_data_climate, file = './full-model/data/stan_data_climate.RDS')
 saveRDS(stan_data_erc, file = './full-model/data/stan_data_erc.RDS')
 saveRDS(stan_data_fwi, file = './full-model/data/stan_data_fwi.RDS')
+saveRDS(stan_data_erc_fwi, file = './full-model/data/stan_data_erc_fwi.RDS')
+saveRDS(stan_data_joint, file = './full-model/data/stan_data_joint.RDS')
 write_stan_json(data = stan_data_climate, file = './full-model/data/stan_data_climate.json')
 write_stan_json(data = stan_data_erc, file = './full-model/data/stan_data_erc.json')
 write_stan_json(data = stan_data_fwi, file = './full-model/data/stan_data_fwi.json')
+write_stan_json(data = stan_data_erc_fwi, file = './full-model/data/stan_data_erc_fwi.json')
+write_stan_json(data = stan_data_joint, file = './full-model/data/stan_data_joint.json')
 saveRDS(un_std, file = './full-model/data/un_std_all.RDS')

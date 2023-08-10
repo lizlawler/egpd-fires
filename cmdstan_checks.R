@@ -1,7 +1,7 @@
 library(cmdstanr)
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 
-model <- cmdstan_model("full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri_sigma-reg.stan", compile = FALSE)
+model <- cmdstan_model("full-model/fire-sims/joint_model/kappa-ri/joint_kappa-ri_theta-ri_gamma-ri.stan", compile = FALSE)
 model$check_syntax(pedantic = TRUE)
 
 model <- cmdstan_model("full-model/fire-sims/counts/zip/stan/zip_pi-ri.stan", compile = FALSE)

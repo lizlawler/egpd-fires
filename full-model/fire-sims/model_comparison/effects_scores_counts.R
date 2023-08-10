@@ -1,206 +1,144 @@
 library(cmdstanr)
-# set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(tidyverse)
-# library(cowplot)
-# library(patchwork)
-# library(ggrepel)
 library(stringr)
 library(posterior)
 
-
-# following code is for the counts -------
-count_fits <- paste0("full-model/fire-sims/counts/", list.files(path = "full-model/fire-sims/counts/", pattern = "*.csv", recursive = TRUE))
-exc_idx <- which(grepl('22Jun2023', count_fits))
-count_fits <- count_fits[-exc_idx]
-exc_idx <- which(grepl('0.9', count_fits))
-count_fits <- count_fits[-exc_idx]
-nfits <- length(count_fits)/3
-fit_groups <- vector(mode = "list", nfits)
-for(i in 1:nfits) {
-  fit_groups[[i]] <- count_fits[(3*i-2):(3*i)]
-}
-
-mod_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]), "_0.81_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), 
-                                                                        "og_")) %>% unlist()
-
-extraction <- function(file_group, model_name) {
-  object <- as_cmdstan_fit(file_group)
-  train_loglik <- object$draws(variables = "train_loglik")
-  holdout_loglik <- object$draws(variables = "holdout_loglik")
-  betas <- object$draws(variables = "beta")
-  temp <- list(betas, train_loglik, holdout_loglik)
-  names(temp) <- c("betas", "train_loglik", "holdout_loglik")
-  assign(model_name, temp, parent.frame())
-  rm(object)
-  gc()
-}
-
-# extraction(fit_groups[[1]])
-for(i in 1:nfits) {
-  extraction(fit_groups[[i]], mod_names[i])
-}
-
-save(list = ls(pattern = "zi"), file = "full-model/fire-sims/counts/counts_betas_scores.RData")
+# load in extracted gen quants done through Alpine
+load("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/gq_newdata_counts.RData")
 
 ## log score calculations ---------
-count_names <- lapply(fit_groups, function(x) str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv")) %>% unlist()
+nfits <- length(count_names)
 holdout_loglik_counts <- vector("list", nfits)
 train_loglik_counts <- vector("list", nfits)
 for(i in seq_along(count_names)) {
-  count_loglik <- get(count_names[i])[2:3]
-  holdout_loglik_counts[[i]] <- count_loglik[[2]] %>%
-    apply(., c(1,2), sum) %>% 
-    as_tibble() %>% 
-    rowid_to_column(var = "iter") %>%
-    mutate(mean_ax_cns = rowMeans(select(., !iter))) %>%
-    pivot_longer(cols = !iter, names_to = "chain") %>% 
-    mutate(chain = as.factor(chain)) %>%
-    mutate(model = count_names[i], train = FALSE)
-  train_loglik_counts[[i]] <- count_loglik[[1]] %>%
-    apply(., c(1,2), sum) %>% 
-    as_tibble() %>% 
-    rowid_to_column(var = "iter") %>%
-    mutate(mean_ax_cns = rowMeans(select(., !iter))) %>%
-    pivot_longer(cols = !iter, names_to = "chain") %>% 
-    mutate(chain = as.factor(chain)) %>%
-    mutate(model = count_names[i], train = TRUE)
+  model_string <- str_split(count_names[i], pattern = "_")[[1]]
+  if(length(model_string) > 3) {
+    model <- "zinb_er"
+    params <- model_string[3]
+    dataset <- model_string[4]
+  } else {
+    model <- model_string[1]
+    params <- model_string[2]
+    dataset <- model_string[3]
+  }
+  holdout_loglik_counts[[i]] <- get(count_names[i])[["holdout_loglik"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(loglik = sum(value)) %>%
+    mutate(model = model,
+           dataset = dataset,
+           params = params,
+           train = FALSE)
+  train_loglik_counts[[i]] <- get(count_names[i])[["train_loglik"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(loglik = sum(value)) %>%
+    mutate(model = model,
+           dataset = dataset,
+           params = params,
+           train = TRUE)
 }
 
 holdout_loglik_c <- bind_rows(holdout_loglik_counts)
 train_loglik_c <- bind_rows(train_loglik_counts)
 # 
 ll_full <- holdout_loglik_c %>%
-  full_join(train_loglik_c) %>%
-  mutate(train = ifelse(train == TRUE, 'train', 'test')) %>%
-  pivot_wider(names_from = train, values_from = value)
+  full_join(train_loglik_c) %>% mutate(full_name = paste(model, params, dataset, sep = "_"))
 
-ll_full_0.81 <- ll_full %>% filter(grepl("0.81", model)) %>% 
-  mutate(model = gsub("_0.81", "", model),
-         model = gsub("_og", "", model))
-ll_full_0.90 <- ll_full %>% filter(!grepl("0.81", model)) %>% 
-  mutate(model = gsub("_0.9", "", model),
-         model = gsub("_og", "", model))
+# ll_boxplot_train <- ll_full %>% 
+#   ggplot(aes(full_name, loglik, color = train)) + geom_boxplot() + theme_minimal()
+# ggsave("full-model/figures/model-comp/logscores_counts_train_31jul2023.png", plot = ll_boxplot_train,
+#        dpi = 320, bg = "white")
 
-ll_boxplot_0.81 <- ll_full_0.81 %>% pivot_longer(cols = c("test", "train"), names_to = "dataset") %>% 
-  filter(chain == 'mean_ax_cns') %>% 
-  ggplot(aes(model, value, color = dataset)) + geom_boxplot() + theme_minimal()
-ggsave("full-model/figures/model-comp/logscores_counts_0.81_12may2023.png", plot = ll_boxplot_0.81,
-       dpi = 320, type = "cairo", bg = "white")
+train_ll_ranked <- ll_full %>% filter(train == TRUE) %>% 
+  group_by(model, params, dataset, full_name) %>% 
+  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
+top_mod_train <- as.character(train_ll_ranked$full_name[1])
 
-ll_boxplot_0.90 <- ll_full_0.90 %>% pivot_longer(cols = c("test", "train"), names_to = "dataset") %>% 
-  filter(chain == 'mean_ax_cns') %>% 
-  ggplot(aes(model, value, color = dataset)) + geom_boxplot() + theme_minimal()
-ggsave("full-model/figures/model-comp/logscores_counts_0.90_12may2023.png", plot = ll_boxplot_0.90,
-       dpi = 320, type = "cairo", bg = "white")
-
-ll_ranked_test <- ll_full %>% filter(chain == 'mean_ax_cns') %>%
+train_ll_comp <- ll_full %>% filter(train == TRUE) %>% 
+  select(c(draw, full_name, loglik)) %>% 
+  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_train))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
-  summarize(mean_test = mean(test),
-            sd_test = sd(test)) %>%
-  arrange(-mean_test)
-top_mod_test <- ll_ranked_test$model[1]
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 
-ll_comp_test <- ll_full %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1, 3:4)) %>% pivot_wider(names_from = model, values_from = test) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_test))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
+test_ll_ranked <- ll_full %>% filter(train == FALSE) %>% 
+  group_by(model, params, dataset, full_name) %>% 
+  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
+top_mod_test <- as.character(test_ll_ranked$full_name[1])
+test_ll_comp <- ll_full %>% filter(train == FALSE) %>% 
+  select(c(draw, full_name, loglik)) %>% 
+  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_test
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
+test_ll_comp
 
-ll_ranked_test_0.81 <- ll_full_0.81 %>% filter(chain == 'mean_ax_cns') %>%
+test_ll_ranked_climate <- ll_full %>% filter(train == FALSE, dataset == "climate") %>% 
+  group_by(model, params, full_name) %>% 
+  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
+top_mod_test_climate <- as.character(test_ll_ranked_climate$full_name[1])
+test_ll_comp_climate <- ll_full %>% filter(train == FALSE, dataset == "climate") %>% 
+  select(c(draw, full_name, loglik)) %>% 
+  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test_climate))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
-  summarize(mean_test = mean(test),
-            sd_test = sd(test)) %>%
-  arrange(-mean_test)
-top_mod_test_0.81 <- ll_ranked_test_0.81$model[1]
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
+test_ll_comp_climate
 
-ll_comp_test_0.81 <- ll_full_0.81 %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1, 3:4)) %>% pivot_wider(names_from = model, values_from = test) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_test_0.81))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
+test_ll_ranked_fwi <- ll_full %>% filter(train == FALSE, dataset == "fwi") %>% 
+  group_by(model, params, full_name) %>% 
+  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
+top_mod_test_fwi <- as.character(test_ll_ranked_fwi$full_name[1])
+test_ll_comp_fwi <- ll_full %>% filter(train == FALSE, dataset == "fwi") %>% 
+  select(c(draw, full_name, loglik)) %>% 
+  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test_fwi))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_test_0.81
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
+test_ll_comp_fwi
 
-ll_ranked_test_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>%
+test_ll_ranked_erc <- ll_full %>% filter(train == FALSE, dataset == "erc") %>% 
+  group_by(model, params, full_name) %>% 
+  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
+top_mod_test_erc <- as.character(test_ll_ranked_erc$full_name[1])
+test_ll_comp_erc <- ll_full %>% filter(train == FALSE, dataset == "erc") %>% 
+  select(c(draw, full_name, loglik)) %>% 
+  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test_erc))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
-  summarize(mean_test = mean(test),
-            sd_test = sd(test)) %>%
-  arrange(-mean_test)
-top_mod_test_0.90 <- ll_ranked_test_0.90$model[1]
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
+test_ll_comp_erc
 
-ll_comp_test_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1, 3:4)) %>% pivot_wider(names_from = model, values_from = test) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_test_0.90))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
+test_ll_ranked_zinber <- ll_full %>% filter(train == FALSE, model == "zinb_er") %>% 
+  group_by(dataset, params, full_name) %>% 
+  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
+top_mod_test_zinber <- as.character(test_ll_ranked_zinber$full_name[1])
+test_ll_comp_zinber <- ll_full %>% filter(train == FALSE, model == "zinb_er") %>% 
+  select(c(draw, full_name, loglik)) %>% 
+  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test_zinber))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_test_0.90
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
+test_ll_comp_zinber
 
-ll_ranked_train <- ll_full %>% filter(chain == 'mean_ax_cns') %>%
-  group_by(model) %>%
-  summarize(mean_train = mean(train),
-            sd_train = sd(train)) %>%
-  arrange(-mean_train)
-top_mod_train <- ll_ranked_train$model[1]
+saveRDS(ll_full, file = "full-model/figures/model-comp/ll_scores_counts_31jul2023.RDS")
 
-ll_comp_train <- ll_full %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1,3,5)) %>% pivot_wider(names_from = model, values_from = train) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_train))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_train
-
-ll_ranked_train_0.81 <- ll_full_0.81 %>% filter(chain == 'mean_ax_cns') %>%
-  group_by(model) %>%
-  summarize(mean_train = mean(train),
-            sd_train = sd(train)) %>%
-  arrange(-mean_train)
-top_mod_train_0.81 <- ll_ranked_train_0.81$model[1]
-
-ll_comp_train_0.81 <- ll_full_0.81 %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1,3,5)) %>% pivot_wider(names_from = model, values_from = train) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_train_0.81))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_train_0.81
-
-ll_ranked_train_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>%
-  group_by(model) %>%
-  summarize(mean_train = mean(train),
-            sd_train = sd(train)) %>%
-  arrange(-mean_train)
-top_mod_train_0.90 <- ll_ranked_train_0.90$model[1]
-
-ll_comp_train_0.90 <- ll_full_0.90 %>% filter(chain == 'mean_ax_cns') %>% 
-  select(c(1,3,5)) %>% pivot_wider(names_from = model, values_from = train) %>% 
-  mutate(across(.cols = -1, ~ .x - get(top_mod_train_0.90))) %>% 
-  pivot_longer(cols = -1, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(mean_diff = mean(value),
-            sd_diff = sd(value)) %>%
-  arrange(-mean_diff)
-ll_comp_train_0.90
-
-saveRDS(ll_full, file = "full-model/figures/model-comp/ll_full_counts_12may2023.RDS")
-
-
-stan_data <- readRDS("full-model/data/stan_data_og.rds")
-X <- stan_data$X_train
+stan_data_climate <- readRDS("full-model/data/stan_data_climate.RDS")
+X <- stan_data_climate$X_train
 vars <- c('log_housing_density', 'vs',
           'pr', 'prev_12mo_precip', 'tmmx',
           'rmin')
@@ -213,7 +151,7 @@ for(i in seq_along(vars)) {
   start = start + 6
 }
 
-load(file = "./full-model/data/processed/region_key.RData")
+region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
 full_reg_key <- as_tibble(region_key) %>% 
   mutate(region = c(1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
@@ -221,8 +159,131 @@ full_reg_key <- as_tibble(region_key) %>%
          NA_L3CODE = as.factor(NA_L3CODE))
 reg_cols <- full_reg_key$region
 r <- 84
-t <- stan_data$T_train
+t <- stan_data_climate$T_train
 lambda_counts <- vector("list", length(count_names))
+
+best_climate <- `zinb_er_pi-ri_climate`$betas %>%
+  as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  separate_wider_delim(cols = "name", delim = ",", names = c("param", "coef", "region"))
+best_climate <- best_climate %>% 
+  mutate(param = as.numeric(gsub("beta\\[", "", param)),
+         coef = as.numeric(coef),
+         region = as.numeric(gsub("\\]", "", region)))
+lambda_climate <- best_climate %>% select(-param) %>% 
+  group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
+  pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
+
+covar_effect <- function(egpd_param_df, covar_term, linear_term) {
+  return(
+    egpd_param_df %>% as_tibble() %>% rename_with(., ~ as.character(reg_cols)) %>%
+      mutate(time = c(1:t)) %>%
+      pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
+      mutate(region = as.numeric(region), covar = covar_term, linear = linear_term)
+  )
+}
+
+coef_df_list_climate <- list()
+for(k in seq_along(vars)) {
+  stored_df_climate <- matrix(NA, t, r)
+  for(j in 1:r) {
+    stored_df_climate[, j] <- X[j, , X_cols[[k]]] %*% lambda_climate[X_cols[[k]], j]
+  }
+  coef_df_list_climate[[k]] <- covar_effect(stored_df_climate, vars[k], c(X[,,X_cols[[k]][2]]))
+}
+lambda_climate_effects <- bind_rows(coef_df_list_climate) %>% as_tibble() %>% left_join(., full_reg_key)
+p <- ggplot(lambda_climate_effects, aes(x = linear, y = effect, group = region)) + 
+  geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE), show.legend = FALSE) +
+  facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("climate")
+file_name <- paste0("full-model/figures/model-comp/lambda_climate", ".png")
+ggsave(file_name, p, dpi = 320, bg = "white")
+
+stan_data_erc <- readRDS("full-model/data/stan_data_erc.RDS")
+X <- stan_data_erc$X_train
+vars <- c('log_housing_density', 'erc')
+X_covar <- c()
+X_cols <- vector("list", length(vars))
+start <- 2
+for(i in seq_along(vars)) {
+  X_covar[i] <- paste0("X_", vars[i])
+  X_cols[[i]] <- c(1, start:(start+5))
+  start = start + 6
+}
+
+
+best_erc <- `zinb_er_pi-ri_erc`$betas %>%
+  as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  separate_wider_delim(cols = "name", delim = ",", names = c("param", "coef", "region"))
+best_erc <- best_erc %>% 
+  mutate(param = as.numeric(gsub("beta\\[", "", param)),
+         coef = as.numeric(coef),
+         region = as.numeric(gsub("\\]", "", region)))
+lambda_erc <- best_erc %>% select(-param) %>% 
+  group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
+  pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
+
+coef_df_list_erc <- list()
+for(k in seq_along(vars)) {
+  stored_df_erc <- matrix(NA, t, r)
+  for(j in 1:r) {
+    stored_df_erc[, j] <- X[j, , X_cols[[k]]] %*% lambda_erc[X_cols[[k]], j]
+  }
+  coef_df_list_erc[[k]] <- covar_effect(stored_df_erc, vars[k], c(X[,,X_cols[[k]][2]]))
+}
+lambda_erc_effects <- bind_rows(coef_df_list_erc) %>% as_tibble() %>% left_join(., full_reg_key)
+p <- ggplot(lambda_erc_effects, aes(x = linear, y = effect, group = region)) + 
+  geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE), show.legend = FALSE) +
+  facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("erc")
+file_name <- paste0("full-model/figures/model-comp/lambda_erc", ".png")
+ggsave(file_name, p, dpi = 320, bg = "white")
+
+
+stan_data_fwi <- readRDS("full-model/data/stan_data_fwi.RDS")
+X <- stan_data_fwi$X_train
+vars <- c('log_housing_density', 'fwi')
+X_covar <- c()
+X_cols <- vector("list", length(vars))
+start <- 2
+for(i in seq_along(vars)) {
+  X_covar[i] <- paste0("X_", vars[i])
+  X_cols[[i]] <- c(1, start:(start+5))
+  start = start + 6
+}
+
+best_fwi <- `zinb_er_pi-ri_fwi`$betas %>%
+  as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  separate_wider_delim(cols = "name", delim = ",", names = c("param", "coef", "region"))
+best_fwi <- best_fwi %>% 
+  mutate(param = as.numeric(gsub("beta\\[", "", param)),
+         coef = as.numeric(coef),
+         region = as.numeric(gsub("\\]", "", region)))
+lambda_fwi <- best_fwi %>% select(-param) %>% 
+  group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
+  pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
+
+coef_df_list_fwi <- list()
+for(k in seq_along(vars)) {
+  stored_df_fwi <- matrix(NA, t, r)
+  for(j in 1:r) {
+    stored_df_fwi[, j] <- X[j, , X_cols[[k]]] %*% lambda_fwi[X_cols[[k]], j]
+  }
+  coef_df_list_fwi[[k]] <- covar_effect(stored_df_fwi, vars[k], c(X[,,X_cols[[k]][2]]))
+}
+lambda_fwi_effects <- bind_rows(coef_df_list_fwi) %>% as_tibble() %>% left_join(., full_reg_key)
+p <- ggplot(lambda_fwi_effects, aes(x = linear, y = effect, group = region)) + 
+  geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE), show.legend = FALSE) +
+  facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("fwi")
+file_name <- paste0("full-model/figures/model-comp/lambda_fwi", ".png")
+ggsave(file_name, p, dpi = 320, bg = "white")
+
 
 for(i in seq_along(count_names)) {
   # count_beta <- get(count_names[[i]])[[1]]

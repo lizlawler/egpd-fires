@@ -405,7 +405,7 @@ stan_data_joint <- list(
   # burn data 
   # training data
   y_min = min(burn_hold_obs_og, burn_train_obs_og),
-  y_train_obs = burn_train_obs_og,
+  y_train_burn_obs = burn_train_obs_og,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
   ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
@@ -414,7 +414,7 @@ stan_data_joint <- list(
   N_tb_all = length(idx_tb_all),
   
   # holdout data
-  y_hold_obs = burn_hold_obs_og,
+  y_hold_burn_obs = burn_hold_obs_og,
   N_hold_obs = length(idx_hold_obs),
   N_hold_all = length(idx_hold_all),
   ii_hold_obs = idx_hold_obs,

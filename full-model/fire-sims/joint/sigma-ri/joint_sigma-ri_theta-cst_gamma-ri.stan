@@ -76,7 +76,7 @@ transformed parameters {
 model {
   theta ~ normal(0, 5);
   
-  vector[N_tb_all] kappa = exp(to_vector(reg[1]))[ii_tb_all];
+  vector[N_tb_all] kappa = exp(to_vector(reg))[ii_tb_all];
   vector[N_tb_all] sigma = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
   
@@ -152,7 +152,7 @@ generated quantities {
   // burn component scores
   // training scores
   for (n in 1:N_tb_obs) {
-    real kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs][n];
+    real kappa_train = exp(to_vector(reg_full))[ii_tb_all][ii_tb_obs][n];
     real sigma_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs][n];
     real xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs][n];
     
@@ -164,7 +164,7 @@ generated quantities {
   }
   // holdout scores
   for (n in 1:N_hold_obs) {
-    real kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs][n];
+    real kappa_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];
     real sigma_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs][n];
     real xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs][n];
     

@@ -8,7 +8,7 @@ conda activate stan
 
 stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="joint"
-for modname in "all-reg" "kappa-ri" "sigma-ri"
+for modname in "kappa-ri" "sigma-ri"
 do
 for params in "theta-cst_gamma-cst" "theta-cst_gamma-ri" "theta-ri_gamma-cst" "theta-ri_gamma-ri"
 do

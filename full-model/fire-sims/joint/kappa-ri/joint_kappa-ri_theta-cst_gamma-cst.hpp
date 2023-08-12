@@ -67,7 +67,7 @@ static constexpr std::array<const char*, 385> locations_array__ =
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 141, column 4 to column 82)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 140, column 17 to line 142, column 3)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 140, column 2 to line 142, column 3)",
- " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 155, column 4 to column 76)",
+ " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 155, column 4 to column 73)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 156, column 4 to column 77)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 157, column 4 to column 74)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 159, column 4 to column 108)",
@@ -76,7 +76,7 @@ static constexpr std::array<const char*, 385> locations_array__ =
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 163, column 4 to column 101)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 154, column 24 to line 164, column 3)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 154, column 2 to line 164, column 3)",
- " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 167, column 4 to column 79)",
+ " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 167, column 4 to column 76)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 168, column 4 to column 80)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 169, column 4 to column 77)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 172, column 4 to column 106)",
@@ -108,7 +108,7 @@ static constexpr std::array<const char*, 385> locations_array__ =
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 76, column 2 to column 23)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 77, column 2 to column 23)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 79, column 9 to column 17)",
- " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 79, column 2 to column 61)",
+ " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 79, column 2 to column 58)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 80, column 9 to column 17)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 80, column 2 to column 82)",
  " (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-cst_gamma-cst.stan', line 81, column 9 to column 17)",
@@ -2741,11 +2741,8 @@ class joint_kappa_ri_theta_cst_gamma_cst_model final : public model_base_crtp<jo
              DUMMY_VAR__);
         current_statement__ = 99;
         stan::model::assign(sigma,
-          stan::model::rvalue(
-            stan::math::exp(
-  stan::math::to_vector(
-    stan::model::rvalue(reg, "reg", stan::model::index_uni(1)))),
-            "exp(to_vector(reg[1]))", stan::model::index_multi(ii_tb_all)),
+          stan::model::rvalue(stan::math::exp(stan::math::to_vector(reg)),
+            "exp(to_vector(reg))", stan::model::index_multi(ii_tb_all)),
           "assigning variable sigma");
         current_statement__ = 100;
         stan::math::validate_non_negative_index("kappa", "N_tb_all", N_tb_all);
@@ -3352,14 +3349,10 @@ class joint_kappa_ri_theta_cst_gamma_cst_model final : public model_base_crtp<jo
         current_statement__ = 58;
         sigma_train = stan::model::rvalue(
                         stan::model::rvalue(
-  stan::model::rvalue(
-  stan::math::exp(
-  stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
-  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full[1]))[ii_tb_all]",
-  stan::model::index_multi(ii_tb_obs)),
-                        "exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs]",
+  stan::model::rvalue(stan::math::exp(stan::math::to_vector(reg_full)),
+  "exp(to_vector(reg_full))", stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full))[ii_tb_all]", stan::model::index_multi(ii_tb_obs)),
+                        "exp(to_vector(reg_full))[ii_tb_all][ii_tb_obs]",
                         stan::model::index_uni(n));
         double kappa_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 59;
@@ -3418,14 +3411,11 @@ class joint_kappa_ri_theta_cst_gamma_cst_model final : public model_base_crtp<jo
         current_statement__ = 67;
         sigma_hold = stan::model::rvalue(
                        stan::model::rvalue(
-  stan::model::rvalue(
-  stan::math::exp(
-  stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
-  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_hold_all)),
-  "exp(to_vector(reg_full[1]))[ii_hold_all]",
+  stan::model::rvalue(stan::math::exp(stan::math::to_vector(reg_full)),
+  "exp(to_vector(reg_full))", stan::model::index_multi(ii_hold_all)),
+  "exp(to_vector(reg_full))[ii_hold_all]",
   stan::model::index_multi(ii_hold_obs)),
-                       "exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs]",
+                       "exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs]",
                        stan::model::index_uni(n));
         double kappa_hold = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 68;

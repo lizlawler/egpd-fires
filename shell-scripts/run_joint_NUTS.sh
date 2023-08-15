@@ -26,7 +26,7 @@ sleep 1
 sbatch --dependency=afterok:${parentjob} \
 --job-name ${modname}_${params}_plots \
 --output="./full-model/output/%x_%j.txt" \
-shell-scripts/call_plots.sh
+shell-scripts/call_joint_plots.sh
 sleep 1
 done
 done

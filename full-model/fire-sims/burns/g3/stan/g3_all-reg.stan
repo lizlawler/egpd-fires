@@ -1,4 +1,4 @@
-#include g3_fcns.stan
+#include g3_fcns.stanfunctions
 #include /../../burns_data.stan
 transformed data {
   int S = 2; // # of parameters with regression (ranges from 1 to 3)
@@ -56,10 +56,9 @@ transformed parameters {
   }
 }
 model {
-  vector[N_tb_all] nu = exp(to_vector(reg[1]))[ii_tb_all];
+  vector[N_tb_all] sigma = exp(to_vector(reg[1]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(reg[2]))[ii_tb_all];
   vector[N_tb_all] gamma = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] sigma = nu ./ (1 + xi);
   
   Z ~ std_normal();
   

@@ -21,10 +21,14 @@ burn_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]
 extraction <- function(file_group, burn_name) {
   object <- as_cmdstan_fit(file_group)
   # betas <- object$draws(variables = "beta")
-  ri_matrix <- object$draws(variables = "ri_matrix")
   reg <- object$draws(variables = "reg")
-  temp <- list(reg, ri_matrix)
-  names(temp) <- c("reg", "ri_matrix")
+  ri_init <- object$draws(variables = "ri_init")
+  pi_prob <- object$draws(variables = "pi_prob")
+  delta <- object$draws(variables = "delta")
+  theta <- object$draws(variables = "theta")
+  gamma <- object$draws(variables = "gamma")
+  temp <- list(reg, ri_init, pi_prob, delta, theta, gamma)
+  names(temp) <- c("reg", "ri_init", "pi_prob", "delta", "theta", "gamma")
   assign(burn_name, temp, parent.frame())
   rm(object)
   gc()
@@ -34,8 +38,9 @@ extraction(best_group[[1]], "sigma_ri_theta-ri_gamma-ri")
 
 pegpd <- function(y, kappa, sigma, xi) (1 - (1 + xi * (y/sigma))^(-1/xi))^kappa
 qegpd <- function(p, kappa, sigma, xi) (sigma/xi) * ( (1 - p^(1/kappa) )^-xi - 1)
-rlevel <- function(m, kappa, sigma, xi) {
-  p <- (m-1)/m * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
+eta <- function(pi, lambda) (1-pi) * lambda # expected counts
+rlevel <- function(N, kappa, sigma, xi, eta) {
+  p <- ((N-1)/N)^(1/(12 * eta)) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
   return(qegpd(p, kappa, sigma, xi))
 }
 

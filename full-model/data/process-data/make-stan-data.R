@@ -34,7 +34,7 @@ B <- as(listw, 'symmetricMatrix')
 if (!file.exists('./full-model/data/processed/region_key.rds')) {
   region_key <- ecoregion_shp %>% 
     as_tibble() %>% 
-    dplyr::select(NA_L3NAME, NA_L3CODE, NA_L2CODE, NA_L1CODE) %>% 
+    dplyr::select(NA_L1NAME, NA_L3NAME, NA_L3CODE, NA_L2CODE, NA_L1CODE) %>% 
     unique() %>% arrange(NA_L3NAME, .locale = "en")
   write_rds(region_key, './full-model/data/processed/region_key.rds')
 } else {

@@ -3,20 +3,22 @@ check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(tidyverse)
 library(stringr)
 library(posterior)
+library(lubridate)
+library(sf)
 
 # following code is for extracting from the actual model fit -------
 burn_fits <- paste0("full-model/fire-sims/joint/sigma-ri/csv-fits/",
                     list.files(path = "full-model/fire-sims/joint/sigma-ri/csv-fits",
                                pattern = ".csv", recursive = TRUE))
 best_fit <- burn_fits[grepl("theta-ri_gamma-ri", burn_fits)]
-nfits <- length(burn_fits)/3
-fit_groups <- vector(mode = "list", nfits)
-for(i in 1:nfits) {
-  fit_groups[[i]] <- burn_fits[(3*i-2):(3*i)]
-}
+# nfits <- length(burn_fits)/3
+# fit_groups <- vector(mode = "list", nfits)
+# for(i in 1:nfits) {
+#   fit_groups[[i]] <- burn_fits[(3*i-2):(3*i)]
+# }
 
 best_group <- list(best_fit)
-burn_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), "joint_")) %>% unlist()
+# burn_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), "joint_")) %>% unlist()
 # 
 extraction <- function(file_group, burn_name) {
   object <- as_cmdstan_fit(file_group)
@@ -24,11 +26,13 @@ extraction <- function(file_group, burn_name) {
   reg <- object$draws(variables = "reg")
   ri_init <- object$draws(variables = "ri_init")
   pi_prob <- object$draws(variables = "pi_prob")
+  lambda <- object$draws(variables = "lambda")
   delta <- object$draws(variables = "delta")
   theta <- object$draws(variables = "theta")
   gamma <- object$draws(variables = "gamma")
-  temp <- list(reg, ri_init, pi_prob, delta, theta, gamma)
-  names(temp) <- c("reg", "ri_init", "pi_prob", "delta", "theta", "gamma")
+  phi <- object$draws(variables = "phi")
+  temp <- list(reg, ri_init, pi_prob, lambda, delta, theta, gamma, phi)
+  names(temp) <- c("reg", "ri_init", "pi_prob", "lambda", "delta", "theta", "gamma", "phi")
   assign(burn_name, temp, parent.frame())
   rm(object)
   gc()
@@ -38,7 +42,10 @@ extraction(best_group[[1]], "sigma_ri_theta-ri_gamma-ri")
 
 pegpd <- function(y, kappa, sigma, xi) (1 - (1 + xi * (y/sigma))^(-1/xi))^kappa
 qegpd <- function(p, kappa, sigma, xi) (sigma/xi) * ( (1 - p^(1/kappa) )^-xi - 1)
-eta <- function(pi, lambda) (1-pi) * lambda # expected counts
+exp_count <- function(pi, lambda) { # expected counts
+  pi_prob <- exp(pi)/(1+exp(pi))
+  return((1-pi_prob) * exp(lambda))
+}
 rlevel <- function(N, kappa, sigma, xi, eta) {
   p <- ((N-1)/N)^(1/(12 * eta)) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
   return(qegpd(p, kappa, sigma, xi))
@@ -53,30 +60,50 @@ kappa_vals <- `sigma_ri_theta-ri_gamma-ri`$reg %>% as_draws_df() %>%
          region = as.numeric(gsub("\\]", "", region)),
          kappa = exp(value)) %>% select(-value)
   
-rand_int <- `sigma_ri_theta-ri_gamma-ri`$ri_matrix %>% as_draws_df() %>%
+rand_int <- `sigma_ri_theta-ri_gamma-ri`$ri_init %>% as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>% 
   pivot_longer(cols = !".draw") %>%
   rename(draw = ".draw") %>% 
-  separate_wider_delim(cols = "name", delim = ",", names = c("param", "time", "region"))
-
-rand_int <- rand_int %>% select(-time) %>% distinct()
-rand_int <- rand_int %>% 
-  mutate(param = as.numeric(gsub("ri_matrix\\[", "", param)),
-         region = as.numeric(gsub("\\]", "", region)))
-rand_int <- rand_int %>%
-  mutate(param = as.character(param),
+  separate_wider_delim(cols = "name", delim = ",", names = c("param", "region")) %>% 
+  mutate(param = as.character(gsub("ri_init\\[", "", param)),
+         region = as.numeric(gsub("\\]", "", region)),
+         param = as.character(param),
          param = case_when(param == "1" ~ "sigma",
                            param == "2" ~ "xi",
                            TRUE ~ param),
-         value = exp(value)) %>%
+         value = exp(value)) %>% 
   pivot_wider(names_from = param, values_from = value)
 
-all_params <- kappa_vals %>% left_join(rand_int)
-returns <- all_params %>% mutate(yr50 = rlevel(50, kappa, sigma, xi))
+lambda <- `sigma_ri_theta-ri_gamma-ri`$lambda %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>% 
+  separate_wider_delim(cols = "name", delim = ",", names = c("time", "region")) %>%
+  mutate(time = as.numeric(gsub("lambda\\[", "", time)),
+         region = as.numeric(gsub("\\]", "", region)),
+         param = "lambda") %>%
+  pivot_wider(names_from = param, values_from = value)
+
+pi_prob <- `sigma_ri_theta-ri_gamma-ri`$pi_prob %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  mutate(region = as.character(gsub("pi_prob\\[", "", name)),
+         region = as.numeric(gsub("\\]", "", region)),
+         name = "pi") %>% 
+  pivot_wider(names_from = name, values_from = value)
+
+all_params <- kappa_vals %>% 
+  left_join(rand_int) %>% 
+  left_join(lambda) %>% 
+  left_join(pi_prob) %>%
+  mutate(eta = exp_count(pi, lambda))
+
+returns <- all_params %>% mutate(yr50 = rlevel(50, kappa, sigma, xi, eta)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
 returns_summary <- returns %>% group_by(time, region) %>% 
-  summarize(mean50 = mean(yr50[is.finite(yr50)]), med50 = median(yr50[is.finite(yr50)]), 
-            lower25 = quantile(yr50[is.finite(yr50)], probs = 0.025), upper975 = quantile(yr50[is.finite(yr50)], probs = 0.975),
-            lower50 = quantile(yr50[is.finite(yr50)], probs = 0.05), upper95 = quantile(yr50[is.finite(yr50)], probs = 0.95)) %>%
+  summarize(med50 = median(yr50[is.finite(yr50)]), 
+            lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
+            upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
   ungroup()
 
 region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
@@ -84,26 +111,52 @@ full_reg_key <- as_tibble(region_key) %>%
   mutate(region = c(1:84),
          NA_L2CODE = as.factor(NA_L2CODE),
          NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE))
-reg_cols <- full_reg_key$region
-
+         NA_L3CODE = as.factor(NA_L3CODE),
+         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
+# reg_cols <- full_reg_key$region
 returns_regional <- returns_summary %>% left_join(full_reg_key)
- 
-p <- returns_regional %>% ggplot() + 
-  geom_line(aes(x=time, y=med50, group = region, alpha = 0.5), linewidth = 0.2, color = 'grey') + 
-  geom_ribbon(aes(x=time, ymin=lower25, ymax=upper975, group = region, fill = NA_L1CODE, alpha = 0.05)) +
-  facet_wrap(. ~ NA_L1CODE, nrow = 2) + theme_classic() + theme(legend.position = "none")
 
-file_name <- "full-model/figures/paper/50yr_returns_bylevel1_95ci.png"
-ggsave(file_name, p, dpi = 320, bg = "white")
+date_seq <- seq(as.Date("1995-01-01"), by = "1 month", length.out = 252) %>% as_tibble() %>% rename(date = value)
+time_df <- date_seq %>% mutate(time = 1:252)
+returns_regional <- returns_regional %>% left_join(time_df)
 
 p <- returns_regional %>% ggplot() + 
-  geom_line(aes(x=time, y=med50, group = region, alpha = 0.5), linewidth = 0.2, color = 'grey') + 
-  geom_ribbon(aes(x=time, ymin=lower50, ymax=upper95, group = region, fill = NA_L1CODE, alpha = 0.05)) +
-  facet_wrap(. ~ NA_L1CODE, nrow = 2) + theme_classic() + theme(legend.position = "none")
+  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
+  geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.3, color = 'darkgrey') + scale_y_log10() +
+  scale_x_date(name = "Year (1995-2016)", date_breaks = "5 years", date_labels = "%Y") + 
+  ylab("Expected burn area (ha)") +
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) +
+  theme_classic() + theme(legend.position = "none") + 
+  theme(strip.text.x = element_text(size = rel(0.9)))
 
-file_name <- "full-model/figures/paper/50yr_returns_bylevel1_90ci.png"
-ggsave(file_name, p, dpi = 320, bg = "white")
+file_name <- "full-model/figures/paper/50yr_returns.png"
+ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
+
+
+ecoregions <- read_rds(file = "ecoregions.RDS")
+ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>% 
+  mutate(NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE),
+         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
+
+er_map_l1 <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .2, aes(fill = NA_L1NAME)) + 
+  theme_void() +
+  coord_sf(ndiscr = FALSE)
+
+er_map_l1 <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .2, fill = "white") +
+  geom_sf(data = ecoregions_geom,
+          aes(fill = NA_L2CODE), alpha = 0.6, lwd = 0, inherit.aes = FALSE, show.legend = FALSE) +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(),
+          fill = "transparent", lwd = 1, color = "gray20", inherit.aes = FALSE, show.legend = FALSE) +
+  theme_void() +
+  coord_sf(ndiscr = FALSE)
+
+ggsave("test_map.png", er_map_l1, dpi = 320, bg = "white")
 
 ri_map <- `sigma_ri_theta-ri_gamma-ri`$ri_matrix %>% as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>% 

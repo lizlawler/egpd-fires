@@ -1,0 +1,55 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+
+A newer version of CmdStan is available. See ?install_cmdstan() to install it.
+To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+This is posterior version 1.4.1
+
+Attaching package: ‘posterior’
+
+The following objects are masked from ‘package:stats’:
+
+    mad, sd, var
+
+The following objects are masked from ‘package:base’:
+
+    %in%, match
+
+[1] "Filenames being used are:"
+[1] "./full-model/fire-sims/joint/kappa-ri/csv-fits/joint_kappa-ri_theta-time_gamma-ri_28Aug2023_1703_1.csv"
+[2] "./full-model/fire-sims/joint/kappa-ri/csv-fits/joint_kappa-ri_theta-time_gamma-ri_28Aug2023_1703_2.csv"
+[3] "./full-model/fire-sims/joint/kappa-ri/csv-fits/joint_kappa-ri_theta-time_gamma-ri_28Aug2023_1703_3.csv"
+[1] "Creating cmdstan fit object..."
+Warning: 391 of 3000 (13.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
+Warning: 391 of 3000 (13.0%) transitions ended with a divergence.
+See https://mc-stan.org/misc/warnings for details.
+
+$num_divergent
+[1] 129  29 233
+
+$num_max_treedepth
+[1] 0 0 0
+
+$ebfmi
+[1] 0.4465813 0.4645631 0.5306746
+
+[1] "Creating mcmc list from cmdstan object..."
+[1] "Creating traceplot of rhos..."
+[1] "rho traceplots created"
+[1] "Creating traceplot of betas for lambda"
+[1] "Creating traceplot of betas for burn param(s)"
+[1] "beta traceplots created"
+[1] "Creating traceplot of phi..."
+[1] "phi traceplots created"
+[1] "Extracting scores from model object..."
+[1] "Scores have been extracted and saved to disk"
+             used    (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells    1266948    67.7    3981989   212.7    6221857   332.3
+Vcells 2511735559 19163.1 7940163438 60578.7 7868380865 60031.0
+[1] "Extracting betas from model object..."
+[1] "Betas have been extracted and saved to disk"

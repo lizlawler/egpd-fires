@@ -1,6 +1,6 @@
 functions{
-#include /../../twcrps_matnorm_fcns.stan
-#include /../../gpd_fcns.stan
+#include /../../twcrps_matnorm_fcns.stanfunctions
+#include /../../gpd_fcns.stanfunctions
   // custom distribution functions of EGPD
   real egpd_lpdf(real y, real sigma, real xi, real delta) {
     real alpha = 1/delta;

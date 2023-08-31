@@ -23,7 +23,7 @@ transformed parameters {
   vector<lower=0>[S] tau = tau_init / 2;
   vector[C] rho2 = rho_sum - rho1;
   array[S] cov_matrix[p] cov_ar1;
-  array[C] corr_matrix[R] corr; // 1 = nu, 2 = xi, 3 = gamma
+  array[C] corr_matrix[R] corr; // 1 = nu, 2 = xi, 3 = delta
   
   vector[R] ri_init; // random intercept vector
   matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
@@ -49,7 +49,7 @@ transformed parameters {
                        + 1 / tau[s] * phi_init[t, s];
     }
     
-    // regression for gamma, nu, and xi
+    // regression for sigma and xi 
     for (r in 1:R) {
       reg[s][, r] = X_train[r] * beta[s][, r] + phi[s][idx_train_er, r];
     }
@@ -58,7 +58,7 @@ transformed parameters {
 model {
   vector[N_tb_all] sigma = exp(to_vector(reg[1]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(reg[2]))[ii_tb_all];
-  vector[N_tb_all] gamma = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] delta = exp(to_vector(ri_matrix[idx_train_er,]))[ii_tb_all];
   
   Z ~ std_normal();
   
@@ -85,82 +85,46 @@ model {
   
   // likelihood
   for (n in 1:N_tb_all) {
-    target += egpd_trunc_lpdf(y_train[n] | y_min, sigma[n], xi[n], gamma[n]);
+    target += egpd_trunc_lpdf(y_train[n] | y_min, sigma[n], xi[n], delta[n]);
   }
 }
+generated quantities {
+  array[N_tb_obs] real train_loglik;
+  array[N_hold_obs] real holdout_loglik;
+  array[N_tb_obs] real train_twcrps;
+  array[N_hold_obs] real holdout_twcrps;
 
-// generated quantities {
-//   array[S] matrix[T_all, R] reg_full;
-//  
-//   vector<lower=0>[N_tb_obs] nu_train;
-//   vector<lower=0>[N_tb_obs] xi_train;
-//   vector<lower=0>[N_tb_obs] gamma_train;
-//   vector<lower=0>[N_tb_obs] sigma_train;
-//  
-//   vector<lower=0>[N_hold_obs] nu_hold;
-//   vector<lower=0>[N_hold_obs] xi_hold;
-//   vector<lower=0>[N_hold_obs] gamma_hold;
-//   vector<lower=0>[N_hold_obs] sigma_hold;
-//   
-//   array[N_tb_obs] real train_loglik;
-//   array[N_hold_obs] real holdout_loglik;
-//   array[N_hold_obs] real holdout_twcrps;
-//   
-//   // variables needed for estimation of twCRPS integral via summation
-//   real interval = max(y_hold_obs) - min(y_hold_obs);
-//   int n_pred = 10000;
-//   real delta = interval / n_pred;
-//   
-//   for (s in 1:S) {
-//     for (r in 1:R) {
-//       reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
-//     }
-//   }
-//   
-//   nu_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs];
-//   xi_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs];
-//   gamma_train = exp(to_vector(ri_matrix))[ii_tb_all][ii_tb_obs];
-//   sigma_train = nu_train ./ (1 + xi_train);
-//   
-//   nu_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs];
-//   xi_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs];
-//   gamma_hold = exp(to_vector(ri_matrix))[ii_hold_all][ii_hold_obs];
-//   sigma_hold = nu_hold ./ (1 + xi_hold);
-//   
-//   if (max(y_train_obs) < 50) {
-//     // condition determines if the data read in are the sqrt or original burn areas
-//     // training log-likelihood
-//     for (n in 1:N_tb_obs) {
-//       train_loglik[n] = egpd_lpdf(y_train_obs[n] | sigma_train[n], xi_train[n], gamma_train[n])
-//                         + log(0.5) - log(y_train_obs[n]);
-//     }
-//     // holdout scores
-//     for (n in 1:N_hold_obs) {
-//       // log-likelihood
-//       holdout_loglik[n] = egpd_lpdf(y_hold_obs[n] | sigma_hold[n], xi_hold[n], gamma_hold[n])
-//                           + log(0.5) - log(y_hold_obs[n]);
-//       // twCRPS
-//       holdout_twcrps[n] = twCRPS(y_hold_obs[n],
-//                                  forecast_rng(n_pred, sigma_hold[n],
-//                                               xi_hold[n], gamma_hold[n]),
-//                                  delta, sqrt(21), 3);
-//     }
-//   } else {
-//     // training log-likelihood
-//     for (n in 1:N_tb_obs) {
-//       train_loglik[n] = egpd_lpdf(y_train_obs[n] | sigma_train[n], xi_train[n], gamma_train[n]);
-//     }
-//     // holdout scores
-//     for (n in 1:N_hold_obs) {
-//       // log-likelihood
-//       holdout_loglik[n] = egpd_lpdf(y_hold_obs[n] | sigma_hold[n], xi_hold[n], gamma_hold[n]);
-//       // twCRPS 
-//       holdout_twcrps[n] = twCRPS(y_hold_obs[n],
-//                                  forecast_rng(n_pred, sigma_hold[n],
-//                                               xi_hold[n], gamma_hold[n]),
-//                                  delta, 21, 9);
-//     }
-//   }
-// }
-// 
-// 
+  // training scores
+  array[S] matrix[T_all, R] reg_full;
+  for (s in 1:S) {
+    for (r in 1:R) {
+      reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
+    }
+  }  
+  
+  // training scores
+  for (n in 1:N_tb_obs) {
+    real sigma_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs][n];
+    real xi_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs][n];
+    real delta_train = exp(to_vector(ri_matrix))[ii_tb_all][ii_tb_obs][n];
+      
+    train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train, xi_train, delta_train);
+    // forecasting then twCRPS, on training dataset
+    vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, 
+                                              sigma_train, xi_train, delta_train);
+    train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
+  }  
+  // holdout scores
+  for (n in 1:N_hold_obs) {
+    real sigma_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs][n];
+    real xi_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs][n];
+    real delta_hold = exp(to_vector(ri_matrix))[ii_hold_all][ii_hold_obs][n];
+    
+    // log-likelihood
+    holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold, xi_hold, delta_hold);
+      // forecasting then twCRPS, on holdout dataset
+    vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_train, y_min, 
+                                          sigma_hold, xi_hold, delta_hold);
+    holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_train, int_pts_train, pred_probs_hold);
+  }
+}

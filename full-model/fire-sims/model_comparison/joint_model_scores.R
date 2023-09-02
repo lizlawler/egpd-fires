@@ -6,17 +6,67 @@ library(posterior)
 
 # load in extracted gen quants done through Alpine
 score_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
-                      list.files("full-model/fire-sims/model_comparison/extracted_values/", pattern = "joint"))
-
+                      list.files("full-model/fire-sims/model_comparison/extracted_values/", pattern = "scores"))
+score_files <- score_files[!grepl("all-reg", score_files)]
 model_names <- str_remove(str_remove(basename(score_files), "_scores.RDS"), "joint_")
-for(i in seq_along(model_names)) {
-  assign(model_names[i], readRDS(score_files[i]))
+new_models <- score_files[grepl("theta-time", score_files)]
+new_names <- str_remove(str_remove(basename(new_models), "_scores.RDS"), "joint_")
+for(i in seq_along(new_names)) {
+  assign(new_names[i], readRDS(new_models[i]))
 }
+
+erc_fwi_files <- paste0("full-model/fire-sims/burns/g1/csv-fits/",
+                        list.files("full-model/fire-sims/burns/g1/csv-fits/", pattern = "erc_fwi"))
+erc_fwi_files <- erc_fwi_files[!grepl("all-reg", erc_fwi_files)]
+nfits <- length(erc_fwi_files)/3
+fit_groups <- vector(mode = "list", nfits)
+for(i in 1:nfits) {
+  fit_groups[[i]] <- erc_fwi_files[(3*i-2):(3*i)]
+}
+
+extraction <- function(file_group, burn_name) {
+  object <- as_cmdstan_fit(file_group)
   
+  reg <- object$draws(variables = "reg")
+  ri_init <- object$draws(variables = "ri_init")
+  pi_prob <- object$draws(variables = "pi_prob")
+  lambda <- object$draws(variables = "lambda")
+  delta <- object$draws(variables = "delta")
+  theta <- object$draws(variables = "theta")
+  gamma <- object$draws(variables = "gamma")
+  phi <- object$draws(variables = "phi")
+  temp <- list(reg, ri_init, pi_prob, lambda, delta, theta, gamma, phi)
+  names(temp) <- c("reg", "ri_init", "pi_prob", "lambda", "delta", "theta", "gamma", "phi")
+  assign(burn_name, temp, parent.frame())
+  rm(object)
+  gc()
+}
+
+extraction <- function(file_group, burn_name) {
+  object <- as_cmdstan_fit(file_group)
+  betas <- object$draws(variables = "beta")
+  train_loglik <- object$draws(variables = "train_loglik")
+  holdout_loglik <- object$draws(variables = "holdout_loglik")
+  train_twcrps <- object$draws(variables = "train_twcrps")
+  holdout_twcrps <- object$draws(variables = "holdout_twcrps")
+  temp <- list(betas, train_loglik, holdout_loglik, train_twcrps, holdout_twcrps)
+  names(temp) <- c("betas", "train_loglik", "holdout_loglik", "train_twcrps", "holdout_twcrps")
+  assign(burn_name, temp, parent.frame())
+  rm(object)
+  gc()
+}
+
+burn_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), "g1_")) %>% unlist()
+
+for(i in seq_along(burn_names)) {
+  extraction(fit_groups[[i]], burn_names[i])
+}
+
+
 ## log score calculations ---------
-nfits <- length(model_names)
-holdout_loglik_count <- vector("list", nfits)
-train_loglik_count <- vector("list", nfits)
+nfits <- length(burn_names)
+# holdout_loglik_count <- vector("list", nfits)
+# train_loglik_count <- vector("list", nfits)
 holdout_loglik_burns <- vector("list", nfits)
 train_loglik_burns <- vector("list", nfits)
 train_twcrps <- vector("list", nfits)
@@ -37,17 +87,17 @@ for(i in seq_along(model_names)) {
            rand_effect = rand_effect,
            link = link,
            train = FALSE)
-  holdout_loglik_count[[i]] <- get(model_names[i])[["holdout_loglik_count"]] %>%
-    as_draws_df() %>%
-    select(-c(".iteration", ".chain")) %>% 
-    pivot_longer(cols = !".draw") %>%
-    rename(draw = ".draw") %>%
-    group_by(draw) %>% 
-    summarize(loglik = sum(value)) %>%
-    mutate(model = model,
-           rand_effect = rand_effect,
-           link = link,
-           train = FALSE)
+  # holdout_loglik_count[[i]] <- get(model_names[i])[["holdout_loglik_count"]] %>%
+  #   as_draws_df() %>%
+  #   select(-c(".iteration", ".chain")) %>% 
+  #   pivot_longer(cols = !".draw") %>%
+  #   rename(draw = ".draw") %>%
+  #   group_by(draw) %>% 
+  #   summarize(loglik = sum(value)) %>%
+  #   mutate(model = model,
+  #          rand_effect = rand_effect,
+  #          link = link,
+  #          train = FALSE)
   train_loglik_burns[[i]] <- get(model_names[i])[["train_loglik_burn"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
@@ -59,17 +109,17 @@ for(i in seq_along(model_names)) {
            rand_effect = rand_effect,
            link = link,
            train = TRUE)
-  train_loglik_count[[i]] <- get(model_names[i])[["train_loglik_count"]] %>%
-    as_draws_df() %>%
-    select(-c(".iteration", ".chain")) %>% 
-    pivot_longer(cols = !".draw") %>%
-    rename(draw = ".draw") %>%
-    group_by(draw) %>% 
-    summarize(loglik = sum(value)) %>%
-    mutate(model = model,
-           rand_effect = rand_effect,
-           link = link,
-           train = TRUE)
+  # train_loglik_count[[i]] <- get(model_names[i])[["train_loglik_count"]] %>%
+  #   as_draws_df() %>%
+  #   select(-c(".iteration", ".chain")) %>% 
+  #   pivot_longer(cols = !".draw") %>%
+  #   rename(draw = ".draw") %>%
+  #   group_by(draw) %>% 
+  #   summarize(loglik = sum(value)) %>%
+  #   mutate(model = model,
+  #          rand_effect = rand_effect,
+  #          link = link,
+  #          train = TRUE)
   train_twcrps[[i]] <- get(model_names[i])[["train_twcrps"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
@@ -94,8 +144,8 @@ for(i in seq_along(model_names)) {
            train = FALSE)
 }
 
-holdout_loglik_count <- bind_rows(holdout_loglik_count)
-train_loglik_count <- bind_rows(train_loglik_count)
+# holdout_loglik_count <- bind_rows(holdout_loglik_count)
+# train_loglik_count <- bind_rows(train_loglik_count)
 holdout_loglik_burns <- bind_rows(holdout_loglik_burns)
 train_loglik_burns <- bind_rows(train_loglik_burns)
 holdout_twcrps <- bind_rows(holdout_twcrps)

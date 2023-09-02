@@ -246,6 +246,12 @@ test_twcrps_comp_g1
 
 
 ## effects plots ----------
+files <- paste0("full-model/fire-sims/burns/g1/csv-fits/",
+                      list.files("full-model/fire-sims/burns/g1/csv-fits/", pattern = "erc_fwi"))
+files <- files[grepl("sigma-ri", files)]
+best_erc_fwi <- as_cmdstan_fit(files)
+betas <- best_erc_fwi$draws(variables = "beta")
+
 stan_data_climate <- readRDS("full-model/data/stan_data_climate.RDS")
 X <- stan_data_climate$X_train
 vars <- c('log_housing_density', 'vs',
@@ -321,9 +327,9 @@ p <- ggplot(sigma_climate_effects, aes(x = linear, y = effect, group = region)) 
 file_name <- paste0("full-model/figures/model-comp/g1_sigma_climate", ".png")
 ggsave(file_name, p, dpi = 320, bg = "white")
 
-stan_data_erc <- readRDS("full-model/data/stan_data_erc.RDS")
-X <- stan_data_erc$X_train
-vars <- c('log_housing_density', 'erc')
+stan_data_erc_fwi <- readRDS("full-model/data/stan_data_erc_fwi.RDS")
+X <- stan_data_erc_fwi$X_train
+vars <- c('log_housing_density', 'erc', 'fwi')
 X_covar <- c()
 X_cols <- vector("list", length(vars))
 start <- 2
@@ -333,42 +339,42 @@ for(i in seq_along(vars)) {
   start = start + 6
 }
 
-best_erc <- `g1_xi-ri_erc`$betas %>%
+best_fit <- betas %>%
   as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>% 
   pivot_longer(cols = !".draw") %>%
   rename(draw = ".draw") %>%
   separate_wider_delim(cols = "name", delim = ",", names = c("param", "coef", "region"))
-best_erc <- best_erc %>% 
+best_fit <- best_fit %>% 
   mutate(param = as.numeric(gsub("beta\\[", "", param)),
          coef = as.numeric(coef),
          region = as.numeric(gsub("\\]", "", region)))
-kappa_erc <- best_erc %>% filter(param == 1) %>% select(-param) %>% 
+kappas <- best_fit %>% filter(param == 1) %>% select(-param) %>% 
   group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
   pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
-sigma_erc <- best_erc %>% filter(param == 2) %>% select(-param) %>% 
-  group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
-  pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
+# sigma_erc <- best_erc %>% filter(param == 2) %>% select(-param) %>% 
+#   group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
+#   pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
 
-coef_df_list_kappa_erc <- list()
-coef_df_list_sigma_erc <- list()
+coef_df_list_kappa <- list()
+# coef_df_list_sigma_erc <- list()
 for(k in seq_along(vars)) {
-  stored_df_kappa_erc <- matrix(NA, t, r)
-  stored_df_sigma_erc <- matrix(NA, t, r)
+  stored_df_kappa <- matrix(NA, t, r)
+  # stored_df_sigma <- matrix(NA, t, r)
   for(j in 1:r) {
-    stored_df_kappa_erc[, j] <- X[j, , X_cols[[k]]] %*% kappa_erc[X_cols[[k]], j]
-    stored_df_sigma_erc[, j] <- X[j, , X_cols[[k]]] %*% sigma_erc[X_cols[[k]], j]
+    stored_df_kappa[, j] <- X[j, , X_cols[[k]]] %*% kappas[X_cols[[k]], j]
+    # stored_df_sigma[, j] <- X[j, , X_cols[[k]]] %*% sigma[X_cols[[k]], j]
   }
-  coef_df_list_kappa_erc[[k]] <- covar_effect(stored_df_kappa_erc, vars[k], c(X[,,X_cols[[k]][2]]))
-  coef_df_list_sigma_erc[[k]] <- covar_effect(stored_df_sigma_erc, vars[k], c(X[,,X_cols[[k]][2]]))
+  coef_df_list_kappa[[k]] <- covar_effect(stored_df_kappa, vars[k], c(X[,,X_cols[[k]][2]]))
+  # coef_df_list_sigma[[k]] <- covar_effect(stored_df_sigma, vars[k], c(X[,,X_cols[[k]][2]]))
 }
-kappa_erc_effects <- bind_rows(coef_df_list_kappa_erc) %>% as_tibble() %>% left_join(., full_reg_key)
-sigma_erc_effects <- bind_rows(coef_df_list_sigma_erc) %>% as_tibble() %>% left_join(., full_reg_key)
-p <- ggplot(kappa_erc_effects, aes(x = linear, y = effect, group = region)) + 
+kappa_effects <- bind_rows(coef_df_list_kappa) %>% as_tibble() %>% left_join(., full_reg_key)
+# sigma_effects <- bind_rows(coef_df_list_sigma) %>% as_tibble() %>% left_join(., full_reg_key)
+p <- ggplot(kappa_effects, aes(x = linear, y = effect, group = region)) + 
   geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE), show.legend = FALSE) +
-  facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("kappa_erc")
-file_name <- paste0("full-model/figures/model-comp/g1_kappa_erc", ".png")
-ggsave(file_name, p, dpi = 320, bg = "white")
+  facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("kappa_erc-fwi")
+file_name <- paste0("full-model/figures/model-comp/g1_kappa_erc-fwi", ".png")
+ggsave(file_name, p, dpi = 320, bg = "white", width = 15)
 p <- ggplot(sigma_erc_effects, aes(x = linear, y = effect, group = region)) + 
   geom_line(aes(linetype = NA_L1CODE, color = NA_L2CODE), show.legend = FALSE) +
   facet_wrap(. ~ covar, scales = "free_x") + theme_minimal() + ggtitle("sigma_erc")

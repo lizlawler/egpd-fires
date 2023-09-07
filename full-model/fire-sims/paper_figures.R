@@ -123,7 +123,6 @@ theta <- best_fit$theta %>% as_draws_df() %>%
 saveRDS(theta, file = "full-model/figures/paper/mcmc_draws/theta.RDS")
 
 ## read in region key --------
-
 region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
 full_reg_key <- as_tibble(region_key) %>% 
   mutate(region = c(1:84),
@@ -304,7 +303,7 @@ kappa_temp_avg <- kappa_vals %>% group_by(region, draw) %>% summarize(kappa = me
 all_params_notime <- kappa_temp_avg %>% 
   left_join(rand_int)
 level98_timeavg <- all_params_notime %>% 
-  mutate(yr50 = high_quant(50, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
+  mutate(yr50 = high_quant(50, kappa, sigma, xi)*0.405) # convert to hectares (1000s of hectares)
 level98_timeavg_summary <- level98_timeavg %>% group_by(region) %>%
   summarize(med50 = median(yr50[is.finite(yr50)]), 
             lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
@@ -312,20 +311,8 @@ level98_timeavg_summary <- level98_timeavg %>% group_by(region) %>%
   ungroup()
 level98_timeavg_regions <- level98_timeavg_summary %>% left_join(full_reg_key)
 
-eco_highburns <- ecoregions_geom %>% left_join(level98_timeavg_regions)
-breaks <- classIntervals(c(min(eco_highburns$med50) - .00001, eco_highburns$med50), style = 'equal', n = 6, intervalClosure = 'left')
-eco_highburns <- eco_highburns %>% mutate(burns_cat = cut(med50, unique(breaks$brks)))
-p <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_highburns,
-          aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
-  scale_fill_brewer(palette = 'YlOrRd') +
-  theme_void() 
-ggsave("full-model/figures/paper/onekappa_highburns_map.pdf", dpi = 320, bg ='white')
-
 level95_timeavg <- all_params_notime %>% 
-  mutate(yr20 = high_quant(20, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
+  mutate(yr20 = high_quant(20, kappa, sigma, xi)*0.405) # convert to hectares (1000s of hectares)
 level95_timeavg_summary <- level95_timeavg %>% group_by(region) %>%
   summarize(med20 = median(yr20[is.finite(yr20)]), 
             lower = quantile(yr20[is.finite(yr20)], probs = 0.025), 
@@ -333,9 +320,43 @@ level95_timeavg_summary <- level95_timeavg %>% group_by(region) %>%
   ungroup()
 level95_timeavg_regions <- level95_timeavg_summary %>% left_join(full_reg_key)
 
-eco_burns95 <- ecoregions_geom %>% left_join(level95_timeavg_regions)
-breaks <- classIntervals(c(min(eco_burns95$med20) - .00001, eco_burns95$med20), style = 'equal', n = 6, intervalClosure = 'left')
-eco_burns95 <- eco_burns95 %>% mutate(burns_cat = cut(med20, unique(breaks$brks)))
+level75_timeavg <- all_params_notime %>% 
+  mutate(yr4 = high_quant(4, kappa, sigma, xi)*0.405)
+level75_timeavg_summary <- level75_timeavg %>% group_by(region) %>%
+  summarize(med4 = median(yr4[is.finite(yr4)]), 
+            lower = quantile(yr4[is.finite(yr4)], probs = 0.025), 
+            upper = quantile(yr4[is.finite(yr4)], probs = 0.975)) %>%
+  ungroup()
+level75_timeavg_regions <- level75_timeavg_summary %>% left_join(full_reg_key)
+
+level50_timeavg <- all_params_notime %>% 
+  mutate(yr2 = high_quant(2, kappa, sigma, xi)*0.405) # rescale back to 1000s of acres; convert to hectares
+level50_timeavg_summary <- level50_timeavg %>% group_by(region) %>%
+  summarize(med2 = median(yr2[is.finite(yr2)]), 
+            lower = quantile(yr2[is.finite(yr2)], probs = 0.025), 
+            upper = quantile(yr2[is.finite(yr2)], probs = 0.975)) %>%
+  ungroup()
+level50_timeavg_regions <- level50_timeavg_summary %>% left_join(full_reg_key)
+
+allquantlevels <- c(level50_timeavg_summary$med2, level75_timeavg_summary$med4, level95_timeavg_summary$med20, level98_timeavg_summary$med50)
+breaks <- classIntervals(c(min(allquantlevels) - .00001, allquantlevels), style = 'fisher', n = 6, intervalClosure = 'left')
+
+
+eco_burns98 <- ecoregions_geom %>% 
+  left_join(level98_timeavg_regions) %>% 
+  mutate(burns_cat = cut(med50, unique(breaks$brks)))
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = eco_burns98,
+          aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
+  scale_fill_brewer(palette = 'YlOrRd') +
+  theme_void() 
+ggsave("full-model/figures/paper/onekappa_98th_quant_map.pdf", bg ='white')
+
+eco_burns95 <- ecoregions_geom %>% 
+  left_join(level95_timeavg_regions) %>% 
+  mutate(burns_cat = cut(med20, unique(breaks$brks)))
 p <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +
@@ -345,19 +366,9 @@ p <- ecoregions_geom %>%
   theme_void() 
 ggsave("full-model/figures/paper/onekappa_95th_quant_map.pdf", dpi = 320, bg ='white')
 
-
-level75_timeavg <- all_params_notime %>% 
-  mutate(yr4 = high_quant(4, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
-level75_timeavg_summary <- level75_timeavg %>% group_by(region) %>%
-  summarize(med4 = median(yr4[is.finite(yr4)]), 
-            lower = quantile(yr4[is.finite(yr4)], probs = 0.025), 
-            upper = quantile(yr4[is.finite(yr4)], probs = 0.975)) %>%
-  ungroup()
-level75_timeavg_regions <- level75_timeavg_summary %>% left_join(full_reg_key)
-
-eco_burns75 <- ecoregions_geom %>% left_join(level75_timeavg_regions)
-breaks <- classIntervals(c(min(eco_burns75$med4) - .00001, eco_burns75$med4), style = 'equal', n = 6, intervalClosure = 'left')
-eco_burns75 <- eco_burns75 %>% mutate(burns_cat = cut(med4, unique(breaks$brks)))
+eco_burns75 <- ecoregions_geom %>% 
+  left_join(level75_timeavg_regions) %>% 
+  mutate(burns_cat = cut(med4, unique(breaks$brks)))
 p <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +
@@ -367,19 +378,9 @@ p <- ecoregions_geom %>%
   theme_void() 
 ggsave("full-model/figures/paper/onekappa_75th_quant_map.pdf", dpi = 320, bg ='white')
 
-
-level50_timeavg <- all_params_notime %>% 
-  mutate(yr2 = high_quant(2, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
-level50_timeavg_summary <- level50_timeavg %>% group_by(region) %>%
-  summarize(med2 = median(yr2[is.finite(yr2)]), 
-            lower = quantile(yr2[is.finite(yr2)], probs = 0.025), 
-            upper = quantile(yr2[is.finite(yr2)], probs = 0.975)) %>%
-  ungroup()
-level50_timeavg_regions <- level50_timeavg_summary %>% left_join(full_reg_key)
-
-eco_burns50 <- ecoregions_geom %>% left_join(level50_timeavg_regions)
-breaks <- classIntervals(c(min(eco_burns50$med2) - .00001, eco_burns50$med2), style = 'equal', n = 6, intervalClosure = 'left')
-eco_burns50 <- eco_burns50 %>% mutate(burns_cat = cut(med2, unique(breaks$brks)))
+eco_burns50 <- ecoregions_geom %>% 
+  left_join(level50_timeavg_regions) %>% 
+  mutate(burns_cat = cut(med2, unique(breaks$brks)))
 p <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +

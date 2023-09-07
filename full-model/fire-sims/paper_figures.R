@@ -313,7 +313,7 @@ level98_timeavg_summary <- level98_timeavg %>% group_by(region) %>%
 level98_timeavg_regions <- level98_timeavg_summary %>% left_join(full_reg_key)
 
 eco_highburns <- ecoregions_geom %>% left_join(level98_timeavg_regions)
-breaks <- classIntervals(c(min(eco_highburns$med50) - .00001, eco_highburns$med50), style = 'fisher', n = 6, intervalClosure = 'left')
+breaks <- classIntervals(c(min(eco_highburns$med50) - .00001, eco_highburns$med50), style = 'equal', n = 6, intervalClosure = 'left')
 eco_highburns <- eco_highburns %>% mutate(burns_cat = cut(med50, unique(breaks$brks)))
 p <- ecoregions_geom %>%
   ggplot() +
@@ -324,11 +324,114 @@ p <- ecoregions_geom %>%
   theme_void() 
 ggsave("full-model/figures/paper/onekappa_highburns_map.pdf", dpi = 320, bg ='white')
 
-all_params_notime <- all_params_notime %>% group_by(region) %>% summarize(kappa = mean(mean_kappa),
-                                                                          sigma = mean(sigma),
-                                                                          ) %>%
+level95_timeavg <- all_params_notime %>% 
+  mutate(yr20 = high_quant(20, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
+level95_timeavg_summary <- level95_timeavg %>% group_by(region) %>%
+  summarize(med20 = median(yr20[is.finite(yr20)]), 
+            lower = quantile(yr20[is.finite(yr20)], probs = 0.025), 
+            upper = quantile(yr20[is.finite(yr20)], probs = 0.975)) %>%
+  ungroup()
+level95_timeavg_regions <- level95_timeavg_summary %>% left_join(full_reg_key)
+
+eco_burns95 <- ecoregions_geom %>% left_join(level95_timeavg_regions)
+breaks <- classIntervals(c(min(eco_burns95$med20) - .00001, eco_burns95$med20), style = 'equal', n = 6, intervalClosure = 'left')
+eco_burns95 <- eco_burns95 %>% mutate(burns_cat = cut(med20, unique(breaks$brks)))
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = eco_burns95,
+          aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
+  scale_fill_brewer(palette = 'YlOrRd') +
+  theme_void() 
+ggsave("full-model/figures/paper/onekappa_95th_quant_map.pdf", dpi = 320, bg ='white')
+
+
+level75_timeavg <- all_params_notime %>% 
+  mutate(yr4 = high_quant(4, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
+level75_timeavg_summary <- level75_timeavg %>% group_by(region) %>%
+  summarize(med4 = median(yr4[is.finite(yr4)]), 
+            lower = quantile(yr4[is.finite(yr4)], probs = 0.025), 
+            upper = quantile(yr4[is.finite(yr4)], probs = 0.975)) %>%
+  ungroup()
+level75_timeavg_regions <- level75_timeavg_summary %>% left_join(full_reg_key)
+
+eco_burns75 <- ecoregions_geom %>% left_join(level75_timeavg_regions)
+breaks <- classIntervals(c(min(eco_burns75$med4) - .00001, eco_burns75$med4), style = 'equal', n = 6, intervalClosure = 'left')
+eco_burns75 <- eco_burns75 %>% mutate(burns_cat = cut(med4, unique(breaks$brks)))
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = eco_burns75,
+          aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
+  scale_fill_brewer(palette = 'YlOrRd') +
+  theme_void() 
+ggsave("full-model/figures/paper/onekappa_75th_quant_map.pdf", dpi = 320, bg ='white')
+
+
+level50_timeavg <- all_params_notime %>% 
+  mutate(yr2 = high_quant(2, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
+level50_timeavg_summary <- level50_timeavg %>% group_by(region) %>%
+  summarize(med2 = median(yr2[is.finite(yr2)]), 
+            lower = quantile(yr2[is.finite(yr2)], probs = 0.025), 
+            upper = quantile(yr2[is.finite(yr2)], probs = 0.975)) %>%
+  ungroup()
+level50_timeavg_regions <- level50_timeavg_summary %>% left_join(full_reg_key)
+
+eco_burns50 <- ecoregions_geom %>% left_join(level50_timeavg_regions)
+breaks <- classIntervals(c(min(eco_burns50$med2) - .00001, eco_burns50$med2), style = 'equal', n = 6, intervalClosure = 'left')
+eco_burns50 <- eco_burns50 %>% mutate(burns_cat = cut(med2, unique(breaks$brks)))
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = eco_burns50,
+          aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
+  scale_fill_brewer(palette = 'YlOrRd') +
+  theme_void() 
+ggsave("full-model/figures/paper/onekappa_50th_quant_map.pdf", dpi = 320, bg ='white')
+
+
+all_params_notime <- all_params_notime %>% 
+  group_by(region) %>% 
+  summarize(kappa = mean(kappa),
+            sigma = mean(sigma),
+            xi = mean(xi)) %>%
   left_join(full_reg_key)
-all_params_notime_eco <- ecoregions_geom %>% left_join(all_param)
+all_params_notime_eco <- ecoregions_geom %>% left_join(all_params_notime)
+kappa_breaks <- classIntervals(c(min(all_params_notime_eco$kappa) - .00001, all_params_notime_eco$kappa), style = 'equal', n = 5, intervalClosure = 'left')
+sigma_breaks <- classIntervals(c(min(all_params_notime_eco$sigma) - .00001, all_params_notime_eco$sigma), style = 'equal', n = 5, intervalClosure = 'left')
+xi_breaks <- classIntervals(c(min(all_params_notime_eco$xi) - .00001, all_params_notime_eco$xi), style = 'equal', n = 5, intervalClosure = 'left')
+all_params_notime_eco <- all_params_notime_eco %>% 
+  mutate(kappa_cat = cut(kappa, unique(kappa_breaks$brks)),
+         sigma_cat = cut(sigma, unique(sigma_breaks$brks)),
+         xi_cat = cut(xi, unique(xi_breaks$brks)))
+
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = all_params_notime_eco,
+          aes(fill=kappa_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
+  scale_fill_brewer(palette = 'YlOrRd') +
+  theme_void() 
+ggsave("full-model/figures/paper/kappa_timeavg_map.pdf", dpi = 320, bg ='white')
+
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = all_params_notime_eco,
+          aes(fill=sigma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
+  scale_fill_brewer(palette = 'YlOrRd') +
+  theme_void()
+ggsave("full-model/figures/paper/sigma_map.pdf", dpi = 320, bg ='white')
+
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = all_params_notime_eco,
+          aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
+  scale_fill_brewer(palette = 'YlOrRd') +
+  theme_void()
+ggsave("full-model/figures/paper/xi_cat.pdf", dpi = 320, bg ='white')
+
 
 er_map_l1 <- ecoregions_geom %>%
   ggplot() +

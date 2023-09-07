@@ -338,9 +338,9 @@ level50_timeavg_summary <- level50_timeavg %>% group_by(region) %>%
   ungroup()
 level50_timeavg_regions <- level50_timeavg_summary %>% left_join(full_reg_key)
 
+## create maps for each quantile level, using same interval break categories -------
 allquantlevels <- c(level50_timeavg_summary$med2, level75_timeavg_summary$med4, level95_timeavg_summary$med20, level98_timeavg_summary$med50)
-breaks <- classIntervals(c(min(allquantlevels) - .00001, allquantlevels), style = 'fisher', n = 6, intervalClosure = 'left')
-
+breaks <- classIntervals(c(min(allquantlevels) - .00001, allquantlevels), style = 'quantile',intervalClosure = 'left')
 
 eco_burns98 <- ecoregions_geom %>% 
   left_join(level98_timeavg_regions) %>% 
@@ -352,7 +352,7 @@ p <- ecoregions_geom %>%
           aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
   scale_fill_brewer(palette = 'YlOrRd') +
   theme_void() 
-ggsave("full-model/figures/paper/onekappa_98th_quant_map.pdf", bg ='white')
+ggsave("full-model/figures/paper/onekappa_98th_quant_map.pdf", dpi = 320, bg ='white')
 
 eco_burns95 <- ecoregions_geom %>% 
   left_join(level95_timeavg_regions) %>% 
@@ -390,18 +390,17 @@ p <- ecoregions_geom %>%
   theme_void() 
 ggsave("full-model/figures/paper/onekappa_50th_quant_map.pdf", dpi = 320, bg ='white')
 
-
+## create maps of each parameter (kappa, sigma, xi) using 'quantile' break schema ---------
 all_params_notime <- all_params_notime %>% 
   group_by(region) %>% 
   summarize(kappa = mean(kappa),
             sigma = mean(sigma),
             xi = mean(xi)) %>%
   left_join(full_reg_key)
-all_params_notime_eco <- ecoregions_geom %>% left_join(all_params_notime)
-kappa_breaks <- classIntervals(c(min(all_params_notime_eco$kappa) - .00001, all_params_notime_eco$kappa), style = 'equal', n = 5, intervalClosure = 'left')
-sigma_breaks <- classIntervals(c(min(all_params_notime_eco$sigma) - .00001, all_params_notime_eco$sigma), style = 'equal', n = 5, intervalClosure = 'left')
-xi_breaks <- classIntervals(c(min(all_params_notime_eco$xi) - .00001, all_params_notime_eco$xi), style = 'equal', n = 5, intervalClosure = 'left')
-all_params_notime_eco <- all_params_notime_eco %>% 
+kappa_breaks <- classIntervals(c(min(all_params_notime$kappa) - .00001, all_params_notime$kappa), style = 'quantile', intervalClosure = 'left')
+sigma_breaks <- classIntervals(c(min(all_params_notime$sigma) - .00001, all_params_notime$sigma), style = 'quantile', intervalClosure = 'left')
+xi_breaks <- classIntervals(c(min(all_params_notime$xi) - .00001, all_params_notime$xi), style = 'quantile',intervalClosure = 'left')
+all_params_notime_eco <- ecoregions_geom %>% left_join(all_params_notime) %>%
   mutate(kappa_cat = cut(kappa, unique(kappa_breaks$brks)),
          sigma_cat = cut(sigma, unique(sigma_breaks$brks)),
          xi_cat = cut(xi, unique(xi_breaks$brks)))
@@ -434,107 +433,263 @@ p <- ecoregions_geom %>%
 ggsave("full-model/figures/paper/xi_cat.pdf", dpi = 320, bg ='white')
 
 
-er_map_l1 <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .2, aes(fill = NA_L1NAME)) + 
-  theme_void() +
-  coord_sf(ndiscr = FALSE)
+## create boxplot of predicted counts for entire US annually for all timepoints (holdout and training) and overlay truth ------
+betas <- readRDS("~/research/egpd-fires/full-model/fire-sims/model_comparison/extracted_values/joint_sigma-ri_theta-time_gamma-ri_betas.RDS")
+stan_data <- readRDS("full-model/data/stan_data_joint.RDS")
+X_full_count <- stan_data$X_full_count
+area_offset <- stan_data$area_offset %>% as_tibble() %>% mutate(region = as.numeric(1:84)) %>% rename(area = value)
 
-er_map_l1 <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .2, fill = "white") +
-  geom_sf(data = ecoregions_geom,
-          aes(fill = NA_L2CODE), alpha = 0.6, lwd = 0, inherit.aes = FALSE, show.legend = FALSE) +
-  geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(),
-          fill = "transparent", lwd = 1, color = "gray20", inherit.aes = FALSE, show.legend = FALSE) +
-  theme_void() +
-  coord_sf(ndiscr = FALSE)
-
-ggsave("test_map.png", er_map_l1, dpi = 320, bg = "white")
-
-ri_map <- `sigma_ri_theta-ri_gamma-ri`$ri_matrix %>% as_draws_df() %>%
+beta_count <- betas$beta_count %>% as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>% 
   pivot_longer(cols = !".draw") %>%
   rename(draw = ".draw") %>% 
-  separate_wider_delim(cols = "name", delim = ",", names = c("param", "time", "region")) %>% select(-time) %>% distinct() %>%
-  mutate(param = as.character(gsub("ri_matrix\\[", "", param)),
-         region = as.numeric(gsub("\\]", "", region)),
-         param = case_when(param == "1" ~ "sigma",
-                           param == "2" ~ "xi",
-                           TRUE ~ param))
+  separate_wider_delim(cols = "name", delim = ",", names = c("covar", "region")) %>%
+  mutate(covar = as.numeric(gsub("beta_count\\[", "", covar)),
+         region = as.numeric(gsub("\\]", "", region)))
 
-ri_map <- ri_map %>% group_by(param, region) %>% summarize(med_val = median(value))
-ri_map <- ri_map %>% ungroup()
-xi_map <- ri_map %>% filter(param == "xi") %>% select(-param) %>% mutate(med_val = exp(med_val))
-sigma_map <- ri_map %>% filter(param == "sigma") %>% select(-param) %>% mutate(med_val = exp(med_val))
+beta_by_reg <- split(beta_count, beta_count$region) %>% 
+  lapply(., function(x) {
+  x %>% 
+    select(-region) %>% 
+    pivot_wider(names_from = draw, values_from = value) %>%
+    select(-covar) %>%
+    as.matrix()})
 
-gamma_map <- gamma %>% group_by(region) %>% summarize(med_gamma = median(gamma)) %>% ungroup() %>% left_join(full_reg_key)
-eco_gamma <- ecoregions_geom %>% left_join(gamma_map)
-breaks <- classIntervals(c(min(eco_gamma$med_gamma) - .00001, eco_gamma$med_gamma), style = 'fixed', 
-                         fixedBreaks = c(-0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), intervalClosure = 'left')
-eco_gamma <- eco_gamma %>% mutate(gamma_cat = cut(med_gamma, unique(breaks$brks)))
+X_by_reg <- asplit(X_full_count, 1)
+reg_comp <- mapply(function(x,y) x %*% y, x = X_by_reg, y = beta_by_reg, SIMPLIFY = FALSE)
+reg_comp <- lapply(reg_comp, function(x) {
+  x %>% 
+  as_tibble() %>% 
+  rowid_to_column() %>% 
+  rename(time = rowid) %>% 
+  pivot_longer(!time, names_to = "draw", values_to = "value") %>%
+  mutate(draw = as.numeric(draw))})
+names(reg_comp) <- paste0(1:84, "")
+reg_comp_allregions <- bind_rows(reg_comp, .id = "region") %>% 
+  mutate(region = as.numeric(region),
+         time = as.numeric(time),
+         draw = as.integer(draw))
+
+count_preds <- phi %>% select(-kappa) %>% 
+  rename(phi = lambda) %>% 
+  left_join(reg_comp_allregions) %>% rename(reg = value) %>%
+  left_join(theta %>% rename(time = timepoint)) %>% 
+  left_join(pi_prob) %>% left_join(area_offset) %>% 
+  mutate(lambda = reg + phi + area + theta) %>% 
+  mutate(preds = exp_count(pi, lambda))
+
+preds_only <- count_preds %>% select(c(draw, time, region, preds))
+date_seq <- seq(as.Date("1990-01-01"), by = "1 month", length.out = 372) %>% as_tibble() %>% rename(date = value)
+time_df <- date_seq %>% mutate(time = 1:372)
+preds_only <- preds_only %>% left_join(time_df) %>% mutate(year = year(date))
+
+all_years <- 1990:2020
+first_five <- 1990:1994
+last_five <- 2020:2016
+test_years <- sort(c(first_five, last_five))
+train_years <- setdiff(all_years, test_years)
+
+preds_annual <- preds_only %>% group_by(year, draw) %>% summarize(total_fires = sum(preds)) %>% ungroup()
+preds_annual <- preds_annual %>% mutate(train = 
+                                          case_when(
+                                            year %in% train_years ~ TRUE,
+                                            year %in% test_years ~ FALSE))
+
+# read in train counts
+y_train_count <- stan_data$y_train_count
+date_seq <- seq(as.Date("1995-01-01"), by = "1 month", length.out = 252) %>% as_tibble() %>% rename(date = value)
+time_df <- date_seq %>% mutate(time = 1:252)
+y_train_count <- y_train_count %>% 
+  as_tibble() %>% 
+  rowid_to_column(var = "time") %>% 
+  pivot_longer(!time, names_to = "region", values_to = "value") %>%
+  mutate(region = as.numeric(gsub("V", "", region))) %>%
+  left_join(time_df) %>% 
+  mutate(year = year(date)) %>%
+  group_by(year) %>%
+  summarize(true_count = sum(value)) %>%
+  ungroup()
+
+# read in holdout counts
+y_hold_count <- stan_data$y_hold_count
+date_seq <- bind_rows(seq(as.Date("1990-01-01"), by = "1 month", length.out = 60) %>% as_tibble() %>% rename(date = value), 
+              seq(as.Date("2016-01-01"), by = "1 month", length.out = 60) %>% as_tibble() %>% rename(date = value))
+time_df <- date_seq %>% mutate(time = 1:120)
+y_hold_count <- y_hold_count %>% 
+  as_tibble() %>% 
+  rowid_to_column(var = "time") %>% 
+  pivot_longer(!time, names_to = "region", values_to = "value") %>%
+  mutate(region = as.numeric(gsub("V", "", region))) %>%
+  left_join(time_df) %>% 
+  mutate(year = year(date)) %>%
+  group_by(year) %>%
+  summarize(true_count = sum(value)) %>%
+  ungroup()
+
+true_counts <- bind_rows(y_train_count, y_hold_count)
+
+p <- preds_annual %>% 
+  ggplot(aes(x = year, y = total_fires, group = year, color = train,)) + 
+  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
+  geom_point(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", size = 0.35) +
+  geom_line(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/counts_preds-vs-truth.pdf")
+
+p <- preds_annual %>% 
+  ggplot(aes(x = year, y = total_fires, group = year, color = train,)) + 
+  geom_boxplot(outlier.shape = NA) + ylim(NA, 1500) + 
+  scale_color_grey(start = 0.4, end = 0.6) +
+  geom_point(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", size = 0.35) +
+  geom_line(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/counts_preds-vs-truth_no-outliers.pdf")
+
+## time series of theta and map of gamma ---------
+date_seq <- seq(as.Date("1990-01-01"), by = "1 month", length.out = 372) %>% as_tibble() %>% rename(date = value)
+time_df <- date_seq %>% mutate(time = 1:372)
+theta_gamma <- theta %>% 
+  full_join(gamma) %>% 
+  mutate(burn_effect = gamma * theta) %>% 
+  rename(time = timepoint) %>%
+  left_join(time_df)
+
+theta_meds <- theta %>% group_by(timepoint) %>% summarize(theta = median(theta)) %>% ungroup() %>% rename(time = timepoint)
+
+burn_effect_meds <- theta_gamma %>% 
+  group_by(time, region) %>% 
+  summarize(burn_effect = median(burn_effect)) %>%
+  ungroup() %>% left_join(time_df) %>% left_join(full_reg_key)
+
+p <- burn_effect_meds %>% filter(time <= 252) %>% ggplot(aes(x = time, y = burn_effect, group = region, color = NA_L2CODE)) + 
+  geom_line(linewidth = 0.35, alpha = 0.5) +
+  geom_line(inherit.aes = FALSE, data = (theta_meds %>% filter(time <= 252)), aes(x=time, y = theta), col = "darkgrey", linewidth = 0.75, alpha = 1) + 
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/time_series_shared_effect.pdf")
+
+years <- seq(1, 252, by = 12)[-1]
+p <- theta_meds %>% filter(time <= 252) %>% ggplot(aes(x = time, y = theta)) + geom_line(col = "blue") + 
+  geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/time_series_shared_effect_noregions.pdf")
+
+
+gamma_map <- gamma %>% group_by(region) %>% summarize(gamma = median(gamma))
+breaks <- classIntervals(c(min(gamma_map$gamma) - .00001, gamma_map$gamma), style = 'fixed', 
+                         fixedBreaks = c(-1, -0.75, -.50, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5), intervalClosure = 'left')
+eco_gamma <- ecoregions_geom %>% left_join(gamma_map %>% left_join(full_reg_key)) %>% mutate(gamma_cat = cut(gamma, unique(breaks$brks)))
 p <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +
   geom_sf(data = eco_gamma,
           aes(fill=gamma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
   theme_void() + scale_fill_brewer(palette = "Spectral")
-ggsave("full-model/figures/paper/gamma_map.png", dpi = 320, bg ='white')
+ggsave("full-model/figures/paper/gamma_map.pdf", dpi = 320, bg ='white')
 
-theta_map <- theta %>% group_by(region) %>% summarize(med_theta = median(theta)) %>% ungroup() %>% left_join(full_reg_key)
-eco_theta <- ecoregions_geom %>% left_join(theta_map)
-breaks <- classIntervals(c(min(eco_theta$med_theta) - .00001, eco_theta$med_theta), style = 'fixed', 
-                         fixedBreaks = c(-3, -2, -1, 0, 1, 2), intervalClosure = 'left')
-eco_theta <- eco_theta %>% mutate(theta_cat = cut(med_theta, unique(breaks$brks)))
-p <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_theta,
-          aes(fill=theta_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_brewer(palette = "Spectral")
-ggsave("full-model/figures/paper/theta_map.png", dpi = 320, bg ='white')
+p <- 
 
-
-
-xi_vals_regions <- xi_map %>% left_join(full_reg_key)
-eco_xi <- ecoregions_geom %>% 
-  mutate(NA_L2CODE = as.factor(NA_L2CODE), 
-         NA_L1CODE = as.factor(NA_L1CODE), 
-         NA_L3CODE = as.factor(NA_L3CODE)) %>% 
-  left_join(xi_vals_regions)
-
-breaks <- classIntervals(c(min(eco_xi$med_val) - .00001, eco_xi$med_val), style = 'fixed', 
-                         fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
-
-eco_xi_cat <- eco_xi %>% 
-  mutate(xi_cat = cut(med_val, unique(breaks$brks)))
-
-p <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_xi_cat,
-          aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_brewer(palette = 'YlOrRd')
-ggsave("full-model/figures/paper/xi_map.png", dpi = 320, bg ='white')
-
-
-sigma_vals_regions <- sigma_map %>% left_join(full_reg_key)
-eco_sigma <- ecoregions_geom %>% 
-  mutate(NA_L2CODE = as.factor(NA_L2CODE), 
-         NA_L1CODE = as.factor(NA_L1CODE), 
-         NA_L3CODE = as.factor(NA_L3CODE)) %>% 
-  left_join(sigma_vals_regions)
-
-breaks <- classIntervals(c(min(eco_sigma$med_val) - .00001, eco_sigma$med_val), style = 'fisher', n=5, intervalClosure = 'left')
-eco_sigma_cat <- eco_sigma %>% 
-  mutate(sigma_cat = cut(med_val, unique(breaks$brks)))
-
-p <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_sigma_cat,
-          aes(fill=sigma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_brewer(palette = 'YlOrRd')
-ggsave("full-model/figures/paper/sigma_map.png", dpi = 320, bg ='white')
-
-
+# 
+# er_map_l1 <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .2, aes(fill = NA_L1NAME)) + 
+#   theme_void() +
+#   coord_sf(ndiscr = FALSE)
+# 
+# er_map_l1 <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .2, fill = "white") +
+#   geom_sf(data = ecoregions_geom,
+#           aes(fill = NA_L2CODE), alpha = 0.6, lwd = 0, inherit.aes = FALSE, show.legend = FALSE) +
+#   geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(),
+#           fill = "transparent", lwd = 1, color = "gray20", inherit.aes = FALSE, show.legend = FALSE) +
+#   theme_void() +
+#   coord_sf(ndiscr = FALSE)
+# 
+# ggsave("test_map.png", er_map_l1, dpi = 320, bg = "white")
+# 
+# ri_map <- `sigma_ri_theta-ri_gamma-ri`$ri_matrix %>% as_draws_df() %>%
+#   select(-c(".iteration", ".chain")) %>% 
+#   pivot_longer(cols = !".draw") %>%
+#   rename(draw = ".draw") %>% 
+#   separate_wider_delim(cols = "name", delim = ",", names = c("param", "time", "region")) %>% select(-time) %>% distinct() %>%
+#   mutate(param = as.character(gsub("ri_matrix\\[", "", param)),
+#          region = as.numeric(gsub("\\]", "", region)),
+#          param = case_when(param == "1" ~ "sigma",
+#                            param == "2" ~ "xi",
+#                            TRUE ~ param))
+# 
+# ri_map <- ri_map %>% group_by(param, region) %>% summarize(med_val = median(value))
+# ri_map <- ri_map %>% ungroup()
+# xi_map <- ri_map %>% filter(param == "xi") %>% select(-param) %>% mutate(med_val = exp(med_val))
+# sigma_map <- ri_map %>% filter(param == "sigma") %>% select(-param) %>% mutate(med_val = exp(med_val))
+# 
+# gamma_map <- gamma %>% group_by(region) %>% summarize(med_gamma = median(gamma)) %>% ungroup() %>% left_join(full_reg_key)
+# eco_gamma <- ecoregions_geom %>% left_join(gamma_map)
+# breaks <- classIntervals(c(min(eco_gamma$med_gamma) - .00001, eco_gamma$med_gamma), style = 'fixed', 
+#                          fixedBreaks = c(-0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), intervalClosure = 'left')
+# eco_gamma <- eco_gamma %>% mutate(gamma_cat = cut(med_gamma, unique(breaks$brks)))
+# p <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .1, fill = 'white') +
+#   geom_sf(data = eco_gamma,
+#           aes(fill=gamma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+#   theme_void() + scale_fill_brewer(palette = "Spectral")
+# ggsave("full-model/figures/paper/gamma_map.png", dpi = 320, bg ='white')
+# 
+# theta_map <- theta %>% group_by(region) %>% summarize(med_theta = median(theta)) %>% ungroup() %>% left_join(full_reg_key)
+# eco_theta <- ecoregions_geom %>% left_join(theta_map)
+# breaks <- classIntervals(c(min(eco_theta$med_theta) - .00001, eco_theta$med_theta), style = 'fixed', 
+#                          fixedBreaks = c(-3, -2, -1, 0, 1, 2), intervalClosure = 'left')
+# eco_theta <- eco_theta %>% mutate(theta_cat = cut(med_theta, unique(breaks$brks)))
+# p <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .1, fill = 'white') +
+#   geom_sf(data = eco_theta,
+#           aes(fill=theta_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+#   theme_void() + scale_fill_brewer(palette = "Spectral")
+# ggsave("full-model/figures/paper/theta_map.png", dpi = 320, bg ='white')
+# 
+# 
+# 
+# xi_vals_regions <- xi_map %>% left_join(full_reg_key)
+# eco_xi <- ecoregions_geom %>% 
+#   mutate(NA_L2CODE = as.factor(NA_L2CODE), 
+#          NA_L1CODE = as.factor(NA_L1CODE), 
+#          NA_L3CODE = as.factor(NA_L3CODE)) %>% 
+#   left_join(xi_vals_regions)
+# 
+# breaks <- classIntervals(c(min(eco_xi$med_val) - .00001, eco_xi$med_val), style = 'fixed', 
+#                          fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
+# 
+# eco_xi_cat <- eco_xi %>% 
+#   mutate(xi_cat = cut(med_val, unique(breaks$brks)))
+# 
+# p <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .1, fill = 'white') +
+#   geom_sf(data = eco_xi_cat,
+#           aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+#   theme_void() + scale_fill_brewer(palette = 'YlOrRd')
+# ggsave("full-model/figures/paper/xi_map.png", dpi = 320, bg ='white')
+# 
+# 
+# sigma_vals_regions <- sigma_map %>% left_join(full_reg_key)
+# eco_sigma <- ecoregions_geom %>% 
+#   mutate(NA_L2CODE = as.factor(NA_L2CODE), 
+#          NA_L1CODE = as.factor(NA_L1CODE), 
+#          NA_L3CODE = as.factor(NA_L3CODE)) %>% 
+#   left_join(sigma_vals_regions)
+# 
+# breaks <- classIntervals(c(min(eco_sigma$med_val) - .00001, eco_sigma$med_val), style = 'fisher', n=5, intervalClosure = 'left')
+# eco_sigma_cat <- eco_sigma %>% 
+#   mutate(sigma_cat = cut(med_val, unique(breaks$brks)))
+# 
+# p <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .1, fill = 'white') +
+#   geom_sf(data = eco_sigma_cat,
+#           aes(fill=sigma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+#   theme_void() + scale_fill_brewer(palette = 'YlOrRd')
+# ggsave("full-model/figures/paper/sigma_map.png", dpi = 320, bg ='white')
+# 
+# 

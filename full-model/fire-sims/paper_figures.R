@@ -12,7 +12,7 @@ library(RColorBrewer)
 burn_fits <- paste0("full-model/fire-sims/joint/sigma-ri/csv-fits/",
                     list.files(path = "full-model/fire-sims/joint/sigma-ri/csv-fits",
                                pattern = ".csv", recursive = TRUE))
-best_fit <- burn_fits[grepl("theta-ri_gamma-ri", burn_fits)]
+best_fit <- burn_fits[grepl("theta-time", burn_fits)]
 # nfits <- length(burn_fits)/3
 # fit_groups <- vector(mode = "list", nfits)
 # for(i in 1:nfits) {
@@ -40,8 +40,152 @@ extraction <- function(file_group, burn_name) {
   gc()
 }
 
-extraction(best_group[[1]], "sigma_ri_theta-ri_gamma-ri")
+extraction(best_group[[1]], "best_fit")
 
+kappa_vals <- best_fit$reg %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>% 
+  separate_wider_delim(cols = "name", delim = ",", names = c("time", "region")) %>%
+  mutate(time = as.numeric(gsub("reg\\[", "", time)),
+         region = as.numeric(gsub("\\]", "", region)),
+         kappa = exp(value)) %>% select(-value)
+# saveRDS(kappa_vals, file = "full-model/figures/paper/mcmc_draws/kappa_vals.RDS")
+  
+rand_int <- best_fit$ri_init %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>% 
+  separate_wider_delim(cols = "name", delim = ",", names = c("param", "region")) %>% 
+  mutate(param = as.character(gsub("ri_init\\[", "", param)),
+         region = as.numeric(gsub("\\]", "", region)),
+         param = as.character(param),
+         param = case_when(param == "1" ~ "sigma",
+                           param == "2" ~ "xi",
+                           TRUE ~ param),
+         value = exp(value)) %>% 
+  pivot_wider(names_from = param, values_from = value)
+saveRDS(rand_int, file = "full-model/figures/paper/mcmc_draws/rand_int.RDS")
+
+lambda <- best_fit$lambda %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>% 
+  separate_wider_delim(cols = "name", delim = ",", names = c("time", "region")) %>%
+  mutate(time = as.numeric(gsub("lambda\\[", "", time)),
+         region = as.numeric(gsub("\\]", "", region)),
+         param = "lambda") %>%
+  pivot_wider(names_from = param, values_from = value)
+saveRDS(lambda, file = "full-model/figures/paper/mcmc_draws/lambda.RDS")
+
+phi <- best_fit$phi %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>% 
+  separate_wider_delim(cols = "name", delim = ",", names = c("param", "time", "region")) %>%
+  mutate(param = as.character(gsub("phi\\[", "", param)),
+         time = as.numeric(time),
+         region = as.numeric(gsub("\\]", "", region)),
+         param = case_when(param == "1" ~ "lambda",
+                           param == "2" ~ "kappa",
+                           TRUE ~ param)) %>%
+  pivot_wider(names_from = param, values_from = value)
+saveRDS(phi, file = "full-model/figures/paper/mcmc_draws/phi.RDS")
+
+pi_prob <- best_fit$pi_prob %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  mutate(region = as.character(gsub("pi_prob\\[", "", name)),
+         region = as.numeric(gsub("\\]", "", region)),
+         name = "pi") %>% 
+  pivot_wider(names_from = name, values_from = value)
+saveRDS(pi_prob, file = "full-model/figures/paper/mcmc_draws/pi_prob.RDS")
+
+gamma <- best_fit$gamma %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  mutate(region = as.character(gsub("gamma\\[", "", name)),
+         region = as.numeric(gsub("\\]", "", region)),
+         name = "gamma") %>% 
+  pivot_wider(names_from = name, values_from = value)
+saveRDS(gamma, file = "full-model/figures/paper/mcmc_draws/gamma.RDS")
+
+theta <- best_fit$theta %>% as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>% 
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  mutate(timepoint = as.character(gsub("theta\\[", "", name)),
+         timepoint = as.numeric(gsub("\\]", "", timepoint)),
+         name = "theta") %>% 
+  pivot_wider(names_from = name, values_from = value)
+saveRDS(theta, file = "full-model/figures/paper/mcmc_draws/theta.RDS")
+
+## read in region key --------
+
+region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
+full_reg_key <- as_tibble(region_key) %>% 
+  mutate(region = c(1:84),
+         NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE),
+         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
+
+date_seq <- seq(as.Date("1995-01-01"), by = "1 month", length.out = 252) %>% as_tibble() %>% rename(date = value)
+time_df <- date_seq %>% mutate(time = 1:252)
+
+## create time series plots of phi values for kappa and lambda -------
+phi_kappa <- phi %>% select(-lambda) %>% group_by(time, region) %>% summarize(kappa = median(kappa)) %>% ungroup()
+p <- phi_kappa %>% filter(time <= 252) %>% left_join(full_reg_key) %>% left_join(time_df) %>%
+  ggplot(aes(x = date, y = kappa, color = NA_L2CODE)) + 
+  geom_line(linewidth = 0.5) + 
+  scale_x_date(name = "Year (1995-2016)", date_breaks = "5 years", date_labels = "%Y") +
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+  theme_classic()
+ggsave("full-model/figures/paper/phi_kappa_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+
+phi_lambda <- phi %>% select(-kappa) %>% group_by(time, region) %>% summarize(lambda = median(lambda)) %>% ungroup()
+p <- phi_lambda %>% filter(time <= 252) %>% left_join(full_reg_key) %>% left_join(time_df) %>%
+  ggplot(aes(x = date, y = lambda, color = NA_L2CODE)) + 
+  geom_line(linewidth = 0.5) + 
+  scale_x_date(name = "Year (1995-2016)", date_breaks = "5 years", date_labels = "%Y") +
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+  theme_classic()
+ggsave("full-model/figures/paper/phi_lambda_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+
+phi_etf <- phi %>% left_join(full_reg_key) %>% 
+  filter(NA_L1NAME == "Eastern Temperate Forests") %>% 
+  group_by(time, region) %>% 
+  summarize(lambda = median(lambda), kappa = median(kappa)) %>% 
+  ungroup() %>% left_join(full_reg_key)
+
+years <- seq(1, 252, by = 12)[-1]
+p <- phi_etf %>% filter(time <= 252) %>% left_join(time_df) %>% 
+  pivot_longer(cols = c("lambda", "kappa"), names_to = "param", values_to = "value") %>%
+  ggplot(aes(x = date, y = value, color = NA_L2CODE, alpha = 0.5)) + 
+  geom_line(linewidth = 0.5) + 
+  # geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) + 
+  scale_x_date(name = "Year (1995-2016)", date_breaks = "5 years", date_labels = "%Y") + 
+  facet_wrap(. ~ param, scales = "free_y") +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/phi_etf_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+
+p <- phi_etf %>% filter(time <= 252) %>% 
+  ggplot(aes(x = time, y = kappa, color = NA_L2CODE, alpha = 0.5)) + 
+  geom_line(linewidth = 0.5) + 
+  geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/phi_kappa_etf_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+
+p <- phi_etf %>% filter(time <= 252) %>% 
+  ggplot(aes(x = time, y = lambda, color = NA_L2CODE, alpha = 0.5)) + 
+  geom_line(linewidth = 0.5) + 
+  geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/phi_lambda_etf_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+
+# create return level plots ------
 # egpd functions
 pegpd <- function(y, kappa, sigma, xi) (1 - (1 + xi * (y/sigma))^(-1/xi))^kappa
 qegpd <- function(p, kappa, sigma, xi) (sigma/xi) * ( (1 - p^(1/kappa) )^-xi - 1)
@@ -58,101 +202,10 @@ rlevel <- function(N, kappa, sigma, xi, eta) {
 }
 
 # high quantiles
-high_quant <- rlevel <- function(N, kappa, sigma, xi) {
+high_quant <- function(N, kappa, sigma, xi) {
   p <- ((N-1)/N) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
   return(qegpd(p, kappa, sigma, xi))
 }
-
-kappa_vals <- `sigma_ri_theta-ri_gamma-ri`$reg %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>% 
-  separate_wider_delim(cols = "name", delim = ",", names = c("time", "region")) %>%
-  mutate(time = as.numeric(gsub("reg\\[", "", time)),
-         region = as.numeric(gsub("\\]", "", region)),
-         kappa = exp(value)) %>% select(-value)
-# saveRDS(kappa_vals, file = "full-model/figures/paper/mcmc_draws/kappa_vals.RDS")
-  
-rand_int <- `sigma_ri_theta-ri_gamma-ri`$ri_init %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>% 
-  separate_wider_delim(cols = "name", delim = ",", names = c("param", "region")) %>% 
-  mutate(param = as.character(gsub("ri_init\\[", "", param)),
-         region = as.numeric(gsub("\\]", "", region)),
-         param = as.character(param),
-         param = case_when(param == "1" ~ "sigma",
-                           param == "2" ~ "xi",
-                           TRUE ~ param),
-         value = exp(value)) %>% 
-  pivot_wider(names_from = param, values_from = value)
-
-lambda <- `sigma_ri_theta-ri_gamma-ri`$lambda %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>% 
-  separate_wider_delim(cols = "name", delim = ",", names = c("time", "region")) %>%
-  mutate(time = as.numeric(gsub("lambda\\[", "", time)),
-         region = as.numeric(gsub("\\]", "", region)),
-         param = "lambda") %>%
-  pivot_wider(names_from = param, values_from = value)
-
-phi <- `sigma_ri_theta-ri_gamma-ri`$phi %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>% 
-  separate_wider_delim(cols = "name", delim = ",", names = c("param", "time", "region")) %>%
-  mutate(param = as.character(gsub("phi\\[", "", param)),
-         time = as.numeric(time),
-         region = as.numeric(gsub("\\]", "", region)),
-         param = case_when(param == "1" ~ "lambda",
-                           param == "2" ~ "kappa",
-                           TRUE ~ param)) %>%
-  pivot_wider(names_from = param, values_from = value)
-
-pi_prob <- `sigma_ri_theta-ri_gamma-ri`$pi_prob %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  mutate(region = as.character(gsub("pi_prob\\[", "", name)),
-         region = as.numeric(gsub("\\]", "", region)),
-         name = "pi") %>% 
-  pivot_wider(names_from = name, values_from = value)
-
-gamma <- `sigma_ri_theta-ri_gamma-ri`$gamma %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  mutate(region = as.character(gsub("gamma\\[", "", name)),
-         region = as.numeric(gsub("\\]", "", region)),
-         name = "gamma") %>% 
-  pivot_wider(names_from = name, values_from = value)
-
-theta <- `sigma_ri_theta-ri_gamma-ri`$theta %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  mutate(region = as.character(gsub("theta\\[", "", name)),
-         region = as.numeric(gsub("\\]", "", region)),
-         name = "theta") %>% 
-  pivot_wider(names_from = name, values_from = value)
-
-phi_onereg <- phi %>% filter(region == 10) %>% group_by(time) %>% summarize(kappa = median(kappa),
-                                                                            medlambda = median(lambda)) %>% ungroup()
-p <- phi_onereg %>% rename(kappa = medkappa, lambda = medlambda) %>% pivot_longer(cols = !time, names_to = "param", values_to = "value") %>%
-  ggplot(aes(x = time, y = value, color = param)) + geom_line() + theme_classic()
-
-ggsave("full-model/figures/paper/phi_reg10_overtime.png", p, dpi = 320, bg = "white")
-
-
-saveRDS(kappa_vals, "full-model/figures/paper/mcmc_draws/gamma.RDS")
-saveRDS(gamma, "full-model/figures/paper/mcmc_draws/gamma.RDS")
-saveRDS(theta, "full-model/figures/paper/mcmc_draws/theta.RDS")
-saveRDS(lambda, "full-model/figures/paper/mcmc_draws/lambda.RDS")
-saveRDS(rand_int, "full-model/figures/paper/mcmc_draws/rand_int.RDS")
-saveRDS(phi, "full-model/figures/paper/mcmc_draws/phi.RDS")
-saveRDS(pi_prob, "full-model/figures/paper/mcmc_draws/pi_prob.RDS")
-
 
 all_params <- kappa_vals %>% 
   left_join(rand_int) %>% 
@@ -160,46 +213,92 @@ all_params <- kappa_vals %>%
   left_join(pi_prob) %>%
   mutate(eta = exp_count(pi, lambda))
 
-returns <- all_params %>% mutate(yr50 = rlevel(50, kappa, sigma, xi, eta)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
+# calculate expected burn area for the 98th quantile given there are eta fires in that ecoregion
+returns <- all_params %>% 
+  mutate(yr50 = rlevel(50, kappa, sigma, xi, eta)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
 returns_summary <- returns %>% group_by(time, region) %>% 
   summarize(med50 = median(yr50[is.finite(yr50)]), 
             lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
             upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
   ungroup()
 
-region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
-full_reg_key <- as_tibble(region_key) %>% 
-  mutate(region = c(1:84),
-         NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE),
-         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
-# reg_cols <- full_reg_key$region
-returns_regional <- returns_summary %>% left_join(full_reg_key)
-
-date_seq <- seq(as.Date("1995-01-01"), by = "1 month", length.out = 252) %>% as_tibble() %>% rename(date = value)
-time_df <- date_seq %>% mutate(time = 1:252)
-returns_regional <- returns_regional %>% left_join(time_df)
+returns_regional <- returns_summary %>% 
+  left_join(full_reg_key) %>% 
+  left_join(time_df)
 
 p <- returns_regional %>% ggplot() + 
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
-  geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.3, color = 'darkgrey') + scale_y_log10() +
+  geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
   scale_x_date(name = "Year (1995-2016)", date_breaks = "5 years", date_labels = "%Y") + 
   ylab("Expected burn area (ha)") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
   theme_classic() + theme(legend.position = "none") + 
   theme(strip.text.x = element_text(size = rel(0.9)))
 
-file_name <- "full-model/figures/paper/50yr_returns.png"
+file_name <- "full-model/figures/paper/50yr_returns.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 
+## calculate 98th quantile expected burn areas ----------
+level98_areas <- all_params %>% 
+  mutate(yr50 = high_quant(50, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
+level98_areas_summary <- level98_areas %>% group_by(time, region) %>% 
+  summarize(med50 = median(yr50[is.finite(yr50)]), 
+            lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
+            upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
+  ungroup()
 
+level98_areas_regional <- level98_areas_summary %>% 
+  left_join(full_reg_key) %>% 
+  left_join(time_df)
+
+p <- level98_areas_regional %>% ggplot() + 
+  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
+  geom_line(aes(x=date, y=med50, group = region), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
+  scale_x_date(name = "Year (1995-2016)", date_breaks = "5 years", date_labels = "%Y") + 
+  ylab("Expected burn area (ha)") +
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) +
+  theme_classic() + theme(legend.position = "none") + 
+  theme(strip.text.x = element_text(size = rel(0.9)))
+
+file_name <- "full-model/figures/paper/98th_quant_burnareas.pdf"
+ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
+
+## area-weighted average of burn area exceedances -------
 ecoregions <- read_rds(file = "ecoregions.RDS")
 ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>% 
   mutate(NA_L2CODE = as.factor(NA_L2CODE),
          NA_L1CODE = as.factor(NA_L1CODE),
          NA_L3CODE = as.factor(NA_L3CODE),
          NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
+
+eco_areas <- ecoregions_geom %>% as_tibble() %>% group_by(NA_L3CODE) %>% summarise(area = sum(Shape_Area))
+
+returns_level1 <- returns %>% select(c(draw, time, region, yr50)) %>% 
+  left_join(full_reg_key) %>% 
+  left_join(eco_areas) %>% 
+  filter(yr50 != Inf) %>%
+  group_by(NA_L1NAME, time, draw) %>% 
+  summarize(wmean = weighted.mean(yr50, area)) %>% 
+  ungroup() %>% 
+  group_by(time, NA_L1NAME) %>%
+  summarize(med50 = median(wmean), 
+            lower = quantile(wmean, probs = 0.025), 
+            upper = quantile(wmean, probs = 0.975))
+
+p <- returns_level1 %>%
+  left_join(time_df) %>%
+  ggplot() + 
+  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = NA_L1NAME, fill = NA_L1NAME, alpha = 0.5)) +
+  geom_line(aes(x=date, y=med50, group = NA_L1NAME, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
+  scale_x_date(name = "Year (1995-2016)", date_breaks = "5 years", date_labels = "%Y") + 
+  ylab("Expected burn area (ha)") +
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) +
+  theme_classic() + theme(legend.position = "none") + 
+  theme(strip.text.x = element_text(size = rel(0.9)))
+
+file_name <- "full-model/figures/paper/50yr_returns_level1.pdf"
+ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
+
 
 er_map_l1 <- ecoregions_geom %>%
   ggplot() +

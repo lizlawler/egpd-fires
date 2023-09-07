@@ -299,6 +299,36 @@ p <- returns_level1 %>%
 file_name <- "full-model/figures/paper/50yr_returns_level1.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 
+## time-averaged kappa, then high quantile of burn area
+kappa_temp_avg <- kappa_vals %>% group_by(region, draw) %>% summarize(kappa = mean(kappa)) %>% ungroup()
+all_params_notime <- kappa_temp_avg %>% 
+  left_join(rand_int)
+level98_timeavg <- all_params_notime %>% 
+  mutate(yr50 = high_quant(50, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
+level98_timeavg_summary <- level98_timeavg %>% group_by(region) %>%
+  summarize(med50 = median(yr50[is.finite(yr50)]), 
+            lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
+            upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
+  ungroup()
+level98_timeavg_regions <- level98_timeavg_summary %>% left_join(full_reg_key)
+
+eco_highburns <- ecoregions_geom %>% left_join(level98_timeavg_regions)
+breaks <- classIntervals(c(min(eco_highburns$med50) - .00001, eco_highburns$med50), style = 'fisher', n = 6, intervalClosure = 'left')
+eco_highburns <- eco_highburns %>% mutate(burns_cat = cut(med50, unique(breaks$brks)))
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = eco_highburns,
+          aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
+  scale_fill_brewer(palette = 'YlOrRd') +
+  theme_void() 
+ggsave("full-model/figures/paper/onekappa_highburns_map.pdf", dpi = 320, bg ='white')
+
+all_params_notime <- all_params_notime %>% group_by(region) %>% summarize(kappa = mean(mean_kappa),
+                                                                          sigma = mean(sigma),
+                                                                          ) %>%
+  left_join(full_reg_key)
+all_params_notime_eco <- ecoregions_geom %>% left_join(all_param)
 
 er_map_l1 <- ecoregions_geom %>%
   ggplot() +

@@ -1,6 +1,4 @@
-functions {
-  #include lognorm_fcns.stanfunctions
-}
+#include lognorm_fcns.stanfunctions
 #include /../../burns_data.stan
 transformed data {
   int S = 2; // # of parameters with regression (ranges from 1 to 3)
@@ -85,69 +83,32 @@ generated quantities {
   array[N_hold_obs] real holdout_loglik;
   array[N_tb_obs] real train_twcrps;
   array[N_hold_obs] real holdout_twcrps;
-  
-  // condition determines if the data read in are the sqrt or original burn areas
-  if (max(y_train_obs) < 30) {
-    array[S] matrix[T_all, R] reg_full;
-    for (s in 1:S) {
-      for (r in 1:R) {
-        reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
-      }
-    }
-    vector[N_tb_obs] mu_train = to_vector(reg_full[1])[ii_tb_all][ii_tb_obs];
-    vector[N_tb_obs] sigma_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs];
-    vector[N_hold_obs] mu_hold = to_vector(reg_full[1])[ii_hold_all][ii_hold_obs];
-    vector[N_hold_obs] sigma_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs];
 
-    // training scores
-    for (n in 1:N_tb_obs) {
-      train_loglik[n] = lognorm_trunc_lpdf(y_train_obs[n] | y_min, mu_train[n], sigma_train[n])
-                        + log(0.5) - log(y_train_obs[n]);
-      // forecasting then twCRPS, on training dataset
-      vector[n_int] pred_probs_train = prob_forecast(n_int, sqrt(int_pts_train), 
-                                        y_min, mu_train[n], sigma_train[n]);
-      train_twcrps[n] = twCRPS((y_train_obs[n])^2, n_int, int_train, int_pts_train, pred_probs_train);
-    }
-    // holdout scores
-    for (n in 1:N_hold_obs) {
-      // log-likelihood
-      holdout_loglik[n] = lognorm_trunc_lpdf(y_hold_obs[n] | y_min, mu_hold[n], sigma_hold[n])
-                          + log(0.5) - log(y_hold_obs[n]);
-      // forecasting then twCRPS, on holdout dataset
-      vector[n_int] pred_probs_hold = prob_forecast(n_int, sqrt(int_pts_holdout), 
-                                        y_min, mu_hold[n], sigma_hold[n]);
-      holdout_twcrps[n] = twCRPS((y_hold_obs[n])^2, n_int, int_holdout, int_pts_holdout, pred_probs_hold);
-    }
-  } else {
-    array[S] matrix[T_all, R] reg_full;
-    for (s in 1:S) {
-      for (r in 1:R) {
-        reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
-      }
-    }
-    vector[N_tb_obs] mu_train = to_vector(reg_full[1])[ii_tb_all][ii_tb_obs];
-    vector[N_tb_obs] sigma_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs];
-    vector[N_hold_obs] mu_hold = to_vector(reg_full[1])[ii_hold_all][ii_hold_obs];
-    vector[N_hold_obs] sigma_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs];
-    
-    // training scores
-    for (n in 1:N_tb_obs) {
-      train_loglik[n] = lognorm_trunc_lpdf(y_train_obs[n] | y_min, mu_train[n], sigma_train[n]);
-      // forecasting then twCRPS, on training dataset
-      vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, 
-                                        y_min, mu_train[n], sigma_train[n]);
-      train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
-    }
-    // holdout scores
-    for (n in 1:N_hold_obs) {
-      // log-likelihood
-      holdout_loglik[n] = lognorm_trunc_lpdf(y_hold_obs[n] | y_min, mu_hold[n], sigma_hold[n]);
-      // forecasting then twCRPS, on holdout dataset
-      vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_holdout, 
-                                        y_min, mu_hold[n], sigma_hold[n]);
-      holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_holdout, int_pts_holdout, pred_probs_hold);
+  array[S] matrix[T_all, R] reg_full;
+  for (s in 1:S) {
+    for (r in 1:R) {
+      reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
     }
   }
+  // training scores
+  for (n in 1:N_tb_obs) {
+    real mu_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs][n];
+    real sigma_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs][n];
+    
+    train_loglik[n] = lognorm_trunc_lpdf(y_train_obs[n] | y_min, mu_train, sigma_train);
+    // forecasting then twCRPS, on training dataset
+    vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, mu_train, sigma_train);
+    train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
+  }
+  // holdout scores
+  for (n in 1:N_hold_obs) {
+    real mu_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs][n];
+    real sigma_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs][n];
+    
+    // log-likelihood
+    holdout_loglik[n] = lognorm_trunc_lpdf(y_hold_obs[n] | y_min, mu_hold, sigma_hold);
+      // forecasting then twCRPS, on holdout dataset
+    vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_train, y_min, mu_hold, sigma_hold);
+    holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_train, int_pts_train, pred_probs_hold);
+  }
 }
-
-

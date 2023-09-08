@@ -243,7 +243,7 @@ idx_tb_all <- match(train_burns_full$er_ym, X_train$er_ym) # indices to broadcas
 assert_that(all(X_train$er_ym[idx_tb_all] == train_burns_full$er_ym)) # check broadcasting works
 assert_that(all(X_train$er_ym[idx_tb_all][idx_tb_obs] == train_burns_full$er_ym[idx_tb_obs]))
 
- # pull indices from holdout_burns_full for use in log scores
+# pull indices from holdout_burns_full for use in log scores
 idx_hold_obs <- which(!is.na(holdout_burns_full$BurnBndAc)) # pulls indices wrt holdout dataset
 idx_hold_all <- match(holdout_burns_full$er_ym, X_full$er_ym) # indices of holdout dataset wrt full X
 assert_that(all(X_full$er_ym[idx_hold_all] == holdout_burns_full$er_ym)) 
@@ -334,7 +334,7 @@ stan_data_climate <- list(
   area_offset = log(area_df$area * 1e-11) / 2,
   y_train_count = nfire_matrix_train,
   y_hold_count = nfire_matrix_hold,
-  idx_train_er = 1:t_train,
+  idx_train_er = setdiff(1:372, idx_count_hold),
   idx_hold_er = idx_count_hold,
 
   # burn data 
@@ -399,7 +399,7 @@ stan_data_joint <- list(
   area_offset = log(area_df$area * 1e-11) / 2,
   y_train_count = nfire_matrix_train,
   y_hold_count = nfire_matrix_hold,
-  idx_train_er = 1:t_train,
+  idx_train_er = setdiff(1:372, idx_count_hold),
   idx_hold_er = idx_count_hold,
   
   # burn data 
@@ -464,7 +464,7 @@ stan_data_erc <- list(
   area_offset = log(area_df$area * 1e-11) / 2,
   y_train_count = nfire_matrix_train,
   y_hold_count = nfire_matrix_hold,
-  idx_train_er = 1:t_train,
+  idx_train_er = setdiff(1:372, idx_count_hold),
   idx_hold_er = idx_count_hold,
   
   # burn data 
@@ -526,7 +526,7 @@ stan_data_fwi <- list(
   area_offset = log(area_df$area * 1e-11) / 2,
   y_train_count = nfire_matrix_train,
   y_hold_count = nfire_matrix_hold,
-  idx_train_er = 1:t_train,
+  idx_train_er = setdiff(1:372, idx_count_hold),
   idx_hold_er = idx_count_hold,
   
   # burn data 
@@ -589,7 +589,7 @@ stan_data_erc_fwi <- list(
   area_offset = log(area_df$area * 1e-11) / 2,
   y_train_count = nfire_matrix_train,
   y_hold_count = nfire_matrix_hold,
-  idx_train_er = 1:t_train,
+  idx_train_er = setdiff(1:372, idx_count_hold),
   idx_hold_er = idx_count_hold,
   
   # burn data 

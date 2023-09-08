@@ -145,9 +145,11 @@ generated quantities {
   array[N_hold_obs] real holdout_twcrps;  
 
   matrix[T_all, R] reg_full;
+  matrix[T_all, R] lambda_full;
 
   // expected value of all parameters based on all timepoints, then cut to only be holdout parameters
   for (r in 1:R) {
+    lambda_full[, r] = X_full_count[r] * beta_count[, r] + phi[1][, r] + theta;
     reg_full[, r] = X_full_burn[r] * beta_burn[, r] + phi[2][, r] + gamma[r] * theta;
   }
   
@@ -195,7 +197,7 @@ generated quantities {
   
   // holdout log-likelihood
   for (r in 1:R) {
-    vector[T_hold] lambda_hold = (X_full_count[r] * beta_count[, r] + phi[1][, r])[idx_hold_er] + area_offset[r] + theta[idx_hold_er];
+    vector[T_hold] lambda_hold = lambda_full[idx_hold_er, r];
     for (t in 1:T_hold) {
       if (y_hold_count[t, r] == 0) {
         holdout_loglik_count[t, r] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[r]),

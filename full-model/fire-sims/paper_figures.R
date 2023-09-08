@@ -8,6 +8,44 @@ library(sf)
 library(classInt)
 library(RColorBrewer)
 
+## read in region key 
+region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
+full_reg_key <- as_tibble(region_key) %>% 
+  mutate(region = c(1:84),
+         NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE),
+         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
+
+## read in ecoregion shapes
+ecoregions <- read_rds(file = "ecoregions.RDS")
+ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>% 
+  mutate(NA_L2CODE = as.factor(NA_L2CODE),
+         NA_L1CODE = as.factor(NA_L1CODE),
+         NA_L3CODE = as.factor(NA_L3CODE),
+         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
+
+# egpd functions
+pegpd <- function(y, kappa, sigma, xi) (1 - (1 + xi * (y/sigma))^(-1/xi))^kappa
+qegpd <- function(p, kappa, sigma, xi) (sigma/xi) * ( (1 - p^(1/kappa) )^-xi - 1)
+# expected counts from ZINB params
+exp_count <- function(pi, lambda) { # expected counts
+  pi_prob <- exp(pi)/(1+exp(pi))
+  return((1-pi_prob) * exp(lambda))
+}
+
+# exceedance probabilities
+rlevel <- function(N, kappa, sigma, xi, eta) {
+  p <- ((N-1)/N)^(1/(12 * eta)) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
+  return(qegpd(p, kappa, sigma, xi))
+}
+
+# high quantiles
+high_quant <- function(N, kappa, sigma, xi) {
+  p <- ((N-1)/N) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
+  return(qegpd(p, kappa, sigma, xi))
+}
+
 # following code is for extracting from the actual model fit -------
 burn_fits <- paste0("full-model/fire-sims/joint/sigma-ri/csv-fits/",
                     list.files(path = "full-model/fire-sims/joint/sigma-ri/csv-fits",
@@ -39,6 +77,8 @@ extraction <- function(file_group, burn_name) {
   rm(object)
   gc()
 }
+
+object <- as_cmdstan_fit(best_group[[1]])
 
 extraction(best_group[[1]], "best_fit")
 
@@ -122,19 +162,10 @@ theta <- best_fit$theta %>% as_draws_df() %>%
   pivot_wider(names_from = name, values_from = value)
 saveRDS(theta, file = "full-model/figures/paper/mcmc_draws/theta.RDS")
 
-## read in region key --------
-region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
-full_reg_key <- as_tibble(region_key) %>% 
-  mutate(region = c(1:84),
-         NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE),
-         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
-
+## create time series plots of phi values for kappa and lambda -------
 date_seq <- seq(as.Date("1995-01-01"), by = "1 month", length.out = 252) %>% as_tibble() %>% rename(date = value)
 time_df <- date_seq %>% mutate(time = 1:252)
 
-## create time series plots of phi values for kappa and lambda -------
 phi_kappa <- phi %>% select(-lambda) %>% group_by(time, region) %>% summarize(kappa = median(kappa)) %>% ungroup()
 p <- phi_kappa %>% filter(time <= 252) %>% left_join(full_reg_key) %>% left_join(time_df) %>%
   ggplot(aes(x = date, y = kappa, color = NA_L2CODE)) + 
@@ -185,27 +216,6 @@ p <- phi_etf %>% filter(time <= 252) %>%
 ggsave("full-model/figures/paper/phi_lambda_etf_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
 
 # create return level plots ------
-# egpd functions
-pegpd <- function(y, kappa, sigma, xi) (1 - (1 + xi * (y/sigma))^(-1/xi))^kappa
-qegpd <- function(p, kappa, sigma, xi) (sigma/xi) * ( (1 - p^(1/kappa) )^-xi - 1)
-# expected counts from ZINB params
-exp_count <- function(pi, lambda) { # expected counts
-  pi_prob <- exp(pi)/(1+exp(pi))
-  return((1-pi_prob) * exp(lambda))
-}
-
-# exceedance probabilities
-rlevel <- function(N, kappa, sigma, xi, eta) {
-  p <- ((N-1)/N)^(1/(12 * eta)) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
-  return(qegpd(p, kappa, sigma, xi))
-}
-
-# high quantiles
-high_quant <- function(N, kappa, sigma, xi) {
-  p <- ((N-1)/N) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
-  return(qegpd(p, kappa, sigma, xi))
-}
-
 all_params <- kappa_vals %>% 
   left_join(rand_int) %>% 
   left_join(lambda) %>% 
@@ -263,13 +273,6 @@ file_name <- "full-model/figures/paper/98th_quant_burnareas.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 
 ## area-weighted average of burn area exceedances -------
-ecoregions <- read_rds(file = "ecoregions.RDS")
-ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>% 
-  mutate(NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE),
-         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
-
 eco_areas <- ecoregions_geom %>% as_tibble() %>% group_by(NA_L3CODE) %>% summarise(area = sum(Shape_Area))
 
 returns_level1 <- returns %>% select(c(draw, time, region, yr50)) %>% 
@@ -475,10 +478,10 @@ count_preds <- phi %>% select(-kappa) %>%
   left_join(reg_comp_allregions) %>% rename(reg = value) %>%
   left_join(theta %>% rename(time = timepoint)) %>% 
   left_join(pi_prob) %>% left_join(area_offset) %>% 
-  mutate(lambda = reg + phi + area + theta) %>% 
-  mutate(preds = exp_count(pi, lambda))
+  mutate(lambda = reg + phi + area + theta,
+         preds = exp_count(pi, lambda))
 
-preds_only <- count_preds %>% select(c(draw, time, region, preds))
+preds_only <- count_preds %>% select(c(draw, time, region, preds)) %>% left_join(full_reg_key)
 date_seq <- seq(as.Date("1990-01-01"), by = "1 month", length.out = 372) %>% as_tibble() %>% rename(date = value)
 time_df <- date_seq %>% mutate(time = 1:372)
 preds_only <- preds_only %>% left_join(time_df) %>% mutate(year = year(date))
@@ -489,11 +492,13 @@ last_five <- 2020:2016
 test_years <- sort(c(first_five, last_five))
 train_years <- setdiff(all_years, test_years)
 
-preds_annual <- preds_only %>% group_by(year, draw) %>% summarize(total_fires = sum(preds)) %>% ungroup()
-preds_annual <- preds_annual %>% mutate(train = 
-                                          case_when(
-                                            year %in% train_years ~ TRUE,
-                                            year %in% test_years ~ FALSE))
+preds_annual <- preds_only %>% 
+  group_by(NA_L1NAME, year, draw) %>% 
+  summarize(total_fires = sum(preds)) %>% 
+  ungroup()
+preds_annual <- preds_annual %>% 
+  mutate(train = case_when(year %in% train_years ~ TRUE,
+                           year %in% test_years ~ FALSE))
 
 # read in train counts
 y_train_count <- stan_data$y_train_count
@@ -504,9 +509,10 @@ y_train_count <- y_train_count %>%
   rowid_to_column(var = "time") %>% 
   pivot_longer(!time, names_to = "region", values_to = "value") %>%
   mutate(region = as.numeric(gsub("V", "", region))) %>%
+  left_join(full_reg_key) %>%
   left_join(time_df) %>% 
   mutate(year = year(date)) %>%
-  group_by(year) %>%
+  group_by(NA_L1NAME, year) %>%
   summarize(true_count = sum(value)) %>%
   ungroup()
 
@@ -520,21 +526,43 @@ y_hold_count <- y_hold_count %>%
   rowid_to_column(var = "time") %>% 
   pivot_longer(!time, names_to = "region", values_to = "value") %>%
   mutate(region = as.numeric(gsub("V", "", region))) %>%
+  left_join(full_reg_key) %>%
   left_join(time_df) %>% 
   mutate(year = year(date)) %>%
-  group_by(year) %>%
+  group_by(NA_L1NAME, year) %>%
   summarize(true_count = sum(value)) %>%
   ungroup()
 
-true_counts <- bind_rows(y_train_count, y_hold_count)
+true_counts <- bind_rows(y_train_count, y_hold_count) %>% arrange(year, NA_L1NAME, locale = ".en")
+
+preds_winsor_limits <- preds_annual %>% group_by(NA_L1NAME, year) %>% 
+  summarize(lower = quantile(total_fires, 0.05),
+            upper = quantile(total_fires, 0.95)) %>%
+  ungroup()
+
+preds_winsor <- preds_annual %>% 
+  left_join(preds_winsor_limits) %>%
+  mutate(winsor_total = case_when(total_fires <= lower ~ lower,
+                                  total_fires >= upper ~ upper,
+                                  .default = total_fires))
 
 p <- preds_annual %>% 
-  ggplot(aes(x = year, y = total_fires, group = year, color = train,)) + 
+  ggplot(aes(x = year, y = total_fires, group = year, color = train)) + 
+  geom_boxplot(outlier.size = 0.2, notch = TRUE) + scale_color_grey(start = 0.4, end = 0.6) +
+  geom_point(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", size = 0.35) +
+  geom_line(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/counts_preds-vs-truth_bylevel1.pdf", width = 15)
+
+p <- preds_winsor %>% 
+  ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/counts_preds-vs-truth.pdf")
+ggsave("full-model/figures/paper/counts_preds-vs-truth_bylevel1_winsor.pdf", width = 15)
 
 p <- preds_annual %>% 
   ggplot(aes(x = year, y = total_fires, group = year, color = train,)) + 

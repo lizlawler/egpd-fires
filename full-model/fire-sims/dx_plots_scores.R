@@ -48,3 +48,22 @@ MCMCtrace(fitmcmc,
           open_pdf = FALSE, 
           filename = paste0(plotbase, csvpattern, "_phi.pdf"))
 print("phi traceplots created")
+
+print("Extracting scores from model object...")
+if (type == "burns") {
+  train_loglik <- fit$draws(variables = "train_loglik")
+  holdout_loglik <- fit$draws(variables = "holdout_loglik")
+  train_twcrps <- fit$draws(variables = "train_twcrps")
+  holdout_twcrps <- fit$draws(variables = "holdout_twcrps")
+  scores <- list(train_loglik, holdout_loglik, train_twcrps, holdout_twcrps)
+  names(scores) <- c("train_loglik", "holdout_loglik", "train_twcrps", "holdout_twcrps")
+} else {
+  train_loglik <- fit$draws(variables = "train_loglik")
+  holdout_loglik <- fit$draws(variables = "holdout_loglik")
+  scores <- list(train_loglik, holdout_loglik)
+  names(scores) <- c("train_loglik", "holdout_loglik")  
+}
+
+filename <- paste0("full-model/fire-sims/model_comparison/extracted_values/", csvpattern, "_scores.RDS")
+saveRDS(scores, file = filename)
+print("Scores have been extracted and saved to disk")

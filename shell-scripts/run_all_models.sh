@@ -3,8 +3,6 @@
 #
 # execute all model run shell scripts 
 #
-source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
-conda activate stan
 
 shell-scripts/run_joint_NUTS.sh
 sleep 1

@@ -52,30 +52,30 @@ static constexpr std::array<const char*, 321> locations_array__ =
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 95, column 2 to column 40)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 96, column 2 to column 36)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 97, column 2 to column 40)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 100, column 2 to column 37)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 103, column 6 to column 64)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 102, column 19 to line 104, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 102, column 4 to line 104, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 101, column 17 to line 105, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 101, column 2 to line 105, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 109, column 4 to column 76)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 110, column 4 to column 74)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 111, column 4 to column 77)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 113, column 4 to column 98)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 11 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 4 to line 116, column 82)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 117, column 4 to column 96)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 108, column 24 to line 118, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 108, column 2 to line 118, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 121, column 4 to column 79)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 122, column 4 to column 77)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 123, column 4 to column 80)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 126, column 4 to column 96)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 11 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 4 to line 129, column 75)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 130, column 4 to column 96)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 120, column 26 to line 131, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 120, column 2 to line 131, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 99, column 2 to column 37)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 102, column 6 to column 64)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 101, column 19 to line 103, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 101, column 4 to line 103, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 100, column 17 to line 104, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 100, column 2 to line 104, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 107, column 4 to column 76)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 108, column 4 to column 74)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 109, column 4 to column 77)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 111, column 4 to column 98)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 113, column 11 to column 16)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 113, column 4 to line 114, column 80)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 115, column 4 to column 96)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 106, column 24 to line 116, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 106, column 2 to line 116, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 119, column 4 to column 79)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 120, column 4 to column 77)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 121, column 4 to column 80)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 124, column 4 to column 96)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 126, column 11 to column 16)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 126, column 4 to line 127, column 75)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 128, column 4 to column 96)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 118, column 26 to line 129, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 118, column 2 to line 129, column 3)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 61, column 9 to column 17)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 61, column 2 to column 61)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 62, column 9 to column 17)",
@@ -207,9 +207,9 @@ static constexpr std::array<const char*, 321> locations_array__ =
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 95, column 8 to column 18)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 96, column 8 to column 16)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 97, column 8 to column 18)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 100, column 8 to column 9)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 100, column 18 to column 23)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 100, column 25 to column 26)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 99, column 8 to column 9)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 99, column 18 to column 23)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 99, column 25 to column 26)",
  " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 2, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 3, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 1, column 0)",
  " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 4, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri.stan', line 1, column 0)",
@@ -2409,12 +2409,12 @@ const
             "exp(to_vector(ri_matrix[1][idx_train_er, :]))",
             stan::model::index_multi(ii_tb_all)), "assigning variable xi");
         current_statement__ = 71;
-        stan::math::validate_non_negative_index("gamma", "N_tb_all", N_tb_all);
-        Eigen::Matrix<local_scalar_t__, -1, 1> gamma =
+        stan::math::validate_non_negative_index("delta", "N_tb_all", N_tb_all);
+        Eigen::Matrix<local_scalar_t__, -1, 1> delta =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
         current_statement__ = 72;
-        stan::model::assign(gamma,
+        stan::model::assign(delta,
           stan::model::rvalue(
             stan::math::exp(
   stan::math::to_vector(
@@ -2423,7 +2423,7 @@ const
       "ri_matrix[2]",
       stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
             "exp(to_vector(ri_matrix[2][idx_train_er, :]))",
-            stan::model::index_multi(ii_tb_all)), "assigning variable gamma");
+            stan::model::index_multi(ii_tb_all)), "assigning variable delta");
         current_statement__ = 73;
         lp_accum__.add(
           stan::math::std_normal_lpdf<propto__>(stan::math::to_vector(Z)));
@@ -2487,7 +2487,7 @@ const
                 stan::model::index_uni(n)), y_min,
               stan::model::rvalue(sigma, "sigma", stan::model::index_uni(n)),
               stan::model::rvalue(xi, "xi", stan::model::index_uni(n)),
-              stan::model::rvalue(gamma, "gamma", stan::model::index_uni(n)), pstream__));
+              stan::model::rvalue(delta, "delta", stan::model::index_uni(n)), pstream__));
         }
       }
     } catch (const std::exception& e) {

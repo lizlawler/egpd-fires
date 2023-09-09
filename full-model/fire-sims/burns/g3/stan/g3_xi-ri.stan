@@ -23,7 +23,7 @@ transformed parameters {
   vector<lower=0>[S] tau = tau_init / 2;
   vector[C] rho2 = rho_sum - rho1;
   array[S] cov_matrix[p] cov_ar1;
-  array[C] corr_matrix[R] corr; // 1 = nu, 2 = xi, 3 = gamma
+  array[C] corr_matrix[R] corr; // 1 = nu, 2 = xi, 3 = delta
   
   array[2] vector[R] ri_init; 
   array[2] matrix[T_all, R] ri_matrix;
@@ -51,7 +51,7 @@ transformed parameters {
                        + 1 / tau[s] * phi_init[t, s];
     }
     
-    // regression for gamma, nu, and xi
+    // regression for delta, nu, and xi
     for (r in 1:R) {
       reg[s][, r] = X_train[r] * beta[s][, r] + phi[s][idx_train_er, r];
     }
@@ -60,7 +60,7 @@ transformed parameters {
 model {
   vector[N_tb_all] sigma = exp(to_vector(reg[1]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] gamma = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] delta = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
   
   to_vector(Z) ~ std_normal();
   
@@ -87,7 +87,7 @@ model {
   
   // likelihood
   for (n in 1:N_tb_all) {
-    target += egpd_trunc_lpdf(y_train[n] | y_min, sigma[n], xi[n], gamma[n]);
+    target += egpd_trunc_lpdf(y_train[n] | y_min, sigma[n], xi[n], delta[n]);
   }
 }
 generated quantities {
@@ -96,26 +96,24 @@ generated quantities {
   array[N_tb_obs] real train_twcrps;
   array[N_hold_obs] real holdout_twcrps;
 
-  // training scores
   array[S] matrix[T_all, R] reg_full;
   for (s in 1:S) {
     for (r in 1:R) {
       reg_full[s][, r] = X_full[r] * beta[s][, r] + phi[s][, r];
     }
-  }  
-  
+  }
   // training scores
   for (n in 1:N_tb_obs) {
     real sigma_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs][n];
     real xi_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs][n];
     real delta_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs][n];
-      
+    
     train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train, xi_train, delta_train);
     // forecasting then twCRPS, on training dataset
     vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, 
-                                              sigma_train, xi_train, delta_train);
+                                            sigma_train, xi_train, delta_train);
     train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
-  }  
+  }
   // holdout scores
   for (n in 1:N_hold_obs) {
     real sigma_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs][n];

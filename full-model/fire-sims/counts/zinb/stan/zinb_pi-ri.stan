@@ -182,5 +182,3 @@ generated quantities {
     }
   }
 }
-
-

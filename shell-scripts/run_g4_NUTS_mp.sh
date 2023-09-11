@@ -18,7 +18,7 @@ for dataset in "erc_fwi" "fwi" "erc" "climate"
 do
 sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params dataset sttime
-nohup ./shell-scripts/burn_sampling_mp.sh > full-model/output/${modname}_${dataset}_${params}_${sttime}_mp.txt 2>&1 &
+nohup ./shell-scripts/burn_sampling_mp.sh > full-model/output/${modname}_${dataset}_${params}_${sttime}.txt 2>&1 &
 sleep 1
 done
 done

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --partition=amilan
-#SBATCH --account=csu-general
+#SBATCH --account=csu54_alpine1
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
 #SBATCH --qos=long
 #SBATCH --nodes=1

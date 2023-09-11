@@ -8,8 +8,7 @@ conda activate stan
 
 stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="burns"
-for modname in "g1" "g2"
-do
+modname="g1"
 for params in "all-reg" "xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
 do
 # compile model and link c++ 
@@ -30,6 +29,5 @@ sbatch --dependency=afterok:${parentjob} \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_plots.sh
 sleep 1
-done
 done
 done

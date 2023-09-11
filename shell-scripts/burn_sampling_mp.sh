@@ -18,4 +18,4 @@ echo "Model has finished running all 3 chains"
 echo "Now running script to create trace plots and pull scores..."
 export modtype modname params dataset sttime
 nohup Rscript --vanilla full-model/fire-sims/dx_plots_scores_mp.R > \
-full-model/output/${modname}_${dataset}_${params}_plots_mp.txt 2>&1 & \
+full-model/output/${modname}_${dataset}_${params}_plots_mp.txt 2>&1 &

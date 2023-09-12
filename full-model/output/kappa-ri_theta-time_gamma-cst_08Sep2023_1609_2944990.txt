@@ -28,9 +28,9 @@ data
   file = ../../../data/stan_data_joint.json
 init = 0.01
 random
-  seed = 2354403093 (Default)
+  seed = 2401220113 (Default)
 output
-  file = csv-fits/joint_all-reg_theta-time_gamma-ri_08Sep2023_1606.csv
+  file = csv-fits/joint_kappa-ri_theta-time_gamma-cst_08Sep2023_1609.csv
   diagnostic_file =  (Default)
   refresh = 100 (Default)
   sig_figs = -1 (Default)
@@ -38,133 +38,113 @@ output
 num_threads = 3
 
 
-Gradient evaluation took 0.087093 seconds
-1000 transitions using 10 leapfrog steps per transition would take 870.93 seconds.
+Gradient evaluation took 0.05699 seconds
+1000 transitions using 10 leapfrog steps per transition would take 569.9 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.069821 seconds
-1000 transitions using 10 leapfrog steps per transition would take 698.21 seconds.
+Gradient evaluation took 0.04184 seconds
+1000 transitions using 10 leapfrog steps per transition would take 418.4 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.068111 seconds
-1000 transitions using 10 leapfrog steps per transition would take 681.11 seconds.
+Gradient evaluation took 0.042027 seconds
+1000 transitions using 10 leapfrog steps per transition would take 420.27 seconds.
 Adjust your expectations accordingly!
 
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: joint_all_reg_theta_time_gamma_ri_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 39, column 2 to column 31)
+Exception: joint_kappa_ri_theta_time_gamma_cst_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 39, column 2 to column 31)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: joint_all_reg_theta_time_gamma_ri_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 39, column 2 to column 31)
+Exception: Exception: Exception: kappa<=0; found kappa = 8.4762e-17 (in 'full-model/fire-sims/joint/kappa-ri///../../burns/g1/stan/g1_fcns.stanfunctions', line 8, column 6, included from
+'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 3, column 2) (in 'full-model/fire-sims/joint/kappa-ri///../../burns/g1/stan/g1_fcns.stanfunctions', line 46, column 4, included from
+'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 3, column 2) (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 121, column 4 to column 82)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
-Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
 Chain [3] Iteration:    1 / 4000 [  0%]  (Warmup)
 Chain [2] Iteration:    1 / 4000 [  0%]  (Warmup)
+Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/all-reg/joint_all-reg_theta-time_gamma-ri.stan', line 23, column 2 to column 43)
+Exception: lub_constrain: lb[2] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/kappa-ri/joint_kappa-ri_theta-time_gamma-cst.stan', line 23, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
-Chain [2] Iteration:  100 / 4000 [  2%]  (Warmup)
 Chain [3] Iteration:  100 / 4000 [  2%]  (Warmup)
 Chain [1] Iteration:  100 / 4000 [  2%]  (Warmup)
-Chain [2] Iteration:  200 / 4000 [  5%]  (Warmup)
-Chain [3] Iteration:  200 / 4000 [  5%]  (Warmup)
-Chain [1] Iteration:  200 / 4000 [  5%]  (Warmup)
-Chain [1] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [2] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [3] Iteration:  300 / 4000 [  7%]  (Warmup)
-Chain [1] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [2] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [3] Iteration:  400 / 4000 [ 10%]  (Warmup)
-Chain [1] Iteration:  500 / 4000 [ 12%]  (Warmup)
-Chain [2] Iteration:  500 / 4000 [ 12%]  (Warmup)
-Chain [3] Iteration:  500 / 4000 [ 12%]  (Warmup)
-Chain [1] Iteration:  600 / 4000 [ 15%]  (Warmup)
-Chain [2] Iteration:  600 / 4000 [ 15%]  (Warmup)
-Chain [3] Iteration:  600 / 4000 [ 15%]  (Warmup)
-Chain [1] Iteration:  700 / 4000 [ 17%]  (Warmup)
-Chain [3] Iteration:  700 / 4000 [ 17%]  (Warmup)
-Chain [2] Iteration:  700 / 4000 [ 17%]  (Warmup)
-Chain [1] Iteration:  800 / 4000 [ 20%]  (Warmup)
-Chain [3] Iteration:  800 / 4000 [ 20%]  (Warmup)
-Chain [2] Iteration:  800 / 4000 [ 20%]  (Warmup)
-Chain [1] Iteration:  900 / 4000 [ 22%]  (Warmup)
+Chain [2] Iteration:  100 / 4000 [  2%]  (Warmup)

@@ -3,10 +3,10 @@
 #SBATCH --partition=amilan
 #SBATCH --account=csu54_alpine1
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
-#SBATCH --qos=long
+#SBATCH --qos=normal
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
-#SBATCH --time=72:00:00
+#SBATCH --time=24:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=eslawler@colostate.edu
 
@@ -19,4 +19,4 @@ mkdir -p $TMPDIR
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
-./shell-scripts/burn_sampling.sh ${modtype} ${modname} ${params} ${dataset} ${sttime}
+./shell-scripts/burn_sampling_short.sh ${modtype} ${modname} ${params} ${dataset} ${sttime}

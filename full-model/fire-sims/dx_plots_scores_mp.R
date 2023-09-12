@@ -11,7 +11,7 @@ library(MCMCvis)
 library(posterior)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/", model, "/csv-fits/")
-plotbase <- paste0("./full-model/figures/", model, "/trace/")
+plotbase <- paste0("./full-model/figures/", type, "/", model, "/trace/")
 csvpattern <- paste0(model, "_", params, "_", dataset, "_", sttime)
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 

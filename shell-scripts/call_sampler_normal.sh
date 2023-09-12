@@ -5,8 +5,8 @@
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
 #SBATCH --qos=normal
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=30
-#SBATCH --time=1:00:00
+#SBATCH --ntasks-per-node=4
+#SBATCH --time=24:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=eslawler@colostate.edu
 
@@ -17,6 +17,6 @@ export TEMPDIR=${TMPDIR}
 mkdir -p $TMPDIR
 
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
-conda activate lawler
+conda activate stan
 
-Rscript --vanilla ./full-model/fire-sims/model_comparison/extract_betas_best_counts.R
+./shell-scripts/burn_sampling_normal.sh ${modtype} ${modname} ${params} ${dataset} ${sttime}

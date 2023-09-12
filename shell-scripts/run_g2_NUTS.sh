@@ -22,7 +22,7 @@ sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params dataset sttime
 parentjob=$(sbatch --parsable $1 --job-name ${modname}_${params}_${dataset}_${sttime} \
 --output="./full-model/output/%x_%j.txt" \
-shell-scripts/call_sampler.sh)
+shell-scripts/call_sampler_long.sh)
 sleep 1
 sbatch --dependency=afterok:${parentjob} \
 --job-name ${modname}_${params}_${dataset}_plots \

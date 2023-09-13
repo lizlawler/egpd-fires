@@ -19,10 +19,11 @@ cmdstan_model ${object}
 for dataset in "climate" "erc" "fwi" "erc_fwi"
 do
 sttime=$(date +"%d%b%Y_%H%M")
-export modtype modname params dataset sttime
+qos=long
+export modtype modname params dataset sttime qos
 parentjob=$(sbatch --parsable $1 --job-name ${modname}_${params}_${dataset}_${sttime} \
 --output="./full-model/output/%x_%j.txt" \
-shell-scripts/call_sampler_long.sh)
+shell-scripts/call_sampler_${qos}.sh)
 sleep 1
 sbatch --dependency=afterok:${parentjob} \
 --job-name ${modname}_${params}_${dataset}_plots \

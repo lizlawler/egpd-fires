@@ -19,7 +19,7 @@ do
 for qos in "normal" "long"
 do
 sttime=$(date +"%d%b%Y_%H%M")
-export modtype modname params dataset sttime
+export modtype modname params dataset sttime qos
 parentjob=$(sbatch --parsable $1 --job-name ${modname}_${params}_${dataset}_${sttime}_${qos} \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_sampler_${qos}.sh)

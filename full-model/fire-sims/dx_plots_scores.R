@@ -35,21 +35,21 @@ MCMCtrace(fitmcmc,
           filename = paste0(plotbase, csvpattern, "_rho.pdf"))
 print("rho traceplots created")
 
-print("Creating traceplot of betas")
-MCMCtrace(fitmcmc,
-          params = 'beta', 
-          ind = TRUE, 
-          open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_beta.pdf"))
-print("beta traceplots created")
-
-print("Creating traceplot of phi...")
-MCMCtrace(fitmcmc,
-          params = 'phi', 
-          ind = TRUE, 
-          open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_phi.pdf"))
-print("phi traceplots created")
+# print("Creating traceplot of betas")
+# MCMCtrace(fitmcmc,
+#           params = 'beta', 
+#           ind = TRUE, 
+#           open_pdf = FALSE, 
+#           filename = paste0(plotbase, csvpattern, "_beta.pdf"))
+# print("beta traceplots created")
+# 
+# print("Creating traceplot of phi...")
+# MCMCtrace(fitmcmc,
+#           params = 'phi', 
+#           ind = TRUE, 
+#           open_pdf = FALSE, 
+#           filename = paste0(plotbase, csvpattern, "_phi.pdf"))
+# print("phi traceplots created")
 
 print("Extracting scores from model object...")
 if (type == "burns") {

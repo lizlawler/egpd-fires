@@ -213,3 +213,64 @@ but if this warning occurs often then your model may be either severely ill-cond
 Chain [1] Iteration:  700 / 4000 [ 17%]  (Warmup)
 Chain [2] Iteration:  900 / 4000 [ 22%]  (Warmup)
 Chain [3] Iteration:  900 / 4000 [ 22%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.80288e-16 (in 'full-model/fire-sims/burns/g1/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 94, column 4 to column 77)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.89257e-16 (in 'full-model/fire-sims/burns/g1/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 94, column 4 to column 77)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.28739e-16 (in 'full-model/fire-sims/burns/g1/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 94, column 4 to column 77)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.29477e-16 (in 'full-model/fire-sims/burns/g1/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 94, column 4 to column 77)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.26277e-16 (in 'full-model/fire-sims/burns/g1/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 94, column 4 to column 77)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [1] Iteration:  800 / 4000 [ 20%]  (Warmup)
+Chain [2] Iteration: 1000 / 4000 [ 25%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.84216e-16 (in 'full-model/fire-sims/burns/g1/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 94, column 4 to column 77)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 9.94255e-16 (in 'full-model/fire-sims/burns/g1/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 4, included from
+'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 94, column 4 to column 77)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Chain [3] Iteration: 1000 / 4000 [ 25%]  (Warmup)
+Chain [2] Iteration: 1100 / 4000 [ 27%]  (Warmup)
+Chain [1] Iteration:  900 / 4000 [ 22%]  (Warmup)

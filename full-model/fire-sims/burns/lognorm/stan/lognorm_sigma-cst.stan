@@ -82,7 +82,7 @@ generated quantities {
   }
   // training scores
   for (n in 1:N_tb_obs) {
-    real mu_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs][n];
+    real mu_train = exp(to_vector(reg_full))[ii_tb_all][ii_tb_obs][n];
     
     train_loglik[n] = lognorm_trunc_lpdf(y_train_obs[n] | y_min, mu_train, sigma);
     // forecasting then twCRPS, on training dataset

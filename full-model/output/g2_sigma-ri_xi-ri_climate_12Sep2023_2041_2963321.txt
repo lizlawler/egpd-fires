@@ -25,12 +25,12 @@ method = sample (Default)
     num_chains = 3
 id = 1 (Default)
 data
-  file = ../../../data/stan_data_erc.json
+  file = ../../../data/stan_data_climate.json
 init = 0.01
 random
-  seed = 2519528189 (Default)
+  seed = 2521782287 (Default)
 output
-  file = csv-fits/g2_xi-ri_erc_12Sep2023_2039_long.csv
+  file = csv-fits/g2_sigma-ri_xi-ri_climate_12Sep2023_2041_long.csv
   diagnostic_file =  (Default)
   refresh = 100 (Default)
   sig_figs = -1 (Default)
@@ -38,65 +38,86 @@ output
 num_threads = 3
 
 
-Gradient evaluation took 0.089211 seconds
-1000 transitions using 10 leapfrog steps per transition would take 892.11 seconds.
+Gradient evaluation took 0.089772 seconds
+1000 transitions using 10 leapfrog steps per transition would take 897.72 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.069599 seconds
-1000 transitions using 10 leapfrog steps per transition would take 695.99 seconds.
+Gradient evaluation took 0.067338 seconds
+1000 transitions using 10 leapfrog steps per transition would take 673.38 seconds.
 Adjust your expectations accordingly!
 
 
 
-Gradient evaluation took 0.069812 seconds
-1000 transitions using 10 leapfrog steps per transition would take 698.12 seconds.
+Gradient evaluation took 0.069206 seconds
+1000 transitions using 10 leapfrog steps per transition would take 692.06 seconds.
 Adjust your expectations accordingly!
 
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: g2_xi_ri_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 31, column 2 to column 31)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: g2_xi_ri_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 31, column 2 to column 31)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: g2_xi_ri_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 31, column 2 to column 31)
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 21, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: g2_sigma_ri_xi_ri_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 31, column 2 to column 31)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 8.07288e-28 (in 'full-model/fire-sims/burns/g2/stan///../../gpd_fcns.stanfunctions', line 38, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 10, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 5.25556e-27 (in 'full-model/fire-sims/burns/g2/stan///../../gpd_fcns.stanfunctions', line 38, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 2, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 10, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
@@ -104,74 +125,51 @@ Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
 Chain [3] Iteration:    1 / 4000 [  0%]  (Warmup)
 Chain [2] Iteration:    1 / 4000 [  0%]  (Warmup)
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 9.69982e-16, kappa2 = 0.00162446 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 95, column 4 to column 95)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0, kappa2 = 0 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[4] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 2.24763e-120, kappa2 = 6.46853e-125 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: cholesky_decompose: Matrix m is not positive definite (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 43, column 2 to column 45)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0, kappa2 = 0 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 1.00244e-13, kappa2 = 6.17493e-55 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0, kappa2 = 0 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 1.25493e-194, kappa2 = 5.98456e-104 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 21, column 2 to column 43)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 4.67423e-16, kappa2 = 0.00119412 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 95, column 4 to column 95)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 9.8611e-16, kappa2 = 0.0168299 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 95, column 4 to column 95)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 9.71592e-16, kappa2 = 0.011586 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 95, column 4 to column 95)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0.0327197, kappa2 = 9.94219e-16 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 95, column 4 to column 95)
-If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
-but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
-
-Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
-Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 0.348958, kappa2 = 8.35629e-16 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
-'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_xi-ri.stan', line 95, column 4 to column 95)
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 7.23361e-16, kappa2 = 0.0109185 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri.stan', line 97, column 4 to column 95)
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 

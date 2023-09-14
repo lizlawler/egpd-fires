@@ -6,7 +6,7 @@
 #SBATCH --qos=long
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
-#SBATCH --time=120:00:00
+#SBATCH --time=96:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=eslawler@colostate.edu
 
@@ -20,4 +20,4 @@ source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
 ./shell-scripts/burn_joint_sampling.sh \
-${modtype} ${modname} ${params} ${sttime}
+${modtype} ${modname} ${params} ${sttime} ${iter}

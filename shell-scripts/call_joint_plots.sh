@@ -19,5 +19,5 @@ mkdir -p $TMPDIR
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate lawler
 
-Rscript --vanilla ./full-model/fire-sims/plots_betas_gq_joint.R \
-${modtype} ${modname} ${params} ${sttime}
+Rscript --vanilla ./full-model/fire-sims/dx_plots_scores_joint.R \
+${modtype} ${modname} ${params} ${sttime} ${iter}

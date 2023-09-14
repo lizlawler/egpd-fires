@@ -1374,3 +1374,10 @@ Exception: Exception: Exception: kappa<=0; found kappa = 9.74603e-16 (in 'full-m
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Chain [1] Iteration: 4000 / 4000 [100%]  (Sampling)
+
+ Elapsed Time: 65420.9 seconds (Warm-up)
+               79730.9 seconds (Sampling)
+               145152 seconds (Total)
+
+Chain [3] Iteration: 3500 / 4000 [ 87%]  (Sampling)

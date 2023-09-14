@@ -100,3 +100,6 @@ Exception: g4_xi_ri_nu_model_namespace::log_prob: corr is not positive definite.
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Chain [3] Iteration:    1 / 4000 [  0%]  (Warmup)
+Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
+Chain [2] Iteration:    1 / 4000 [  0%]  (Warmup)

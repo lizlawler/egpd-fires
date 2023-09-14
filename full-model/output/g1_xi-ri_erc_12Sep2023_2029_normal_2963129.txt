@@ -214,3 +214,5 @@ Chain [3] Iteration: 2000 / 2000 [100%]  (Sampling)
                53846.6 seconds (Total)
 
 Model has finished running all 3 chains
+<13>Sep 13 20:33:38 slurm_ktf: alpine KTF, job: 2963129, step: 4294967291
+slurmstepd: error: *** JOB 2963129 STEPD TERMINATED ON c3cpu-c11-u17-2 AT 2023-09-13T20:33:37 DUE TO JOB NOT ENDING WITH SIGNALS ***

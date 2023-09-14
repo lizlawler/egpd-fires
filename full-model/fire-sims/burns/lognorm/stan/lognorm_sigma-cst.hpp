@@ -53,7 +53,7 @@ static constexpr std::array<const char*, 188> locations_array__ =
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 90, column 4 to column 96)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 84, column 24 to line 91, column 3)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 84, column 2 to line 91, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 94, column 4 to column 76)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 94, column 4 to column 73)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 97, column 4 to column 82)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 99, column 11 to column 16)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 99, column 4 to column 95)",
@@ -1812,14 +1812,11 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
         current_statement__ = 44;
         mu_hold = stan::model::rvalue(
                     stan::model::rvalue(
-  stan::model::rvalue(
-  stan::math::exp(
-  stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
-  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_hold_all)),
-  "exp(to_vector(reg_full[1]))[ii_hold_all]",
+  stan::model::rvalue(stan::math::exp(stan::math::to_vector(reg_full)),
+  "exp(to_vector(reg_full))", stan::model::index_multi(ii_hold_all)),
+  "exp(to_vector(reg_full))[ii_hold_all]",
   stan::model::index_multi(ii_hold_obs)),
-                    "exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs]",
+                    "exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs]",
                     stan::model::index_uni(n));
         current_statement__ = 45;
         stan::model::assign(holdout_loglik,

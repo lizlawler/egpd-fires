@@ -4,6 +4,6 @@
 # execute all model run shell scripts 
 #
 
-shell-scripts/run_g3_NUTS_mp.sh
+shell-scripts/miss-piggy/run_g3_NUTS_mp.sh
 sleep 1
-shell-scripts/run_g4_NUTS_mp.sh
+shell-scripts/miss-piggy/run_g4_NUTS_mp.sh

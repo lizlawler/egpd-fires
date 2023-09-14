@@ -13,9 +13,9 @@ outbase="csv-fits/${modtype}_${modname}_${params}_${sttime}_${iter}iter"
 # run model with 3 chains
 if [ ${iter} -eq 2000 ]
 then
-  ${thinby}=2
+  thinby=2
 else 
-  ${thinby}=1
+  thinby=1
 fi
 
 ./${model} sample num_chains=3 num_warmup=${iter} num_samples=${iter} thin=${thinby} \

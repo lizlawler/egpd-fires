@@ -22,7 +22,7 @@ sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params sttime iter
 parentjob=$(sbatch --parsable $1 --job-name ${modname}_${params}_${sttime}_${iter}iter \
 --output="./full-model/output/%x_%j.txt" \
-shell-scripts/call_joint_sampler_${iter}.sh)
+shell-scripts/call_joint_sampler.sh)
 sleep 1
 sbatch --dependency=afterok:${parentjob} \
 --job-name ${modname}_${params}_${iter}iter_plots \

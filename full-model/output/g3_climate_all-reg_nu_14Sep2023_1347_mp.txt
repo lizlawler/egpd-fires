@@ -126,3 +126,25 @@ If this warning occurs sporadically, such as for highly constrained variable typ
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
 Chain [1] Iteration:    1 / 4000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[3] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_all-reg_nu.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: delta<=0; found delta = 1.92686e-322 (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 14, column 6, included from
+'full-model/fire-sims/burns/g3/stan/g3_all-reg_nu.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 50, column 4, included from
+'full-model/fire-sims/burns/g3/stan/g3_all-reg_nu.stan', line 1, column 0) (in 'full-model/fire-sims/burns/g3/stan/g3_all-reg_nu.stan', line 89, column 4 to column 77)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_all-reg_nu.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_all-reg_nu.stan', line 16, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+

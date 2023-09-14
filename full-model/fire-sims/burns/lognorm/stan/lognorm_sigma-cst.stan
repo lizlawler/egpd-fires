@@ -91,7 +91,7 @@ generated quantities {
   }
   // holdout scores
   for (n in 1:N_hold_obs) {
-    real mu_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs][n];
+    real mu_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];
     
     // log-likelihood
     holdout_loglik[n] = lognorm_trunc_lpdf(y_hold_obs[n] | y_min, mu_hold, sigma);

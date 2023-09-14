@@ -2,7 +2,8 @@ args <- commandArgs(trailingOnly=TRUE)
 type <- args[1]
 model <- args[2]
 params <- args[3]
-# sttime <- args[4]
+sttime <- args[4]
+iter <- args[5]
 
 library(cmdstanr)
 set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
@@ -10,10 +11,9 @@ check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(MCMCvis)
 library(posterior)
 
-csvbase <- paste0("./full-model/fire-sims/", type, "/", model, "/csv-fits/")
+csvbase <- paste0("./full-model/fire-sims/", type, "/csv-fits/")
 plotbase <- paste0("./full-model/figures/", type, "/trace/")
-# csvpattern <- paste0(type, "_", model, "_", params, "_", sttime)
-csvpattern <- paste0(type, "_", model, "_", params)
+csvpattern <- paste0(type, "_", model, "_", params, "_", sttime, "_", iter, "iter")
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 
 print("Filenames being used are:")
@@ -40,12 +40,12 @@ MCMCtrace(fitmcmc,
           ind = TRUE, 
           open_pdf = FALSE, 
           filename = paste0(plotbase, csvpattern, "_lambda-beta.pdf"))
-print("Creating traceplot of betas for burn param(s)")
+print("Creating traceplot of betas for kappa")
 MCMCtrace(fitmcmc,
           params = 'beta_burn', 
           ind = TRUE, 
           open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_burn-beta.pdf"))
+          filename = paste0(plotbase, csvpattern, "_kappa-beta.pdf"))
 print("beta traceplots created")
 
 print("Creating traceplot of phi...")
@@ -70,15 +70,4 @@ names(scores) <- c("train_loglik_count", "holdout_loglik_count", "train_loglik_b
 filename <- paste0("full-model/fire-sims/model_comparison/extracted_values/", csvpattern, "_scores.RDS")
 saveRDS(scores, file = filename)
 print("Scores have been extracted and saved to disk")
-rm(list = c(ls(pattern = "train"), ls(pattern = "holdout"), ls(pattern = "scores")))
-gc()
-
-print("Extracting betas from model object...")
-beta_count <- fit$draws(variables = "beta_count")
-beta_burn <- fit$draws(variables = "beta_burn")
-betas <- list(beta_count, beta_burn)
-names(betas) <- c("beta_count", "beta_burn")
-filename <- paste0("full-model/fire-sims/model_comparison/extracted_values/", csvpattern, "_betas.RDS")
-saveRDS(betas, file = filename)
-print("Betas have been extracted and saved to disk")
 

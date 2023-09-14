@@ -7,7 +7,8 @@ trap '' HUP
 stanc_exe="/data/accounts/lawler/.conda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="burns"
 modname="g4"
-for params in "all-reg" "xi-ri" "sigma-ri_xi-ri" "kappa-ri_xi-ri"
+# for params in "all-reg" "xi-ri" "sigma-ri_xi-ri" "kappa-ri_xi-ri"
+for params in "all-reg_nu" "xi-ri_nu" "sigma-ri_xi-ri_nu" "kappa-ri_xi-ri_nu"
 do
 # compile model and link c++ 
 inc_path="full-model/fire-sims/${modtype}/${modname}/stan/"

@@ -175,3 +175,10 @@ Exception: Exception: Exception: Exception: sigma<=0; found sigma = 4.60117e-31 
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: kappa1 or kappa2 <=0; found kappa1 = 8.5108e-16, kappa2 = 8.05874e-06 (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 15, column 6, included from
+'full-model/fire-sims/burns/g2/stan/g2_all-reg_nu.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan//g2_fcns.stanfunctions', line 66, column 4, included from
+'full-model/fire-sims/burns/g2/stan/g2_all-reg_nu.stan', line 3, column 2) (in 'full-model/fire-sims/burns/g2/stan/g2_all-reg_nu.stan', line 88, column 4 to column 95)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+

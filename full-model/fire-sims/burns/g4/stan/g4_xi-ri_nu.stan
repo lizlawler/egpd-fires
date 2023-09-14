@@ -13,7 +13,7 @@ parameters {
   vector<lower=0, upper = 1>[S] eta;
   vector<lower=0, upper = 1>[S] bp_init;
   vector<lower=0, upper = 1>[C] rho1;
-  vector<lower=rho1, upper = 1>[C] rho_sum;  // 1 = kappa, 2 = sigma, 3 = xi, 4 = delta
+  vector<lower=rho1, upper = 1>[C] rho_sum;  // 1 = kappa, 2 = nu, 3 = xi, 4 = delta
 }
 transformed parameters {
   array[N_tb_all] real<lower=y_min> y_train;
@@ -23,7 +23,7 @@ transformed parameters {
   vector<lower=0>[S] tau = tau_init / 2;
   vector[C] rho2 = rho_sum - rho1;
   array[S] cov_matrix[p] cov_ar1;
-  array[C] corr_matrix[R] corr; // 1 = kappa, 2= sigma, 3 = xi, 4 = delta
+  array[C] corr_matrix[R] corr; // 1 = kappa, 2= nu, 3 = xi, 4 = delta
   
   array[2] vector[R] ri_init; 
   array[2] matrix[T_all, R] ri_matrix; 
@@ -51,7 +51,7 @@ transformed parameters {
                        + 1 / tau[s] * phi_init[t, s];
     }
     
-    // regression for delta, sigma, and xi
+    // regression for delta, nu, and xi
     for (r in 1:R) {
       reg[s][, r] = X_train[r] * beta[s][, r] + phi[s][idx_train_er, r];
     }
@@ -59,9 +59,10 @@ transformed parameters {
 }
 model {
   vector[N_tb_all] kappa = exp(to_vector(reg[1]))[ii_tb_all];
-  vector[N_tb_all] sigma = exp(to_vector(reg[2]))[ii_tb_all];
+  vector[N_tb_all] nu = exp(to_vector(reg[2]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
   vector[N_tb_all] delta = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] sigma = nu ./ (1 + xi);
   
   to_vector(Z) ~ std_normal();
   
@@ -106,9 +107,10 @@ generated quantities {
   // training scores
   for (n in 1:N_tb_obs) {
     real kappa_train = exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs][n];
-    real sigma_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs][n];
+    real nu_train = exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs][n];
     real xi_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs][n];
     real delta_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs][n];
+    real sigma_train = nu_train / (1 + xi_train);
     
     train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train, xi_train, delta_train, kappa_train);
     // forecasting then twCRPS, on training dataset
@@ -119,9 +121,10 @@ generated quantities {
   // holdout scores
   for (n in 1:N_hold_obs) {
     real kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs][n];
-    real sigma_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs][n];
+    real nu_hold = exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs][n];
     real xi_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs][n];
     real delta_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs][n];
+    real sigma_hold = nu_hold / (1 + xi_hold);
     
     // log-likelihood
     holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold, xi_hold, delta_hold, kappa_hold);

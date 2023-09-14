@@ -23,7 +23,7 @@ transformed parameters {
   vector<lower=0>[S] tau = tau_init / 2;
   vector[C] rho2 = rho_sum - rho1;
   array[S] cov_matrix[p] cov_ar1;
-  array[C] corr_matrix[R] corr; // 1 = nu, 2 = xi, 3 = delta
+  array[C] corr_matrix[R] corr; // 1 = sigma, 2 = xi, 3 = delta
   
   array[2] vector[R] ri_init; 
   array[2] matrix[T_all, R] ri_matrix;
@@ -51,7 +51,7 @@ transformed parameters {
                        + 1 / tau[s] * phi_init[t, s];
     }
     
-    // regression for delta, nu, and xi
+    // regression for delta, sigma, and xi
     for (r in 1:R) {
       reg[s][, r] = X_train[r] * beta[s][, r] + phi[s][idx_train_er, r];
     }

@@ -137,3 +137,4 @@ Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.71134e-47 
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Chain [2] Iteration:  100 / 2000 [  5%]  (Warmup)

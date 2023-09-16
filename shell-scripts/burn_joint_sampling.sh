@@ -5,9 +5,9 @@ source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
 datafile="../../../data/stan_data_joint.json"
-basedir="./full-model/fire-sims/${modtype}/stan/"
+basedir="./full-model/fire-sims/${modtype}/"
 cd ${basedir}
-model="${modtype}_${modname}_${params}"
+model="stan/${modtype}_${modname}_${params}"
 outbase="csv-fits/${modtype}_${modname}_${params}_${sttime}_${iter}iter"
 
 # run model with 3 chains

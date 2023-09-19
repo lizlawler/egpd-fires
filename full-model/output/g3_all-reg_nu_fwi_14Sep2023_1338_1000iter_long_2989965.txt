@@ -139,3 +139,4 @@ Exception: Exception: Exception: delta<=0; found delta = 9.25579e-97 (in 'full-m
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+slurmstepd: error: *** JOB 2989965 ON c3cpu-c15-u19-4 CANCELLED AT 2023-09-18T13:39:26 DUE TO TIME LIMIT ***

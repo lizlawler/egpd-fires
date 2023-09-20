@@ -82,7 +82,7 @@ generated quantities {
   }
   // training scores
   for (n in 1:N_tb_obs) {
-    real mu_train = exp(to_vector(reg_full))[ii_tb_all][ii_tb_obs][n];
+    real mu_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
     
     train_loglik[n] = lognorm_trunc_lpdf(y_train_obs[n] | y_min, mu_train, sigma);
     // forecasting then twCRPS, on training dataset
@@ -91,7 +91,7 @@ generated quantities {
   }
   // holdout scores
   for (n in 1:N_hold_obs) {
-    real mu_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];
+    real mu_hold = exp(to_vector(reg_full[idx_hold_er,]))[ii_hold_all][ii_hold_obs][n];
     
     // log-likelihood
     holdout_loglik[n] = lognorm_trunc_lpdf(y_hold_obs[n] | y_min, mu_hold, sigma);

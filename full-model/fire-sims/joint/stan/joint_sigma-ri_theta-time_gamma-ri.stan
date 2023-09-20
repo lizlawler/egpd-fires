@@ -156,9 +156,9 @@ generated quantities {
   // burn component scores
   // training scores
   for (n in 1:N_tb_obs) {
-    real kappa_train = exp(to_vector(reg_full))[ii_tb_all][ii_tb_obs][n];
-    real sigma_train = exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs][n];
-    real xi_train = exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs][n];
+    real kappa_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+    real sigma_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+    real xi_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
     
     train_loglik_burn[n] = egpd_trunc_lpdf(y_train_burn_obs[n] | y_min, sigma_train, xi_train, kappa_train);
     // forecasting then twCRPS, on training dataset
@@ -168,9 +168,9 @@ generated quantities {
   }
   // holdout scores
   for (n in 1:N_hold_obs) {
-    real kappa_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];
-    real sigma_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs][n];
-    real xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs][n];
+    real kappa_hold = exp(to_vector(reg_full[idx_hold_er,]))[ii_hold_all][ii_hold_obs][n];
+    real sigma_hold = exp(to_vector(ri_matrix[1][idx_hold_er,]))[ii_hold_all][ii_hold_obs][n];
+    real xi_hold = exp(to_vector(ri_matrix[2][idx_hold_er,]))[ii_hold_all][ii_hold_obs][n];
     
     // log-likelihood
     holdout_loglik_burn[n] = egpd_trunc_lpdf(y_hold_burn_obs[n] | y_min, sigma_hold, xi_hold, kappa_hold);

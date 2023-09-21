@@ -18,7 +18,7 @@ ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
 for dataset in "climate" "erc" "fwi" "erc_fwi"
 do
-for qos in "normal" "long"
+for qos in "long"
 do
 for chain in 1 2 3
 do

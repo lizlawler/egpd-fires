@@ -1,0 +1,17 @@
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_xi-ri_climate_12Sep2023_2029_normal_2.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_climate.json
+init = 2 (Default)
+random
+  seed = 3227847930 (Default)
+output
+  file = ../../model_comparison/extracted_values/g1_xi-ri_climate_12Sep2023_2029_normal_2_GQ.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+

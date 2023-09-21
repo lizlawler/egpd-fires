@@ -78,7 +78,7 @@ static constexpr std::array<const char*, 335> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 137, column 4 to column 116)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 139, column 11 to column 16)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 139, column 4 to line 140, column 95)",
- " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 141, column 4 to column 96)",
+ " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 141, column 4 to column 100)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 129, column 26 to line 142, column 3)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 129, column 2 to line 142, column 3)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 66, column 9 to column 17)",
@@ -3242,15 +3242,15 @@ class g2_sigma_ri_xi_ri_nu_model final : public model_base_crtp<g2_sigma_ri_xi_r
              std::numeric_limits<double>::quiet_NaN());
         current_statement__ = 68;
         stan::model::assign(pred_probs_hold,
-          prob_forecast(n_int, int_pts_train, y_min, sigma_hold, xi_hold,
+          prob_forecast(n_int, int_pts_holdout, y_min, sigma_hold, xi_hold,
             kappa1_hold, kappa2_hold, prob, pstream__),
           "assigning variable pred_probs_hold");
         current_statement__ = 69;
         stan::model::assign(holdout_twcrps,
           twCRPS(
             stan::model::rvalue(y_hold_obs, "y_hold_obs",
-              stan::model::index_uni(n)), n_int, int_train, int_pts_train,
-            pred_probs_hold, pstream__),
+              stan::model::index_uni(n)), n_int, int_holdout,
+            int_pts_holdout, pred_probs_hold, pstream__),
           "assigning variable holdout_twcrps", stan::model::index_uni(n));
       }
       out__.write(train_loglik);

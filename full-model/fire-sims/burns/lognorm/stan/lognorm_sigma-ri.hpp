@@ -56,8 +56,8 @@ static constexpr std::array<const char*, 225> locations_array__ =
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 98, column 4 to line 100, column 5)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 97, column 17 to line 101, column 3)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 97, column 2 to line 101, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 104, column 4 to column 73)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 105, column 4 to column 74)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 104, column 4 to column 88)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 105, column 4 to column 89)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 107, column 4 to column 88)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 109, column 11 to column 16)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 109, column 4 to column 103)",
@@ -68,8 +68,8 @@ static constexpr std::array<const char*, 225> locations_array__ =
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 115, column 4 to column 77)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 118, column 4 to column 87)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 120, column 11 to column 16)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 120, column 4 to column 100)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 121, column 4 to column 96)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 120, column 4 to column 102)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 121, column 4 to column 100)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 113, column 26 to line 122, column 3)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 113, column 2 to line 122, column 3)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-ri.stan', line 59, column 9 to column 17)",
@@ -2140,21 +2140,30 @@ class lognorm_sigma_ri_model final : public model_base_crtp<lognorm_sigma_ri_mod
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
-  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full[1]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)),
+      "reg_full[1]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[1][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full[1][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                     "exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs]",
+                     "exp(to_vector(reg_full[1][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                      stan::model::index_uni(n));
         double sigma_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 48;
         sigma_train = stan::model::rvalue(
                         stan::model::rvalue(
-  stan::model::rvalue(stan::math::exp(stan::math::to_vector(ri_matrix)),
-  "exp(to_vector(ri_matrix))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(ri_matrix))[ii_tb_all]",
+  stan::model::rvalue(
+  stan::math::exp(
+  stan::math::to_vector(
+    stan::model::rvalue(ri_matrix, "ri_matrix",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(ri_matrix[idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                        "exp(to_vector(ri_matrix))[ii_tb_all][ii_tb_obs]",
+                        "exp(to_vector(ri_matrix[idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                         stan::model::index_uni(n));
         current_statement__ = 49;
         stan::model::assign(train_loglik,
@@ -2221,14 +2230,14 @@ class lognorm_sigma_ri_model final : public model_base_crtp<lognorm_sigma_ri_mod
              std::numeric_limits<double>::quiet_NaN());
         current_statement__ = 59;
         stan::model::assign(pred_probs_hold,
-          prob_forecast(n_int, int_pts_train, y_min, mu_hold,
+          prob_forecast(n_int, int_pts_holdout, y_min, mu_hold,
             sigma_hold, pstream__), "assigning variable pred_probs_hold");
         current_statement__ = 60;
         stan::model::assign(holdout_twcrps,
           twCRPS(
             stan::model::rvalue(y_hold_obs, "y_hold_obs",
-              stan::model::index_uni(n)), n_int, int_train, int_pts_train,
-            pred_probs_hold, pstream__),
+              stan::model::index_uni(n)), n_int, int_holdout,
+            int_pts_holdout, pred_probs_hold, pstream__),
           "assigning variable holdout_twcrps", stan::model::index_uni(n));
       }
       out__.write(train_loglik);

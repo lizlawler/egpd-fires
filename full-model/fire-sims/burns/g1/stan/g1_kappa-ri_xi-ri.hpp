@@ -67,13 +67,13 @@ static constexpr std::array<const char*, 319> locations_array__ =
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 121, column 4 to column 96)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 112, column 24 to line 122, column 3)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 112, column 2 to line 122, column 3)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 125, column 4 to column 93)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 126, column 4 to column 94)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 127, column 4 to column 91)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 125, column 4 to column 79)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 126, column 4 to column 80)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 127, column 4 to column 77)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 130, column 4 to column 96)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 132, column 11 to column 16)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 132, column 4 to line 133, column 75)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 134, column 4 to column 96)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 134, column 4 to column 100)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 124, column 26 to line 135, column 3)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 124, column 2 to line 135, column 3)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_kappa-ri_xi-ri.stan', line 65, column 9 to column 17)",
@@ -3002,15 +3002,11 @@ class g1_kappa_ri_xi_ri_model final : public model_base_crtp<g1_kappa_ri_xi_ri_m
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(
-      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)),
-      "reg_full[1]",
-      stan::model::index_multi(idx_hold_er), stan::model::index_omni()))),
-  "exp(to_vector(reg_full[1][idx_hold_er, :]))",
-  stan::model::index_multi(ii_hold_all)),
-  "exp(to_vector(reg_full[1][idx_hold_er, :]))[ii_hold_all]",
+    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
+  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_hold_all)),
+  "exp(to_vector(reg_full[1]))[ii_hold_all]",
   stan::model::index_multi(ii_hold_obs)),
-                       "exp(to_vector(reg_full[1][idx_hold_er, :]))[ii_hold_all][ii_hold_obs]",
+                       "exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs]",
                        stan::model::index_uni(n));
         double kappa_hold = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 59;
@@ -3019,15 +3015,11 @@ class g1_kappa_ri_xi_ri_model final : public model_base_crtp<g1_kappa_ri_xi_ri_m
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(
-      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)),
-      "ri_matrix[1]",
-      stan::model::index_multi(idx_hold_er), stan::model::index_omni()))),
-  "exp(to_vector(ri_matrix[1][idx_hold_er, :]))",
-  stan::model::index_multi(ii_hold_all)),
-  "exp(to_vector(ri_matrix[1][idx_hold_er, :]))[ii_hold_all]",
+    stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)))),
+  "exp(to_vector(ri_matrix[1]))", stan::model::index_multi(ii_hold_all)),
+  "exp(to_vector(ri_matrix[1]))[ii_hold_all]",
   stan::model::index_multi(ii_hold_obs)),
-                       "exp(to_vector(ri_matrix[1][idx_hold_er, :]))[ii_hold_all][ii_hold_obs]",
+                       "exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs]",
                        stan::model::index_uni(n));
         double xi_hold = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 60;
@@ -3036,15 +3028,11 @@ class g1_kappa_ri_xi_ri_model final : public model_base_crtp<g1_kappa_ri_xi_ri_m
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(
-      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)),
-      "ri_matrix[2]",
-      stan::model::index_multi(idx_hold_er), stan::model::index_omni()))),
-  "exp(to_vector(ri_matrix[2][idx_hold_er, :]))",
-  stan::model::index_multi(ii_hold_all)),
-  "exp(to_vector(ri_matrix[2][idx_hold_er, :]))[ii_hold_all]",
+    stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)))),
+  "exp(to_vector(ri_matrix[2]))", stan::model::index_multi(ii_hold_all)),
+  "exp(to_vector(ri_matrix[2]))[ii_hold_all]",
   stan::model::index_multi(ii_hold_obs)),
-                    "exp(to_vector(ri_matrix[2][idx_hold_er, :]))[ii_hold_all][ii_hold_obs]",
+                    "exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs]",
                     stan::model::index_uni(n));
         current_statement__ = 61;
         stan::model::assign(holdout_loglik,
@@ -3061,14 +3049,14 @@ class g1_kappa_ri_xi_ri_model final : public model_base_crtp<g1_kappa_ri_xi_ri_m
              std::numeric_limits<double>::quiet_NaN());
         current_statement__ = 63;
         stan::model::assign(pred_probs_hold,
-          prob_forecast(n_int, int_pts_train, y_min, sigma_hold, xi_hold,
+          prob_forecast(n_int, int_pts_holdout, y_min, sigma_hold, xi_hold,
             kappa_hold, pstream__), "assigning variable pred_probs_hold");
         current_statement__ = 64;
         stan::model::assign(holdout_twcrps,
           twCRPS(
             stan::model::rvalue(y_hold_obs, "y_hold_obs",
-              stan::model::index_uni(n)), n_int, int_train, int_pts_train,
-            pred_probs_hold, pstream__),
+              stan::model::index_uni(n)), n_int, int_holdout,
+            int_pts_holdout, pred_probs_hold, pstream__),
           "assigning variable holdout_twcrps", stan::model::index_uni(n));
       }
       out__.write(train_loglik);

@@ -46,7 +46,7 @@ static constexpr std::array<const char*, 188> locations_array__ =
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 81, column 6 to column 55)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 80, column 17 to line 82, column 3)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 80, column 2 to line 82, column 3)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 85, column 4 to column 70)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 85, column 4 to column 85)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 87, column 4 to column 82)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 89, column 11 to column 16)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 89, column 4 to column 97)",
@@ -56,8 +56,8 @@ static constexpr std::array<const char*, 188> locations_array__ =
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 94, column 4 to column 73)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 97, column 4 to column 82)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 99, column 11 to column 16)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 99, column 4 to column 95)",
- " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 100, column 4 to column 96)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 99, column 4 to column 97)",
+ " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 100, column 4 to column 100)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 93, column 26 to line 101, column 3)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 93, column 2 to line 101, column 3)",
  " (in 'full-model/fire-sims/burns/lognorm/stan/lognorm_sigma-cst.stan', line 44, column 9 to column 17)",
@@ -1777,10 +1777,16 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
         current_statement__ = 37;
         mu_train = stan::model::rvalue(
                      stan::model::rvalue(
-  stan::model::rvalue(stan::math::exp(stan::math::to_vector(reg_full)),
-  "exp(to_vector(reg_full))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full))[ii_tb_all]", stan::model::index_multi(ii_tb_obs)),
-                     "exp(to_vector(reg_full))[ii_tb_all][ii_tb_obs]",
+  stan::model::rvalue(
+  stan::math::exp(
+  stan::math::to_vector(
+    stan::model::rvalue(reg_full, "reg_full",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full[idx_train_er, :]))[ii_tb_all]",
+  stan::model::index_multi(ii_tb_obs)),
+                     "exp(to_vector(reg_full[idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                      stan::model::index_uni(n));
         current_statement__ = 38;
         stan::model::assign(train_loglik,
@@ -1832,14 +1838,14 @@ class lognorm_sigma_cst_model final : public model_base_crtp<lognorm_sigma_cst_m
              std::numeric_limits<double>::quiet_NaN());
         current_statement__ = 47;
         stan::model::assign(pred_probs_hold,
-          prob_forecast(n_int, int_pts_train, y_min, mu_hold,
+          prob_forecast(n_int, int_pts_holdout, y_min, mu_hold,
             sigma, pstream__), "assigning variable pred_probs_hold");
         current_statement__ = 48;
         stan::model::assign(holdout_twcrps,
           twCRPS(
             stan::model::rvalue(y_hold_obs, "y_hold_obs",
-              stan::model::index_uni(n)), n_int, int_train, int_pts_train,
-            pred_probs_hold, pstream__),
+              stan::model::index_uni(n)), n_int, int_holdout,
+            int_pts_holdout, pred_probs_hold, pstream__),
           "assigning variable holdout_twcrps", stan::model::index_uni(n));
       }
       out__.write(train_loglik);

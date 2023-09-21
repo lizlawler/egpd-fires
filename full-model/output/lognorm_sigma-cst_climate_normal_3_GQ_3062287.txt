@@ -1,0 +1,17 @@
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/lognorm_sigma-cst_climate_14Sep2023_1559_normal_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_climate.json
+init = 2 (Default)
+random
+  seed = 3228348165 (Default)
+output
+  file = ../../model_comparison/extracted_values/lognorm_sigma-cst_climate_14Sep2023_1559_normal_3_GQ.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+

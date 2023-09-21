@@ -1,0 +1,17 @@
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g1_xi-ri_erc_fwi_12Sep2023_2029_long_1.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_erc_fwi.json
+init = 2 (Default)
+random
+  seed = 3227876763 (Default)
+output
+  file = ../../model_comparison/extracted_values/g1_xi-ri_erc_fwi_12Sep2023_2029_long_1_GQ.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+

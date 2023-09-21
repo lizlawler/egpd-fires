@@ -20,11 +20,14 @@ for dataset in "climate" "erc" "fwi" "erc_fwi"
 do
 for qos in "normal" "long"
 do
-export modtype modname params dataset qos
-sbatch --job-name ${modname}_${params}_${dataset}_${qos}_GQ \
+for chain in 1 2 3
+do
+export modtype modname params dataset qos chain
+sbatch --job-name ${modname}_${params}_${dataset}_${qos}_${chain}_GQ \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_gen_quant.sh
 sleep 1
+done
 done
 done
 done

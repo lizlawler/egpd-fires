@@ -1,8 +1,6 @@
 #!/bin/bash
-# shell script to call sbatch
-#
-# cycle through loop and launch sbatch for every combination
-#
+# shell script to run generated_quantities model block
+
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 

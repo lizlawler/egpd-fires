@@ -56,18 +56,18 @@ static constexpr std::array<const char*, 317> locations_array__ =
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 104, column 4 to line 106, column 5)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 103, column 17 to line 107, column 3)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 103, column 2 to line 107, column 3)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 111, column 4 to column 76)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 112, column 4 to column 76)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 113, column 4 to column 71)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 111, column 4 to column 91)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 112, column 4 to column 91)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 113, column 4 to column 86)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 115, column 4 to column 98)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 117, column 11 to column 16)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 117, column 4 to line 118, column 80)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 119, column 4 to column 96)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 110, column 24 to line 120, column 3)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 110, column 2 to line 120, column 3)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 123, column 4 to column 79)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 124, column 4 to column 79)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 125, column 4 to column 74)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 123, column 4 to column 93)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 124, column 4 to column 93)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 125, column 4 to column 88)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 128, column 4 to column 96)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 130, column 11 to column 16)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_xi-ri.stan', line 130, column 4 to line 131, column 75)",
@@ -2879,11 +2879,15 @@ const
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
-  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full[1]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)),
+      "reg_full[1]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[1][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full[1][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                        "exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs]",
+                        "exp(to_vector(reg_full[1][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                         stan::model::index_uni(n));
         double sigma_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 48;
@@ -2892,21 +2896,30 @@ const
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(2)))),
-  "exp(to_vector(reg_full[2]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full[2]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(2)),
+      "reg_full[2]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[2][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full[2][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                        "exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs]",
+                        "exp(to_vector(reg_full[2][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                         stan::model::index_uni(n));
         double xi_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 49;
         xi_train = stan::model::rvalue(
                      stan::model::rvalue(
-  stan::model::rvalue(stan::math::exp(stan::math::to_vector(ri_matrix)),
-  "exp(to_vector(ri_matrix))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(ri_matrix))[ii_tb_all]",
+  stan::model::rvalue(
+  stan::math::exp(
+  stan::math::to_vector(
+    stan::model::rvalue(ri_matrix, "ri_matrix",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(ri_matrix[idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                     "exp(to_vector(ri_matrix))[ii_tb_all][ii_tb_obs]",
+                     "exp(to_vector(ri_matrix[idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                      stan::model::index_uni(n));
         current_statement__ = 50;
         stan::model::assign(train_loglik,
@@ -2942,11 +2955,15 @@ const
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
-  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_hold_all)),
-  "exp(to_vector(reg_full[1]))[ii_hold_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)),
+      "reg_full[1]",
+      stan::model::index_multi(idx_hold_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[1][idx_hold_er, :]))",
+  stan::model::index_multi(ii_hold_all)),
+  "exp(to_vector(reg_full[1][idx_hold_er, :]))[ii_hold_all]",
   stan::model::index_multi(ii_hold_obs)),
-                       "exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs]",
+                       "exp(to_vector(reg_full[1][idx_hold_er, :]))[ii_hold_all][ii_hold_obs]",
                        stan::model::index_uni(n));
         double sigma_hold = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 57;
@@ -2955,21 +2972,30 @@ const
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(2)))),
-  "exp(to_vector(reg_full[2]))", stan::model::index_multi(ii_hold_all)),
-  "exp(to_vector(reg_full[2]))[ii_hold_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(2)),
+      "reg_full[2]",
+      stan::model::index_multi(idx_hold_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[2][idx_hold_er, :]))",
+  stan::model::index_multi(ii_hold_all)),
+  "exp(to_vector(reg_full[2][idx_hold_er, :]))[ii_hold_all]",
   stan::model::index_multi(ii_hold_obs)),
-                       "exp(to_vector(reg_full[2]))[ii_hold_all][ii_hold_obs]",
+                       "exp(to_vector(reg_full[2][idx_hold_er, :]))[ii_hold_all][ii_hold_obs]",
                        stan::model::index_uni(n));
         double xi_hold = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 58;
         xi_hold = stan::model::rvalue(
                     stan::model::rvalue(
-  stan::model::rvalue(stan::math::exp(stan::math::to_vector(ri_matrix)),
-  "exp(to_vector(ri_matrix))", stan::model::index_multi(ii_hold_all)),
-  "exp(to_vector(ri_matrix))[ii_hold_all]",
+  stan::model::rvalue(
+  stan::math::exp(
+  stan::math::to_vector(
+    stan::model::rvalue(ri_matrix, "ri_matrix",
+      stan::model::index_multi(idx_hold_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[idx_hold_er, :]))",
+  stan::model::index_multi(ii_hold_all)),
+  "exp(to_vector(ri_matrix[idx_hold_er, :]))[ii_hold_all]",
   stan::model::index_multi(ii_hold_obs)),
-                    "exp(to_vector(ri_matrix))[ii_hold_all][ii_hold_obs]",
+                    "exp(to_vector(ri_matrix[idx_hold_er, :]))[ii_hold_all][ii_hold_obs]",
                     stan::model::index_uni(n));
         current_statement__ = 59;
         stan::model::assign(holdout_loglik,

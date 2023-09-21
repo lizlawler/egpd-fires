@@ -59,10 +59,10 @@ static constexpr std::array<const char*, 335> locations_array__ =
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 110, column 4 to line 112, column 5)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 109, column 17 to line 113, column 3)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 109, column 2 to line 113, column 3)",
- " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 116, column 4 to column 77)",
- " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 117, column 4 to column 77)",
- " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 118, column 4 to column 74)",
- " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 119, column 4 to column 74)",
+ " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 116, column 4 to column 92)",
+ " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 117, column 4 to column 92)",
+ " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 118, column 4 to column 89)",
+ " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 119, column 4 to column 89)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 120, column 4 to column 50)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 122, column 4 to column 119)",
  " (in 'full-model/fire-sims/burns/g2/stan/g2_sigma-ri_xi-ri_nu.stan', line 124, column 11 to column 16)",
@@ -3080,11 +3080,15 @@ class g2_sigma_ri_xi_ri_nu_model final : public model_base_crtp<g2_sigma_ri_xi_r
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
-  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full[1]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)),
+      "reg_full[1]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[1][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full[1][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                         "exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs]",
+                         "exp(to_vector(reg_full[1][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                          stan::model::index_uni(n));
         double kappa2_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 51;
@@ -3093,11 +3097,15 @@ class g2_sigma_ri_xi_ri_nu_model final : public model_base_crtp<g2_sigma_ri_xi_r
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(2)))),
-  "exp(to_vector(reg_full[2]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full[2]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(2)),
+      "reg_full[2]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[2][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full[2][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                         "exp(to_vector(reg_full[2]))[ii_tb_all][ii_tb_obs]",
+                         "exp(to_vector(reg_full[2][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                          stan::model::index_uni(n));
         double nu_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 52;
@@ -3106,11 +3114,15 @@ class g2_sigma_ri_xi_ri_nu_model final : public model_base_crtp<g2_sigma_ri_xi_r
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)))),
-  "exp(to_vector(ri_matrix[1]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(ri_matrix[1]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)),
+      "ri_matrix[1]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[1][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(ri_matrix[1][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                     "exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs]",
+                     "exp(to_vector(ri_matrix[1][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                      stan::model::index_uni(n));
         double xi_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 53;
@@ -3119,11 +3131,15 @@ class g2_sigma_ri_xi_ri_nu_model final : public model_base_crtp<g2_sigma_ri_xi_r
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)))),
-  "exp(to_vector(ri_matrix[2]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(ri_matrix[2]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)),
+      "ri_matrix[2]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[2][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(ri_matrix[2][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                     "exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs]",
+                     "exp(to_vector(ri_matrix[2][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                      stan::model::index_uni(n));
         double sigma_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 54;

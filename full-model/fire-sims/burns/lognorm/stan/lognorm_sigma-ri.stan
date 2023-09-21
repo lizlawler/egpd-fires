@@ -111,13 +111,13 @@ generated quantities {
   }
   // holdout scores
   for (n in 1:N_hold_obs) {
-    real mu_hold = exp(to_vector(reg_full[1][idx_hold_er,]))[ii_hold_all][ii_hold_obs][n];
-    real sigma_hold = exp(to_vector(ri_matrix[idx_hold_er,]))[ii_hold_all][ii_hold_obs][n];
+    real mu_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs][n];
+    real sigma_hold = exp(to_vector(ri_matrix))[ii_hold_all][ii_hold_obs][n];
     
     // log-likelihood
     holdout_loglik[n] = lognorm_trunc_lpdf(y_hold_obs[n] | y_min, mu_hold, sigma_hold);
       // forecasting then twCRPS, on holdout dataset
-    vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_train, y_min, mu_hold, sigma_hold);
-    holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_train, int_pts_train, pred_probs_hold);
+    vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_holdout, y_min, mu_hold, sigma_hold);
+    holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_holdout, int_pts_holdout, pred_probs_hold);
   }
 }

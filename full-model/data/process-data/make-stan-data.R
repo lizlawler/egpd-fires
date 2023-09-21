@@ -146,7 +146,6 @@ train_burns_full <- burn_df %>%
   right_join(er_covs %>% filter(year %in% train_years), 
              by = join_by("fire_yr" == "year", "fire_mon" == "month", NA_L3NAME)) %>% 
   arrange(NA_L3NAME, ym.y, .locale = "en")
-
 holdout_burns_full <-  burn_df %>%
   filter(fire_yr %in% test_years) %>%
   right_join(er_covs %>% filter(year %in% test_years), 

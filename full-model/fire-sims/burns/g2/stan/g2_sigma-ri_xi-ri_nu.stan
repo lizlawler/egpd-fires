@@ -136,8 +136,8 @@ generated quantities {
     // log-likelihood
     holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold, xi_hold, kappa1_hold, kappa2_hold, prob);
       // forecasting then twCRPS, on holdout dataset
-    vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_train, y_min, 
+    vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_holdout, y_min, 
                                           sigma_hold, xi_hold, kappa1_hold, kappa2_hold, prob);
-    holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_train, int_pts_train, pred_probs_hold);
+    holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_holdout, int_pts_holdout, pred_probs_hold);
   }
 }

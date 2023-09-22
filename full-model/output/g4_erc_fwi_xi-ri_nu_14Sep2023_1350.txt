@@ -152,3 +152,7 @@ but if this warning occurs often then your model may be either severely ill-cond
 Chain [3] Iteration:  100 / 4000 [  2%]  (Warmup)
 Chain [1] Iteration:  100 / 4000 [  2%]  (Warmup)
 Chain [3] Iteration:  200 / 4000 [  5%]  (Warmup)
+./shell-scripts/miss-piggy/burn_sampling_mp.sh: line 15: 1045043 Terminated              ./${model} sample num_chains=3 num_warmup=2000 num_samples=2000 thin=2 data file=${datafile} init=0.01 output file=${outbase}.csv num_threads=3
+Model has finished running all 3 chains
+Now running script to create trace plots and pull scores...
+./shell-scripts/miss-piggy/burn_sampling_mp.sh: line 20: full-model/output/g4_erc_fwi_xi-ri_nu_plots_mp.txt: No such file or directory

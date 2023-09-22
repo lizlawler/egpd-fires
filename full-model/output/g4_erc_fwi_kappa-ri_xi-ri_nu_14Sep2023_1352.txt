@@ -161,3 +161,7 @@ Chain [3] Iteration:  400 / 4000 [ 10%]  (Warmup)
 Chain [2] Iteration:  400 / 4000 [ 10%]  (Warmup)
 Chain [3] Iteration:  500 / 4000 [ 12%]  (Warmup)
 Chain [3] Iteration:  600 / 4000 [ 15%]  (Warmup)
+./shell-scripts/miss-piggy/burn_sampling_mp.sh: line 15: 1045174 Terminated              ./${model} sample num_chains=3 num_warmup=2000 num_samples=2000 thin=2 data file=${datafile} init=0.01 output file=${outbase}.csv num_threads=3
+Model has finished running all 3 chains
+Now running script to create trace plots and pull scores...
+./shell-scripts/miss-piggy/burn_sampling_mp.sh: line 20: full-model/output/g4_erc_fwi_kappa-ri_xi-ri_nu_plots_mp.txt: No such file or directory

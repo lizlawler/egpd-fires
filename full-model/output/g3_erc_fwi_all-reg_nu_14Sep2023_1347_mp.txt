@@ -164,3 +164,7 @@ Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-m
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+./shell-scripts/miss-piggy/burn_sampling_mp.sh: line 15: 1044849 Terminated              ./${model} sample num_chains=3 num_warmup=2000 num_samples=2000 thin=2 data file=${datafile} init=0.01 output file=${outbase}.csv num_threads=3
+Model has finished running all 3 chains
+Now running script to create trace plots and pull scores...
+./shell-scripts/miss-piggy/burn_sampling_mp.sh: line 20: full-model/output/g3_erc_fwi_all-reg_nu_plots_mp.txt: No such file or directory

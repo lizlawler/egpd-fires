@@ -459,6 +459,8 @@ burn_preds <- burn_params %>%
   left_join(time_df) %>%
   mutate(year = year(date))
 
+saveRDS(burn_preds, file = "full-model/figures/paper/burn_preds_df.RDS")
+
 burn_preds_annual <- burn_preds %>% 
   group_by(NA_L1NAME, year, draw) %>% 
   summarize(total_area = sum(preds)*1000*0.405) %>% 

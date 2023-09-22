@@ -75,9 +75,9 @@ static constexpr std::array<const char*, 398> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 153, column 4 to column 82)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 151, column 17 to line 154, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 151, column 2 to line 154, column 3)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 159, column 4 to column 73)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 160, column 4 to column 77)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 161, column 4 to column 74)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 159, column 4 to column 88)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 160, column 4 to column 92)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 161, column 4 to column 89)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 163, column 4 to column 108)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 165, column 11 to column 16)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 165, column 4 to line 166, column 80)",
@@ -90,7 +90,7 @@ static constexpr std::array<const char*, 398> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 176, column 4 to column 106)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 178, column 11 to column 16)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 178, column 4 to line 179, column 75)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 180, column 4 to column 101)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 180, column 4 to column 105)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 170, column 26 to line 181, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 170, column 2 to line 181, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 192, column 8 to line 193, column 101)",
@@ -3465,10 +3465,16 @@ class joint_sigma_ri_theta_time_gamma_cst_model final : public model_base_crtp<j
         current_statement__ = 66;
         kappa_train = stan::model::rvalue(
                         stan::model::rvalue(
-  stan::model::rvalue(stan::math::exp(stan::math::to_vector(reg_full)),
-  "exp(to_vector(reg_full))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full))[ii_tb_all]", stan::model::index_multi(ii_tb_obs)),
-                        "exp(to_vector(reg_full))[ii_tb_all][ii_tb_obs]",
+  stan::model::rvalue(
+  stan::math::exp(
+  stan::math::to_vector(
+    stan::model::rvalue(reg_full, "reg_full",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full[idx_train_er, :]))[ii_tb_all]",
+  stan::model::index_multi(ii_tb_obs)),
+                        "exp(to_vector(reg_full[idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                         stan::model::index_uni(n));
         double sigma_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 67;
@@ -3477,11 +3483,15 @@ class joint_sigma_ri_theta_time_gamma_cst_model final : public model_base_crtp<j
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)))),
-  "exp(to_vector(ri_matrix[1]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(ri_matrix[1]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)),
+      "ri_matrix[1]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[1][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(ri_matrix[1][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                        "exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs]",
+                        "exp(to_vector(ri_matrix[1][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                         stan::model::index_uni(n));
         double xi_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 68;
@@ -3490,11 +3500,15 @@ class joint_sigma_ri_theta_time_gamma_cst_model final : public model_base_crtp<j
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)))),
-  "exp(to_vector(ri_matrix[2]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(ri_matrix[2]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)),
+      "ri_matrix[2]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[2][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(ri_matrix[2][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                     "exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs]",
+                     "exp(to_vector(ri_matrix[2][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                      stan::model::index_uni(n));
         current_statement__ = 69;
         stan::model::assign(train_loglik_burn,
@@ -3574,14 +3588,14 @@ class joint_sigma_ri_theta_time_gamma_cst_model final : public model_base_crtp<j
              std::numeric_limits<double>::quiet_NaN());
         current_statement__ = 80;
         stan::model::assign(pred_probs_hold,
-          prob_forecast(n_int, int_pts_train, y_min, sigma_hold, xi_hold,
+          prob_forecast(n_int, int_pts_holdout, y_min, sigma_hold, xi_hold,
             kappa_hold, pstream__), "assigning variable pred_probs_hold");
         current_statement__ = 81;
         stan::model::assign(holdout_twcrps,
           twCRPS(
             stan::model::rvalue(y_hold_burn_obs, "y_hold_burn_obs",
-              stan::model::index_uni(n)), n_int, int_train, int_pts_train,
-            pred_probs_hold, pstream__),
+              stan::model::index_uni(n)), n_int, int_holdout,
+            int_pts_holdout, pred_probs_hold, pstream__),
           "assigning variable holdout_twcrps", stan::model::index_uni(n));
       }
       current_statement__ = 92;

@@ -86,6 +86,11 @@ burn_df <- mtbs_er %>% as_tibble() %>%
          Shape_Leng, Shape_Area) %>%
   arrange(NA_L3NAME, ym, .locale = "en")
 
+burn_df_agg <- burn_df %>% 
+  group_by(NA_L1CODE, fire_yr) %>% 
+  summarise(total_burns = sum(BurnBndAc)) %>% 
+  ungroup()
+
 count_df <- count_df_climate %>% 
   left_join(count_df_erc) %>% left_join(count_df_fwi) %>%
   left_join(area_df) %>%
@@ -650,3 +655,4 @@ write_stan_json(data = stan_data_fwi, file = './full-model/data/stan_data_fwi.js
 write_stan_json(data = stan_data_erc_fwi, file = './full-model/data/stan_data_erc_fwi.json')
 write_stan_json(data = stan_data_joint, file = './full-model/data/stan_data_joint.json')
 saveRDS(un_std, file = './full-model/data/un_std_all.RDS')
+saveRDS(burn_df_agg, file = "./full-model/data/burn_area_level1.RDS")

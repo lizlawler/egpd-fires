@@ -9,7 +9,8 @@ set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(MCMCvis)
 library(posterior)
-library(tidyverse)
+library(tidyr)
+library(dplyr)
 
 
 files <- paste0("full-model/fire-sims/joint/csv-fits/", 

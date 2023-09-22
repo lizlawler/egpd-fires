@@ -15,3 +15,23 @@ output
   profile_file = profile.csv (Default)
 num_threads = 1 (Default)
 
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/g2_sigma-ri_xi-ri_nu_erc_fwi_14Sep2023_1337_long_3.csv
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_erc.json
+init = 2 (Default)
+random
+  seed = 3244438521 (Default)
+output
+  file = ../../model_comparison/extracted_values/g2_sigma-ri_xi-ri_nu_erc_fwi_14Sep2023_1337_long_3_GQ.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+Mismatch between model and fitted_parameters csv file "csv-fits/g2_sigma-ri_xi-ri_nu_erc_fwi_14Sep2023_1337_long_3.csv"
+
+Posterior quantities have been generated

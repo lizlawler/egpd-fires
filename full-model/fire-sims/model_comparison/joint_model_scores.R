@@ -7,75 +7,21 @@ library(posterior)
 # load in extracted gen quants done through Alpine
 score_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                       list.files("full-model/fire-sims/model_comparison/extracted_values/", pattern = "scores"))
-score_files <- score_files[!grepl("all-reg", score_files)]
-model_names <- str_remove(str_remove(basename(score_files), "_scores.RDS"), "joint_")
-new_models <- score_files[grepl("theta-time", score_files)]
-new_names <- str_remove(str_remove(basename(new_models), "_scores.RDS"), "joint_")
-for(i in seq_along(new_names)) {
-  assign(new_names[i], readRDS(new_models[i]))
+score_files <- score_files[grepl("theta-time", score_files)]
+model_names <- str_remove(str_remove(str_remove(basename(score_files), "_scores.RDS"), "joint_sigma-ri_theta-time_"), "_\\d{2}\\w{3}2023_\\d{4}")
+for(i in seq_along(model_names)) {
+  assign(model_names[i], readRDS(score_files[i]))
 }
-
-erc_fwi_files <- paste0("full-model/fire-sims/burns/g1/csv-fits/",
-                        list.files("full-model/fire-sims/burns/g1/csv-fits/", pattern = "erc_fwi"))
-erc_fwi_files <- erc_fwi_files[!grepl("all-reg", erc_fwi_files)]
-nfits <- length(erc_fwi_files)/3
-fit_groups <- vector(mode = "list", nfits)
-for(i in 1:nfits) {
-  fit_groups[[i]] <- erc_fwi_files[(3*i-2):(3*i)]
-}
-
-extraction <- function(file_group, burn_name) {
-  object <- as_cmdstan_fit(file_group)
-  
-  reg <- object$draws(variables = "reg")
-  ri_init <- object$draws(variables = "ri_init")
-  pi_prob <- object$draws(variables = "pi_prob")
-  lambda <- object$draws(variables = "lambda")
-  delta <- object$draws(variables = "delta")
-  theta <- object$draws(variables = "theta")
-  gamma <- object$draws(variables = "gamma")
-  phi <- object$draws(variables = "phi")
-  temp <- list(reg, ri_init, pi_prob, lambda, delta, theta, gamma, phi)
-  names(temp) <- c("reg", "ri_init", "pi_prob", "lambda", "delta", "theta", "gamma", "phi")
-  assign(burn_name, temp, parent.frame())
-  rm(object)
-  gc()
-}
-
-extraction <- function(file_group, burn_name) {
-  object <- as_cmdstan_fit(file_group)
-  betas <- object$draws(variables = "beta")
-  train_loglik <- object$draws(variables = "train_loglik")
-  holdout_loglik <- object$draws(variables = "holdout_loglik")
-  train_twcrps <- object$draws(variables = "train_twcrps")
-  holdout_twcrps <- object$draws(variables = "holdout_twcrps")
-  temp <- list(betas, train_loglik, holdout_loglik, train_twcrps, holdout_twcrps)
-  names(temp) <- c("betas", "train_loglik", "holdout_loglik", "train_twcrps", "holdout_twcrps")
-  assign(burn_name, temp, parent.frame())
-  rm(object)
-  gc()
-}
-
-burn_names <- lapply(fit_groups, function(x) str_remove(str_remove(basename(x[1]), "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), "g1_")) %>% unlist()
-
-for(i in seq_along(burn_names)) {
-  extraction(fit_groups[[i]], burn_names[i])
-}
-
 
 ## log score calculations ---------
-nfits <- length(burn_names)
-# holdout_loglik_count <- vector("list", nfits)
-# train_loglik_count <- vector("list", nfits)
+nfits <- length(model_names)
 holdout_loglik_burns <- vector("list", nfits)
 train_loglik_burns <- vector("list", nfits)
+holdout_loglik_counts <- vector("list", nfits)
+train_loglik_counts <- vector("list", nfits)
 train_twcrps <- vector("list", nfits)
 holdout_twcrps <- vector("list", nfits)
 for(i in seq_along(model_names)) {
-  model_string <- str_split(model_names[i], pattern = "_")[[1]]
-  model <- model_string[1]
-  rand_effect <- model_string[2]
-  link <- model_string[3]
   holdout_loglik_burns[[i]] <- get(model_names[i])[["holdout_loglik_burn"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
@@ -83,54 +29,17 @@ for(i in seq_along(model_names)) {
     rename(draw = ".draw") %>%
     group_by(draw) %>% 
     summarize(loglik = sum(value)) %>%
-    mutate(model = model,
-           rand_effect = rand_effect,
-           link = link,
+    mutate(model = model_names[i],
            train = FALSE)
-  # holdout_loglik_count[[i]] <- get(model_names[i])[["holdout_loglik_count"]] %>%
-  #   as_draws_df() %>%
-  #   select(-c(".iteration", ".chain")) %>% 
-  #   pivot_longer(cols = !".draw") %>%
-  #   rename(draw = ".draw") %>%
-  #   group_by(draw) %>% 
-  #   summarize(loglik = sum(value)) %>%
-  #   mutate(model = model,
-  #          rand_effect = rand_effect,
-  #          link = link,
-  #          train = FALSE)
-  train_loglik_burns[[i]] <- get(model_names[i])[["train_loglik_burn"]] %>%
+  holdout_loglik_counts[[i]] <- get(model_names[i])[["holdout_loglik_count"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
     pivot_longer(cols = !".draw") %>%
     rename(draw = ".draw") %>%
     group_by(draw) %>% 
     summarize(loglik = sum(value)) %>%
-    mutate(model = model,
-           rand_effect = rand_effect,
-           link = link,
-           train = TRUE)
-  # train_loglik_count[[i]] <- get(model_names[i])[["train_loglik_count"]] %>%
-  #   as_draws_df() %>%
-  #   select(-c(".iteration", ".chain")) %>% 
-  #   pivot_longer(cols = !".draw") %>%
-  #   rename(draw = ".draw") %>%
-  #   group_by(draw) %>% 
-  #   summarize(loglik = sum(value)) %>%
-  #   mutate(model = model,
-  #          rand_effect = rand_effect,
-  #          link = link,
-  #          train = TRUE)
-  train_twcrps[[i]] <- get(model_names[i])[["train_twcrps"]] %>%
-    as_draws_df() %>%
-    select(-c(".iteration", ".chain")) %>% 
-    pivot_longer(cols = !".draw") %>%
-    rename(draw = ".draw") %>%
-    group_by(draw) %>% 
-    summarize(twcrps = mean(value)) %>%
-    mutate(model = model,
-           rand_effect = rand_effect,
-           link = link,
-           train = TRUE)
+    mutate(model = model_names[i],
+           train = FALSE)
   holdout_twcrps[[i]] <- get(model_names[i])[["holdout_twcrps"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
@@ -138,114 +47,151 @@ for(i in seq_along(model_names)) {
     rename(draw = ".draw") %>%
     group_by(draw) %>% 
     summarize(twcrps = mean(value)) %>%
-    mutate(model = model,
-           rand_effect = rand_effect,
-           link = link,
+    mutate(model = model_names[i],
            train = FALSE)
+  train_loglik_burns[[i]] <- get(model_names[i])[["train_loglik_burn"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(loglik = sum(value)) %>%
+    mutate(model = model_names[i],
+           train = TRUE)
+  train_loglik_counts[[i]] <- get(model_names[i])[["train_loglik_count"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(loglik = sum(value)) %>%
+    mutate(model = model_names[i],
+           train = TRUE)
+  train_twcrps[[i]] <- get(model_names[i])[["train_twcrps"]] %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>% 
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>% 
+    summarize(twcrps = mean(value)) %>%
+    mutate(model = model_names[i],
+           train = TRUE)
 }
 
-# holdout_loglik_count <- bind_rows(holdout_loglik_count)
-# train_loglik_count <- bind_rows(train_loglik_count)
+
+holdout_loglik_counts <- bind_rows(holdout_loglik_counts)
+train_loglik_counts <- bind_rows(train_loglik_counts)
 holdout_loglik_burns <- bind_rows(holdout_loglik_burns)
 train_loglik_burns <- bind_rows(train_loglik_burns)
 holdout_twcrps <- bind_rows(holdout_twcrps)
 train_twcrps <- bind_rows(train_twcrps)
 
-ll_full_count <- holdout_loglik_count %>%
-  full_join(train_loglik_count) %>% mutate(full_name = paste(model, rand_effect, link, sep = "_"))
-
-# ll_boxplot_train <- ll_full %>% 
-#   ggplot(aes(full_name, loglik, color = train)) + geom_boxplot() + theme_minimal()
-# ggsave("full-model/figures/model-comp/logscores_burns_train_31jul2023.png", plot = ll_boxplot_train,
-#        dpi = 320, bg = "white")
+ll_full_count <- holdout_loglik_counts %>%
+  full_join(train_loglik_counts) 
 
 train_ll_count_ranked <- ll_full_count %>% filter(train == TRUE) %>% 
-  group_by(model, rand_effect, link, full_name) %>% 
-  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
-top_mod_count_train <- as.character(train_ll_count_ranked$full_name[1])
+  group_by(model) %>% 
+  summarize(med_train_ll = median(loglik)) %>% 
+  arrange(-med_train_ll)
+top_mod_count_train <- as.character(train_ll_count_ranked$model[1])
 
 train_ll_count_comp <- ll_full_count %>% filter(train == TRUE) %>% 
-  select(c(draw, full_name, loglik)) %>% 
-  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  select(c(draw, model, loglik)) %>% 
+  pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_count_train))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 
 test_ll_count_ranked <- ll_full_count %>% filter(train == FALSE) %>% 
-  group_by(model, rand_effect, link, full_name) %>% 
-  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
-top_mod_count_test <- as.character(test_ll_count_ranked$full_name[1])
+  group_by(model) %>% 
+  summarize(med_test_ll = median(loglik)) %>% arrange(-med_test_ll)
+top_mod_count_test <- as.character(test_ll_count_ranked$model[1])
 test_ll_count_comp <- ll_full_count %>% filter(train == FALSE) %>% 
-  select(c(draw, full_name, loglik)) %>% 
-  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  select(c(draw, model, loglik)) %>% 
+  pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_count_test))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 test_ll_count_comp
 
-
 ll_full_burns <- holdout_loglik_burns %>%
-  full_join(train_loglik_burns) %>% mutate(full_name = paste(model, rand_effect, link, sep = "_"))
+  full_join(train_loglik_burns)
 
 train_ll_burns_ranked <- ll_full_burns %>% filter(train == TRUE) %>% 
-  group_by(model, rand_effect, link, full_name) %>% 
+  group_by(model) %>% 
   summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
-top_mod_burns_train <- as.character(train_ll_burns_ranked$full_name[1])
+top_mod_burns_train <- as.character(train_ll_burns_ranked$model[1])
 
 train_ll_burns_comp <- ll_full_burns %>% filter(train == TRUE) %>% 
-  select(c(draw, full_name, loglik)) %>% 
-  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  select(c(draw, model, loglik)) %>% 
+  pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_burns_train))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 
 test_ll_burns_ranked <- ll_full_burns %>% filter(train == FALSE) %>% 
-  group_by(model, rand_effect, link, full_name) %>% 
-  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
-top_mod_burns_test <- as.character(test_ll_burns_ranked$full_name[1])
+  group_by(model) %>% 
+  summarize(med_test_ll = median(loglik)) %>% arrange(-med_test_ll)
+top_mod_burns_test <- as.character(test_ll_burns_ranked$model[1])
 test_ll_burns_comp <- ll_full_burns %>% filter(train == FALSE) %>% 
-  select(c(draw, full_name, loglik)) %>% 
-  pivot_wider(names_from = full_name, values_from = loglik, values_fill = NA) %>% 
+  select(c(draw, model, loglik)) %>% 
+  pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_burns_test))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 test_ll_burns_comp
 
+total_ll <- ll_full_burns %>% mutate(piece = "burn") %>% full_join(ll_full_count %>% mutate(piece = "count"))
+test_ll_total_ranked <- total_ll %>% filter(train == FALSE) %>% 
+  group_by(draw, model, train) %>%
+  summarize(loglik_total = sum(loglik)) %>% ungroup() %>%
+  group_by(model) %>% 
+  summarize(med_test_ll = median(loglik_total)) %>% arrange(-med_test_ll)
+top_mod_total_test <- as.character(test_ll_total_ranked$model[1])
+test_ll_total_comp <- total_ll %>% filter(train == FALSE) %>% 
+  group_by(draw, model, train) %>%
+  summarize(loglik_total = sum(loglik)) %>% ungroup() %>%
+  select(c(draw, model, loglik_total)) %>% 
+  pivot_wider(names_from = model, values_from = loglik_total, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_total_test))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
+  group_by(model) %>%
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
+test_ll_total_comp
 
 ## twCRPS calculations ---------
 twcrps_full <- holdout_twcrps %>%
-  full_join(train_twcrps) %>% mutate(full_name = paste(model, rand_effect, link, sep = "_"))
+  full_join(train_twcrps)
 
 train_twcrps_ranked <- twcrps_full %>% filter(train == TRUE) %>% 
-  group_by(model, rand_effect, link, full_name) %>% 
+  group_by(model) %>% 
   summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
-top_mod_train_twcrps <- as.character(train_twcrps_ranked$full_name[1])
+top_mod_train_twcrps <- as.character(train_twcrps_ranked$model[1])
 
 train_twcrps_comp <- twcrps_full %>% filter(train == TRUE) %>% 
-  select(c(draw, full_name, twcrps)) %>% 
-  pivot_wider(names_from = full_name, values_from = twcrps, values_fill = NA) %>% 
+  select(c(draw, model, twcrps)) %>% 
+  pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_train_twcrps))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
   summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
 
 test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE) %>% 
-  group_by(model, rand_effect, link, full_name) %>% 
+  group_by(model) %>% 
   summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
-top_mod_test_twcrps <- as.character(test_twcrps_ranked$full_name[1])
+top_mod_test_twcrps <- as.character(test_twcrps_ranked$model[1])
 test_twcrps_comp <- twcrps_full %>% filter(train == FALSE) %>% 
-  select(c(draw, full_name, twcrps)) %>% 
-  pivot_wider(names_from = full_name, values_from = twcrps, values_fill = NA) %>% 
+  select(c(draw, model, twcrps)) %>% 
+  pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_test_twcrps))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
   group_by(model) %>%
   summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
 test_twcrps_comp
-
 
 ## effects plots ----------
 stan_data_joint <- readRDS("full-model/data/stan_data_joint.RDS")

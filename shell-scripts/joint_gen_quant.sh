@@ -12,7 +12,7 @@ model="stan/${modtype}_${modname}_${params}"
 # generate quantities using already fitted parameters
 for fit in csv-fits/joint_sigma-ri_${params}_*Sep2023*_${iter}iter_${chain}*
 do
-  gq_file="../../model_comparison/extracted_values/$(basename -- $fit .csv)_GQ"
+  gq_file="../model_comparison/extracted_values/$(basename -- $fit .csv)_GQ"
   ./${model} generate_quantities fitted_params=$fit \
                             data file=${datafile} \
                           output file=${gq_file}.csv

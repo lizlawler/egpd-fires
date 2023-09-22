@@ -43,3 +43,70 @@ Dropping 'draws_df' class as required metadata was removed.
           used (Mb) gc trigger   (Mb)   max used    (Mb)
 Ncells  954767 51.0   94047488 5022.7  183686497  9810.0
 Vcells 3562142 27.2  991831188 7567.1 1502594262 11463.9
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1048498 56.0   96377772  5147.2  183686497  9810.0
+Vcells 3680890 28.1 1327824283 10130.5 1644234300 12544.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1235994 66.1  239319986 12781.1  342737359 18304.2
+Vcells 3805885 29.1 3275256648 24988.3 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1236269 66.1  191455989 10224.9  342737359 18304.2
+Vcells 3812293 29.1 2620205319 19990.6 4036947257 30799.5
+Warning messages:
+1: Dropping 'draws_df' class as required metadata was removed. 
+2: There was 1 warning in `mutate()`.
+ℹ In argument: `region = as.numeric(gsub("\\]", "", region))`.
+Caused by warning:
+! NAs introduced by coercion 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1279948 68.4  153164792  8179.9  342737359 18304.2
+Vcells 3898505 29.8 2096164256 15992.5 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger  (Mb)   max used    (Mb)
+Ncells 1281053 68.5  122531834  6544  342737359 18304.2
+Vcells 3899202 29.8 1676931405 12794 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1281310 68.5   98025468  5235.2  342737359 18304.2
+Vcells 3899372 29.8 1341545124 10235.2 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1290642 69.0   78420375 4188.1  342737359 18304.2
+Vcells 3911648 29.9 1073236100 8188.2 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1293926 69.2   62736300 3350.5  342737359 18304.2
+Vcells 3914436 29.9  858588880 6550.6 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1293940 69.2   50189040 2680.4  342737359 18304.2
+Vcells 3914441 29.9  686871104 5240.5 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1293954 69.2   40151232 2144.4  342737359 18304.2
+Vcells 3914446 29.9  549496884 4192.4 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1293968 69.2   32120986 1715.5  342737359 18304.2
+Vcells 3914451 29.9  439597508 3353.9 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1293994 69.2   25696789 1372.4  342737359 18304.2
+Vcells 3914460 29.9  351678007 2683.1 4036947257 30799.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "All MCMC draws have been successfully written to disk"

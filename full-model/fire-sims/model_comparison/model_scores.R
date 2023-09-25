@@ -7,11 +7,13 @@ library(posterior)
 # load in scores extracted at time of model run on Alpine
 score_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                       list.files("full-model/fire-sims/model_comparison/extracted_values/", 
-                                 "scores.RDS"))
+                                 "GQ.csv"))
 # process scores only from "normal" qos - run for 24 hrs or less
 # score_files <- score_files[grepl("normal", score_files)]
-burn_files <- c(score_files[grepl("g1", score_files)], score_files[grepl("lognorm", score_files)], score_files[grepl("g2", score_files)])
-burn_files_climate <- burn_files[grepl("climate", burn_files)]
+burn_files <- c(score_files[grepl("g1", score_files)], 
+                score_files[grepl("lognorm", score_files)], 
+                score_files[grepl("g2", score_files)])
+# burn_files_climate <- burn_files[grepl("climate", burn_files)]
 count_files <- c(score_files[grepl("zinb", score_files)], score_files[grepl("zip", score_files)])
 count_files_climate <- count_files[grepl("climate", count_files)]
 

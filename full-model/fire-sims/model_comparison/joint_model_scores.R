@@ -6,12 +6,61 @@ library(posterior)
 
 # load in extracted gen quants done through Alpine
 score_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
-                      list.files("full-model/fire-sims/model_comparison/extracted_values/", pattern = "scores"))
+                      list.files("full-model/fire-sims/model_comparison/extracted_values/", pattern = "GQ.csv"))
 score_files <- score_files[grepl("theta-time", score_files)]
-model_names <- str_remove(str_remove(str_remove(basename(score_files), "_scores.RDS"), "joint_sigma-ri_theta-time_"), "_\\d{2}\\w{3}2023_\\d{4}")
+model_names <- str_remove(str_remove(str_remove(basename(score_files), "_\\d{1}_GQ.csv"), 
+                                     "joint_sigma-ri_theta-time_"), 
+                          "_\\d{2}\\w{3}2023_\\d{4}")
+
+nfits <- length(score_files)/3
+fit_groups <- vector(mode = "list", nfits)
+for(i in 1:nfits) {
+  fit_groups[[i]] <- score_files[(3*i-2):(3*i)]
+}
+extraction <- function(file_group, model) {
+  train_ll <- read_cmdstan_csv(file_group, variables = "train_loglik")
+  holdout_ll <- read_cmdstan_csv(file_group, variables = "holdout_loglik")
+  holdout_twcrps <- read_cmdstan_csv(file_group, variables = "holdout_twcrps")
+  temp <- list(train_loglik = train_ll, holdout_loglik = holdout_ll, holdout_twcrps = holdout_twcrps)
+  assign(model, temp, parent.frame())
+  gc()
+}
+
+for(i in seq_along(model_names)) {
+  extraction(fit_groups[[i]], model_names[i])
+}
+
+save(list=ls(pattern="g1"), file = "full-model/fire-sims/model_comparison/g1_sqrt_xi-ri.RData")
+rm(list=ls(pattern="g1"))
+gc()
+
 for(i in seq_along(model_names)) {
   assign(model_names[i], readRDS(score_files[i]))
 }
+
+nfits <- length(gq_files)/3
+fit_groups <- vector(mode = "list", nfits)
+for(i in 1:nfits) {
+  fit_groups[[i]] <- gq_files[(3*i-2):(3*i)]
+}
+extraction <- function(file_group) {
+  train_ll <- read_cmdstan_csv(file_group, variables = "train_loglik")
+  holdout_ll <- read_cmdstan_csv(file_group, variables = "holdout_loglik")
+  holdout_twcrps <- read_cmdstan_csv(file_group, variables = "holdout_twcrps")
+  file <- basename(file_group[1])
+  model <- str_remove(str_remove(str_remove(file, "_\\d{2}\\w{3}2023_\\d{4}_\\d{1}.csv"), "gq_"), "cfcns_")
+  temp <- list(train_loglik = train_ll, holdout_loglik = holdout_ll, holdout_twcrps = holdout_twcrps)
+  assign(model, temp, parent.frame())
+  gc()
+}
+
+extraction(fit_groups[[20]])
+save(list=ls(pattern="g1"), file = "full-model/fire-sims/model_comparison/g1_sqrt_xi-ri.RData")
+rm(list=ls(pattern="g1"))
+gc()
+
+
+
 
 ## log score calculations ---------
 nfits <- length(model_names)

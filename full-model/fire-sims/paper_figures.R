@@ -619,10 +619,152 @@ p <- ecoregions_geom %>%
   theme_void() + scale_fill_brewer(palette = "YlOrRd")
 ggsave("full-model/figures/paper/xi_map.pdf", dpi = 320, bg ='white')
 
+pi_prob_map <- pi_prob %>% 
+  mutate(pi_expit = exp(pi)/(1 + exp(pi))) %>%
+  group_by(region) %>% 
+  summarize(pi_prob = median(pi_expit))
+breaks <- classIntervals(c(min(pi_prob_map$pi_prob) - .00001, pi_prob_map$pi_prob), style = 'quantile', intervalClosure = 'left')
+eco_pi_prob <- ecoregions_geom %>% 
+  left_join(pi_prob_map %>% left_join(full_reg_key)) %>% 
+  mutate(pi_prob_cat = cut(pi_prob, unique(breaks$brks)))
+p <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'white') +
+  geom_sf(data = eco_pi_prob,
+          aes(fill=pi_prob_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+  theme_void() + scale_fill_brewer(palette = "YlOrRd")
+ggsave("full-model/figures/paper/pi_prob_map.pdf", dpi = 320, bg ='white')
 
- 
+## partial effects plots for lambda and kappa ---------
+beta_count <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_2000iter/beta_count.RDS")
+r <- 84
+t <- 12*21 
 
-# 
+stan_data <- readRDS("full-model/data/stan_data_joint.RDS")
+X <- stan_data$X_train_count
+vars <- c('log_housing_density', 'vs',
+          'pr', 'prev_12mo_precip', 'tmmx',
+          'rmin')
+X_covar <- c()
+X_cols <- vector("list", length(vars))
+start <- 2
+for(i in seq_along(vars)) {
+  X_covar[i] <- paste0("X_", vars[i])
+  X_cols[[i]] <- c(1, start:(start+5))
+  start = start + 6
+}
+
+lambda_betas <- beta_count %>%
+  separate_wider_delim(cols = "name", delim = ",", names = c("coef", "region")) %>%
+  mutate(coef = as.numeric(gsub("beta_count\\[", "", coef)),
+         region = as.numeric(gsub("\\]", "", region))) %>%
+  group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
+  pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
+
+# rescale data
+un_std_data <- readRDS("full-model/data/un_std_all.RDS")
+X_unstd <- X
+for(k in seq_along(vars)) {
+  var_mean <- un_std_data %>% filter(variable == vars[[k]]) %>% select(mean) %>% as.numeric()
+  var_sd <- un_std_data %>% filter(variable == vars[[k]]) %>% select(sd) %>% as.numeric()
+  X_unstd[,,X_cols[[k]][2]] <- X[,,X_cols[[k]][2]] * var_sd + var_mean
+}
+
+reg_cols <- full_reg_key$region
+covar_effect <- function(egpd_param_df, covar_term, linear_term) {
+  return(
+    egpd_param_df %>% as_tibble() %>% rename_with(., ~ as.character(reg_cols)) %>%
+      mutate(time = c(1:t)) %>%
+      pivot_longer(cols = c(1:all_of(r)), values_to = "effect", names_to = "region") %>%
+      mutate(region = as.numeric(region), covar = covar_term, linear = linear_term)
+  )
+}
+
+coef_df_list_lambda <- list()
+for(k in seq_along(vars)) {
+  var_mean <- un_std_data %>% filter(variable == vars[[k]]) %>% select(mean) %>% as.numeric()
+  var_sd <- un_std_data %>% filter(variable == vars[[k]]) %>% select(sd) %>% as.numeric()
+  stored_df_lambda <- matrix(NA, t, r)
+  for(j in 1:r) {
+    stored_df_lambda[, j] <- X[j, , X_cols[[k]][3:7]] %*% lambda_betas[X_cols[[k]][3:7], j] +
+      X_unstd[j, , X_cols[[k]][2]] * lambda_betas[X_cols[[k]][2], j]/var_sd +
+      lambda_betas[1, j] - (lambda_betas[X_cols[[k]][2], j] * var_mean)/var_sd
+  }
+  coef_df_list_lambda[[k]] <- covar_effect(stored_df_lambda, vars[k], c(X_unstd[,,X_cols[[k]][2]]))
+}
+
+lambda_effects <- bind_rows(coef_df_list_lambda) %>% as_tibble() %>% left_join(., full_reg_key)
+p <- lambda_effects %>% 
+  mutate(linear = case_when(covar == 'tmmx' ~ linear - 273.15,
+                            TRUE ~ linear),
+         covar = case_when(covar == 'log_housing_density' ~ "log(housing density (units/sq. km))",
+                           covar == 'pr' ~ 'Precipitation (mm), same month',
+                           covar == 'prev_12mo_precip' ~ 'Precipitation (mm), past 12months',
+                           covar == 'rmin' ~ 'Min. relative humidity (%)',
+                           covar == 'tmmx' ~ 'Max. air temperature (C)',
+                           covar == 'vs' ~ 'Wind speed (m/s)',
+                           TRUE ~ covar)) %>% 
+  ggplot(aes(x = linear, y = effect, group = region)) + 
+  geom_line(aes(color = NA_L2CODE)) +
+  facet_wrap(. ~ covar, scales = "free_x") + theme_classic() + theme(legend.position = "none") +
+  ylab("Partial effect") + xlab("")
+file_name <- "full-model/figures/paper/partial_effects_lambda.pdf"
+ggsave(file_name, p, dpi = 320, width = 14, height = 8, bg = "white")
+
+# partial effects for kappa
+X <- stan_data$X_train_burn
+vars <- c('log_housing_density', 'erc')
+X_covar <- c()
+X_cols <- vector("list", length(vars))
+start <- 2
+for(i in seq_along(vars)) {
+  X_covar[i] <- paste0("X_", vars[i])
+  X_cols[[i]] <- c(1, start:(start+5))
+  start = start + 6
+}
+
+kappa_betas <- beta_burn %>%
+  separate_wider_delim(cols = "name", delim = ",", names = c("coef", "region")) %>%
+  mutate(coef = as.numeric(gsub("beta_burn\\[", "", coef)),
+         region = as.numeric(gsub("\\]", "", region))) %>%
+  group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
+  pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
+
+# rescale data
+X_unstd <- X
+for(k in seq_along(vars)) {
+  var_mean <- un_std_data %>% filter(variable == vars[[k]]) %>% select(mean) %>% as.numeric()
+  var_sd <- un_std_data %>% filter(variable == vars[[k]]) %>% select(sd) %>% as.numeric()
+  X_unstd[,,X_cols[[k]][2]] <- X[,,X_cols[[k]][2]] * var_sd + var_mean
+}
+
+coef_df_list_kappa <- list()
+for(k in seq_along(vars)) {
+  var_mean <- un_std_data %>% filter(variable == vars[[k]]) %>% select(mean) %>% as.numeric()
+  var_sd <- un_std_data %>% filter(variable == vars[[k]]) %>% select(sd) %>% as.numeric()
+  stored_df_kappa <- matrix(NA, t, r)
+  for(j in 1:r) {
+    stored_df_kappa[, j] <- X[j, , X_cols[[k]][3:7]] %*% kappa_betas[X_cols[[k]][3:7], j] +
+      X_unstd[j, , X_cols[[k]][2]] * kappa_betas[X_cols[[k]][2], j]/var_sd +
+      kappa_betas[1, j] - (kappa_betas[X_cols[[k]][2], j] * var_mean)/var_sd
+  }
+  coef_df_list_kappa[[k]] <- covar_effect(stored_df_kappa, vars[k], c(X_unstd[,,X_cols[[k]][2]]))
+}
+
+kappa_effects <- bind_rows(coef_df_list_kappa) %>% as_tibble() %>% left_join(., full_reg_key)
+p <- kappa_effects %>% 
+  mutate(covar = case_when(covar == 'log_housing_density' ~ "log(housing density (units/sq. km))",
+                           covar == 'erc' ~ 'Energy Release Component',
+                           TRUE ~ covar)) %>% 
+  ggplot(aes(x = linear, y = effect, group = region)) + 
+  geom_line(aes(color = NA_L2CODE)) +
+  facet_wrap(. ~ covar, scales = "free_x") + theme_classic() + theme(legend.position = "none") +
+  ylab("Partial effect") + xlab("")
+file_name <- "full-model/figures/paper/partial_effects_kappa.pdf"
+ggsave(file_name, p, dpi = 320, width = 14, height = 8, bg = "white")
+
+#
+
 # er_map_l1 <- ecoregions_geom %>%
 #   ggplot() +
 #   geom_sf(size = .2, aes(fill = NA_L1NAME)) + 
@@ -640,90 +782,5 @@ ggsave("full-model/figures/paper/xi_map.pdf", dpi = 320, bg ='white')
 #   coord_sf(ndiscr = FALSE)
 # 
 # ggsave("test_map.png", er_map_l1, dpi = 320, bg = "white")
-# 
-# ri_map <- `sigma_ri_theta-ri_gamma-ri`$ri_matrix %>% as_draws_df() %>%
-#   select(-c(".iteration", ".chain")) %>% 
-#   pivot_longer(cols = !".draw") %>%
-#   rename(draw = ".draw") %>% 
-#   separate_wider_delim(cols = "name", delim = ",", names = c("param", "time", "region")) %>% select(-time) %>% distinct() %>%
-#   mutate(param = as.character(gsub("ri_matrix\\[", "", param)),
-#          region = as.numeric(gsub("\\]", "", region)),
-#          param = case_when(param == "1" ~ "sigma",
-#                            param == "2" ~ "xi",
-#                            TRUE ~ param))
-# 
-# ri_map <- ri_map %>% group_by(param, region) %>% summarize(med_val = median(value))
-# ri_map <- ri_map %>% ungroup()
-# xi_map <- ri_map %>% filter(param == "xi") %>% select(-param) %>% mutate(med_val = exp(med_val))
-# sigma_map <- ri_map %>% filter(param == "sigma") %>% select(-param) %>% mutate(med_val = exp(med_val))
-# 
-# gamma_map <- gamma %>% group_by(region) %>% summarize(med_gamma = median(gamma)) %>% ungroup() %>% left_join(full_reg_key)
-# eco_gamma <- ecoregions_geom %>% left_join(gamma_map)
-# breaks <- classIntervals(c(min(eco_gamma$med_gamma) - .00001, eco_gamma$med_gamma), style = 'fixed', 
-#                          fixedBreaks = c(-0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), intervalClosure = 'left')
-# eco_gamma <- eco_gamma %>% mutate(gamma_cat = cut(med_gamma, unique(breaks$brks)))
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_gamma,
-#           aes(fill=gamma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-#   theme_void() + scale_fill_brewer(palette = "Spectral")
-# ggsave("full-model/figures/paper/gamma_map.png", dpi = 320, bg ='white')
-# 
-# theta_map <- theta %>% group_by(region) %>% summarize(med_theta = median(theta)) %>% ungroup() %>% left_join(full_reg_key)
-# eco_theta <- ecoregions_geom %>% left_join(theta_map)
-# breaks <- classIntervals(c(min(eco_theta$med_theta) - .00001, eco_theta$med_theta), style = 'fixed', 
-#                          fixedBreaks = c(-3, -2, -1, 0, 1, 2), intervalClosure = 'left')
-# eco_theta <- eco_theta %>% mutate(theta_cat = cut(med_theta, unique(breaks$brks)))
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_theta,
-#           aes(fill=theta_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-#   theme_void() + scale_fill_brewer(palette = "Spectral")
-# ggsave("full-model/figures/paper/theta_map.png", dpi = 320, bg ='white')
-# 
-# 
-# 
-# xi_vals_regions <- xi_map %>% left_join(full_reg_key)
-# eco_xi <- ecoregions_geom %>% 
-#   mutate(NA_L2CODE = as.factor(NA_L2CODE), 
-#          NA_L1CODE = as.factor(NA_L1CODE), 
-#          NA_L3CODE = as.factor(NA_L3CODE)) %>% 
-#   left_join(xi_vals_regions)
-# 
-# breaks <- classIntervals(c(min(eco_xi$med_val) - .00001, eco_xi$med_val), style = 'fixed', 
-#                          fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
-# 
-# eco_xi_cat <- eco_xi %>% 
-#   mutate(xi_cat = cut(med_val, unique(breaks$brks)))
-# 
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_xi_cat,
-#           aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-#   theme_void() + scale_fill_brewer(palette = 'YlOrRd')
-# ggsave("full-model/figures/paper/xi_map.png", dpi = 320, bg ='white')
-# 
-# 
-# sigma_vals_regions <- sigma_map %>% left_join(full_reg_key)
-# eco_sigma <- ecoregions_geom %>% 
-#   mutate(NA_L2CODE = as.factor(NA_L2CODE), 
-#          NA_L1CODE = as.factor(NA_L1CODE), 
-#          NA_L3CODE = as.factor(NA_L3CODE)) %>% 
-#   left_join(sigma_vals_regions)
-# 
-# breaks <- classIntervals(c(min(eco_sigma$med_val) - .00001, eco_sigma$med_val), style = 'fisher', n=5, intervalClosure = 'left')
-# eco_sigma_cat <- eco_sigma %>% 
-#   mutate(sigma_cat = cut(med_val, unique(breaks$brks)))
-# 
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_sigma_cat,
-#           aes(fill=sigma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-#   theme_void() + scale_fill_brewer(palette = 'YlOrRd')
-# ggsave("full-model/figures/paper/sigma_map.png", dpi = 320, bg ='white')
 # 
 # 

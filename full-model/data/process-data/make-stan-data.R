@@ -86,10 +86,12 @@ burn_df <- mtbs_er %>% as_tibble() %>%
          Shape_Leng, Shape_Area) %>%
   arrange(NA_L3NAME, ym, .locale = "en")
 
-burn_df_agg <- burn_df %>% 
-  group_by(NA_L1CODE, fire_yr) %>% 
-  summarise(total_burns = sum(BurnBndAc)) %>% 
-  ungroup()
+# burn_df_agg <- burn_df %>% 
+#   mutate(across(where(is.character), as.factor)) %>%
+#   group_by(NA_L3CODE, fire_yr, NA_L3NAME, NA_L1NAME, NA_L1CODE, NA_L2NAME) %>% 
+#   summarise(total_burns = sum(BurnBndAc)) %>% 
+#   ungroup()
+# saveRDS(burn_df_agg, file = "full-model/data/burn_df_agg.RDS")
 
 count_df <- count_df_climate %>% 
   left_join(count_df_erc) %>% left_join(count_df_fwi) %>%

@@ -44,6 +44,13 @@ exp_count <- function(pi, lambda) { # expected counts
   return((1-pi_prob) * exp(lambda))
 }
 
+# probability of 1 or more fire occurring
+fire_occur <- function(pi, delta, lambda) {
+  pi_prob <- exp(pi)/(1+exp(pi))
+  neg_bin <- (delta / (exp(lambda) + delta)) ^ delta
+  return(1 - (1-pi_prob)*neg_bin)
+}
+
 # exceedance probabilities
 rlevel <- function(N, kappa, sigma, xi, eta) {
   p <- ((N-1)/N)^(1/(12 * eta)) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
@@ -56,6 +63,12 @@ high_quant <- function(N, kappa, sigma, xi) {
   return(qegpd(p, kappa, sigma, xi))
 }
 
+# cleaning up delta tibble
+delta <- delta %>% 
+  mutate(name = gsub("delta\\[", "", name),
+         name = as.integer(gsub("\\]", "", name))) %>%
+  rename(region = name, delta = value)
+  
 # read in extracted mcmc draws ------
 files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_2000iter/",
                 list.files(path = "full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_2000iter/",
@@ -166,7 +179,7 @@ p <- level98_areas_regional %>% ggplot() +
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
   geom_line(aes(x=date, y=med50, group = region), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
-  ylab("Expected burn area (ha)") +
+  ylab("Expected burn area (ha) given fire occurrence") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
   theme_classic() + theme(legend.position = "none") + 
   theme(strip.text.x = element_text(size = rel(0.9)))
@@ -452,38 +465,45 @@ ggsave("full-model/figures/paper/counts_preds-vs-truth_entireUS_winsor.pdf", wid
 burn_params <- kappa %>% 
   left_join(rand_int)
 
-burn_preds <- burn_params %>% 
-  mutate(preds = purrr::pmap_dbl(list(500, kappa, sigma, xi), exp_egpd)) %>%
-  select(c(draw, time, region, preds, kappa, sigma, xi)) %>%
-  left_join(full_reg_key) %>%
-  left_join(time_df) %>%
-  mutate(year = year(date))
+burn_preds <- readRDS("full-model/figures/paper/burn_preds_df.RDS")
+burn_preds_negbin <- burn_preds %>% left_join(delta) %>% left_join(lambda) %>% left_join(pi_prob)
+burn_preds_negbin <- burn_preds_negbin %>% select(-NA_L3NAME)
 
-saveRDS(burn_preds, file = "full-model/figures/paper/burn_preds_df.RDS")
+test_preds <- burn_preds_negbin[50:65,]
+test_preds_negbin <- test_preds %>% mutate(true_preds = preds * fire_occur(pi, delta, lambda))
+
+burn_preds_negbin <- burn_preds_negbin %>% mutate(condl_preds = preds * fire_occur(pi, delta, lambda))
+burn_preds <- burn_preds_negbin %>% select(-c("preds", "kappa", "sigma", "xi", "delta", "lambda", "pi")) %>%
+  rename(preds = condl_preds)
+# burn_preds <- burn_params %>%
+#   mutate(preds = purrr::pmap_dbl(list(500, kappa, sigma, xi), med_egpd)) %>%
+#   left_join(full_reg_key) %>%
+#   left_join(time_df) %>%
+#   mutate(year = year(date))
+# saveRDS(burn_preds, file = "full-model/figures/paper/burn_preds_df.RDS")
 
 burn_preds_annual <- burn_preds %>% 
-  group_by(NA_L1NAME, year, draw) %>% 
-  summarize(total_area = sum(preds)*1000*0.405) %>% 
+  group_by(NA_L1NAME, draw, year) %>% 
+  summarize(total_area = sum(preds[is.finite(preds)])) %>% 
   ungroup() %>% 
   mutate(train = case_when(year %in% train_years ~ TRUE,
                            year %in% test_years ~ FALSE))
 
 true_burns <- readRDS("full-model/data/burn_area_level1.RDS") %>% 
-  mutate(NA_L1CODE = as.factor(NA_L1CODE), total_burns = total_burns * 0.405) %>%
+  mutate(NA_L1CODE = as.factor(NA_L1CODE), total_burns = total_burns) %>%
   rename(year = fire_yr, true_area = total_burns)
 
 true_burns_full <- true_counts %>% 
   left_join(full_reg_key %>% select(c("NA_L1CODE", "NA_L1NAME")) %>% distinct()) %>% 
-  left_join(true_burns) %>% 
-  mutate(true_area = case_when(is.na(true_area) ~ 0,
-                                 TRUE ~ true_area)) %>%
-  select(-c("true_count", "NA_L1CODE"))
+  left_join(true_burns) %>%
+  select(-c("true_count", "NA_L1CODE")) %>%
+  mutate(true_area = true_area/1000)
 
 burn_preds_winsor_limits <- burn_preds_annual %>% group_by(NA_L1NAME, year) %>% 
-  summarize(lower = quantile(total_area, 0.05),
-            upper = quantile(total_area, 0.95)) %>%
+  summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
+            upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
   ungroup()
-preds_winsor <- burn_preds_annual %>% 
+burn_preds_winsor <- burn_preds_annual %>% 
   left_join(burn_preds_winsor_limits) %>%
   mutate(winsor_total = case_when(total_area <= lower ~ lower,
                                   total_area >= upper ~ upper,
@@ -492,20 +512,20 @@ preds_winsor <- burn_preds_annual %>%
 p <- burn_preds_annual %>% 
   ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
-  # geom_point(inherit.aes = FALSE, data = true_burns_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
-  # geom_line(inherit.aes = FALSE, data = true_burns_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
+  geom_point(inherit.aes = FALSE, data = true_burns_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
+  geom_line(inherit.aes = FALSE, data = true_burns_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + scale_y_log10() +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_bylevel1.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_bylevel1_v2.pdf", width = 15)
 
-p <- preds_winsor %>% 
+p <- burn_preds_winsor %>% 
   ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
-  geom_point(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", size = 0.35) +
-  geom_line(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
+  geom_point(inherit.aes = FALSE, data = true_burns_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
+  geom_line(inherit.aes = FALSE, data = true_burns_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + scale_y_log10() +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/counts_preds-vs-truth_bylevel1_winsor.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_bylevel1_winsor_v2.pdf", width = 15)
 
 # over entire US (instead of by level 1)
 true_count_entireUS <- true_counts %>% group_by(year) %>% summarize(true_count = sum(true_count)) %>% ungroup()

@@ -146,6 +146,7 @@ generated quantities {
 
   matrix[T_all, R] reg_full;
   matrix[T_all, R] lambda_full;
+  matrix[T_all, R] burn_pred;
 
   // expected value of all parameters based on all timepoints, then cut to only be holdout parameters
   for (r in 1:R) {
@@ -207,6 +208,26 @@ generated quantities {
         holdout_loglik_count[t, r] = bernoulli_logit_lpmf(0 | pi_prob[r])
                                + neg_binomial_2_log_lpmf(y_hold_count[t, r] | lambda_hold[t], delta[r]);
       }
+    }
+  }
+  
+  // generate burn area predictions, based on whether a fire occurred or not
+  for (r in 1:R) {
+    for (t in 1:T_all) {
+      vector[500] burn_draws;
+      real sigma = ri_init[1][r];
+      real xi = ri_init[2][r];
+      real kappa = reg_full[t, r];
+      for (i in 1:500) {
+        int zero = bernoulli_logit_rng(pi_prob[r]);
+        int count_draw = (1 - zero) * neg_binomial_2_log_rng(lambda_full[t, r], delta[r]);
+        if (count_draw == 0) {
+          burn_draws[i] = 0; 
+        } else {
+          burn_draws[i] = mean(egpd_rng(count_draw, y_min, sigma, xi, kappa));
+        }
+      }
+      burn_pred[t, r] = mean(burn_draws);
     }
   }
 }

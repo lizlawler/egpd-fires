@@ -6,6 +6,7 @@
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate lawler
 
+stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="joint"
 modname="sigma-ri"
 for params in "theta-time_gamma-ri" "theta-time_gamma-cst"

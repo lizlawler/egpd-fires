@@ -59,12 +59,12 @@
       return -y/sigma; // limit xi->0
     }
   }
-  real gpareto_icdf(real u, real sigma, real xi) {
-    // input is adjusted 'u' with egpd carrier inverse applied
+  real gpareto_icdf(real p, real sigma, real xi) {
+    // input is adjusted 'u' with egpd carrier inverse already applied
     if (sigma< 1e-15)
       reject("sigma<=0; found sigma =", sigma);
     else if (abs(xi) > 1e-15)
-      return (sigma / xi) * ((1-u)^-xi - 1);
+      return exp(log(exp(-xi * log1m(p)) - 1) + log(sigma) - log(xi));
     else
-      return -sigma * log1m(u); // limit xi->0
+      return -sigma * log1m(p); // limit xi->0
   }

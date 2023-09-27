@@ -211,13 +211,13 @@ generated quantities {
     }
   }
   
-  // generate burn area predictions, based on whether a fire occurred or not
+  // generate burn area predictions, based on how many fires occurred (draw from ZINB)
   for (r in 1:R) {
     for (t in 1:T_all) {
       vector[500] burn_draws;
-      real sigma = ri_init[1][r];
-      real xi = ri_init[2][r];
-      real kappa = reg_full[t, r];
+      real sigma = exp(ri_init[1][r]);
+      real xi = exp(ri_init[2][r]);
+      real kappa = exp(reg_full[t, r]);
       for (i in 1:500) {
         int zero = bernoulli_logit_rng(pi_prob[r]);
         int count_draw = (1 - zero) * neg_binomial_2_log_rng(lambda_full[t, r], delta[r]);

@@ -38,3 +38,4 @@ In dir.create(path = draws_path, recursive = TRUE) :
   'full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter' already exists
 Warning message:
 Dropping 'draws_df' class as required metadata was removed. 
+[1] "MCMC draws from burn predictions have been successfully written to disk"

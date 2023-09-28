@@ -115,9 +115,9 @@ static constexpr std::array<const char*, 435> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 200, column 17 to line 212, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 200, column 2 to line 212, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 217, column 6 to column 29)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 218, column 6 to column 33)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 219, column 6 to column 30)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 220, column 6 to column 34)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 218, column 6 to column 38)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 219, column 6 to column 35)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 220, column 6 to column 39)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 222, column 8 to column 51)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 223, column 8 to column 90)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-cst.stan', line 227, column 10 to column 78)",
@@ -3845,18 +3845,21 @@ class joint_sigma_ri_theta_time_gamma_cst_model final : public model_base_crtp<j
                std::numeric_limits<double>::quiet_NaN());
           double sigma = std::numeric_limits<double>::quiet_NaN();
           current_statement__ = 106;
-          sigma = stan::model::rvalue(
-                    stan::model::rvalue(ri_init, "ri_init", stan::model::index_uni(1)),
-                    "ri_init[1]", stan::model::index_uni(r));
+          sigma = stan::math::exp(
+                    stan::model::rvalue(
+                      stan::model::rvalue(ri_init, "ri_init", stan::model::index_uni(1)),
+                      "ri_init[1]", stan::model::index_uni(r)));
           double xi = std::numeric_limits<double>::quiet_NaN();
           current_statement__ = 107;
-          xi = stan::model::rvalue(
-                 stan::model::rvalue(ri_init, "ri_init", stan::model::index_uni(2)),
-                 "ri_init[2]", stan::model::index_uni(r));
+          xi = stan::math::exp(
+                 stan::model::rvalue(
+                   stan::model::rvalue(ri_init, "ri_init", stan::model::index_uni(2)),
+                   "ri_init[2]", stan::model::index_uni(r)));
           double kappa = std::numeric_limits<double>::quiet_NaN();
           current_statement__ = 108;
-          kappa = stan::model::rvalue(reg_full, "reg_full",
-                    stan::model::index_uni(t), stan::model::index_uni(r));
+          kappa = stan::math::exp(
+                    stan::model::rvalue(reg_full, "reg_full",
+                      stan::model::index_uni(t), stan::model::index_uni(r)));
           current_statement__ = 117;
           for (int i = 1; i <= 500; ++i) {
             int zero = std::numeric_limits<int>::min();

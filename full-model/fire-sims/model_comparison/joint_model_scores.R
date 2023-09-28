@@ -171,6 +171,11 @@ test_ll_count_comp <- ll_full_count %>% filter(train == FALSE) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 test_ll_count_comp
 
+ll_count_box <- ll_full_count %>% filter(train == FALSE) %>% 
+  ggplot(aes(x = model, y=loglik, group = model)) + 
+  geom_boxplot(outlier.size = 0.2) + theme_classic()
+ggsave("full-model/figures/paper/joint_ll_count_scores.pdf", width = 15)
+
 ll_full_burns <- holdout_loglik_burns %>%
   full_join(train_loglik_burns)
 
@@ -199,6 +204,11 @@ test_ll_burns_comp <- ll_full_burns %>% filter(train == FALSE) %>%
   group_by(model) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 test_ll_burns_comp
+ll_burn_box <- ll_full_burns %>% filter(train == FALSE) %>% 
+  ggplot(aes(x = model, y=loglik, group = model)) + 
+  geom_boxplot(outlier.size = 0.2) + theme_classic()
+ggsave("full-model/figures/paper/joint_ll_burn_scores.pdf", width = 15)
+
 
 total_ll <- ll_full_burns %>% mutate(piece = "burn") %>% full_join(ll_full_count %>% mutate(piece = "count"))
 test_ll_total_ranked <- total_ll %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
@@ -217,6 +227,11 @@ test_ll_total_comp <- total_ll %>% filter(train == FALSE, grepl("1000iter", mode
   group_by(model) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 test_ll_total_comp
+ll_joint_box <- total_ll %>% filter(train == FALSE) %>% 
+  ggplot(aes(x = model, y=loglik, group = model)) + 
+  geom_boxplot(outlier.size = 0.2) + theme_classic()
+ggsave("full-model/figures/paper/joint_ll_scores.pdf", width = 15)
+
 
 names(joint_scores) <- c("holdout_loglik_burns", "holdout_loglik_counts", "holdout_twcrps", "train_loglik_burns", "train_loglik_counts", "train_twcrps")
 
@@ -250,6 +265,12 @@ test_twcrps_comp <- twcrps_full %>% filter(train == FALSE, grepl("1000iter", mod
   group_by(model) %>%
   summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
 test_twcrps_comp
+twcrps_box <- twcrps_full %>% filter(train == FALSE) %>% 
+  ggplot(aes(x = model, y=twcrps, group = model)) +
+  geom_boxplot(outlier.size = 0.2) + scale_y_log10() +
+  theme_classic()
+ggsave("full-model/figures/paper/joint_twcrps_scores.pdf", width = 15)
+
 
 ## effects plots ----------
 stan_data_joint <- readRDS("full-model/data/stan_data_joint.RDS")

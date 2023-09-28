@@ -44,12 +44,12 @@ exp_count <- function(pi, lambda) { # expected counts
   return((1-pi_prob) * exp(lambda))
 }
 
-# probability of 1 or more fire occurring
-fire_occur <- function(pi, delta, lambda) {
-  pi_prob <- exp(pi)/(1+exp(pi))
-  neg_bin <- (delta / (exp(lambda) + delta)) ^ delta
-  return(1 - (1-pi_prob)*neg_bin)
-}
+# # probability of 1 or more fire occurring
+# fire_occur <- function(pi, delta, lambda) {
+#   pi_prob <- exp(pi)/(1+exp(pi))
+#   neg_bin <- (delta / (exp(lambda) + delta)) ^ delta
+#   return(1 - (1-pi_prob)*neg_bin)
+# }
 
 # exceedance probabilities
 rlevel <- function(N, kappa, sigma, xi, eta) {

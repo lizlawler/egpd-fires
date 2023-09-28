@@ -16,7 +16,7 @@ inc_path="full-model/fire-sims/${modtype}/stan/"
 object="full-model/fire-sims/${modtype}/stan/${modtype}_${modname}_${params}"
 ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
-for iter in 1000 2000
+for iter in 1000
 do
 export modtype modname params iter
 sbatch --job-name ${modname}_${params}__${iter}iter_draws \

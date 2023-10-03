@@ -378,3 +378,7 @@ Chain [2] Iteration: 3100 / 4000 [ 77%]  (Sampling)
 Chain [2] Iteration: 3200 / 4000 [ 80%]  (Sampling)
 Chain [2] Iteration: 3300 / 4000 [ 82%]  (Sampling)
 Chain [2] Iteration: 3400 / 4000 [ 85%]  (Sampling)
+./shell-scripts/miss-piggy/burn_sampling_mp.sh: line 15: 1044934 Terminated              ./${model} sample num_chains=3 num_warmup=2000 num_samples=2000 thin=2 data file=${datafile} init=0.01 output file=${outbase}.csv num_threads=3
+Model has finished running all 3 chains
+Now running script to create trace plots and pull scores...
+./shell-scripts/miss-piggy/burn_sampling_mp.sh: line 20: full-model/output/g3_climate_xi-ri_nu_plots_mp.txt: No such file or directory

@@ -12,8 +12,10 @@ library(posterior)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/", model, "/csv-fits/")
 plotbase <- paste0("./full-model/figures/", type, "/", model, "/trace/")
-csvpattern <- paste0(model, "_", params, "_", dataset, "_", sttime)
+csvpattern <- paste0( model, "_", dataset, "_", params)
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
+
+csvfiles <- csvfiles[c(1,3)] # keeping chains that actually completed
 
 print("Filenames being used are:")
 csvfiles
@@ -25,11 +27,14 @@ fit$diagnostic_summary()
 print("Creating mcmc list from cmdstan object...")
 fitmcmc <- as_mcmc.list(fit)
 
+options(bitmapType='cairo') # allows MCMCtrace to work on RStudio server
+
 print("Creating traceplot of rhos...")
 MCMCtrace(fitmcmc,
           params = c('rho1', 'rho2'), 
           ind = TRUE, 
-          open_pdf = FALSE, 
+          pdf = TRUE,
+          open_pdf = FALSE,
           filename = paste0(plotbase, csvpattern, "_rho.pdf"))
 print("rho traceplots created")
 

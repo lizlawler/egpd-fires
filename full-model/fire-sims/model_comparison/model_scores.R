@@ -13,9 +13,12 @@ score_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
 burn_files <- c(score_files[grepl("g1", score_files)], 
                 score_files[grepl("lognorm", score_files)], 
                 score_files[grepl("g2", score_files)])
-# burn_files_climate <- burn_files[grepl("climate", burn_files)]
-count_files <- c(score_files[grepl("zinb", score_files)], score_files[grepl("zip", score_files)])
-count_files_climate <- count_files[grepl("climate", count_files)]
+burn_files_climate <- burn_files[grepl("climate", burn_files)]
+count_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
+                      list.files("full-model/fire-sims/model_comparison/extracted_values/", 
+                                 "scores"))
+count_files <- c(count_files[grepl("zinb", count_files)], count_files[grepl("zip", count_files)])
+  
 
 ## remove burn models that either didn't mix or had >10% divergences ------
 # g2: xi-ri, kappa-ri_xi-ri_nu, all-reg
@@ -27,12 +30,30 @@ burn_files_climate <- burn_files_climate[!grepl("g2_kappa-ri_xi-ri", burn_files_
 burn_model_names <- str_remove(str_remove(str_remove(basename(burn_files_climate), "_\\d{2}\\w{3}2023_\\d{4}"), "_climate"), "_scores.RDS")
 count_model_names <- str_remove(str_remove(basename(count_files_climate), "_\\d{2}\\w{3}2023_\\d{4}"), "_scores.RDS")
 
-# function read each score file and appropriately rename
+# function to read each score file and appropriately rename
 read_scores <- function(file, model_name) {
   temp <- readRDS(file)
   assign(model_name, temp, parent.frame())
   rm(temp)
   gc()
+}
+
+# function to read each burn GQ csv and appropriately rename
+extraction <- function(file_group, model) {
+  train_loglik <- read_cmdstan_csv(file_group, variables = "train_loglik")
+  holdout_loglik <- read_cmdstan_csv(file_group, variables = "holdout_loglik")
+  train_twcrps <- read_cmdstan_csv(file_group, variables = "train_twcrps")
+  holdout_twcrps <- read_cmdstan_csv(file_group, variables = "holdout_twcrps")
+  temp <- list(train_loglik = train_loglik, holdout_loglik = holdout_loglik, 
+               train_twcrps = train_twcrps, holdout_twcrps = holdout_twcrps)
+  assign(model, temp, parent.frame())
+  gc()
+}
+
+nfits <- length(burn_files_climate)/3
+fit_groups <- vector(mode = "list", nfits)
+for(i in 1:nfits) {
+  fit_groups[[i]] <- score_files[(3*i-2):(3*i)]
 }
 
 # pull scores from each BURN model and aggregate -----

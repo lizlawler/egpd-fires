@@ -224,7 +224,7 @@ generated quantities {
         if (count_draw == 0) {
           burn_draws[i] = 0; 
         } else {
-          burn_draws[i] = mean(egpd_rng(count_draw, y_min, sigma, xi, kappa));
+          burn_draws[i] = sum(egpd_rng(count_draw, y_min, sigma, xi, kappa));
         }
       }
       burn_pred[t, r] = mean(burn_draws);

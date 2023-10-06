@@ -121,7 +121,7 @@ static constexpr std::array<const char*, 436> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-ri.stan', line 220, column 6 to column 39)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-ri.stan', line 222, column 8 to column 51)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-ri.stan', line 223, column 8 to column 90)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-ri.stan', line 227, column 10 to column 78)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-ri.stan', line 227, column 10 to column 77)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-ri.stan', line 226, column 15 to line 228, column 9)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-ri.stan', line 225, column 10 to column 28)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_theta-time_gamma-ri.stan', line 224, column 29 to line 226, column 9)",
@@ -3906,7 +3906,7 @@ class joint_sigma_ri_theta_time_gamma_ri_model final : public model_base_crtp<jo
             } else {
               current_statement__ = 112;
               stan::model::assign(burn_draws,
-                stan::math::mean(
+                stan::math::sum(
                   egpd_rng(count_draw, y_min, sigma, xi,
                     kappa, base_rng__, pstream__)),
                 "assigning variable burn_draws", stan::model::index_uni(i));

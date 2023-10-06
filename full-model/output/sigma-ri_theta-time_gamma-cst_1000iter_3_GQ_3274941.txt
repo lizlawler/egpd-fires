@@ -1,0 +1,18 @@
+method = generate_quantities
+  generate_quantities
+    fitted_params = csv-fits/joint_sigma-ri_theta-time_gamma-cst_16Sep2023_1246_1000iter_3.csv
+id = 1 (Default)
+data
+  file = ../../data/stan_data_joint.json
+init = 2 (Default)
+random
+  seed = 151197885 (Default)
+output
+  file = ../model_comparison/extracted_values/joint_sigma-ri_theta-time_gamma-cst_16Sep2023_1246_1000iter_3_redopreds.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+Posterior quantities have been generated

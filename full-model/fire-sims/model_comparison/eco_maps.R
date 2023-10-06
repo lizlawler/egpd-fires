@@ -119,25 +119,7 @@ er_map_l2 <- ecoregions_geom %>%
   coord_sf(ndiscr = FALSE)
 ggsave("er_map_l2.png", dpi = 320)
 
-library(maps)
-states <- map_data("state")
-state_map <- ggplot(data = states) +
-  geom_polygon(aes(x = long, y = lat, fill = region, group = group), color = "gray") +
-  theme_void() +
-  coord_fixed(1.3) +
-  guides(fill = FALSE)
-ggsave("usa.png", dpi = 320)
 
-world <- map_data("world")
-world_map <- ggplot(data = world, mapping = aes(x = long, y = lat, group = group)) + 
-  geom_polygon(color = "gray20", fill = "white") + 
-  theme_void() +
-  coord_fixed(1.3)
-ggsave("world.png", dpi = 320)
-
-ggplot(data = ca_df, mapping = aes(x = long, y = lat, group = group)) + 
-  coord_fixed(1.3) + 
-  geom_polygon(color = "black", fill = "gray")
 
 
 # 

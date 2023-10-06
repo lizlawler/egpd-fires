@@ -44,13 +44,6 @@ exp_count <- function(pi, lambda) { # expected counts
   return((1-pi_prob) * exp(lambda))
 }
 
-# # probability of 1 or more fire occurring
-# fire_occur <- function(pi, delta, lambda) {
-#   pi_prob <- exp(pi)/(1+exp(pi))
-#   neg_bin <- (delta / (exp(lambda) + delta)) ^ delta
-#   return(1 - (1-pi_prob)*neg_bin)
-# }
-
 # exceedance probabilities
 rlevel <- function(N, kappa, sigma, xi, eta) {
   p <- ((N-1)/N)^(1/(12 * eta)) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
@@ -62,17 +55,22 @@ high_quant <- function(N, kappa, sigma, xi) {
   p <- ((N-1)/N) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
   return(qegpd(p, kappa, sigma, xi))
 }
-
-# cleaning up delta tibble
-delta <- delta %>% 
-  mutate(name = gsub("delta\\[", "", name),
-         name = as.integer(gsub("\\]", "", name))) %>%
-  rename(region = name, delta = value)
+# 
+# # cleaning up delta tibble
+# delta <- delta %>% 
+#   mutate(name = gsub("delta\\[", "", name),
+#          name = as.integer(gsub("\\]", "", name))) %>%
+#   rename(region = name, delta = value)
+# 
+# saveRDS(delta, "full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/delta.RDS")
   
 # read in extracted mcmc draws ------
-files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_2000iter/",
-                list.files(path = "full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_2000iter/",
+files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_1000iter/",
+                list.files(path = "full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_1000iter/",
                            pattern = ".RDS"))
+files <- files[!grepl("old", files)]
+files <- files[!grepl("beta", files)]
+files <- files[!grepl("phi", files)]
 object_names <- str_remove(basename(files), ".RDS")
 for(i in seq_along(object_names)) {
   assign(object_names[i], readRDS(files[i]))
@@ -82,64 +80,64 @@ for(i in seq_along(object_names)) {
 date_seq <- seq(as.Date("1990-01-01"), by = "1 month", length.out = 372) %>% as_tibble() %>% rename(date = value)
 time_df <- date_seq %>% mutate(time = 1:372)
 
-phi_kappa <- phi %>% select(-lambda) %>% group_by(time, region) %>% summarize(kappa = median(kappa)) %>% ungroup()
-p <- phi_kappa %>% left_join(full_reg_key) %>% left_join(time_df) %>%
-  ggplot(aes(x = date, y = kappa, color = NA_L2CODE)) + 
-  geom_line(linewidth = 0.5) + 
-  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
-  theme_classic()
-ggsave("full-model/figures/paper/phi_kappa_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+# phi_kappa <- phi %>% select(-lambda) %>% group_by(time, region) %>% summarize(kappa = median(kappa)) %>% ungroup()
+# p <- phi_kappa %>% left_join(full_reg_key) %>% left_join(time_df) %>%
+#   ggplot(aes(x = date, y = kappa, color = NA_L2CODE)) + 
+#   geom_line(linewidth = 0.5) + 
+#   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
+#   facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+#   theme_classic()
+# ggsave("full-model/figures/paper/phi_kappa_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+# 
+# phi_lambda <- phi %>% select(-kappa) %>% group_by(time, region) %>% summarize(lambda = median(lambda)) %>% ungroup()
+# p <- phi_lambda %>% left_join(full_reg_key) %>% left_join(time_df) %>%
+#   ggplot(aes(x = date, y = lambda, color = NA_L2CODE)) + 
+#   geom_line(linewidth = 0.5) + 
+#   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
+#   facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+#   theme_classic()
+# ggsave("full-model/figures/paper/phi_lambda_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
 
-phi_lambda <- phi %>% select(-kappa) %>% group_by(time, region) %>% summarize(lambda = median(lambda)) %>% ungroup()
-p <- phi_lambda %>% left_join(full_reg_key) %>% left_join(time_df) %>%
-  ggplot(aes(x = date, y = lambda, color = NA_L2CODE)) + 
-  geom_line(linewidth = 0.5) + 
-  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
-  theme_classic()
-ggsave("full-model/figures/paper/phi_lambda_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-
-phi_med_cal <- phi %>% left_join(full_reg_key) %>% 
-  filter(NA_L1NAME == "Mediterranean California") %>% 
-  group_by(time, region) %>% 
-  summarize(lambda = median(lambda), kappa = median(kappa)) %>% 
-  ungroup() %>% left_join(full_reg_key) %>% filter(region == 10)
-
-years <- seq(1, 372, by = 12)[-1]
-p <- phi_med_cal %>% left_join(time_df) %>% 
-  pivot_longer(cols = c("lambda", "kappa"), names_to = "param", values_to = "value") %>%
-  ggplot(aes(x = date, y = value)) + 
-  geom_line(linewidth = 0.5, col = "blue") +
-  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
-  facet_wrap(. ~ param, scales = "free_y") +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/phi_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-
-p <- phi_med_cal %>%
-  ggplot(aes(x = time, y = kappa)) +
-  geom_line(linewidth = 0.5, col = "blue") +
-  geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/phi_kappa_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-
-p <- phi_med_cal %>%
-  ggplot(aes(x = time, y = lambda)) +
-  geom_line(linewidth = 0.5, col = "blue") +
-  geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/phi_lambda_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-
-## create time series for theta ------
-years <- seq(1, 372, by = 12)[-1]
-theta_time <- theta %>% group_by(timepoint) %>% summarize(theta = median(theta)) %>% ungroup() %>% rename(time = timepoint)
-p <- theta_time %>% left_join(time_df) %>%
-  ggplot(aes(x = time, y = theta)) + 
-  geom_line(linewidth = 0.5, col = "blue") + 
-  geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
-  # scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
-  theme_classic()
-ggsave("full-model/figures/paper/theta_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+# phi_med_cal <- phi %>% left_join(full_reg_key) %>% 
+#   filter(NA_L1NAME == "Mediterranean California") %>% 
+#   group_by(time, region) %>% 
+#   summarize(lambda = median(lambda), kappa = median(kappa)) %>% 
+#   ungroup() %>% left_join(full_reg_key) %>% filter(region == 10)
+# 
+# years <- seq(1, 372, by = 12)[-1]
+# p <- phi_med_cal %>% left_join(time_df) %>% 
+#   pivot_longer(cols = c("lambda", "kappa"), names_to = "param", values_to = "value") %>%
+#   ggplot(aes(x = date, y = value)) + 
+#   geom_line(linewidth = 0.5, col = "blue") +
+#   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
+#   facet_wrap(. ~ param, scales = "free_y") +
+#   theme_classic() + theme(legend.position = "none")
+# ggsave("full-model/figures/paper/phi_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+# 
+# p <- phi_med_cal %>%
+#   ggplot(aes(x = time, y = kappa)) +
+#   geom_line(linewidth = 0.5, col = "blue") +
+#   geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
+#   theme_classic() + theme(legend.position = "none")
+# ggsave("full-model/figures/paper/phi_kappa_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+# 
+# p <- phi_med_cal %>%
+#   ggplot(aes(x = time, y = lambda)) +
+#   geom_line(linewidth = 0.5, col = "blue") +
+#   geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
+#   theme_classic() + theme(legend.position = "none")
+# ggsave("full-model/figures/paper/phi_lambda_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
+# 
+# ## create time series for theta ------
+# years <- seq(1, 372, by = 12)[-1]
+# theta_time <- theta %>% group_by(timepoint) %>% summarize(theta = median(theta)) %>% ungroup() %>% rename(time = timepoint)
+# p <- theta_time %>% left_join(time_df) %>%
+#   ggplot(aes(x = time, y = theta)) + 
+#   geom_line(linewidth = 0.5, col = "blue") + 
+#   geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
+#   # scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
+#   theme_classic()
+# ggsave("full-model/figures/paper/theta_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
 
 # create return level plots ------
 all_params <- kappa %>% 
@@ -160,15 +158,17 @@ returns_summary <- returns %>% group_by(time, region) %>%
 returns_regional <- returns_summary %>% 
   left_join(full_reg_key) %>% 
   left_join(time_df)
+saveRDS(returns_regional, "full-model/figures/paper/tibbles/returns_regional_gamma-cst.RDS")
 
 p <- returns_regional %>% ggplot() + 
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
   geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
+  # scale_fill_brewer(palette = 'Set3') +
   ylab("Expected burn area (ha)") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
   theme_classic() + theme(legend.position = "none") + 
-  theme(strip.text.x = element_text(size = rel(0.9)))
+  theme(strip.text.x = element_text(size = rel(1.1)))
 
 file_name <- "full-model/figures/paper/50yr_returns.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
@@ -185,6 +185,7 @@ level98_areas_summary <- level98_areas %>% group_by(time, region) %>%
 level98_areas_regional <- level98_areas_summary %>% 
   left_join(full_reg_key) %>% 
   left_join(time_df)
+saveRDS(level98_areas_regional, "full-model/figures/paper/tibbles/level98_areas_regional_gamma-cst.RDS")
 
 p <- level98_areas_regional %>% ggplot() + 
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
@@ -193,7 +194,7 @@ p <- level98_areas_regional %>% ggplot() +
   ylab("Expected burn area (ha) given fire occurrence") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
   theme_classic() + theme(legend.position = "none") + 
-  theme(strip.text.x = element_text(size = rel(0.9)))
+  theme(strip.text.x = element_text(size = rel(1.1)))
 
 file_name <- "full-model/figures/paper/98th_quant_burnareas.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)

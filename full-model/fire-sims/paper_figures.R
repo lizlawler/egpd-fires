@@ -526,22 +526,26 @@ p <- burn_preds_annual %>%
   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + scale_y_log10() +
+  # facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+  scale_y_log10() +
   xlab("Year (1990-2020)") + 
   ylab("Expected burn area (ha)") +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_bylevel1_hectares.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-cst_same-y-scale.pdf", width = 15)
 
 p <- burn_preds_winsor %>% 
   ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + scale_y_log10() +
+  # facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+  scale_y_log10() +
   xlab("Year (1990-2020)") + 
   ylab("Expected burn area (ha)") +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_bylevel1_winsor_hectares.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-cst_same-y-scale.pdf", width = 15)
 
 # now create for 'gamma-ri' model
 burn_preds <- burn_preds_gamma_ri %>% left_join(full_reg_key) %>% left_join(time_df) %>% mutate(year = year(date))
@@ -567,18 +571,22 @@ p <- burn_preds_annual %>%
   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + scale_y_log10() +
+  # facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+  scale_y_log10() +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_bylevel1_gamma-ri.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-ri_same-y-scale.pdf", width = 15)
 
 p <- burn_preds_winsor %>% 
   ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + scale_y_log10() +
+  # facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+  scale_y_log10() +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_bylevel1_winsor_gamma-ri.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-ri_same-y-scale.pdf", width = 15)
 
 
 

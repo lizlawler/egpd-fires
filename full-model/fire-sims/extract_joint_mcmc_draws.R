@@ -17,7 +17,7 @@ library(dplyr)
 files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                 list.files("full-model/fire-sims/model_comparison/extracted_values/", pattern = params))
 files <- files[grepl(paste0(iter,"iter"), files)]
-files <- files[grepl("withpreds", files)]
+files <- files[grepl("redopreds", files)]
 print("Files being used are:")
 files
 

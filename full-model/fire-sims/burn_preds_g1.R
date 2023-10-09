@@ -3,6 +3,7 @@ set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(tidyr)
 library(dplyr)
+library(tibble)
 library(stringr)
 library(posterior)
 library(lubridate)

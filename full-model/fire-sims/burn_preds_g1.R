@@ -1,7 +1,8 @@
 library(cmdstanr)
 set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
-library(tidyverse)
+library(tidyr)
+library(dplyr)
 library(stringr)
 library(posterior)
 library(lubridate)

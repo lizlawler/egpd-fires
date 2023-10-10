@@ -1,0 +1,154 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+
+A newer version of CmdStan is available. See ?install_cmdstan() to install it.
+To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+This is posterior version 1.4.1
+
+Attaching package: ‘posterior’
+
+The following objects are masked from ‘package:stats’:
+
+    mad, sd, var
+
+The following objects are masked from ‘package:base’:
+
+    %in%, match
+
+
+Attaching package: ‘lubridate’
+
+The following objects are masked from ‘package:base’:
+
+    date, intersect, setdiff, union
+
+[1] "Extracting sigma and xi..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Sigma and xi extracted, moving on to kappa extraction..."
+          used (Mb) gc trigger  (Mb) max used  (Mb)
+Ncells 1013890 54.2    2876552 153.7  2876552 153.7
+Vcells 3508366 26.8   13218716 100.9 13218715 100.9
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Kappa has been extracted, moving on to ZINB model..."
+            used  (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1108283  59.2   55116936 2943.6  63635978 3398.6
+Vcells 113002008 862.2  579665599 4422.5 706906144 5393.3
+[1] "Extracting lambda train values..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Extracting lambda hold values..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Full tibble of lambda values has been created, moving on to extraction of pi..."
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1208174   64.6   28219872 1507.2  63635978 3398.6
+Vcells 211530096 1613.9  579665599 4422.5 706906144 5393.3
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Pi prob values have been extracted, moving on to extraction of delta..."
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1208446   64.6   22575898 1205.7  63635978 3398.6
+Vcells 211742358 1615.5  579665599 4422.5 706906144 5393.3
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Delta values have been extracted, moving on to joining all count and burn parameters..."
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1208713   64.6   18060719  964.6  63635978 3398.6
+Vcells 211952541 1617.1  579665599 4422.5 706906144 5393.3
+Joining with `by = join_by(draw, region)`
+Joining with `by = join_by(draw, time, region)`
+Joining with `by = join_by(draw, region)`
+Joining with `by = join_by(draw, region)`
+[1] "Burn and count parameters have been joined for one chain, moving on to predictions. May take a while..."
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d
+ ■                                  0% |  ETA:  2d

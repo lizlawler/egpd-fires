@@ -115,7 +115,7 @@ g1_gq_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                       list.files(path = "full-model/fire-sims/model_comparison/extracted_values/", 
                                  pattern = "g1_sigma-ri_xi-ri_erc_12"))
 g1_gq_files <- g1_gq_files[grepl("long", g1_gq_files)]
-g1_gq_files <- g1_gq_files[grepl(paste0(chain, ".csv"), g1_gq_files)]
+g1_gq_files <- g1_gq_files[grepl(paste0(chain, "_GQ.csv"), g1_gq_files)]
 kappa_draws <- read_cmdstan_csv(g1_gq_files, variables = "reg_full")$generated_quantities
 kappa <- kappa_draws %>%
   as_draws_df() %>%

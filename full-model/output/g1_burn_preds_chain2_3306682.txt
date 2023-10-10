@@ -65,3 +65,46 @@ Dropping 'draws_df' class as required metadata was removed.
             used   (Mb) gc trigger   (Mb)  max used   (Mb)
 Ncells   1203215   64.3   18061077  964.6  68897534 3679.6
 Vcells 211141646 1610.9  578669090 4414.9 706305443 5388.7
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Delta values have been extracted, moving on to joining all count and burn parameters..."
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1203482   64.3   14448862  771.7  68897534 3679.6
+Vcells 211351829 1612.5  578669090 4414.9 706305443 5388.7
+Joining with `by = join_by(draw, region)`
+Joining with `by = join_by(draw, time, region)`
+Joining with `by = join_by(draw, region)`
+Joining with `by = join_by(draw, region)`
+[1] "Burn and count parameters have been joined for one chain, moving on to predictions. May take a while..."
+Error in `mutate()`:
+ℹ In argument: `preds = purrr::pmap_dbl(...)`.
+Caused by error in `purrr::pmap_dbl()`:
+ℹ In index: 1.
+Caused by error in `integer()`:
+! invalid 'length' argument
+Backtrace:
+     ▆
+  1. ├─... %>% select(c("draw", "time", "region", "preds"))
+  2. ├─dplyr::select(., c("draw", "time", "region", "preds"))
+  3. ├─dplyr::mutate(...)
+  4. ├─dplyr:::mutate.data.frame(...)
+  5. │ └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
+  6. │   ├─base::withCallingHandlers(...)
+  7. │   └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
+  8. │     └─mask$eval_all_mutate(quo)
+  9. │       └─dplyr (local) eval()
+ 10. ├─purrr::pmap_dbl(...)
+ 11. │ └─purrr:::pmap_("double", .l, .f, ..., .progress = .progress)
+ 12. │   ├─purrr:::with_indexed_errors(...)
+ 13. │   │ └─base::withCallingHandlers(...)
+ 14. │   ├─purrr:::call_with_cleanup(...)
+ 15. │   └─global .f(...)
+ 16. │     └─base::replicate(n, burns_rng(pi, delta, lambda, sigma, xi, kappa))
+ 17. │       ├─base::sapply(...)
+ 18. │       │ └─base::lapply(X = X, FUN = FUN, ...)
+ 19. │       └─base::integer(n)
+ 20. └─base::.handleSimpleError(...)
+ 21.   └─purrr (local) h(simpleError(msg, call))
+ 22.     └─cli::cli_abort(...)
+ 23.       └─rlang::abort(...)
+Execution halted

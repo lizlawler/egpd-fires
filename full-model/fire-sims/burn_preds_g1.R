@@ -1,3 +1,6 @@
+args <- commandArgs(trailingOnly=TRUE)
+chain <- args[1]
+
 library(cmdstanr)
 set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
@@ -29,21 +32,34 @@ egpd_rng <- function(n, sigma, xi, kappa) {
   return(rng_val)
 }
 
-burn_preds_gen <- function(pi_prob, delta, lambda, sigma, xi, kappa) {
-  burn_draws <- rep(NA, 500)
+burn_preds_gen <- function(n = 500, pi_prob, delta, lambda, sigma, xi, kappa) {
   pi <- exp(pi_prob)/(1+exp(pi_prob))
-  for(i in 1:500) {
+  burns_rng <- function(pi, delta, lambda, sigma, xi, kappa) {
     zero <- rbinom(1, 1, pi)
     count_draw <- (1-zero) * rnbinom(1, size = delta, mu = exp(lambda))
     if(count_draw == 0) {
-      burn_draws[i] <- 0
+      return(0)
     } else {
       temp <- egpd_rng(count_draw, sigma, xi, kappa)
-      burn_draws[i] = sum(temp[is.finite(temp)])
+      return(sum(temp[is.finite(temp)]))
     }
   }
+  burn_draws <- replicate(n, burns_rng(pi, delta, lambda, sigma, xi, kappa))
   return(mean(burn_draws, na.rm = TRUE))
 }
+  
+#   for(i in 1:500) {
+#     zero <- rbinom(1, 1, pi)
+#     count_draw <- (1-zero) * rnbinom(1, size = delta, mu = exp(lambda))
+#     if(count_draw == 0) {
+#       burn_draws[i] <- 0
+#     } else {
+#       temp <- egpd_rng(count_draw, sigma, xi, kappa)
+#       burn_draws[i] = sum(temp[is.finite(temp)])
+#     }
+#   }
+#   return(mean(burn_draws, na.rm = TRUE))
+# }
 
 date_seq <- seq(as.Date("1990-01-01"), by = "1 month", length.out = 372) %>% as_tibble() %>% rename(date = value)
 time_df <- date_seq %>% mutate(time = 1:372)
@@ -68,10 +84,11 @@ train_tmpts <- time_df %>%
   rowid_to_column(var = "model_tmpt") %>% 
   rename(true_tmpt = time)
 
-# extract sigma and xi 
+# extract sigma and xi from ONE CHAIN
 g1_files <- paste0("full-model/fire-sims/burns/g1/csv-fits/",
                    list.files(path = "full-model/fire-sims/burns/g1/csv-fits", pattern = "sigma-ri_xi-ri_erc_12Sep"))
 g1_files <- g1_files[grepl("long", g1_files)]
+g1_files <- g1_files[grepl(paste0(chain, ".csv"), g1_files)]
 
 print("Extracting sigma and xi...")
 rand_int_draws <- read_cmdstan_csv(g1_files, variables = "ri_init")$post_warmup_draws
@@ -89,8 +106,7 @@ rand_int <- rand_int_draws %>%
                            TRUE ~ param),
          value = exp(value)) %>%
   pivot_wider(names_from = param, values_from = value)
-saveRDS(rand_int, file = paste0("full-model/fire-sims/burns/g1/best_fit_", "rand_int", ".RDS"))
-print("Sigma and xi have been written to disk, moving on to kappa extraction...")
+print("Sigma and xi extracted, moving on to kappa extraction...")
 rm(rand_int_draws)
 gc()
 
@@ -99,7 +115,7 @@ g1_gq_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                       list.files(path = "full-model/fire-sims/model_comparison/extracted_values/", 
                                  pattern = "g1_sigma-ri_xi-ri_erc_12"))
 g1_gq_files <- g1_gq_files[grepl("long", g1_gq_files)]
-g1_gq_files <- g1_gq_files[grepl(".csv", g1_gq_files)]
+g1_gq_files <- g1_gq_files[grepl(paste0(chain, ".csv"), g1_gq_files)]
 kappa_draws <- read_cmdstan_csv(g1_gq_files, variables = "reg_full")$generated_quantities
 kappa <- kappa_draws %>%
   as_draws_df() %>%
@@ -112,8 +128,7 @@ kappa <- kappa_draws %>%
          region = as.numeric(gsub("\\]", "", region)),
          kappa = exp(value)) %>% select(-value)
 kappa <- kappa %>% select(-param)
-saveRDS(kappa, file = paste0("full-model/fire-sims/burns/g1/best_fit_", "kappa", ".RDS"))
-print("Kappa has been written to disk, moving on to ZINB model...")
+print("Kappa has been extracted, moving on to ZINB model...")
 rm(kappa_draws)
 gc()
 
@@ -121,6 +136,7 @@ gc()
 zinb_files <- paste0("full-model/fire-sims/counts/zinb_er/csv-fits/",
                    list.files(path = "full-model/fire-sims/counts/zinb_er/csv-fits", pattern = "pi-ri_climate"))
 zinb_files <- zinb_files[grepl("long", zinb_files)]
+zinb_files <- zinb_files[grepl(paste0(chain, ".csv"), zinb_files)]
 
 print("Extracting lambda train values...")
 lambda_train_draws <- read_cmdstan_csv(zinb_files, variables = "lambda")$post_warmup_draws
@@ -154,11 +170,10 @@ lambda_hold <- lambda_hold_draws %>%
   select(-time) %>% 
   rename(time = true_tmpt)
 lambda <- rbind(lambda_hold, lambda_train)
-saveRDS(lambda, file = paste0("full-model/fire-sims/counts/zinb_er/best_fit_", "lambda", ".RDS"))
+print("Full tibble of lambda values has been created, moving on to extraction of pi...")
 rm(list = ls(pattern = "lambda_train"))
 rm(list = ls(pattern = "lambda_hold"))
 gc()
-print("Full tibble of lambda values has been written to disk, moving on to extraction of pi...")
 
 pi_prob_draws <- read_cmdstan_csv(zinb_files, variables = "pi_prob")$post_warmup_draws
 pi_prob <- pi_prob_draws %>%
@@ -168,10 +183,9 @@ pi_prob <- pi_prob_draws %>%
   rename(draw = ".draw") %>%
   mutate(region = as.character(gsub("pi_prob\\[", "", name)),
          region = as.numeric(gsub("\\]", "", region)),
-         name = "pi") %>%
+         name = "pi_prob") %>%
   pivot_wider(names_from = name, values_from = value)
-saveRDS(pi_prob, file = paste0("full-model/fire-sims/counts/zinb_er/best_fit_", "pi_prob", ".RDS"))
-print("Pi values have been written to disk, moving on to extraction of delta...")
+print("Pi prob values have been extracted, moving on to extraction of delta...")
 rm(pi_prob_draws)
 gc()
 
@@ -185,21 +199,15 @@ delta <- delta_draws %>%
          region = as.numeric(gsub("\\]", "", region)),
          name = "delta") %>%
   pivot_wider(names_from = name, values_from = value)
-saveRDS(delta, file = paste0("full-model/fire-sims/counts/zinb_er/best_fit_", "delta", ".RDS"))
-print("Delta values have been written to disk, moving on to joining all count and burn parameters...")
+print("Delta values have been extracted, moving on to joining all count and burn parameters...")
 rm(delta_draws)
 gc()
 
-# kappa <- readRDS(paste0("full-model/fire-sims/burns/g1/best_fit_", "kappa", ".RDS"))
-# rand_int <- readRDS(paste0("full-model/fire-sims/burns/g1/best_fit_", "rand_int", ".RDS"))
-# lambda <- readRDS(paste0("full-model/fire-sims/counts/zinb_er/best_fit_", "lambda", ".RDS"))
-# delta <- readRDS(paste0("full-model/fire-sims/counts/zinb_er/best_fit_", "delta", ".RDS"))
-# pi_prob <- readRDS(paste0("full-model/fire-sims/counts/zinb_er/best_fit_", "pi_prob", ".RDS"))
-
 burn_preds <- kappa %>% left_join(rand_int) %>% left_join(lambda) %>% left_join(pi_prob) %>% left_join(delta)
+print("Burn and count parameters have been joined for one chain, moving on to predictions. May take a while...")
 burn_preds <- burn_preds %>%
-  mutate(preds = purrr::pmap_dbl(list(pi, delta, lambda, sigma, xi, kappa), burn_preds_gen, .progress = TRUE)) %>%
+  mutate(preds = purrr::pmap_dbl(list(pi_prob, delta, lambda, sigma, xi, kappa), burn_preds_gen, .progress = TRUE)) %>%
   select(c("draw", "time", "region", "preds"))
-saveRDS(burn_preds, file = paste0("full-model/fire-sims/model_comparison/g1_burn_preds.RDS"))
+saveRDS(burn_preds, file = paste0("full-model/fire-sims/model_comparison/g1_burn_preds_", chain, ".RDS"))
 
 

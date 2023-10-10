@@ -3,10 +3,10 @@
 #SBATCH --partition=amilan
 #SBATCH --account=csu54_alpine1
 #SBATCH --chdir=/scratch/alpine/eslawler@colostate.edu/egpd-fires/
-#SBATCH --qos=normal
+#SBATCH --qos=long
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=35
-#SBATCH --time=8:00:00
+#SBATCH --ntasks-per-node=20
+#SBATCH --time=36:00:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=eslawler@colostate.edu
 
@@ -19,4 +19,4 @@ mkdir -p $TMPDIR
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate lawler
 
-Rscript --vanilla ./full-model/fire-sims/burn_preds_g1.R
+Rscript --vanilla ./full-model/fire-sims/burn_preds_g1.R ${chain}

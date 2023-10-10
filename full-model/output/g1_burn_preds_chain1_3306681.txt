@@ -1,0 +1,55 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+
+A newer version of CmdStan is available. See ?install_cmdstan() to install it.
+To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+This is posterior version 1.4.1
+
+Attaching package: ‘posterior’
+
+The following objects are masked from ‘package:stats’:
+
+    mad, sd, var
+
+The following objects are masked from ‘package:base’:
+
+    %in%, match
+
+
+Attaching package: ‘lubridate’
+
+The following objects are masked from ‘package:base’:
+
+    date, intersect, setdiff, union
+
+[1] "Extracting sigma and xi..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Sigma and xi extracted, moving on to kappa extraction..."
+          used (Mb) gc trigger  (Mb) max used  (Mb)
+Ncells 1013890 54.2    2876552 153.7  2876552 153.7
+Vcells 3508366 26.8   13218716 100.9 13218715 100.9
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Kappa has been extracted, moving on to ZINB model..."
+            used  (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1108283  59.2   55116936 2943.6  63635978 3398.6
+Vcells 113002008 862.2  579665599 4422.5 706906144 5393.3
+[1] "Extracting lambda train values..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Extracting lambda hold values..."

@@ -206,7 +206,7 @@ gc()
 burn_preds <- kappa %>% left_join(rand_int) %>% left_join(lambda) %>% left_join(pi_prob) %>% left_join(delta)
 print("Burn and count parameters have been joined for one chain, moving on to predictions. May take a while...")
 burn_preds <- burn_preds %>%
-  mutate(preds = purrr::pmap_dbl(list(pi_prob, delta, lambda, sigma, xi, kappa), burn_preds_gen, .progress = TRUE)) %>%
+  mutate(preds = purrr::pmap_dbl(list(500, pi_prob, delta, lambda, sigma, xi, kappa), burn_preds_gen, .progress = TRUE)) %>%
   select(c("draw", "time", "region", "preds"))
 saveRDS(burn_preds, file = paste0("full-model/fire-sims/model_comparison/g1_burn_preds_", chain, ".RDS"))
 

@@ -51,3 +51,12 @@ Dropping 'draws_df' class as required metadata was removed.
 Ncells   1103097  59.0   44095805 2355.0  63630792 3398.3
 Vcells 112401296 857.6  578669090 4414.9 706303745 5388.7
 [1] "Extracting lambda train values..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Extracting lambda hold values..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Full tibble of lambda values has been created, moving on to extraction of pi..."
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1202988   64.3   22577053 1205.8  63630792 3398.3
+Vcells 210929384 1609.3  578669090 4414.9 706303745 5388.7

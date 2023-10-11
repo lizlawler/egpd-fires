@@ -81,7 +81,7 @@ train_tmpts <- time_df %>%
 # extract xi and delta_burn from ONE CHAIN
 g3_files <- paste0("full-model/fire-sims/burns/g3/csv-fits/",
                    list.files(path = "full-model/fire-sims/burns/g3/csv-fits", pattern = "erc_xi-ri_nu"))
-g3_files <- g3_files[grepl(paste0(chain, ".csv"), g3_files)]
+g3_files <- g3_files[grepl(paste0("_", chain, ".csv"), g3_files)]
 print(paste0("Filename(s) being used are:", g3_files))
 
 print("Extracting xi and delta...")

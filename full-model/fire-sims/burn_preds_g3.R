@@ -103,13 +103,8 @@ print("Xi and delta extracted, moving on to nu extraction...")
 rm(rand_int_draws)
 gc()
 
-# extract nu values from gen quant block (so it's all timepoints) of best g3 model
-g3_gq_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
-                      list.files(path = "full-model/fire-sims/model_comparison/extracted_values/", 
-                                 pattern = "g3_sigma-ri_xi-ri_erc_12"))
-g3_gq_files <- g3_gq_files[grepl("long", g3_gq_files)]
-g3_gq_files <- g3_gq_files[grepl(paste0(chain, "_GQ.csv"), g3_gq_files)]
-nu_draws <- read_cmdstan_csv(g3_gq_files, variables = "reg_full")$generated_quantities
+# extract nu values of best g3 model
+nu_draws <- read_cmdstan_csv(g3_files, variables = "reg_full")$generated_quantities
 nu <- nu_draws %>%
   as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>%

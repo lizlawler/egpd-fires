@@ -82,6 +82,7 @@ train_tmpts <- time_df %>%
 g3_files <- paste0("full-model/fire-sims/burns/g3/csv-fits/",
                    list.files(path = "full-model/fire-sims/burns/g3/csv-fits", pattern = "erc_xi-ri_nu"))
 g3_files <- g3_files[grepl(paste0(chain, ".csv"), g3_files)]
+print(paste0("Filename(s) being used are:", g3_files))
 
 print("Extracting xi and delta...")
 rand_int_draws <- read_cmdstan_csv(g3_files, variables = "ri_init")$post_warmup_draws
@@ -104,7 +105,7 @@ rm(rand_int_draws)
 gc()
 
 # extract nu values of best g3 model
-nu_draws <- read_cmdstan_csv(g3_files, variables = "reg_full")$generated_quantities
+nu_draws <- read_cmdstan_csv(g3_files, variables = "reg_full")$post_warmup_draws
 nu <- nu_draws %>%
   as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>%

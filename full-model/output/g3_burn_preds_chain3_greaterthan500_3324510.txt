@@ -36,9 +36,18 @@ The following objects are masked from ‘package:base’:
 
     date, intersect, setdiff, union
 
-[1] "Filename(s) being used are:full-model/fire-sims/burns/g3/csv-fits/g3_erc_xi-ri_nu_14Sep2023_1348_1.csv"
-[2] "Filename(s) being used are:full-model/fire-sims/burns/g3/csv-fits/g3_erc_xi-ri_nu_14Sep2023_1348_2.csv"
-[3] "Filename(s) being used are:full-model/fire-sims/burns/g3/csv-fits/g3_erc_xi-ri_nu_14Sep2023_1348_3.csv"
+[1] "Filename(s) being used are:full-model/fire-sims/burns/g3/csv-fits/g3_erc_xi-ri_nu_14Sep2023_1348_3.csv"
 [1] "Extracting xi and delta..."
-Error: All variables in all chains must have the same length.
-Execution halted
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Xi and delta extracted, moving on to nu extraction..."
+          used (Mb) gc trigger  (Mb) max used  (Mb)
+Ncells 1009333 54.0    2876687 153.7  2494154 133.3
+Vcells 2908450 22.2   10146329  77.5 10146328  77.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Nu has been extracted, moving on to ZINB model..."
+            used  (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1103097  59.0   44095805 2355.0  63630792 3398.3
+Vcells 112401296 857.6  578669090 4414.9 706303745 5388.7
+[1] "Extracting lambda train values..."

@@ -1,0 +1,47 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+
+A newer version of CmdStan is available. See ?install_cmdstan() to install it.
+To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+This is posterior version 1.4.1
+
+Attaching package: ‘posterior’
+
+The following objects are masked from ‘package:stats’:
+
+    mad, sd, var
+
+The following objects are masked from ‘package:base’:
+
+    %in%, match
+
+
+Attaching package: ‘lubridate’
+
+The following objects are masked from ‘package:base’:
+
+    date, intersect, setdiff, union
+
+[1] "Filename(s) being used are:full-model/fire-sims/burns/g3/csv-fits/g3_erc_xi-ri_nu_14Sep2023_1348_1.csv"
+[1] "Extracting xi and delta..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Xi and delta extracted, moving on to nu extraction..."
+          used (Mb) gc trigger  (Mb) max used  (Mb)
+Ncells 1009333 54.0    2876927 153.7  2494693 133.3
+Vcells 2908450 22.2   10146329  77.5 10146286  77.5
+slurmstepd: error: *** JOB 3324458 ON c3cpu-c15-u5-4 CANCELLED AT 2023-10-11T16:28:10 ***

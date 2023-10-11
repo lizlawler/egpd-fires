@@ -54,3 +54,61 @@ Vcells 112401296 857.6  578669090 4414.9 706303745 5388.7
 Warning message:
 Dropping 'draws_df' class as required metadata was removed. 
 [1] "Extracting lambda hold values..."
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Full tibble of lambda values has been created, moving on to extraction of pi..."
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1202988   64.3   22577053 1205.8  63630792 3398.3
+Vcells 210929384 1609.3  578669090 4414.9 706303745 5388.7
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Pi prob values have been extracted, moving on to extraction of delta..."
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1203260   64.3   18061643  964.6  63630792 3398.3
+Vcells 211141646 1610.9  578669090 4414.9 706303745 5388.7
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "Delta values have been extracted, moving on to joining all count and burn parameters..."
+            used   (Mb) gc trigger   (Mb)  max used   (Mb)
+Ncells   1203527   64.3   14449315  771.7  63630792 3398.3
+Vcells 211351829 1612.5  578669090 4414.9 706303745 5388.7
+Joining with `by = join_by(draw, region)`
+Joining with `by = join_by(draw, time, region)`
+Joining with `by = join_by(draw, region)`
+Joining with `by = join_by(draw, region)`
+[1] "Burn and count parameters have been joined for one chain, moving on to predictions. May take a while..."
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d
+ ■                                  0% |  ETA:  1d

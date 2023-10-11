@@ -213,6 +213,6 @@ burn_preds <- burn_preds %>%
                                  burn_preds_gen, 
                                  .progress = TRUE)) %>%
   select(c("draw", "time", "region", "preds"))
-saveRDS(burn_preds, file = paste0("full-model/fire-sims/model_comparison/g3_burn_preds_", chain, ".RDS"))
+saveRDS(burn_preds, file = paste0("full-model/fire-sims/model_comparison/g3_burn_preds_", chain, "_", ineq, "than500.RDS"))
 
 

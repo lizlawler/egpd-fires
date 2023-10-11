@@ -192,7 +192,7 @@ print("Delta values have been extracted, moving on to joining all count and burn
 rm(delta_draws)
 gc()
 
-burn_preds <- kappa %>% 
+burn_preds <- nu %>% 
   left_join(rand_int) %>% 
   left_join(lambda) %>% 
   left_join(pi_prob) %>% 

@@ -64,7 +64,7 @@ burn_model_names <- lapply(fit_groups, function(x) {
   unlist()
 
 
-# pull scores from each BURN model and aggregate -----
+# pull scores from each COUNT model and aggregate -----
 for(i in seq_along(count_model_names)) {
   read_scores(count_files_climate[i], count_model_names[i])
 }
@@ -74,15 +74,15 @@ for(i in seq_along(burn_model_names)) {
 }
 
 # read in G3 model that finished and is analogous to G1 "best" model
-g3_files <- paste0("full-model/fire-sims/burns/g3/csv-fits/",
-                      list.files("full-model/fire-sims/burns/g3/csv-fits/", 
-                                 "erc_xi-ri_nu"))
-g3_files <- g3_files[c(1,3)]
-g3_name <- str_remove(basename(g3_files[1]), "_\\d{2}Sep2023_\\d{4}_\\d{1}.csv")
-extraction(list(g3_files)[[1]], g3_name)
+# g3_files <- paste0("full-model/fire-sims/burns/g3/csv-fits/",
+#                       list.files("full-model/fire-sims/burns/g3/csv-fits/", 
+#                                  "erc_xi-ri_nu"))
+# g3_files <- g3_files[c(1,3)]
+# g3_name <- str_remove(basename(g3_files[1]), "_\\d{2}Sep2023_\\d{4}_\\d{1}.csv")
+# extraction(list(g3_files)[[1]], g3_name)
 
 
-nfits <- length(burn_model_names) + 1
+nfits <- length(burn_model_names)
 holdout_loglik <- vector("list", nfits)
 train_loglik <- vector("list", nfits)
 train_twcrps <- vector("list", nfits)

@@ -25,6 +25,15 @@ ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)
          NA_L3CODE = as.factor(NA_L3CODE),
          NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
 
+all_years <- 1990:2020
+first_five <- 1990:1994
+last_five <- 2020:2016
+test_years <- sort(c(first_five, last_five))
+train_years <- setdiff(all_years, test_years)
+
+date_seq <- seq(as.Date("1990-01-01"), by = "1 month", length.out = 372) %>% as_tibble() %>% rename(date = value)
+time_df <- date_seq %>% mutate(time = 1:372)
+
 # egpd functions
 pegpd <- function(y, kappa, sigma, xi) (1 - (1 + xi * (y/sigma))^(-1/xi))^kappa
 qegpd <- function(p, kappa, sigma, xi) (sigma/xi) * ( (1 - p^(1/kappa) )^-xi - 1)
@@ -65,21 +74,19 @@ high_quant <- function(N, kappa, sigma, xi) {
 # saveRDS(delta, "full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/delta.RDS")
   
 # read in extracted mcmc draws ------
-files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_1000iter/",
-                list.files(path = "full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_1000iter/",
+files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
+                list.files(path = "full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
                            pattern = ".RDS"))
 files <- files[!grepl("old", files)]
 files <- files[!grepl("beta", files)]
 files <- files[!grepl("phi", files)]
+files <- files[!grepl("kappa", files)]
 object_names <- str_remove(basename(files), ".RDS")
 for(i in seq_along(object_names)) {
   assign(object_names[i], readRDS(files[i]))
 }
 
-## create time series plots of phi values for kappa and lambda -------
-date_seq <- seq(as.Date("1990-01-01"), by = "1 month", length.out = 372) %>% as_tibble() %>% rename(date = value)
-time_df <- date_seq %>% mutate(time = 1:372)
-
+## create time series plots of phi values for kappa and lambda ------
 # phi_kappa <- phi %>% select(-lambda) %>% group_by(time, region) %>% summarize(kappa = median(kappa)) %>% ungroup()
 # p <- phi_kappa %>% left_join(full_reg_key) %>% left_join(time_df) %>%
 #   ggplot(aes(x = date, y = kappa, color = NA_L2CODE)) + 
@@ -88,45 +95,6 @@ time_df <- date_seq %>% mutate(time = 1:372)
 #   facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
 #   theme_classic()
 # ggsave("full-model/figures/paper/phi_kappa_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-# 
-# phi_lambda <- phi %>% select(-kappa) %>% group_by(time, region) %>% summarize(lambda = median(lambda)) %>% ungroup()
-# p <- phi_lambda %>% left_join(full_reg_key) %>% left_join(time_df) %>%
-#   ggplot(aes(x = date, y = lambda, color = NA_L2CODE)) + 
-#   geom_line(linewidth = 0.5) + 
-#   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
-#   facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
-#   theme_classic()
-# ggsave("full-model/figures/paper/phi_lambda_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-
-# phi_med_cal <- phi %>% left_join(full_reg_key) %>% 
-#   filter(NA_L1NAME == "Mediterranean California") %>% 
-#   group_by(time, region) %>% 
-#   summarize(lambda = median(lambda), kappa = median(kappa)) %>% 
-#   ungroup() %>% left_join(full_reg_key) %>% filter(region == 10)
-# 
-# years <- seq(1, 372, by = 12)[-1]
-# p <- phi_med_cal %>% left_join(time_df) %>% 
-#   pivot_longer(cols = c("lambda", "kappa"), names_to = "param", values_to = "value") %>%
-#   ggplot(aes(x = date, y = value)) + 
-#   geom_line(linewidth = 0.5, col = "blue") +
-#   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
-#   facet_wrap(. ~ param, scales = "free_y") +
-#   theme_classic() + theme(legend.position = "none")
-# ggsave("full-model/figures/paper/phi_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-# 
-# p <- phi_med_cal %>%
-#   ggplot(aes(x = time, y = kappa)) +
-#   geom_line(linewidth = 0.5, col = "blue") +
-#   geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
-#   theme_classic() + theme(legend.position = "none")
-# ggsave("full-model/figures/paper/phi_kappa_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-# 
-# p <- phi_med_cal %>%
-#   ggplot(aes(x = time, y = lambda)) +
-#   geom_line(linewidth = 0.5, col = "blue") +
-#   geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
-#   theme_classic() + theme(legend.position = "none")
-# ggsave("full-model/figures/paper/phi_lambda_med_cal_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
 # 
 # ## create time series for theta ------
 # years <- seq(1, 372, by = 12)[-1]
@@ -240,33 +208,6 @@ ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 #   ungroup()
 # level98_timeavg_regions <- level98_timeavg_summary %>% left_join(full_reg_key)
 
-# level95_timeavg <- all_params_notime %>% 
-#   mutate(yr20 = high_quant(20, kappa, sigma, xi)*0.405) # convert to hectares (1000s of hectares)
-# level95_timeavg_summary <- level95_timeavg %>% group_by(region) %>%
-#   summarize(med20 = median(yr20[is.finite(yr20)]), 
-#             lower = quantile(yr20[is.finite(yr20)], probs = 0.025), 
-#             upper = quantile(yr20[is.finite(yr20)], probs = 0.975)) %>%
-#   ungroup()
-# level95_timeavg_regions <- level95_timeavg_summary %>% left_join(full_reg_key)
-# 
-# level75_timeavg <- all_params_notime %>% 
-#   mutate(yr4 = high_quant(4, kappa, sigma, xi)*0.405)
-# level75_timeavg_summary <- level75_timeavg %>% group_by(region) %>%
-#   summarize(med4 = median(yr4[is.finite(yr4)]), 
-#             lower = quantile(yr4[is.finite(yr4)], probs = 0.025), 
-#             upper = quantile(yr4[is.finite(yr4)], probs = 0.975)) %>%
-#   ungroup()
-# level75_timeavg_regions <- level75_timeavg_summary %>% left_join(full_reg_key)
-# 
-# level50_timeavg <- all_params_notime %>% 
-#   mutate(yr2 = high_quant(2, kappa, sigma, xi)*0.405) # rescale back to 1000s of acres; convert to hectares
-# level50_timeavg_summary <- level50_timeavg %>% group_by(region) %>%
-#   summarize(med2 = median(yr2[is.finite(yr2)]), 
-#             lower = quantile(yr2[is.finite(yr2)], probs = 0.025), 
-#             upper = quantile(yr2[is.finite(yr2)], probs = 0.975)) %>%
-#   ungroup()
-# level50_timeavg_regions <- level50_timeavg_summary %>% left_join(full_reg_key)
-
 # ## create maps for each quantile level, using same interval break categories -------
 # allquantlevels <- c(level50_timeavg_summary$med2, level75_timeavg_summary$med4, level95_timeavg_summary$med20, level98_timeavg_summary$med50)
 # breaks <- classIntervals(c(min(allquantlevels) - .00001, allquantlevels), style = 'quantile',intervalClosure = 'left')
@@ -282,42 +223,6 @@ ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 #   scale_fill_brewer(palette = 'YlOrRd') +
 #   theme_void() 
 # ggsave("full-model/figures/paper/onekappa_98th_quant_map.pdf", dpi = 320, bg ='white')
-
-# eco_burns95 <- ecoregions_geom %>% 
-#   left_join(level95_timeavg_regions) %>% 
-#   mutate(burns_cat = cut(med20, unique(breaks$brks)))
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_burns95,
-#           aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
-#   scale_fill_brewer(palette = 'YlOrRd') +
-#   theme_void() 
-# ggsave("full-model/figures/paper/onekappa_95th_quant_map.pdf", dpi = 320, bg ='white')
-# 
-# eco_burns75 <- ecoregions_geom %>% 
-#   left_join(level75_timeavg_regions) %>% 
-#   mutate(burns_cat = cut(med4, unique(breaks$brks)))
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_burns75,
-#           aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
-#   scale_fill_brewer(palette = 'YlOrRd') +
-#   theme_void() 
-# ggsave("full-model/figures/paper/onekappa_75th_quant_map.pdf", dpi = 320, bg ='white')
-# 
-# eco_burns50 <- ecoregions_geom %>% 
-#   left_join(level50_timeavg_regions) %>% 
-#   mutate(burns_cat = cut(med2, unique(breaks$brks)))
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_burns50,
-#           aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
-#   scale_fill_brewer(palette = 'YlOrRd') +
-#   theme_void() 
-# ggsave("full-model/figures/paper/onekappa_50th_quant_map.pdf", dpi = 320, bg ='white')
 
 # ## create maps of each parameter (kappa, sigma, xi) using 'quantile' break schema ---------
 # all_params_notime <- all_params_notime %>% 
@@ -369,15 +274,7 @@ count_preds <- lambda %>%
   select(c(draw, time, region, preds)) %>%
   left_join(full_reg_key) %>% 
   left_join(time_df) %>% 
-  mutate(year = year(date))
-
-all_years <- 1990:2020
-first_five <- 1990:1994
-last_five <- 2020:2016
-test_years <- sort(c(first_five, last_five))
-train_years <- setdiff(all_years, test_years)
-
-preds_annual <- count_preds %>% 
+  mutate(year = year(date)) %>% 
   group_by(NA_L1NAME, year, draw) %>% 
   summarize(total_fires = sum(preds)) %>% 
   ungroup() %>% 
@@ -416,93 +313,88 @@ y_hold_count <- stan_data$y_hold_count %>%
 
 true_counts <- bind_rows(y_train_count, y_hold_count) %>% arrange(year, NA_L1NAME, locale = ".en")
 
-preds_winsor_limits <- preds_annual %>% group_by(NA_L1NAME, year) %>% 
-  summarize(lower = quantile(total_fires, 0.05),
-            upper = quantile(total_fires, 0.95)) %>%
+preds_winsor_limits <- count_preds %>% group_by(NA_L1NAME, year) %>% 
+  summarize(lower = quantile(total_fires, 0.025),
+            upper = quantile(total_fires, 0.975)) %>%
   ungroup()
-preds_winsor <- preds_annual %>% 
+count_preds_winsor <- count_preds %>% 
   left_join(preds_winsor_limits) %>%
   mutate(winsor_total = case_when(total_fires <= lower ~ lower,
                                   total_fires >= upper ~ upper,
                                   .default = total_fires))
 
-p <- preds_annual %>% 
+p <- count_preds %>% 
   ggplot(aes(x = year, y = total_fires, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
+  geom_boxplot(outlier.size = 0.2) + 
+  scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/counts_preds-vs-truth_bylevel1.pdf", width = 15)
+  xlab("Year (1990-2020)") + 
+  ylab("Expected number of fires") +
+  theme_classic() + 
+  theme(legend.position = "none")
+ggsave("full-model/figures/paper/counts_preds-vs-truth_gamma-ri.pdf", width = 15)
 
-p <- preds_winsor %>% 
+p <- count_preds_winsor %>% 
   ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
+  geom_boxplot(outlier.size = 0.2) + 
+  scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/counts_preds-vs-truth_bylevel1_winsor.pdf", width = 15)
+  xlab("Year (1990-2020)") + 
+  ylab("Expected number of fires") +
+  theme_classic() + 
+  theme(legend.position = "none")
+ggsave("full-model/figures/paper/counts_preds-vs-truth_winsor_gamma-ri.pdf", width = 15)
 
-# over entire US (instead of by level 1)
-true_count_entireUS <- true_counts %>% group_by(year) %>% summarize(true_count = sum(true_count)) %>% ungroup()
-preds_annual_US <- preds_annual %>% group_by(year, draw, train) %>% summarize(total_fires = sum(total_fires)) %>% ungroup()
-p <- preds_annual_US %>%
-  ggplot(aes(x = year, y = total_fires, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
-  geom_point(inherit.aes = FALSE, data = true_count_entireUS, aes(x = year, y = true_count), col = "red", size = 0.35) +
-  geom_line(inherit.aes = FALSE, data = true_count_entireUS, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/counts_preds-vs-truth_entireUS.pdf", width = 15)
-
-preds_winsor_limits_US <- preds_annual_US %>% group_by(year) %>%
-  summarize(lower = quantile(total_fires, 0.05),
-            upper = quantile(total_fires, 0.95)) %>%
-  ungroup()
-
-preds_winsor_US <- preds_annual_US %>% 
-  left_join(preds_winsor_limits_US) %>%
-  mutate(winsor_total = case_when(total_fires <= lower ~ lower,
-                                  total_fires >= upper ~ upper,
-                                  .default = total_fires))
-p <- preds_winsor_US %>%
-  ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
-  geom_point(inherit.aes = FALSE, data = true_count_entireUS, aes(x = year, y = true_count), col = "red", size = 0.35) +
-  geom_line(inherit.aes = FALSE, data = true_count_entireUS, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/counts_preds-vs-truth_entireUS_winsor.pdf", width = 15)
 
 ## create boxplot of predicted burn area for entire US annually for all timepoints (holdout and training) and overlay truth ------
-# burn_params <- kappa %>% 
-#   left_join(rand_int)
-# 
-# burn_preds <- readRDS("full-model/figures/paper/burn_preds_df.RDS")
-# burn_preds <- burn_preds %>% 
-#   left_join(delta) %>% 
-#   left_join(lambda) %>% 
-#   left_join(pi_prob) %>% 
-#   mutate(condl_preds = preds * fire_occur(pi, delta, lambda))
-# burn_preds <- burn_preds %>% select(-c("delta", "lambda", "pi"))
-# burn_preds <- burn_params %>%
-#   mutate(preds = purrr::pmap_dbl(list(500, kappa, sigma, xi), med_egpd)) %>%
-#   left_join(full_reg_key) %>%
-#   left_join(time_df) %>%
-#   mutate(year = year(date))
-# saveRDS(burn_preds, file = "full-model/figures/paper/burn_preds_df.RDS")
-
 burn_preds_gamma_ri <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/burn_pred.RDS")
 burn_preds_gamma_cst <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_1000iter/burn_pred.RDS")
 
 # first create for 'gamma-cst' model
-burn_preds <- burn_preds_gamma_cst %>% left_join(full_reg_key) %>% left_join(time_df) %>% mutate(year = year(date))
-burn_preds_annual <- burn_preds %>% rename(preds = value) %>%
+burn_preds_gamma_cst <- burn_preds_gamma_cst %>% 
+  left_join(full_reg_key) %>% 
+  left_join(time_df) %>% 
+  mutate(year = year(date)) %>% 
+  rename(preds = value) %>%
   group_by(NA_L1NAME, year, draw) %>% 
   summarize(total_area = sum(preds[is.finite(preds)])*1000*0.405) %>% 
   ungroup() %>% 
   mutate(train = case_when(year %in% train_years ~ TRUE,
                            year %in% test_years ~ FALSE))
 
+# create for 'gamma-ri' model
+burn_preds_gamma_ri <- burn_preds_gamma_ri %>% 
+  left_join(full_reg_key) %>% 
+  left_join(time_df) %>% 
+  mutate(year = year(date)) %>% rename(preds = value) %>%
+  group_by(NA_L1NAME, year, draw) %>% 
+  summarize(total_area = sum(preds[is.finite(preds)])*1000*0.405) %>% 
+  ungroup() %>% 
+  mutate(train = case_when(year %in% train_years ~ TRUE,
+                           year %in% test_years ~ FALSE))
+
+burn_preds_both <- burn_preds_gamma_cst %>% 
+  mutate(model = 'cst') %>% 
+  rbind(burn_preds_gamma_ri %>% mutate(model = 'ri')) %>%
+  mutate(model = as.factor(model))
+# G1 burn preds ------
+# g1_burns_full <- g1_burn_preds_1 %>% 
+#   rbind(g1_burn_preds_2 %>% mutate(draw = 1000 + draw)) %>%
+#   rbind(g1_burn_preds_3 %>% mutate(draw = 2000 + draw))
+# 
+# g1_burns_full <- g1_burns_full %>% left_join(full_reg_key) %>% left_join(time_df) %>% mutate(year = year(date))
+# g1_burns_full_annual <- g1_burns_full %>%
+#   group_by(NA_L1NAME, year, draw) %>% 
+#   summarize(total_area = sum(preds[is.finite(preds)])*1000*0.405) %>% 
+#   ungroup() %>% 
+#   mutate(train = case_when(year %in% train_years ~ TRUE,
+#                            year %in% test_years ~ FALSE))
+
+# read in true burn areas -------
 true_burns <- readRDS("full-model/data/burn_df_agg.RDS") %>% 
   mutate(NA_L2NAME = case_when(NA_L2NAME == "UPPER GILA MOUNTAINS (?)" ~ "UPPER GILA MOUNTAINS",
                                TRUE ~ NA_L2NAME),
@@ -512,129 +404,263 @@ true_burns_level1 <- true_burns %>% group_by(NA_L1NAME, fire_yr) %>%
 
 true_burns_level1_full <- true_burns_level1 %>% complete(NA_L1NAME, fire_yr) %>% rename(year = fire_yr)
 
-burn_preds_winsor_limits <- burn_preds_annual %>% group_by(NA_L1NAME, year) %>% 
-  summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
-            upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
-  ungroup()
-burn_preds_winsor <- burn_preds_annual %>%
-  left_join(burn_preds_winsor_limits) %>%
-  mutate(winsor_total = case_when(total_area <= lower ~ lower,
-                                  total_area >= upper ~ upper,
-                                  .default = total_area))
+# burn_preds_both_winsor_limits <- burn_preds_both %>% group_by(NA_L1NAME, model, year) %>% 
+#   summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
+#             upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
+#   ungroup()
+# burn_preds_both_winsor <- burn_preds_both %>%
+#   left_join(burn_preds_both_winsor_limits) %>%
+#   mutate(winsor_total = case_when(total_area <= lower ~ lower,
+#                                   total_area >= upper ~ upper,
+#                                   .default = total_area))
 
-p <- burn_preds_annual %>% 
-  ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
-  geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
-  geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  # facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
-  scale_y_log10() +
-  xlab("Year (1990-2020)") + 
-  ylab("Expected burn area (ha)") +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-cst_same-y-scale.pdf", width = 15)
+# g1_burn_preds_winsor_limits <- g1_burns_full_annual %>% group_by(NA_L1NAME, year) %>%
+#   summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
+#             upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
+#   ungroup()
+# g1_burn_preds_winsor <- g1_burns_full_annual %>%
+#   left_join(g1_burn_preds_winsor_limits) %>%
+#   mutate(winsor_total = case_when(total_area <= lower ~ lower,
+#                                   total_area >= upper ~ upper,
+#                                   .default = total_area))
 
-p <- burn_preds_winsor %>% 
-  ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
-  geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
-  geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  # facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
-  scale_y_log10() +
-  xlab("Year (1990-2020)") + 
-  ylab("Expected burn area (ha)") +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-cst_same-y-scale.pdf", width = 15)
+# p <- g1_burns_full_annual %>% 
+#   ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
+#   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
+#   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
+#   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
+#   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
+#   scale_y_log10() +
+#   xlab("Year (1990-2020)") + 
+#   ylab("Expected burn area (ha)") +
+#   theme_classic() + theme(legend.position = "none")
+# 
+# p <- g1_burn_preds_winsor %>%
+#   ggplot(aes(x = year, y = winsor_total, group = year, color = train)) +
+#   geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
+#   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
+#   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
+#   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
+#   scale_y_log10() +
+#   xlab("Year (1990-2020)") +
+#   ylab("Expected burn area (ha)") +
+#   theme_classic() + theme(legend.position = "none")
+# ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_g1.pdf", width = 15)
 
-# now create for 'gamma-ri' model
-burn_preds <- burn_preds_gamma_ri %>% left_join(full_reg_key) %>% left_join(time_df) %>% mutate(year = year(date))
-burn_preds_annual <- burn_preds %>% rename(preds = value) %>%
+burn_preds_gamma_ri <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/burn_pred_old.RDS")
+burn_preds_gamma_cst <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_1000iter/burn_pred_old.RDS")
+
+# first create for 'gamma-cst' model
+burn_preds_gamma_cst <- burn_preds_gamma_cst %>% 
+  left_join(full_reg_key) %>% 
+  left_join(time_df) %>% 
+  mutate(year = year(date)) %>% 
+  rename(preds = value) %>%
   group_by(NA_L1NAME, year, draw) %>% 
   summarize(total_area = sum(preds[is.finite(preds)])*1000*0.405) %>% 
   ungroup() %>% 
   mutate(train = case_when(year %in% train_years ~ TRUE,
                            year %in% test_years ~ FALSE))
 
-burn_preds_winsor_limits <- burn_preds_annual %>% group_by(NA_L1NAME, year) %>% 
+burn_preds_gamma_cst_winsor_limits <- burn_preds_gamma_cst %>% group_by(NA_L1NAME, year) %>%
   summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
             upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
   ungroup()
-burn_preds_winsor <- burn_preds_annual %>%
-  left_join(burn_preds_winsor_limits) %>%
+burn_preds_gamma_cst_winsor <- burn_preds_gamma_cst %>%
+  left_join(burn_preds_gamma_cst_winsor_limits) %>%
   mutate(winsor_total = case_when(total_area <= lower ~ lower,
                                   total_area >= upper ~ upper,
                                   .default = total_area))
 
-p <- burn_preds_annual %>% 
+# create for 'gamma-ri' model
+burn_preds_gamma_ri <- burn_preds_gamma_ri %>% 
+  left_join(full_reg_key) %>% 
+  left_join(time_df) %>% 
+  mutate(year = year(date)) %>% rename(preds = value) %>%
+  group_by(NA_L1NAME, year, draw) %>% 
+  summarize(total_area = sum(preds[is.finite(preds)])*1000*0.405) %>% 
+  ungroup() %>% 
+  mutate(train = case_when(year %in% train_years ~ TRUE,
+                           year %in% test_years ~ FALSE))
+
+burn_preds_gamma_ri_winsor_limits <- burn_preds_gamma_ri %>% group_by(NA_L1NAME, year) %>%
+  summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
+            upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
+  ungroup()
+burn_preds_gamma_ri_winsor <- burn_preds_gamma_ri %>%
+  left_join(burn_preds_gamma_ri_winsor_limits) %>%
+  mutate(winsor_total = case_when(total_area <= lower ~ lower,
+                                  total_area >= upper ~ upper,
+                                  .default = total_area))
+
+p <- burn_preds_gamma_cst %>% 
   ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
+  geom_boxplot(outlier.size = 0.2) + 
+  scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  # facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
   scale_y_log10() +
+  xlab("Year (1990-2020)") + 
+  ylab("Expected burn area (ha)") +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-ri_same-y-scale.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-cst_old.pdf", width = 15)
 
-p <- burn_preds_winsor %>% 
-  ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + scale_color_grey(start = 0.4, end = 0.6) +
+p <- burn_preds_gamma_cst_winsor %>% 
+  ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
+  geom_boxplot(outlier.size = 0.2) + 
+  scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  # facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
   scale_y_log10() +
+  xlab("Year (1990-2020)") + 
+  ylab("Expected burn area (ha)") +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-ri_same-y-scale.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-cst_old.pdf", width = 15)
+
+p <- burn_preds_gamma_ri %>% 
+  ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
+  geom_boxplot(outlier.size = 0.2) + 
+  scale_color_grey(start = 0.4, end = 0.6) +
+  geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
+  geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
+  scale_y_log10() +
+  xlab("Year (1990-2020)") + 
+  ylab("Expected burn area (ha)") +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-ri_old.pdf", width = 15)
+
+p <- burn_preds_gamma_ri_winsor %>% 
+  ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
+  geom_boxplot(outlier.size = 0.2) + 
+  scale_color_grey(start = 0.4, end = 0.6) +
+  geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
+  geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
+  scale_y_log10() +
+  xlab("Year (1990-2020)") + 
+  ylab("Expected burn area (ha)") +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-ri_old.pdf", width = 15)
 
 
+# p <- burn_preds_both %>% 
+#   ggplot(aes(x = year, y = total_area, group = interaction(year, model), color = model)) + 
+#   geom_boxplot(outlier.size = 0.2) + 
+#   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
+#   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
+#   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 4) +
+#   scale_y_log10() +
+#   xlab("Year (1990-2020)") + 
+#   ylab("Expected burn area (ha)") +
+#   theme_classic() + theme(legend.position = "none")
+# ggsave("full-model/figures/paper/burns_preds-vs-truth_both.pdf", width = 15, height = 12)
+# 
+# p <- burn_preds_both_winsor %>% 
+#   ggplot(aes(x = year, y = winsor_total, group = interaction(year, model), color = model)) + 
+#   geom_boxplot(outlier.size = 0.2) + 
+#   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "black", size = 0.55) +
+#   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "black", linewidth = 0.55) +
+#   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 4) +
+#   scale_y_log10() +
+#   xlab("Year (1990-2020)") + 
+#   ylab("Expected burn area (ha)") +
+#   theme_classic()
+# ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_both.pdf", width = 15, height = 12)
 
+## compare theta from both joint models
+theta_both <- theta_gamma_ri %>% 
+  mutate(model = 'ri') %>% 
+  rbind(theta_gamma_cst %>% mutate(model = 'cst')) %>%
+  mutate(model = as.factor(model)) %>%
+  group_by(timepoint, model) %>%
+  summarize(med_theta = median(theta)) %>%
+  ungroup()
 
-## maps of xi, sigma, pi_prob ---------
-sigma_map <- rand_int %>% select(-xi) %>% group_by(region) %>% summarize(sigma = median(sigma))
-breaks <- classIntervals(c(min(sigma_map$sigma) - .00001, sigma_map$sigma), style = 'quantile', intervalClosure = 'left')
-eco_sigma <- ecoregions_geom %>% 
-  left_join(sigma_map %>% left_join(full_reg_key)) %>% 
-  mutate(sigma_cat = cut(sigma, unique(breaks$brks)))
+p <- theta_both %>% rename(time = timepoint) %>% left_join(time_df) %>%
+  ggplot(aes(x = date, y = med_theta, group = model, color = model)) +
+  geom_line() +
+  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
+  theme_classic()
+ggsave("full-model/figures/paper/theta_gamma-ri_vs_gamma-cst.pdf", width = 15)
+
+## maps of xi, sigma, pi_prob, gamma ---------
+gamma_map <- gamma %>% group_by(region) %>% summarize(gamma = median(gamma)) %>% ungroup()
+breaks <- classIntervals(c(min(gamma_map$gamma) - .00001, gamma_map$gamma), style = 'fixed', 
+                         fixedBreaks = seq(-1.5, 1.5, length.out = 9), intervalClosure = 'left')
+eco_gamma <- ecoregions_geom %>%
+  left_join(gamma_map %>% left_join(full_reg_key)) %>%
+  mutate(gamma_cat = cut(gamma, unique(breaks$brks)))
 p <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_sigma,
-          aes(fill=sigma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_brewer(palette = "YlOrRd")
-ggsave("full-model/figures/paper/sigma_map.pdf", dpi = 320, bg ='white')
+  geom_sf(data = eco_gamma,
+          aes(fill=gamma), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+  theme_void() + scale_fill_gradient2()
+ggsave("full-model/figures/paper/gamma_map.pdf")
 
-xi_map <- rand_int %>% select(-sigma) %>% group_by(region) %>% summarize(xi = median(xi))
-breaks <- classIntervals(c(min(xi_map$xi) - .00001, xi_map$xi), style = 'fixed', 
+# sigma_map <- rand_int %>% select(-xi) %>% group_by(region) %>% summarize(sigma = median(sigma))
+# breaks <- classIntervals(c(min(sigma_map$sigma) - .00001, sigma_map$sigma), style = 'quantile', intervalClosure = 'left')
+# eco_sigma <- ecoregions_geom %>% 
+#   left_join(sigma_map %>% left_join(full_reg_key)) %>% 
+#   mutate(sigma_cat = cut(sigma, unique(breaks$brks)))
+# p <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .1, fill = 'white') +
+#   geom_sf(data = eco_sigma,
+#           aes(fill=sigma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+#   theme_void() + scale_fill_brewer(palette = "YlOrRd")
+# ggsave("full-model/figures/paper/sigma_map.pdf", dpi = 320, bg ='white')
+# 
+xi_map_cst <- rand_int_cst %>% select(-sigma) %>% group_by(region) %>% summarize(xi = median(xi))
+breaks <- classIntervals(c(min(xi_map_cst$xi) - .00001, xi_map_cst$xi), style = 'fixed', 
                          fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
 eco_xi <- ecoregions_geom %>% 
-  left_join(xi_map %>% left_join(full_reg_key)) %>% 
+  left_join(xi_map_cst %>% left_join(full_reg_key)) %>% 
   mutate(xi_cat = cut(xi, unique(breaks$brks)))
-p <- ecoregions_geom %>%
+p1 <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +
   geom_sf(data = eco_xi,
           aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_brewer(palette = "YlOrRd")
-ggsave("full-model/figures/paper/xi_map.pdf", dpi = 320, bg ='white')
+  theme_void() + 
+  scale_fill_brewer(palette = "YlOrRd", 
+                    labels = c(expression(""<="0.2"), "(0.2, 0.4]", "(0.4, 0.6]", "(0.6, 0.8]", expression("">"0.8")),
+                    expression(xi))
+ggsave("full-model/figures/paper/xi_map_gamma-cst.pdf", dpi = 320, bg ='white')
 
-pi_prob_map <- pi_prob %>% 
-  mutate(pi_expit = exp(pi)/(1 + exp(pi))) %>%
-  group_by(region) %>% 
-  summarize(pi_prob = median(pi_expit))
-breaks <- classIntervals(c(min(pi_prob_map$pi_prob) - .00001, pi_prob_map$pi_prob), style = 'quantile', intervalClosure = 'left')
-eco_pi_prob <- ecoregions_geom %>% 
-  left_join(pi_prob_map %>% left_join(full_reg_key)) %>% 
-  mutate(pi_prob_cat = cut(pi_prob, unique(breaks$brks)))
-p <- ecoregions_geom %>%
+xi_map_eda <- burn_eda
+breaks <- classIntervals(c(min(xi_map_eda$shape_include) - .00001, xi_map_eda$shape_include), style = 'fixed', 
+                         fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
+eco_eda <- ecoregions_geom %>% left_join(xi_map_eda) %>%
+  mutate(xi_cat = cut(shape_include, unique(breaks$brks)))
+
+p2 <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_pi_prob,
-          aes(fill=pi_prob_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_brewer(palette = "YlOrRd")
-ggsave("full-model/figures/paper/pi_prob_map.pdf", dpi = 320, bg ='white')
+  geom_sf(data = eco_eda,
+          aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+  theme_void() + 
+  scale_fill_brewer(palette = "YlOrRd") + theme(legend.position = "none")
+p <- p1 + p2 + plot_layout(guides = "collect")
+ggsave("full-model/figures/paper/xi_map_gamma-cst_witheda.pdf", dpi = 320, bg ='white')
+# pi_prob_map <- pi_prob %>% 
+#   mutate(pi_expit = exp(pi)/(1 + exp(pi))) %>%
+#   group_by(region) %>% 
+#   summarize(pi_prob = median(pi_expit))
+# breaks <- classIntervals(c(min(pi_prob_map$pi_prob) - .00001, pi_prob_map$pi_prob), style = 'quantile', intervalClosure = 'left')
+# eco_pi_prob <- ecoregions_geom %>% 
+#   left_join(pi_prob_map %>% left_join(full_reg_key)) %>% 
+#   mutate(pi_prob_cat = cut(pi_prob, unique(breaks$brks)))
+# p <- ecoregions_geom %>%
+#   ggplot() +
+#   geom_sf(size = .1, fill = 'white') +
+#   geom_sf(data = eco_pi_prob,
+#           aes(fill=pi_prob_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+#   theme_void() + scale_fill_brewer(palette = "YlOrRd")
+# ggsave("full-model/figures/paper/pi_prob_map.pdf", dpi = 320, bg ='white')
 
 ## partial effects plots for lambda and kappa ---------
 beta_count <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_2000iter/beta_count.RDS")

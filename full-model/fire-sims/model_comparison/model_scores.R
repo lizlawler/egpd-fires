@@ -127,42 +127,42 @@ for(i in seq_along(burn_model_names)) {
 }
 
 # add in g3 scores
-holdout_loglik[[13]] <- get(g3_name)[["holdout_loglik"]]$post_warmup_draws %>%
-  as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  group_by(draw) %>% 
-  summarize(loglik = sum(value)) %>%
-  mutate(model = g3_name,
-         train = FALSE)
-holdout_twcrps[[13]] <- get(g3_name)[["holdout_twcrps"]]$post_warmup_draws %>%
-  as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  group_by(draw) %>% 
-  summarize(twcrps = mean(value)) %>%
-  mutate(model = g3_name,
-         train = FALSE)
-train_loglik[[13]] <- get(g3_name)[["train_loglik"]]$post_warmup_draws %>%
-  as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  group_by(draw) %>% 
-  summarize(loglik = sum(value)) %>%
-  mutate(model = g3_name,
-         train = TRUE)
-train_twcrps[[13]] <- get(g3_name)[["train_twcrps"]]$post_warmup_draws %>%
-  as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  group_by(draw) %>% 
-  summarize(twcrps = mean(value)) %>%
-  mutate(model = g3_name,
-         train = TRUE)
+# holdout_loglik[[13]] <- get(g3_name)[["holdout_loglik"]]$post_warmup_draws %>%
+#   as_draws_df() %>%
+#   select(-c(".iteration", ".chain")) %>% 
+#   pivot_longer(cols = !".draw") %>%
+#   rename(draw = ".draw") %>%
+#   group_by(draw) %>% 
+#   summarize(loglik = sum(value)) %>%
+#   mutate(model = g3_name,
+#          train = FALSE)
+# holdout_twcrps[[13]] <- get(g3_name)[["holdout_twcrps"]]$post_warmup_draws %>%
+#   as_draws_df() %>%
+#   select(-c(".iteration", ".chain")) %>% 
+#   pivot_longer(cols = !".draw") %>%
+#   rename(draw = ".draw") %>%
+#   group_by(draw) %>% 
+#   summarize(twcrps = mean(value)) %>%
+#   mutate(model = g3_name,
+#          train = FALSE)
+# train_loglik[[13]] <- get(g3_name)[["train_loglik"]]$post_warmup_draws %>%
+#   as_draws_df() %>%
+#   select(-c(".iteration", ".chain")) %>% 
+#   pivot_longer(cols = !".draw") %>%
+#   rename(draw = ".draw") %>%
+#   group_by(draw) %>% 
+#   summarize(loglik = sum(value)) %>%
+#   mutate(model = g3_name,
+#          train = TRUE)
+# train_twcrps[[13]] <- get(g3_name)[["train_twcrps"]]$post_warmup_draws %>%
+#   as_draws_df() %>%
+#   select(-c(".iteration", ".chain")) %>% 
+#   pivot_longer(cols = !".draw") %>%
+#   rename(draw = ".draw") %>%
+#   group_by(draw) %>% 
+#   summarize(twcrps = mean(value)) %>%
+#   mutate(model = g3_name,
+#          train = TRUE)
 
 holdout_loglik_burns <- bind_rows(holdout_loglik)
 train_loglik_burns <- bind_rows(train_loglik)
@@ -171,16 +171,16 @@ train_twcrps <- bind_rows(train_twcrps)
 
 ## log-likelihood aggregating and analysis (burns) -------
 ll_full_burns <- holdout_loglik_burns %>%
-  full_join(train_loglik_burns)
+  full_join(train_loglik_burns) %>% filter(grepl("long", model))
 
-train_ll_burns_ranked <- ll_full_burns %>% filter(grepl("long", model) | grepl("g3", model)) %>%
+train_ll_burns_ranked <- ll_full_burns %>% filter(grepl("long", model)) %>%
   filter(train == TRUE) %>% 
   group_by(model) %>% 
   summarize(med_train_ll = median(loglik[is.finite(loglik)])) %>% 
   arrange(-med_train_ll)
 top_mod_burns_train <- as.character(train_ll_burns_ranked$model[1])
 
-train_ll_burns_comp <- ll_full_burns %>% filter(grepl("long", model) | grepl("g3", model)) %>%
+train_ll_burns_comp <- ll_full_burns %>% filter(grepl("long", model)) %>%
   filter(train == TRUE) %>% 
   select(c(draw, model, loglik)) %>% 
   pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
@@ -190,13 +190,13 @@ train_ll_burns_comp <- ll_full_burns %>% filter(grepl("long", model) | grepl("g3
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% 
   arrange(-med_diff)
 
-test_ll_burns_ranked <- ll_full_burns %>% filter(grepl("long", model) | grepl("g3", model)) %>%
+test_ll_burns_ranked <- ll_full_burns %>% filter(grepl("long", model)) %>%
   filter(train == FALSE) %>% 
   group_by(model) %>% 
   summarize(med_train_ll = median(loglik)) %>% 
   arrange(-med_train_ll)
 top_mod_burns_test <- as.character(test_ll_burns_ranked$model[1])
-test_ll_burns_comp <- ll_full_burns %>% filter(grepl("long", model) | grepl("g3", model)) %>%
+test_ll_burns_comp <- ll_full_burns %>% filter(grepl("long", model)) %>%
   filter(train == FALSE) %>% 
   select(c(draw, model, loglik)) %>% 
   pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
@@ -209,7 +209,7 @@ test_ll_burns_comp
 
 ## twCRPS aggregation and analysis ---------
 twcrps_full <- holdout_twcrps %>%
-  full_join(train_twcrps) %>% filter(grepl("long", model) | grepl("g3", model))
+  full_join(train_twcrps) %>% filter(grepl("long", model))
 
 train_twcrps_ranked <- twcrps_full %>% filter(train == TRUE) %>% 
   group_by(model) %>% 
@@ -241,6 +241,8 @@ test_twcrps_comp <- twcrps_full %>% filter(train == FALSE) %>%
   arrange(mean_diff)
 test_twcrps_comp
 
+burn_scores <- list(twcrps = twcrps_full, loglik = ll_full_burns)
+saveRDS(burn_scores, "full-model/fire-sims/model_comparison/burn_scores.RDS")
 # pull scores from G1 "best" model run on different datasets
 g1_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                    list.files("full-model/fire-sims/model_comparison/extracted_values/", 
@@ -272,9 +274,6 @@ for(i in seq_along(g1_model_names)) {
   tryCatch(extraction(fit_groups[[i]], g1_model_names[i]), error=function(e) NULL)
 }
 
-g1_g3_mod_names <- c(g1_model_names[1:4], g3_name)
-
-nfits <- length(g1_g3_mod_names)
 holdout_loglik <- vector("list", nfits)
 train_loglik <- vector("list", nfits)
 train_twcrps <- vector("list", nfits)
@@ -489,6 +488,8 @@ test_ll_counts_comp <- ll_full_counts %>% filter(train == FALSE) %>%
   arrange(-med_diff)
 test_ll_counts_comp
 
+saveRDS(ll_full_counts, file = "full-model/fire-sims/model_comparison/count_scores.RDS")
+
 ## picking best dataset within the best model ------
 best_count_files <- count_files[grepl("zinb_er_pi-ri", count_files)]
 best_count_files <- best_count_files[grepl("long", best_count_files)]
@@ -525,7 +526,7 @@ for(i in seq_along(best_count_names)) {
 holdout_loglik_counts_data <- bind_rows(holdout_loglik)
 train_loglik_counts_data <- bind_rows(train_loglik)
 
-## log-likelihood aggregating and analysis (burns) -------
+## log-likelihood aggregating and analysis (counts) -------
 ll_full_counts_data <- holdout_loglik_counts_data %>%
   full_join(train_loglik_counts_data)
 
@@ -558,6 +559,8 @@ test_ll_counts_comp_data <- ll_full_counts_data %>% filter(train == FALSE) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% 
   arrange(-med_diff)
 test_ll_counts_comp_data
+
+saveRDS(ll_full_counts_data, "full-model/fire-sims/model_comparison/count_scores_dataset.RDS")
 
 ## twCRPS aggregation and analysis ---------
 twcrps_full_data <- holdout_twcrps_bestdata %>%

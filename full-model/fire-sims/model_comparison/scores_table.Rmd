@@ -13,9 +13,67 @@ library(dplyr)
 library(stringr)
 library(tibble)
 
-load("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/burns_comp_tables.RData")
-idx <- which(grepl("sqrt", twcrps_comp_test_full$model))
-short_twcrps <- twcrps_comp_test_full[-idx,]
+# joint model tables
+twcrps_full <- readRDS("~/research/egpd-fires/full-model/fire-sims/model_comparison/joint_twcrps.RDS")
+test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE) %>% 
+  group_by(model) %>% 
+  summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
+top_mod_test_twcrps <- as.character(test_twcrps_ranked$model[1])
+test_twcrps_comp <- twcrps_full %>% filter(train == FALSE) %>% 
+  select(c(draw, model, twcrps)) %>% 
+  pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test_twcrps))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
+  group_by(model) %>%
+  summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
+test_twcrps_comp_all_iter <- test_twcrps_comp %>% rename(twcrps_mean_diff = mean_diff, twcrps_sd_diff = sd_diff)
+
+test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
+  group_by(model) %>% 
+  summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
+top_mod_test_twcrps <- as.character(test_twcrps_ranked$model[1])
+test_twcrps_comp <- twcrps_full %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
+  select(c(draw, model, twcrps)) %>% 
+  pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test_twcrps))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
+  group_by(model) %>%
+  summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
+test_twcrps_comp_1000iter <- test_twcrps_comp %>% rename(twcrps_mean_diff = mean_diff, twcrps_sd_diff = sd_diff)
+
+total_ll <- readRDS("~/research/egpd-fires/full-model/fire-sims/model_comparison/joint_loglik.RDS")$total_ll
+test_ll_total_ranked <- total_ll %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
+  group_by(draw, model, train) %>%
+  summarize(loglik_total = sum(loglik)) %>% ungroup() %>%
+  group_by(model) %>% 
+  summarize(med_test_ll = median(loglik_total)) %>% arrange(-med_test_ll)
+top_mod_total_test <- as.character(test_ll_total_ranked$model[1])
+test_ll_total_comp <- total_ll %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
+  group_by(draw, model, train) %>%
+  summarize(loglik_total = sum(loglik)) %>% ungroup() %>%
+  select(c(draw, model, loglik_total)) %>% 
+  pivot_wider(names_from = model, values_from = loglik_total, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_total_test))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
+  group_by(model) %>%
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
+test_ll_total_comp_1000iter <- test_ll_total_comp %>% rename(loglik_mean_diff = med_diff, loglik_sd_diff = sd_diff)
+
+joint_scores <- test_twcrps_comp_1000iter %>% left_join(test_ll_total_comp_1000iter)
+joint_scores <- joint_scores %>% 
+  mutate(model = case_when(grepl("gamma-ri", model) ~ 'gamma-ri',
+                           TRUE ~ 'gamma-cst'))
+
+joint_scores %>% mutate_if(is.numeric, round, 3) %>% 
+    mutate(model = case_when(model == 'gamma-ri' ~ "$\\gamma$-RI", 
+                             TRUE ~ '$\\gamma$-cst')) %>% 
+  rename("Model" = model, "Mean_tw" = twcrps_mean_diff, "SD_tw" = twcrps_sd_diff, "Mean_ll" = loglik_mean_diff, "SD_ll" = loglik_sd_diff) %>% 
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% add_header_above(c(" "=1, "twCRPS" = 2, "Log-likelihood" = 2)) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+
+```
+
+```{r}
 short_twcrps <- short_twcrps %>% 
   mutate(kappa = case_when(model == 'g1_og_kappa-ri_sigma-reg' ~ 'ri',
                                TRUE ~ 'reg'),

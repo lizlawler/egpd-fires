@@ -352,19 +352,6 @@ ggsave("full-model/figures/paper/counts_preds-vs-truth_winsor_gamma-ri.pdf", wid
 
 ## create boxplot of predicted burn area for entire US annually for all timepoints (holdout and training) and overlay truth ------
 burn_preds_gamma_ri <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/burn_pred.RDS")
-burn_preds_gamma_cst <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_1000iter/burn_pred.RDS")
-
-# first create for 'gamma-cst' model
-burn_preds_gamma_cst <- burn_preds_gamma_cst %>% 
-  left_join(full_reg_key) %>% 
-  left_join(time_df) %>% 
-  mutate(year = year(date)) %>% 
-  rename(preds = value) %>%
-  group_by(NA_L1NAME, year, draw) %>% 
-  summarize(total_area = sum(preds[is.finite(preds)])*1000*0.405) %>% 
-  ungroup() %>% 
-  mutate(train = case_when(year %in% train_years ~ TRUE,
-                           year %in% test_years ~ FALSE))
 
 # create for 'gamma-ri' model
 burn_preds_gamma_ri <- burn_preds_gamma_ri %>% 
@@ -377,10 +364,6 @@ burn_preds_gamma_ri <- burn_preds_gamma_ri %>%
   mutate(train = case_when(year %in% train_years ~ TRUE,
                            year %in% test_years ~ FALSE))
 
-burn_preds_both <- burn_preds_gamma_cst %>% 
-  mutate(model = 'cst') %>% 
-  rbind(burn_preds_gamma_ri %>% mutate(model = 'ri')) %>%
-  mutate(model = as.factor(model))
 # G1 burn preds ------
 # g1_burns_full <- g1_burn_preds_1 %>% 
 #   rbind(g1_burn_preds_2 %>% mutate(draw = 1000 + draw)) %>%
@@ -396,23 +379,12 @@ burn_preds_both <- burn_preds_gamma_cst %>%
 
 # read in true burn areas -------
 true_burns <- readRDS("full-model/data/burn_df_agg.RDS") %>% 
-  mutate(NA_L2NAME = case_when(NA_L2NAME == "UPPER GILA MOUNTAINS (?)" ~ "UPPER GILA MOUNTAINS",
-                               TRUE ~ NA_L2NAME),
-         NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
+  filter(NA_L2NAME != "UPPER GILA MOUNTAINS (?)") %>%
+  mutate(NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
 true_burns_level1 <- true_burns %>% group_by(NA_L1NAME, fire_yr) %>%
   summarize(true_area = sum(total_burns)*0.405) %>% ungroup()
 
 true_burns_level1_full <- true_burns_level1 %>% complete(NA_L1NAME, fire_yr) %>% rename(year = fire_yr)
-
-# burn_preds_both_winsor_limits <- burn_preds_both %>% group_by(NA_L1NAME, model, year) %>% 
-#   summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
-#             upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
-#   ungroup()
-# burn_preds_both_winsor <- burn_preds_both %>%
-#   left_join(burn_preds_both_winsor_limits) %>%
-#   mutate(winsor_total = case_when(total_area <= lower ~ lower,
-#                                   total_area >= upper ~ upper,
-#                                   .default = total_area))
 
 # g1_burn_preds_winsor_limits <- g1_burns_full_annual %>% group_by(NA_L1NAME, year) %>%
 #   summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
@@ -447,77 +419,16 @@ true_burns_level1_full <- true_burns_level1 %>% complete(NA_L1NAME, fire_yr) %>%
 #   theme_classic() + theme(legend.position = "none")
 # ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_g1.pdf", width = 15)
 
-burn_preds_gamma_ri <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/burn_pred_old.RDS")
-burn_preds_gamma_cst <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_1000iter/burn_pred_old.RDS")
-
-# first create for 'gamma-cst' model
-burn_preds_gamma_cst <- burn_preds_gamma_cst %>% 
-  left_join(full_reg_key) %>% 
-  left_join(time_df) %>% 
-  mutate(year = year(date)) %>% 
-  rename(preds = value) %>%
-  group_by(NA_L1NAME, year, draw) %>% 
-  summarize(total_area = sum(preds[is.finite(preds)])*1000*0.405) %>% 
-  ungroup() %>% 
-  mutate(train = case_when(year %in% train_years ~ TRUE,
-                           year %in% test_years ~ FALSE))
-
-burn_preds_gamma_cst_winsor_limits <- burn_preds_gamma_cst %>% group_by(NA_L1NAME, year) %>%
-  summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
-            upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
-  ungroup()
-burn_preds_gamma_cst_winsor <- burn_preds_gamma_cst %>%
-  left_join(burn_preds_gamma_cst_winsor_limits) %>%
-  mutate(winsor_total = case_when(total_area <= lower ~ lower,
-                                  total_area >= upper ~ upper,
-                                  .default = total_area))
-
-# create for 'gamma-ri' model
-burn_preds_gamma_ri <- burn_preds_gamma_ri %>% 
-  left_join(full_reg_key) %>% 
-  left_join(time_df) %>% 
-  mutate(year = year(date)) %>% rename(preds = value) %>%
-  group_by(NA_L1NAME, year, draw) %>% 
-  summarize(total_area = sum(preds[is.finite(preds)])*1000*0.405) %>% 
-  ungroup() %>% 
-  mutate(train = case_when(year %in% train_years ~ TRUE,
-                           year %in% test_years ~ FALSE))
 
 burn_preds_gamma_ri_winsor_limits <- burn_preds_gamma_ri %>% group_by(NA_L1NAME, year) %>%
-  summarize(lower = quantile(total_area, 0.05, na.rm = TRUE),
-            upper = quantile(total_area, 0.95, na.rm = TRUE)) %>%
+  summarize(lower = quantile(total_area, 0.025, na.rm = TRUE),
+            upper = quantile(total_area, 0.975, na.rm = TRUE)) %>%
   ungroup()
 burn_preds_gamma_ri_winsor <- burn_preds_gamma_ri %>%
   left_join(burn_preds_gamma_ri_winsor_limits) %>%
   mutate(winsor_total = case_when(total_area <= lower ~ lower,
                                   total_area >= upper ~ upper,
                                   .default = total_area))
-
-p <- burn_preds_gamma_cst %>% 
-  ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + 
-  scale_color_grey(start = 0.4, end = 0.6) +
-  geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
-  geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
-  scale_y_log10() +
-  xlab("Year (1990-2020)") + 
-  ylab("Expected burn area (ha)") +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-cst_old.pdf", width = 15)
-
-p <- burn_preds_gamma_cst_winsor %>% 
-  ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
-  geom_boxplot(outlier.size = 0.2) + 
-  scale_color_grey(start = 0.4, end = 0.6) +
-  geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
-  geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
-  scale_y_log10() +
-  xlab("Year (1990-2020)") + 
-  ylab("Expected burn area (ha)") +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-cst_old.pdf", width = 15)
 
 p <- burn_preds_gamma_ri %>% 
   ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
@@ -530,7 +441,7 @@ p <- burn_preds_gamma_ri %>%
   xlab("Year (1990-2020)") + 
   ylab("Expected burn area (ha)") +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-ri_old.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_gamma-ri.pdf", width = 15)
 
 p <- burn_preds_gamma_ri_winsor %>% 
   ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
@@ -543,32 +454,26 @@ p <- burn_preds_gamma_ri_winsor %>%
   xlab("Year (1990-2020)") + 
   ylab("Expected burn area (ha)") +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-ri_old.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-ri.pdf", width = 15)
 
-
-# p <- burn_preds_both %>% 
-#   ggplot(aes(x = year, y = total_area, group = interaction(year, model), color = model)) + 
-#   geom_boxplot(outlier.size = 0.2) + 
-#   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
-#   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-#   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 4) +
-#   scale_y_log10() +
-#   xlab("Year (1990-2020)") + 
-#   ylab("Expected burn area (ha)") +
-#   theme_classic() + theme(legend.position = "none")
-# ggsave("full-model/figures/paper/burns_preds-vs-truth_both.pdf", width = 15, height = 12)
-# 
-# p <- burn_preds_both_winsor %>% 
-#   ggplot(aes(x = year, y = winsor_total, group = interaction(year, model), color = model)) + 
-#   geom_boxplot(outlier.size = 0.2) + 
-#   geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "black", size = 0.55) +
-#   geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "black", linewidth = 0.55) +
-#   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 4) +
-#   scale_y_log10() +
-#   xlab("Year (1990-2020)") + 
-#   ylab("Expected burn area (ha)") +
-#   theme_classic()
-# ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_both.pdf", width = 15, height = 12)
+# magnitude of difference between truth and predsd
+diff_burns <- true_burns_level1_full %>% 
+  left_join(burn_preds_gamma_ri %>% 
+              group_by(NA_L1NAME, year) %>%
+              summarize(med_pred = median(total_area)) %>%
+              ungroup()) %>%
+  mutate(magnitude = med_pred/true_area)
+p <- diff_burns %>% 
+  ggplot(aes(x = year, y = magnitude)) + 
+  geom_line() + 
+  geom_hline(yintercept = 1.0, col = "red", linewidth = 0.2, linetype = 'dotted') +
+  geom_hline(yintercept = 5.0, col = "blue", linewidth = 0.2, linetype = 'dashed') +
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) +
+  scale_y_log10() +
+  xlab("Year (1990-2020)") + 
+  ylab("Magnitude of difference") +
+  theme_classic() + theme(legend.position = "none")
+ggsave("full-model/figures/paper/magnitude_of_difference.pdf", width = 15)
 
 ## compare theta from both joint models
 theta_both <- theta_gamma_ri %>% 

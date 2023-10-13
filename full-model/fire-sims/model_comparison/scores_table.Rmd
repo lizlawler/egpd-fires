@@ -6,7 +6,7 @@ output:
 date: "2023-06-26"
 ---
 
-```{r echo=FALSE, message=FALSE}
+```{r eval=FALSE, message=FALSE, include=FALSE}
 library(kableExtra)
 library(tidyr)
 library(dplyr)
@@ -14,13 +14,13 @@ library(stringr)
 library(tibble)
 
 # joint model tables
-twcrps_full <- readRDS("~/research/egpd-fires/full-model/fire-sims/model_comparison/joint_twcrps.RDS")
+twcrps_full <- readRDS("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/joint_twcrps.RDS")
 test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE) %>% 
   group_by(model) %>% 
   summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
 top_mod_test_twcrps <- as.character(test_twcrps_ranked$model[1])
 test_twcrps_comp <- twcrps_full %>% filter(train == FALSE) %>% 
-  select(c(draw, model, twcrps)) %>% 
+  dplyr::select(c(draw, model, twcrps)) %>% 
   pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_test_twcrps))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
@@ -33,7 +33,7 @@ test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE, grepl("1000iter", m
   summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
 top_mod_test_twcrps <- as.character(test_twcrps_ranked$model[1])
 test_twcrps_comp <- twcrps_full %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
-  select(c(draw, model, twcrps)) %>% 
+  dplyr::select(c(draw, model, twcrps)) %>% 
   pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_test_twcrps))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
@@ -41,7 +41,7 @@ test_twcrps_comp <- twcrps_full %>% filter(train == FALSE, grepl("1000iter", mod
   summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
 test_twcrps_comp_1000iter <- test_twcrps_comp %>% rename(twcrps_mean_diff = mean_diff, twcrps_sd_diff = sd_diff)
 
-total_ll <- readRDS("~/research/egpd-fires/full-model/fire-sims/model_comparison/joint_loglik.RDS")$total_ll
+total_ll <- readRDS("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/joint_loglik.RDS")$total_ll
 test_ll_total_ranked <- total_ll %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
   group_by(draw, model, train) %>%
   summarize(loglik_total = sum(loglik)) %>% ungroup() %>%
@@ -51,7 +51,7 @@ top_mod_total_test <- as.character(test_ll_total_ranked$model[1])
 test_ll_total_comp <- total_ll %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
   group_by(draw, model, train) %>%
   summarize(loglik_total = sum(loglik)) %>% ungroup() %>%
-  select(c(draw, model, loglik_total)) %>% 
+  dplyr::select(c(draw, model, loglik_total)) %>% 
   pivot_wider(names_from = model, values_from = loglik_total, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_total_test))) %>% 
   pivot_longer(cols = -draw, names_to = "model") %>%
@@ -61,33 +61,55 @@ test_ll_total_comp_1000iter <- test_ll_total_comp %>% rename(loglik_mean_diff = 
 
 joint_scores <- test_twcrps_comp_1000iter %>% left_join(test_ll_total_comp_1000iter)
 joint_scores <- joint_scores %>% 
-  mutate(model = case_when(grepl("gamma-ri", model) ~ 'gamma-ri',
-                           TRUE ~ 'gamma-cst'))
+  mutate(gamma = case_when(grepl("gamma-ri", model) ~ 'ri',
+                           TRUE ~ 'cst'))
 
-joint_scores %>% mutate_if(is.numeric, round, 3) %>% 
-    mutate(model = case_when(model == 'gamma-ri' ~ "$\\gamma$-RI", 
-                             TRUE ~ '$\\gamma$-cst')) %>% 
-  rename("Model" = model, "Mean_tw" = twcrps_mean_diff, "SD_tw" = twcrps_sd_diff, "Mean_ll" = loglik_mean_diff, "SD_ll" = loglik_sd_diff) %>% 
-  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% add_header_above(c(" "=1, "twCRPS" = 2, "Log-likelihood" = 2)) %>%
-  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+joint_scores %>% mutate_if(is.numeric, round, 3) %>% dplyr::select(-model) %>% relocate('gamma', .before = 'twcrps_mean_diff') %>%
+  rename("$\\gamma$" = gamma, "Mean_tw" = twcrps_mean_diff, "SD_tw" = twcrps_sd_diff, "Mean_ll" = loglik_mean_diff, "SD_ll" = loglik_sd_diff) %>%
+  kable(., format='latex', booktabs=T, escape = F)
+  
+  # %>% add_header_above(c(" "=1, "twCRPS" = 2, "Log-likelihood" = 2)) %>%
+  # # collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
 
 ```
 
-```{r}
-short_twcrps <- short_twcrps %>% 
-  mutate(kappa = case_when(model == 'g1_og_kappa-ri_sigma-reg' ~ 'ri',
-                               TRUE ~ 'reg'),
-         sigma = case_when(model == 'g1_og_sigma-ri' ~ 'ri',
-                               model == 'lognorm_og_sigma-cst' ~ 'cst',
-                               model == 'lognorm_og_sigma-ri' ~ 'ri',
-                               model == 'g2_og_sigma-ri' ~ 'ri',
-                               TRUE ~ 'reg'),
-         xi = case_when(model == 'g1_og_all-reg_sigma-reg' ~ 'reg',
-                            TRUE ~ 'ri')) %>%
+```{r echo=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+burn_scores <- readRDS("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/burn_scores.RDS")
+twcrps_full <- burn_scores$twcrps
+test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE) %>% 
+  group_by(model) %>% 
+  summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
+top_mod_test_twcrps <- as.character(test_twcrps_ranked$model[1])
+test_twcrps_comp <- twcrps_full %>% filter(train == FALSE) %>% 
+  dplyr::select(c(draw, model, twcrps)) %>% 
+  pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test_twcrps))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
+  group_by(model) %>%
+  summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
+test_twcrps_comp <- test_twcrps_comp
+
+test_twcrps_comp <- test_twcrps_comp %>% 
+  mutate(kappa = case_when(grepl('sigma', model) ~ 'reg',
+                           grepl('g1_xi-ri', model) ~ 'reg',
+                               TRUE ~ 'ri'),
+         sigma = case_when(grepl('kappa-ri', model) ~ 'reg',
+                           grepl('g1_xi-ri', model) ~ 'reg',
+                           grepl('sigma-ri', model) ~ 'ri',
+                           grepl('sigma-cst', model) ~ 'cst'),
+         xi = case_when(grepl('xi-ri', model) ~ 'ri',
+                        TRUE ~ NA)) %>%
+  filter(!grepl("nu", model)) %>%
   separate_wider_delim(cols = model, delim = "_", names = "model", too_many = "drop") %>%
   rename(mdiff = mean_diff, sdiff = sd_diff)
 
-short_twcrps %>% arrange(model, mdiff) %>% 
+test_twcrps_comp %>% arrange(model, mdiff) %>% 
   relocate(c('kappa', 'sigma', 'xi'), .before = 'mdiff') %>% mutate_if(is.numeric, round, 3) %>% 
     mutate(kappa = case_when(kappa == 'reg' & model != 'lognorm' ~ "$\\checkmark$", 
                              kappa == 'reg' & model == 'lognorm' ~ "($\\checkmark$)", 
@@ -107,7 +129,7 @@ short_twcrps %>% arrange(model, mdiff) %>%
 ```
 
 
-```{r echo=FALSE, message=FALSE}
+```{r eval=FALSE, message=FALSE, include=FALSE}
 library(kableExtra)
 library(tidyr)
 library(dplyr)
@@ -159,7 +181,7 @@ table_ll_burns %>% arrange(model) %>%
   collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
 ```
 
-```{r echo=FALSE, message=FALSE}
+```{r eval=FALSE, message=FALSE, include=FALSE}
 library(kableExtra)
 library(tidyr)
 library(dplyr)

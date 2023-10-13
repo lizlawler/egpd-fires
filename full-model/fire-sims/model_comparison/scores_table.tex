@@ -86,6 +86,29 @@
 \begin{document}
 \maketitle
 
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:kableExtra':
+## 
+##     group_rows
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
 \begin{tabular}{cccccc}
 \toprule
 \multicolumn{1}{c}{ } & \multicolumn{3}{c}{Regression} & \multicolumn{2}{c}{Difference} \\
@@ -94,63 +117,15 @@ Model & $\kappa$($\mu$) & $\sigma$ & $\xi$ & Mean & SD\\
 \midrule
  & $\checkmark$ & -- & -- & 0.000 & 0.000\\
 
- & -- & $\checkmark$ & -- & 0.060 & 0.093\\
+ & -- & $\checkmark$ & -- & 0.059 & 0.111\\
 
- & $\checkmark$ & $\checkmark$ & -- & 0.119 & 0.138\\
-
-\multirow{-4}{*}{\centering\arraybackslash $G_1$} & $\checkmark$ & $\checkmark$ & $\checkmark$ & 0.199 & 0.159\\
+\multirow{-3}{*}{\centering\arraybackslash $G_1$} & $\checkmark$ & $\checkmark$ & -- & 0.143 & 0.195\\
 \cmidrule{1-6}
-$G_2$ & $\checkmark$ & -- & -- & 0.306 & 0.265\\
+$G_2$ & $\checkmark$ & -- & -- & 0.031 & 0.110\\
 \cmidrule{1-6}
- & ($\checkmark$) & * & -- & 0.214 & 0.106\\
+ & ($\checkmark$) & * & NA & 17.501 & 8.077\\
 
- & ($\checkmark$) & -- & -- & 0.247 & 0.147\\
-
-\multirow{-3}{*}{\centering\arraybackslash Lognormal} & ($\checkmark$) & $\checkmark$ & -- & 0.529 & 0.228\\
-\bottomrule
-\end{tabular}
-
-\begin{tabular}{cccccc}
-\toprule
-\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Regression} & \multicolumn{2}{c}{Difference} \\
-\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-6}
-Model & $\kappa$($\mu$) & $\sigma$ & $\xi$ & Mean & SD\\
-\midrule
- & $\checkmark$ & -- & -- & -105.042 & 912.483\\
-
- & -- & $\checkmark$ & -- & -130.922 & 75.327\\
-
- & $\checkmark$ & $\checkmark$ & -- & -398.481 & 901.930\\
-
-\multirow{-4}{*}{\centering\arraybackslash $G_1$} & $\checkmark$ & $\checkmark$ & $\checkmark$ & -4211.536 & 76188.834\\
-\cmidrule{1-6}
-$G_2$ & $\checkmark$ & -- & -- & -311.107 & 234.472\\
-\cmidrule{1-6}
- & ($\checkmark$) & * & -- & 0.000 & 0.000\\
-
- & ($\checkmark$) & -- & -- & -112.790 & 80.231\\
-
-\multirow{-3}{*}{\centering\arraybackslash Lognormal} & ($\checkmark$) & $\checkmark$ & -- & -1068.779 & 1468.779\\
-\bottomrule
-\end{tabular}
-
-\begin{tabular}{cccccc}
-\toprule
-\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Regression} & \multicolumn{2}{c}{Difference} \\
-\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-6}
-Model & $\lambda$ & $\pi$ & $\delta$ & Mean & SD\\
-\midrule
- & $\checkmark$ & -- & -- & 0.000 & 0.000\\
-
- & $\checkmark$ & $\checkmark$ & -- & -88.895 & 250.827\\
-
- & $\checkmark$ & -- & * & -535.999 & 281.341\\
-
-\multirow{-4}{*}{\centering\arraybackslash ZI-Negative Binomial} & $\checkmark$ & $\checkmark$ & * & -564.844 & 271.064\\
-\cmidrule{1-6}
- & $\checkmark$ & -- &  & -1239.502 & 301.771\\
-
-\multirow{-2}{*}{\centering\arraybackslash ZI-Poisson} & $\checkmark$ & $\checkmark$ &  & -1277.991 & 288.419\\
+\multirow{-2}{*}{\centering\arraybackslash Lognormal} & ($\checkmark$) & -- & NA & 22.692 & 8.686\\
 \bottomrule
 \end{tabular}
 

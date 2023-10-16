@@ -64,11 +64,7 @@ burn_model_names <- lapply(fit_groups, function(x) {
   unlist()
 
 
-# pull scores from each COUNT model and aggregate -----
-for(i in seq_along(count_model_names)) {
-  read_scores(count_files_climate[i], count_model_names[i])
-}
-
+# pull scores from each BURN model and aggregate -----
 for(i in seq_along(burn_model_names)) {
   extraction(fit_groups[[i]], burn_model_names[i])
 }
@@ -247,7 +243,7 @@ saveRDS(burn_scores, "full-model/fire-sims/model_comparison/burn_scores.RDS")
 g1_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                    list.files("full-model/fire-sims/model_comparison/extracted_values/", 
                               "g1_sigma-ri"))
-g1_files <- g1_files[!grepl("RDS", g1_files)]
+g1_files <- g1_files[grepl("long", g1_files)]
 
 nfits <- length(g1_files)/3
 fit_groups <- vector(mode = "list", nfits)

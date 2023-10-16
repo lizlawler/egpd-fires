@@ -73,7 +73,7 @@ joint_scores %>% mutate_if(is.numeric, round, 3) %>% dplyr::select(-model) %>% r
 
 ```
 
-```{r echo=FALSE}
+```{r eval=FALSE, include=FALSE}
 library(kableExtra)
 library(tidyr)
 library(dplyr)
@@ -220,5 +220,58 @@ table_ll_burns %>% arrange(model) %>%
          "Mean" = mdiff, "SD" = sdiff, "Model" = model) %>% 
   kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% add_header_above(c(" "=1, "Regression" = 3, "Difference" = 2)) %>%
   collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+
+
+```{r}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+# joint model tables
+twcrps_full <- readRDS("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/g1_data_twcrps.RDS")
+twcrps_full <- twcrps_full %>% mutate(twcrps = twcrps * 10e3)
+test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE) %>% 
+  group_by(model) %>% 
+  summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
+top_mod_test_twcrps <- as.character(test_twcrps_ranked$model[1])
+test_twcrps_comp <- twcrps_full %>% filter(train == FALSE) %>% 
+  dplyr::select(c(draw, model, twcrps)) %>% 
+  pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_test_twcrps))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
+  group_by(model) %>%
+  summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
+test_twcrps_comp <- test_twcrps_comp %>% rename(twcrps_mean_diff = mean_diff, twcrps_sd_diff = sd_diff)
+
+total_ll <- readRDS("~/Desktop/research/egpd-fires/full-model/fire-sims/model_comparison/g1_data_loglik.RDS")
+test_ll_total_ranked <- total_ll %>% filter(train == FALSE) %>% 
+  group_by(draw, model, train) %>%
+  summarize(loglik_total = sum(loglik)) %>% ungroup() %>%
+  group_by(model) %>% 
+  summarize(med_test_ll = median(loglik_total)) %>% arrange(-med_test_ll)
+top_mod_total_test <- as.character(test_ll_total_ranked$model[1])
+test_ll_total_comp <- total_ll %>% filter(train == FALSE) %>% 
+  group_by(draw, model, train) %>%
+  summarize(loglik_total = sum(loglik)) %>% ungroup() %>%
+  dplyr::select(c(draw, model, loglik_total)) %>% 
+  pivot_wider(names_from = model, values_from = loglik_total, values_fill = NA) %>% 
+  mutate(across(.cols = -draw, ~ .x - get(top_mod_total_test))) %>% 
+  pivot_longer(cols = -draw, names_to = "model") %>%
+  group_by(model) %>%
+  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
+test_ll_total_comp <- test_ll_total_comp %>% rename(loglik_mean_diff = med_diff, loglik_sd_diff = sd_diff)
+
+joint_scores <- test_twcrps_comp %>% left_join(test_ll_total_comp)
+joint_scores <- joint_scores %>% 
+  mutate(model = case_when(grepl("erc_fwi", model) ~ 'ERC-FWI',
+                           grepl("fwi", model) ~ 'FWI',
+                           grepl("erc", model) ~ 'ERC',
+                           grepl("climate", model) ~ 'Climate'))
+
+joint_scores %>% mutate_if(is.numeric, round, 3) %>% rename("Mean_tw" = twcrps_mean_diff, "SD_tw" = twcrps_sd_diff, "Mean_ll" = loglik_mean_diff, "SD_ll" = loglik_sd_diff) %>%
+  kable(., format='latex', booktabs=T, escape = F)
 ```
 

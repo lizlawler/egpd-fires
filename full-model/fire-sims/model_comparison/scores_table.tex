@@ -37,6 +37,46 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -86,6 +126,14 @@
 \begin{document}
 \maketitle
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(kableExtra)}
+\FunctionTok{library}\NormalTok{(tidyr)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
 ## 
 ## Attaching package: 'dplyr'
@@ -109,23 +157,94 @@
 ##     intersect, setdiff, setequal, union
 \end{verbatim}
 
-\begin{tabular}{cccccc}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(stringr)}
+\FunctionTok{library}\NormalTok{(tibble)}
+
+\CommentTok{\# joint model tables}
+\NormalTok{twcrps\_full }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"\textasciitilde{}/Desktop/research/egpd{-}fires/full{-}model/fire{-}sims/model\_comparison/g1\_data\_twcrps.RDS"}\NormalTok{)}
+\NormalTok{twcrps\_full }\OtherTok{\textless{}{-}}\NormalTok{ twcrps\_full }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{twcrps =}\NormalTok{ twcrps }\SpecialCharTok{*} \FloatTok{10e3}\NormalTok{)}
+\NormalTok{test\_twcrps\_ranked }\OtherTok{\textless{}{-}}\NormalTok{ twcrps\_full }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(train }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(model) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{mean\_twcrps =} \FunctionTok{mean}\NormalTok{(twcrps, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(mean\_twcrps)}
+\NormalTok{top\_mod\_test\_twcrps }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(test\_twcrps\_ranked}\SpecialCharTok{$}\NormalTok{model[}\DecValTok{1}\NormalTok{])}
+\NormalTok{test\_twcrps\_comp }\OtherTok{\textless{}{-}}\NormalTok{ twcrps\_full }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(train }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(draw, model, twcrps)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ model, }\AttributeTok{values\_from =}\NormalTok{ twcrps, }\AttributeTok{values\_fill =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\AttributeTok{.cols =} \SpecialCharTok{{-}}\NormalTok{draw, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ .x }\SpecialCharTok{{-}} \FunctionTok{get}\NormalTok{(top\_mod\_test\_twcrps))) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \SpecialCharTok{{-}}\NormalTok{draw, }\AttributeTok{names\_to =} \StringTok{"model"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(model) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{mean\_diff =} \FunctionTok{mean}\NormalTok{(value[}\FunctionTok{is.finite}\NormalTok{(value)]), }\AttributeTok{sd\_diff =} \FunctionTok{sd}\NormalTok{(value[}\FunctionTok{is.finite}\NormalTok{(value)])) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(mean\_diff)}
+\NormalTok{test\_twcrps\_comp }\OtherTok{\textless{}{-}}\NormalTok{ test\_twcrps\_comp }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rename}\NormalTok{(}\AttributeTok{twcrps\_mean\_diff =}\NormalTok{ mean\_diff, }\AttributeTok{twcrps\_sd\_diff =}\NormalTok{ sd\_diff)}
+
+\NormalTok{total\_ll }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"\textasciitilde{}/Desktop/research/egpd{-}fires/full{-}model/fire{-}sims/model\_comparison/g1\_data\_loglik.RDS"}\NormalTok{)}
+\NormalTok{test\_ll\_total\_ranked }\OtherTok{\textless{}{-}}\NormalTok{ total\_ll }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(train }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(draw, model, train) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{loglik\_total =} \FunctionTok{sum}\NormalTok{(loglik)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(model) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{med\_test\_ll =} \FunctionTok{median}\NormalTok{(loglik\_total)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{med\_test\_ll)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'draw', 'model'. You can override using the
+## `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{top\_mod\_total\_test }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(test\_ll\_total\_ranked}\SpecialCharTok{$}\NormalTok{model[}\DecValTok{1}\NormalTok{])}
+\NormalTok{test\_ll\_total\_comp }\OtherTok{\textless{}{-}}\NormalTok{ total\_ll }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(train }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(draw, model, train) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{loglik\_total =} \FunctionTok{sum}\NormalTok{(loglik)) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(draw, model, loglik\_total)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ model, }\AttributeTok{values\_from =}\NormalTok{ loglik\_total, }\AttributeTok{values\_fill =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\AttributeTok{.cols =} \SpecialCharTok{{-}}\NormalTok{draw, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ .x }\SpecialCharTok{{-}} \FunctionTok{get}\NormalTok{(top\_mod\_total\_test))) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \SpecialCharTok{{-}}\NormalTok{draw, }\AttributeTok{names\_to =} \StringTok{"model"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(model) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{med\_diff =} \FunctionTok{median}\NormalTok{(value[}\FunctionTok{is.finite}\NormalTok{(value)]), }\AttributeTok{sd\_diff =} \FunctionTok{sd}\NormalTok{(value[}\FunctionTok{is.finite}\NormalTok{(value)])) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{arrange}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{med\_diff)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'draw', 'model'. You can override using the
+## `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_ll\_total\_comp }\OtherTok{\textless{}{-}}\NormalTok{ test\_ll\_total\_comp }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rename}\NormalTok{(}\AttributeTok{loglik\_mean\_diff =}\NormalTok{ med\_diff, }\AttributeTok{loglik\_sd\_diff =}\NormalTok{ sd\_diff)}
+
+\NormalTok{joint\_scores }\OtherTok{\textless{}{-}}\NormalTok{ test\_twcrps\_comp }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(test\_ll\_total\_comp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Joining with `by = join_by(model)`
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{joint\_scores }\OtherTok{\textless{}{-}}\NormalTok{ joint\_scores }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{model =} \FunctionTok{case\_when}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"erc\_fwi"}\NormalTok{, model) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}ERC{-}FWI\textquotesingle{}}\NormalTok{,}
+                           \FunctionTok{grepl}\NormalTok{(}\StringTok{"fwi"}\NormalTok{, model) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}FWI\textquotesingle{}}\NormalTok{,}
+                           \FunctionTok{grepl}\NormalTok{(}\StringTok{"erc"}\NormalTok{, model) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}ERC\textquotesingle{}}\NormalTok{,}
+                           \FunctionTok{grepl}\NormalTok{(}\StringTok{"climate"}\NormalTok{, model) }\SpecialCharTok{\textasciitilde{}} \StringTok{\textquotesingle{}Climate\textquotesingle{}}\NormalTok{))}
+
+\NormalTok{joint\_scores }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate\_if}\NormalTok{(is.numeric, round, }\DecValTok{3}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{rename}\NormalTok{(}\StringTok{"Mean\_tw"} \OtherTok{=}\NormalTok{ twcrps\_mean\_diff, }\StringTok{"SD\_tw"} \OtherTok{=}\NormalTok{ twcrps\_sd\_diff, }\StringTok{"Mean\_ll"} \OtherTok{=}\NormalTok{ loglik\_mean\_diff, }\StringTok{"SD\_ll"} \OtherTok{=}\NormalTok{ loglik\_sd\_diff) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{kable}\NormalTok{(., }\AttributeTok{format=}\StringTok{\textquotesingle{}latex\textquotesingle{}}\NormalTok{, }\AttributeTok{booktabs=}\NormalTok{T, }\AttributeTok{escape =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lrrrr}
 \toprule
-\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Regression} & \multicolumn{2}{c}{Difference} \\
-\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-6}
-Model & $\kappa$($\mu$) & $\sigma$ & $\xi$ & Mean & SD\\
+model & Mean_tw & SD_tw & Mean_ll & SD_ll\\
 \midrule
- & $\checkmark$ & -- & -- & 0.000 & 0.000\\
-
- & -- & $\checkmark$ & -- & 0.059 & 0.111\\
-
-\multirow{-3}{*}{\centering\arraybackslash $G_1$} & $\checkmark$ & $\checkmark$ & -- & 0.143 & 0.195\\
-\cmidrule{1-6}
-$G_2$ & $\checkmark$ & -- & -- & 0.031 & 0.110\\
-\cmidrule{1-6}
- & ($\checkmark$) & * & NA & 17.501 & 8.077\\
-
-\multirow{-2}{*}{\centering\arraybackslash Lognormal} & ($\checkmark$) & -- & NA & 22.692 & 8.686\\
+ERC-FWI & 0.000 & 0.000 & 0.000 & 0.000\\
+ERC & 5.615 & 988.455 & -4.737 & 83.458\\
+Climate & 61.677 & 988.031 & -23.884 & 670.074\\
+FWI & 96.650 & 985.320 & -16.411 & 90.987\\
 \bottomrule
 \end{tabular}
 

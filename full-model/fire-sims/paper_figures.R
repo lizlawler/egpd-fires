@@ -74,17 +74,14 @@ high_quant <- function(N, kappa, sigma, xi) {
 # saveRDS(delta, "full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/delta.RDS")
   
 # read in extracted mcmc draws ------
-files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
-                list.files(path = "full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
-                           pattern = ".RDS"))
-files <- files[!grepl("old", files)]
-files <- files[grepl("beta", files)]
-files <- files[!grepl("phi", files)]
-files <- files[!grepl("kappa", files)]
-object_names <- str_remove(basename(files), ".RDS")
-for(i in seq_along(object_names)) {
-  assign(object_names[i], readRDS(files[i]))
-}
+# files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
+#                 list.files(path = "full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
+#                            pattern = ".RDS"))
+# files <- files[!grepl("old", files)]
+# files <- files[!grepl("beta", files)]
+# files <- files[!grepl("phi", files)]
+# files <- files[!grepl("kappa", files)]
+
 
 ## create time series plots of phi values for kappa and lambda ------
 # phi_kappa <- phi %>% select(-lambda) %>% group_by(time, region) %>% summarize(kappa = median(kappa)) %>% ungroup()
@@ -108,6 +105,11 @@ for(i in seq_along(object_names)) {
 # ggsave("full-model/figures/paper/theta_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
 
 # create return level plots ------
+kappa <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/kappa.RDS")
+rand_int <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rand_int.RDS")
+lambda <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/lambda.RDS")
+pi_prob <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/pi_prob.RDS")
+
 all_params <- kappa %>% 
   left_join(rand_int) %>% 
   left_join(lambda) %>% 
@@ -126,19 +128,19 @@ returns_summary <- returns %>% group_by(time, region) %>%
 returns_regional <- returns_summary %>% 
   left_join(full_reg_key) %>% 
   left_join(time_df)
-saveRDS(returns_regional, "full-model/figures/paper/tibbles/returns_regional_gamma-cst.RDS")
+saveRDS(returns_regional, "full-model/figures/paper/tibbles/returns_regional_gamma-ri.RDS")
 
 p <- returns_regional %>% ggplot() + 
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
-  geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
+  geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + 
+  scale_y_log10() +
   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
-  # scale_fill_brewer(palette = 'Set3') +
   ylab("Expected burn area (ha)") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
-  theme_classic() + theme(legend.position = "none") + 
+  theme_classic() + 
+  theme(legend.position = "none") + 
   theme(strip.text.x = element_text(size = rel(1.1)))
-
-file_name <- "full-model/figures/paper/50yr_returns.pdf"
+file_name <- "full-model/figures/paper/50yr_returns_ri-model.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 
 ## calculate 98th quantile expected burn areas ----------
@@ -153,7 +155,7 @@ level98_areas_summary <- level98_areas %>% group_by(time, region) %>%
 level98_areas_regional <- level98_areas_summary %>% 
   left_join(full_reg_key) %>% 
   left_join(time_df)
-saveRDS(level98_areas_regional, "full-model/figures/paper/tibbles/level98_areas_regional_gamma-cst.RDS")
+saveRDS(level98_areas_regional, "full-model/figures/paper/tibbles/level98_areas_regional_gamma-ri.RDS")
 
 p <- level98_areas_regional %>% ggplot() + 
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
@@ -161,10 +163,10 @@ p <- level98_areas_regional %>% ggplot() +
   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
   ylab("Expected burn area (ha) given fire occurrence") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
-  theme_classic() + theme(legend.position = "none") + 
+  theme_classic() + 
+  theme(legend.position = "none") + 
   theme(strip.text.x = element_text(size = rel(1.1)))
-
-file_name <- "full-model/figures/paper/98th_quant_burnareas.pdf"
+file_name <- "full-model/figures/paper/98th_quant_burn-areas_ri-model.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 
 ## area-weighted average of burn area exceedances -------
@@ -185,14 +187,15 @@ p <- returns_level1 %>%
   left_join(time_df) %>%
   ggplot() + 
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = NA_L1NAME, fill = NA_L1NAME, alpha = 0.5)) +
-  geom_line(aes(x=date, y=med50, group = NA_L1NAME, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
+  geom_line(aes(x=date, y=med50, group = NA_L1NAME, alpha = 0.5), linewidth = 1, color = 'darkgrey') + 
+  scale_y_log10() +
   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
   ylab("Expected burn area (ha)") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
-  theme_classic() + theme(legend.position = "none") + 
-  theme(strip.text.x = element_text(size = rel(0.9)))
-
-file_name <- "full-model/figures/paper/50yr_returns_level1.pdf"
+  theme_classic() + 
+  theme(legend.position = "none") + 
+  theme(strip.text.x = element_text(size = rel(1.1)))
+file_name <- "full-model/figures/paper/50yr_returns_level1_ri-model.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 
 ## time-averaged kappa, then high quantile of burn area --------

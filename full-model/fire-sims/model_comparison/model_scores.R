@@ -243,6 +243,7 @@ saveRDS(burn_scores, "full-model/fire-sims/model_comparison/burn_scores.RDS")
 g1_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                    list.files("full-model/fire-sims/model_comparison/extracted_values/", 
                               "g1_sigma-ri"))
+g1_files <- g1_files[!grepl("RDS", g1_files)]
 g1_files <- g1_files[grepl("long", g1_files)]
 
 nfits <- length(g1_files)/3
@@ -255,7 +256,8 @@ g1_model_names <- lapply(fit_groups, function(x) {
   basename(x[[1]]) %>% 
     str_remove(., "_\\d{2}\\w{3}2023_\\d{4}") %>%
     str_remove(., "_\\d{1}_GQ.csv") %>%
-    str_remove(., "sigma-ri_xi-ri_")
+    str_remove(., "g1_sigma-ri_xi-ri_") %>%
+    str_remove(., "_long")
 }) %>% 
   unlist()
 
@@ -274,7 +276,7 @@ holdout_loglik <- vector("list", nfits)
 train_loglik <- vector("list", nfits)
 train_twcrps <- vector("list", nfits)
 holdout_twcrps <- vector("list", nfits)
-for(i in seq_along(g1_model_names[1:4])) {
+for(i in seq_along(g1_model_names)) {
   draws_df <- get(g1_model_names[i]) %>% 
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>% 
@@ -301,44 +303,6 @@ for(i in seq_along(g1_model_names[1:4])) {
     mutate(model = g1_model_names[i],
            train = TRUE)
 }
-
-# add in g3 scores
-holdout_loglik[[5]] <- get(g3_name)[["holdout_loglik"]]$post_warmup_draws %>%
-  as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  group_by(draw) %>% 
-  summarize(loglik = sum(value)) %>%
-  mutate(model = g3_name,
-         train = FALSE)
-holdout_twcrps[[5]] <- get(g3_name)[["holdout_twcrps"]]$post_warmup_draws %>%
-  as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  group_by(draw) %>% 
-  summarize(twcrps = mean(value)) %>%
-  mutate(model = g3_name,
-         train = FALSE)
-train_loglik[[5]] <- get(g3_name)[["train_loglik"]]$post_warmup_draws %>%
-  as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  group_by(draw) %>% 
-  summarize(loglik = sum(value)) %>%
-  mutate(model = g3_name,
-         train = TRUE)
-train_twcrps[[5]] <- get(g3_name)[["train_twcrps"]]$post_warmup_draws %>%
-  as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  group_by(draw) %>% 
-  summarize(twcrps = mean(value)) %>%
-  mutate(model = g3_name,
-         train = TRUE)
 
 holdout_loglik_burns_data <- bind_rows(holdout_loglik)
 train_loglik_burns_data <- bind_rows(train_loglik)

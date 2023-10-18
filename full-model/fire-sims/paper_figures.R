@@ -7,6 +7,7 @@ library(lubridate)
 library(sf)
 library(classInt)
 library(RColorBrewer)
+library(patchwork)
 
 ## read in region key 
 region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
@@ -613,11 +614,12 @@ ggsave("full-model/figures/paper/gamma_map.pdf")
 #   theme_void() + scale_fill_brewer(palette = "YlOrRd")
 # ggsave("full-model/figures/paper/sigma_map.pdf", dpi = 320, bg ='white')
 # 
-xi_map_cst <- rand_int_cst %>% select(-sigma) %>% group_by(region) %>% summarize(xi = median(xi))
-breaks <- classIntervals(c(min(xi_map_cst$xi) - .00001, xi_map_cst$xi), style = 'fixed', 
+rand_int <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rand_int.RDS")
+xi_map <- rand_int %>% select(-sigma) %>% group_by(region) %>% summarize(xi = median(xi))
+breaks <- classIntervals(c(min(xi_map$xi) - .00001, xi_map$xi), style = 'fixed', 
                          fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
 eco_xi <- ecoregions_geom %>% 
-  left_join(xi_map_cst %>% left_join(full_reg_key)) %>% 
+  left_join(xi_map %>% left_join(full_reg_key)) %>% 
   mutate(xi_cat = cut(xi, unique(breaks$brks)))
 p1 <- ecoregions_geom %>%
   ggplot() +
@@ -628,38 +630,33 @@ p1 <- ecoregions_geom %>%
   scale_fill_brewer(palette = "YlOrRd", 
                     labels = c(expression(""<="0.2"), "(0.2, 0.4]", "(0.4, 0.6]", "(0.6, 0.8]", expression("">"0.8")),
                     expression(xi))
-ggsave("full-model/figures/paper/xi_map_gamma-cst.pdf", dpi = 320, bg ='white')
+# ggsave("full-model/figures/paper/xi_map.pdf", bg ='white')
 
-xi_map_eda <- burn_eda
+xi_map_eda <- readRDS("~/research/egpd-fires/full-model/figures/paper/burn_eda.RDS")
 breaks <- classIntervals(c(min(xi_map_eda$shape_include) - .00001, xi_map_eda$shape_include), style = 'fixed', 
                          fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
 eco_eda <- ecoregions_geom %>% left_join(xi_map_eda) %>%
   mutate(xi_cat = cut(shape_include, unique(breaks$brks)))
 
-p2 <- ecoregions_geom %>%
-  ggplot() +
+p2 <- ecoregions_geom %>% group_by(NA_L2CODE) %>% summarise() %>%
+  ggplot(aes(fill = NA_L2CODE, group = NA_L2CODE)) +
   geom_sf(size = .1, fill = 'white') +
   geom_sf(data = eco_eda,
           aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
   theme_void() + 
   scale_fill_brewer(palette = "YlOrRd") + theme(legend.position = "none")
 p <- p1 + p2 + plot_layout(guides = "collect")
-ggsave("full-model/figures/paper/xi_map_gamma-cst_witheda.pdf", dpi = 320, bg ='white')
-# pi_prob_map <- pi_prob %>% 
-#   mutate(pi_expit = exp(pi)/(1 + exp(pi))) %>%
-#   group_by(region) %>% 
-#   summarize(pi_prob = median(pi_expit))
-# breaks <- classIntervals(c(min(pi_prob_map$pi_prob) - .00001, pi_prob_map$pi_prob), style = 'quantile', intervalClosure = 'left')
-# eco_pi_prob <- ecoregions_geom %>% 
-#   left_join(pi_prob_map %>% left_join(full_reg_key)) %>% 
-#   mutate(pi_prob_cat = cut(pi_prob, unique(breaks$brks)))
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_pi_prob,
-#           aes(fill=pi_prob_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-#   theme_void() + scale_fill_brewer(palette = "YlOrRd")
-# ggsave("full-model/figures/paper/pi_prob_map.pdf", dpi = 320, bg ='white')
+ggsave("full-model/figures/paper/xi_map_with-eda.pdf", dpi = 320, bg ='white')
+
+er_map_l1 <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .2, fill = "white") +
+  geom_sf(data = ecoregions_geom,
+          aes(fill = NA_L2CODE), alpha = 0.6, lwd = 0, inherit.aes = FALSE, show.legend = FALSE) +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(),
+          fill = "transparent", lwd = 1, color = "gray20", inherit.aes = FALSE, show.legend = FALSE) +
+  theme_void() +
+  coord_sf(ndiscr = FALSE)
 
 ## partial effects plots for lambda and kappa ---------
 beta_count <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_2000iter/beta_count.RDS")

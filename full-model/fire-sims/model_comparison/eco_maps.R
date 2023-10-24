@@ -14,85 +14,11 @@ library(spatialreg)
 
 # nb <- read_rds('./sim-study/shared-data/nb.rds')
 ecoregions <- read_rds(file = "ecoregions.RDS")
-
 ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)")
+levels_l2 <- as.factor(sort(as.numeric(levels(ecoregions_geom$NA_L2CODE))))
+ecoregions_geom <- ecoregions_geom %>% mutate(NA_L2CODE = factor(NA_L2CODE, levels = level_l2))
 
-library(posterior)
-xi_vals <- bestmod_xivals$post_warmup_draws %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  mutate(region = readr::parse_number(name)) %>%
-  select(-name) %>% 
-  mutate(exp_val = exp(value))
-
-xi_vals_med <- xi_vals %>% group_by(region) %>% summarize(med_val = median(exp_val)) %>% ungroup()
-full_reg_key <- as_tibble(region_key) %>%
-  mutate(region = c(1:84),
-         NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE))
-xi_vals_med_regions <- xi_vals_med %>% left_join(full_reg_key)
-
-eco_xi <- ecoregions_geom %>% 
-  mutate(NA_L2CODE = as.factor(NA_L2CODE), 
-         NA_L1CODE = as.factor(NA_L1CODE), 
-         NA_L3CODE = as.factor(NA_L3CODE)) %>% 
-  left_join(xi_vals_med_regions)
-
-breaks <- classIntervals(c(min(eco_xi$med_val) - .00001, eco_xi$med_val), style = 'fixed', 
-                         fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
-
-eco_xi_cat <- eco_xi %>% 
-  mutate(xi_cat = cut(med_val, unique(breaks$brks)))
-
-p <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_xi_cat,
-          aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_brewer(palette = 'YlOrRd')
-ggsave("full-model/figures/plots_eva2023/xi_vals.png", dpi = 320, bg ='white')
-
-xi_vals <- bestmod_xivals_rerun$post_warmup_draws %>% as_draws_df() %>%
-  select(-c(".iteration", ".chain")) %>% 
-  pivot_longer(cols = !".draw") %>%
-  rename(draw = ".draw") %>%
-  mutate(region = readr::parse_number(name)) %>%
-  select(-name) %>% 
-  mutate(exp_val = exp(value))
-
-xi_vals_med <- xi_vals %>% group_by(region) %>% summarize(med_val = median(exp_val)) %>% ungroup()
-
-full_reg_key <- as_tibble(region_key_new) %>%
-  mutate(region = c(1:84),
-         NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
-         NA_L3CODE = as.factor(NA_L3CODE))
-xi_vals_med_regions <- xi_vals_med %>% left_join(full_reg_key)
-
-eco_xi <- ecoregions_geom %>% 
-  mutate(NA_L2CODE = as.factor(NA_L2CODE), 
-         NA_L1CODE = as.factor(NA_L1CODE), 
-         NA_L3CODE = as.factor(NA_L3CODE)) %>% 
-  left_join(xi_vals_med_regions)
-
-breaks <- classIntervals(c(min(eco_xi$med_val) - .00001, eco_xi$med_val), style = 'fixed', 
-                         fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
-
-eco_xi_cat <- eco_xi %>% 
-  mutate(xi_cat = cut(med_val, unique(breaks$brks)))
-
-p <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_xi_cat,
-          aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_brewer(palette = 'YlOrRd')
-ggsave("full-model/figures/plots_eva2023/xi_vals_newdata.png", dpi = 320, bg ='white')
-
-
-er_map_l1 <- ecoregions_geom %>%
+er_map_l1 <- ecoregions_geom %>% 
   ggplot() +
   geom_sf(size = .2, fill = "white") +
   geom_sf(data = ecoregions_geom,

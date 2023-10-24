@@ -20,9 +20,11 @@ full_reg_key <- as_tibble(region_key) %>%
 
 ## read in ecoregion shapes
 ecoregions <- read_rds(file = "ecoregions.RDS")
+levels_l1 <- levels(as.factor(as.numeric(ecoregions$NA_L1CODE)))
+levels_l2 <- levels(as.factor(as.numeric(ecoregions$NA_L2CODE)))
 ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>% 
-  mutate(NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
+  mutate(NA_L2CODE = factor(NA_L2CODE, levels = levels_l2),
+         NA_L1CODE = factor(NA_L1CODE, levels = levels_l1),
          NA_L3CODE = as.factor(NA_L3CODE),
          NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
 
@@ -65,15 +67,45 @@ high_quant <- function(N, kappa, sigma, xi) {
   p <- ((N-1)/N) * (1-pegpd(1.001, kappa, sigma, xi)) + pegpd(1.001, kappa, sigma, xi)
   return(qegpd(p, kappa, sigma, xi))
 }
-# 
-# # cleaning up delta tibble
-# delta <- delta %>% 
-#   mutate(name = gsub("delta\\[", "", name),
-#          name = as.integer(gsub("\\]", "", name))) %>%
-#   rename(region = name, delta = value)
-# 
-# saveRDS(delta, "full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/delta.RDS")
-  
+
+## ecoregion maps ----------
+l1_only_map <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+  ggplot() +
+  geom_sf(size = .1, fill = "transparent", lwd = 0.3, inherit.aes = FALSE) +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          aes(fill = NA_L1CODE), alpha = 0.8, lwd = 0.6, inherit.aes = FALSE, show.legend = FALSE) +
+  theme_void() +
+  coord_sf(ndiscr = FALSE)
+ggsave("full-model/figures/paper/level1_map.pdf", dpi = 320)
+
+er_map_l1 <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+  ggplot() +
+  geom_sf(size = .2, fill = "transparent") +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L2CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          aes(fill = NA_L2CODE), alpha = 0.8, lwd = 0.25, inherit.aes = FALSE, show.legend = FALSE) +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          fill = "transparent", lwd = 0.8, color = "gray20", inherit.aes = FALSE, show.legend = FALSE) +
+  theme_void() +
+  coord_sf(ndiscr = FALSE)
+ggsave("full-model/figures/paper/er_map_l1.pdf", dpi = 320)
+
+er_map_l2 <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+  ggplot() +
+  geom_sf(size = .2, fill = "transparent", lwd = 0.3) +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L2CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          aes(fill = NA_L2CODE), alpha = 0.8, lwd = 0.45, inherit.aes = FALSE, show.legend = FALSE) +
+  theme_void() +
+  coord_sf(ndiscr = FALSE)
+ggsave("full-model/figures/paper/er_map_l2.pdf", dpi = 320)
+
+er_map_l3 <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+  ggplot() +
+  geom_sf(size = .2, fill = "white", lwd = .3) +
+  theme_void() +
+  coord_sf(ndiscr = FALSE)
+ggsave("full-model/figures/paper/er_map_l3.pdf", dpi = 320)
+
+
 # read in extracted mcmc draws ------
 # files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
 #                 list.files(path = "full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
@@ -84,32 +116,11 @@ high_quant <- function(N, kappa, sigma, xi) {
 # files <- files[!grepl("kappa", files)]
 
 
-## create time series plots of phi values for kappa and lambda ------
-# phi_kappa <- phi %>% select(-lambda) %>% group_by(time, region) %>% summarize(kappa = median(kappa)) %>% ungroup()
-# p <- phi_kappa %>% left_join(full_reg_key) %>% left_join(time_df) %>%
-#   ggplot(aes(x = date, y = kappa, color = NA_L2CODE)) + 
-#   geom_line(linewidth = 0.5) + 
-#   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
-#   facet_wrap(. ~ NA_L1NAME, nrow = 2) + 
-#   theme_classic()
-# ggsave("full-model/figures/paper/phi_kappa_allregs_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-# 
-# ## create time series for theta ------
-# years <- seq(1, 372, by = 12)[-1]
-# theta_time <- theta %>% group_by(timepoint) %>% summarize(theta = median(theta)) %>% ungroup() %>% rename(time = timepoint)
-# p <- theta_time %>% left_join(time_df) %>%
-#   ggplot(aes(x = time, y = theta)) + 
-#   geom_line(linewidth = 0.5, col = "blue") + 
-#   geom_vline(xintercept = years, col = "darkgrey", linewidth = 0.5) +
-#   # scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
-#   theme_classic()
-# ggsave("full-model/figures/paper/theta_overtime.pdf", p, width = 15, dpi = 320, bg = "white")
-
 # create return level plots ------
-kappa <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/kappa.RDS")
-rand_int <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rand_int.RDS")
-lambda <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/lambda.RDS")
-pi_prob <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/pi_prob.RDS")
+kappa <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/kappa.RDS")
+rand_int <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rand_int.RDS")
+lambda <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/lambda.RDS")
+pi_prob <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/pi_prob.RDS")
 
 all_params <- kappa %>% 
   left_join(rand_int) %>% 
@@ -117,22 +128,24 @@ all_params <- kappa %>%
   left_join(pi_prob) %>%
   mutate(eta = exp_count(pi, lambda))
 
-# calculate expected burn area for the 98th quantile given there are eta fires in that ecoregion
-returns <- all_params %>% 
+## calculate expected burn area for the 98th quantile given there are eta fires in that ecoregion
+returns <- all_params %>%
   mutate(yr50 = rlevel(50, kappa, sigma, xi, eta)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
-returns_summary <- returns %>% group_by(time, region) %>% 
-  summarize(med50 = median(yr50[is.finite(yr50)]), 
-            lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
-            upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
-  ungroup()
+# returns_summary <- returns %>% group_by(time, region) %>% 
+#   summarize(med50 = median(yr50[is.finite(yr50)]), 
+#             lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
+#             upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
+#   ungroup()
+# 
+# returns_regional <- returns_summary %>% 
+#   left_join(full_reg_key) %>% 
+#   left_join(time_df)
+# saveRDS(returns_regional, "full-model/figures/paper/tibbles/returns_regional_gamma-ri.RDS")
 
-returns_regional <- returns_summary %>% 
-  left_join(full_reg_key) %>% 
-  left_join(time_df)
-saveRDS(returns_regional, "full-model/figures/paper/tibbles/returns_regional_gamma-ri.RDS")
-
+returns_regional <- readRDS("~/Desktop/research/egpd-fires/full-model/figures/paper/tibbles/returns_regional_gamma-ri.RDS")
+returns_regional <- returns_regional %>% mutate(NA_L1CODE = factor(NA_L1CODE, levels = levels_l1))
 p <- returns_regional %>% ggplot() + 
-  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
+  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1CODE, alpha = 0.5)) +
   geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + 
   scale_y_log10() +
   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
@@ -145,21 +158,22 @@ file_name <- "full-model/figures/paper/50yr_returns_ri-model.pdf"
 ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
 
 ## calculate 98th quantile expected burn areas ----------
-level98_areas <- all_params %>% 
+level98_areas <- all_params %>%
   mutate(yr50 = high_quant(50, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
-level98_areas_summary <- level98_areas %>% group_by(time, region) %>% 
-  summarize(med50 = median(yr50[is.finite(yr50)]), 
-            lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
-            upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
-  ungroup()
+# level98_areas_summary <- level98_areas %>% group_by(time, region) %>% 
+#   summarize(med50 = median(yr50[is.finite(yr50)]), 
+#             lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
+#             upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
+#   ungroup()
 
-level98_areas_regional <- level98_areas_summary %>% 
-  left_join(full_reg_key) %>% 
-  left_join(time_df)
-saveRDS(level98_areas_regional, "full-model/figures/paper/tibbles/level98_areas_regional_gamma-ri.RDS")
-
+# level98_areas_regional <- level98_areas_summary %>% 
+#   left_join(full_reg_key) %>% 
+#   left_join(time_df)
+# saveRDS(level98_areas_regional, "full-model/figures/paper/tibbles/level98_areas_regional_gamma-ri.RDS")
+level98_areas_regional <- readRDS("./full-model/figures/paper/tibbles/level98_areas_regional_gamma-ri.RDS")
+level98_areas_regional <- level98_areas_regional %>% mutate(NA_L1CODE = factor(NA_L1CODE, levels = levels_l1))
 p <- level98_areas_regional %>% ggplot() + 
-  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1NAME, alpha = 0.5)) +
+  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1CODE, alpha = 0.5)) +
   geom_line(aes(x=date, y=med50, group = region), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
   ylab("Expected burn area (ha) given fire occurrence") +
@@ -176,19 +190,21 @@ returns_level1 <- returns %>% select(c(draw, time, region, yr50)) %>%
   left_join(full_reg_key) %>% 
   left_join(eco_areas) %>% 
   filter(yr50 != Inf) %>%
-  group_by(NA_L1NAME, time, draw) %>% 
+  group_by(NA_L1NAME, time, draw, NA_L1CODE) %>% 
   summarize(wmean = weighted.mean(yr50, area)) %>% 
   ungroup() %>% 
-  group_by(time, NA_L1NAME) %>%
+  group_by(time, NA_L1NAME, NA_L1CODE) %>%
   summarize(med50 = median(wmean), 
             lower = quantile(wmean, probs = 0.025), 
-            upper = quantile(wmean, probs = 0.975))
+            upper = quantile(wmean, probs = 0.975)) %>%
+  ungroup()
 
+returns_level1 <- returns_level1 %>% mutate(NA_L1CODE = factor(NA_L1CODE, levels = levels_l1))
 p <- returns_level1 %>%
   left_join(time_df) %>%
   ggplot() + 
-  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = NA_L1NAME, fill = NA_L1NAME, alpha = 0.5)) +
-  geom_line(aes(x=date, y=med50, group = NA_L1NAME, alpha = 0.5), linewidth = 1, color = 'darkgrey') + 
+  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = NA_L1CODE, fill = NA_L1CODE, alpha = 0.95)) +
+  geom_line(aes(x=date, y=med50, group = NA_L1CODE), linewidth = 0.5, color = 'darkgrey') + 
   scale_y_log10() +
   scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
   ylab("Expected burn area (ha)") +
@@ -196,79 +212,38 @@ p <- returns_level1 %>%
   theme_classic() + 
   theme(legend.position = "none") + 
   theme(strip.text.x = element_text(size = rel(1.1)))
-file_name <- "full-model/figures/paper/50yr_returns_level1_ri-model.pdf"
-ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
+file_name <- "full-model/figures/paper/50yr_returns_level1.pdf"
+ggsave(file_name, p, dpi = 320, width = 15, height = 8)
 
-## time-averaged kappa, then high quantile of burn area --------
-# kappa_temp_avg <- kappa_vals %>% group_by(region, draw) %>% summarize(kappa = mean(kappa)) %>% ungroup()
-# all_params_notime <- kappa_temp_avg %>% 
-#   left_join(rand_int)
-# level98_timeavg <- all_params_notime %>% 
-#   mutate(yr50 = high_quant(50, kappa, sigma, xi)*0.405) # convert to hectares (1000s of hectares)
-# level98_timeavg_summary <- level98_timeavg %>% group_by(region) %>%
-#   summarize(med50 = median(yr50[is.finite(yr50)]), 
-#             lower = quantile(yr50[is.finite(yr50)], probs = 0.025), 
-#             upper = quantile(yr50[is.finite(yr50)], probs = 0.975)) %>%
-#   ungroup()
-# level98_timeavg_regions <- level98_timeavg_summary %>% left_join(full_reg_key)
+level98_areas_level1 <- level98_areas %>% select(c(draw, time, region, yr50)) %>% 
+  left_join(full_reg_key) %>% 
+  left_join(eco_areas) %>% 
+  filter(yr50 != Inf) %>%
+  group_by(NA_L1NAME, time, draw, NA_L1CODE) %>% 
+  summarize(wmean = weighted.mean(yr50, area)) %>% 
+  ungroup() %>% 
+  group_by(time, NA_L1NAME, NA_L1CODE) %>%
+  summarize(med50 = median(wmean), 
+            lower = quantile(wmean, probs = 0.025), 
+            upper = quantile(wmean, probs = 0.975)) %>%
+  ungroup()
 
-# ## create maps for each quantile level, using same interval break categories -------
-# allquantlevels <- c(level50_timeavg_summary$med2, level75_timeavg_summary$med4, level95_timeavg_summary$med20, level98_timeavg_summary$med50)
-# breaks <- classIntervals(c(min(allquantlevels) - .00001, allquantlevels), style = 'quantile',intervalClosure = 'left')
-# 
-# eco_burns98 <- ecoregions_geom %>% 
-#   left_join(level98_timeavg_regions) %>% 
-#   mutate(burns_cat = cut(med50, unique(breaks$brks)))
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = eco_burns98,
-#           aes(fill=burns_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
-#   scale_fill_brewer(palette = 'YlOrRd') +
-#   theme_void() 
-# ggsave("full-model/figures/paper/onekappa_98th_quant_map.pdf", dpi = 320, bg ='white')
+level98_areas_level1 <- level98_areas_level1 %>% mutate(NA_L1CODE = factor(NA_L1CODE, levels = levels_l1))
+p <- level98_areas_level1 %>%
+  left_join(time_df) %>%
+  ggplot() + 
+  geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = NA_L1CODE, fill = NA_L1CODE, alpha = 0.95)) +
+  geom_line(aes(x=date, y=med50, group = NA_L1CODE), linewidth = 0.5, color = 'darkgrey') + 
+  scale_y_log10() +
+  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
+  ylab("Expected burn area (ha) given fire occurrence") +
+  facet_wrap(. ~ NA_L1NAME, nrow = 2) +
+  theme_classic() + 
+  theme(legend.position = "none") + 
+  theme(strip.text.x = element_text(size = rel(1.1)))
+file_name <- "full-model/figures/paper/98th_quant_burn-areas_level1.pdf"
+ggsave(file_name, p, dpi = 320, width = 15, height = 8)
 
-# ## create maps of each parameter (kappa, sigma, xi) using 'quantile' break schema ---------
-# all_params_notime <- all_params_notime %>% 
-#   group_by(region) %>% 
-#   summarize(kappa = mean(kappa),
-#             sigma = mean(sigma),
-#             xi = mean(xi)) %>%
-#   left_join(full_reg_key)
-# kappa_breaks <- classIntervals(c(min(all_params_notime$kappa) - .00001, all_params_notime$kappa), style = 'quantile', intervalClosure = 'left')
-# sigma_breaks <- classIntervals(c(min(all_params_notime$sigma) - .00001, all_params_notime$sigma), style = 'quantile', intervalClosure = 'left')
-# xi_breaks <- classIntervals(c(min(all_params_notime$xi) - .00001, all_params_notime$xi), style = 'quantile',intervalClosure = 'left')
-# all_params_notime_eco <- ecoregions_geom %>% left_join(all_params_notime) %>%
-#   mutate(kappa_cat = cut(kappa, unique(kappa_breaks$brks)),
-#          sigma_cat = cut(sigma, unique(sigma_breaks$brks)),
-#          xi_cat = cut(xi, unique(xi_breaks$brks)))
-# 
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = all_params_notime_eco,
-#           aes(fill=kappa_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
-#   scale_fill_brewer(palette = 'YlOrRd') +
-#   theme_void() 
-# ggsave("full-model/figures/paper/kappa_timeavg_map.pdf", dpi = 320, bg ='white')
-# 
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = all_params_notime_eco,
-#           aes(fill=sigma_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
-#   scale_fill_brewer(palette = 'YlOrRd') +
-#   theme_void()
-# ggsave("full-model/figures/paper/sigma_map.pdf", dpi = 320, bg ='white')
-# 
-# p <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .1, fill = 'white') +
-#   geom_sf(data = all_params_notime_eco,
-#           aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) + 
-#   scale_fill_brewer(palette = 'YlOrRd') +
-#   theme_void()
-# ggsave("full-model/figures/paper/xi_cat.pdf", dpi = 320, bg ='white')
 
 
 ## create boxplot of predicted counts for entire US annually for all timepoints (holdout and training) and overlay truth ------
@@ -546,60 +521,28 @@ p <- burn_preds_gamma_ri_winsor %>%
   theme_classic() + theme(legend.position = "none")
 ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_gamma-ri_zeroed.pdf", width = 15)
 
-# magnitude of difference between truth and predsd
-diff_burns <- true_burns_level1_full %>% 
-  left_join(burn_preds_gamma_ri_l1_annual %>% 
-              group_by(NA_L1NAME, year) %>%
-              summarize(med_pred_zeroed = median(total_area)) %>%
-              ungroup()) %>%
-  left_join(burn_preds_gamma_ri_l1 %>% 
-              group_by(NA_L1NAME, year) %>%
-              summarize(med_pred_og = median(total_area)) %>%
-              ungroup()) %>% 
-  pivot_longer(cols = c(med_pred_zeroed, med_pred_og), names_to = 'pred_set', values_to = "med_pred") %>%
-  mutate(magnitude = med_pred/true_area)
-p <- diff_burns %>% 
-  ggplot(aes(x = year, y = magnitude, group = pred_set, color = pred_set)) + 
-  geom_line(alpha = 0.5) + 
-  geom_hline(yintercept = 1.0, col = "red", linewidth = 0.2, linetype = 'dotted') +
-  geom_hline(yintercept = 5.0, col = "blue", linewidth = 0.2, linetype = 'dashed') +
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) +
-  scale_y_log10() +
-  xlab("Year (1990-2020)") + 
-  ylab("Magnitude of difference") +
-  theme_classic()
-ggsave("full-model/figures/paper/magnitude_of_difference_zeroed-and-og.pdf", width = 15)
-
-## compare theta from both joint models
-theta_both <- theta_gamma_ri %>% 
-  mutate(model = 'ri') %>% 
-  rbind(theta_gamma_cst %>% mutate(model = 'cst')) %>%
-  mutate(model = as.factor(model)) %>%
-  group_by(timepoint, model) %>%
-  summarize(med_theta = median(theta)) %>%
-  ungroup()
-
-p <- theta_both %>% rename(time = timepoint) %>% left_join(time_df) %>%
-  ggplot(aes(x = date, y = med_theta, group = model, color = model)) +
-  geom_line() +
-  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") +
-  theme_classic()
-ggsave("full-model/figures/paper/theta_gamma-ri_vs_gamma-cst.pdf", width = 15)
-
 ## maps of xi, sigma, pi_prob, gamma ---------
+gamma <- readRDS("~/Desktop/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/gamma.RDS")
 gamma_map <- gamma %>% group_by(region) %>% summarize(gamma = median(gamma)) %>% ungroup()
-breaks <- classIntervals(c(min(gamma_map$gamma) - .00001, gamma_map$gamma), style = 'fixed', 
-                         fixedBreaks = seq(-1.5, 1.5, length.out = 9), intervalClosure = 'left')
+# breaks <- classIntervals(c(min(gamma_map$gamma) - .00001, gamma_map$gamma), style = 'fixed', 
+#                          fixedBreaks = seq(-1.5, 1.5, length.out = 9), intervalClosure = 'left')
 eco_gamma <- ecoregions_geom %>%
-  left_join(gamma_map %>% left_join(full_reg_key)) %>%
-  mutate(gamma_cat = cut(gamma, unique(breaks$brks)))
-p <- ecoregions_geom %>%
+  left_join(gamma_map %>% left_join(full_reg_key)) 
+# %>%
+#   mutate(gamma_cat = cut(gamma, unique(breaks$brks)))
+p <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_gamma,
-          aes(fill=gamma), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + scale_fill_gradient2()
-ggsave("full-model/figures/paper/gamma_map.pdf")
+  geom_sf(data = eco_gamma %>% group_by(NA_L3CODE, gamma) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          aes(fill=gamma), alpha = 1, lwd = 0, inherit.aes = FALSE) +
+  theme_void() + scale_fill_gradient2(name = bquote(gamma~value))
+p_legend <- p + theme(legend.position = c(0.95, 0.4), 
+                      legend.key.size = unit(1, "cm"),
+                      legend.text = element_text(size = 12),
+                      legend.title = element_text(size = 15))
+ggsave("full-model/figures/paper/gamma_map.pdf", width = 10, height = 8)
+
+# parse(text = paste("tau[", 1:2, "]")))
 
 # sigma_map <- rand_int %>% select(-xi) %>% group_by(region) %>% summarize(sigma = median(sigma))
 # breaks <- classIntervals(c(min(sigma_map$sigma) - .00001, sigma_map$sigma), style = 'quantile', intervalClosure = 'left')
@@ -614,52 +557,100 @@ ggsave("full-model/figures/paper/gamma_map.pdf")
 #   theme_void() + scale_fill_brewer(palette = "YlOrRd")
 # ggsave("full-model/figures/paper/sigma_map.pdf", dpi = 320, bg ='white')
 # 
-rand_int <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rand_int.RDS")
+burn_eda <- readRDS("~/Desktop/research/egpd-fires/full-model/figures/paper/burn_eda.RDS")
+eco_eda <- ecoregions_geom %>% left_join(burn_eda)
+eda_95_plot <- ecoregions_geom %>% group_by(NA_L2NAME) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'transparent', inherit.aes = FALSE) +
+  geom_sf(data = eco_eda %>% group_by(NA_L2NAME, shape_inc_95) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))), 
+          aes(fill=shape_inc_95), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+  theme_void()
+eda_95_hcl <- eda_95_plot + scale_fill_continuous_sequential(palette = 'Mint', 
+                                              na.value = 'transparent',
+                                              name = bquote(xi~value)) +
+  theme(legend.position = c(0.95, 0.4), 
+        legend.key.size = unit(1, "cm"),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 15))
+ggsave("full-model/figures/paper/xi_eda_95th-quant_v2.pdf", width = 10)
+
+eda_95_gradient <- eda_95_plot + scale_fill_gradient2(na.value = "transparent",
+                                    name = bquote(xi~value)) + 
+  theme(legend.position = c(0.95, 0.4), 
+        legend.key.size = unit(1, "cm"),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 15))
+ggsave("full-model/figures/paper/xi_eda_95th-quant.pdf", width = 10, height = 8)
+
+eda_90_plot <- ecoregions_geom %>% group_by(NA_L2NAME) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'transparent', inherit.aes = FALSE) +
+  geom_sf(data = eco_eda %>% group_by(NA_L2NAME, shape_inc_90) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))), 
+          aes(fill=shape_inc_90), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+  theme_void()
+eda_90_hcl <- eda_90_plot + scale_fill_continuous_sequential(palette = 'Mint',
+                                              na.value = "transparent",
+                                              name = bquote(xi~value)) + 
+  theme(legend.position = c(0.95, 0.4), 
+        legend.key.size = unit(1, "cm"),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 15))
+ggsave("full-model/figures/paper/xi_eda_90th-quant_v2.pdf", width = 10)
+eda_90_gradient <- eda_90_plot + scale_fill_gradient2(na.value = "transparent",
+                                    name = bquote(xi~value)) + 
+  theme(legend.position = c(0.95, 0.4), 
+        legend.key.size = unit(1, "cm"),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 15))
+ggsave("full-model/figures/paper/xi_eda_90th-quant.pdf", width = 10, height = 8)
+
+
+rand_int <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rand_int.RDS")
 xi_map <- rand_int %>% select(-sigma) %>% group_by(region) %>% summarize(xi = median(xi))
-breaks <- classIntervals(c(min(xi_map$xi) - .00001, xi_map$xi), style = 'fixed', 
-                         fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
 eco_xi <- ecoregions_geom %>% 
-  left_join(xi_map %>% left_join(full_reg_key)) %>% 
-  mutate(xi_cat = cut(xi, unique(breaks$brks)))
-p1 <- ecoregions_geom %>%
+  left_join(xi_map %>% left_join(full_reg_key))
+
+
+# breaks <- classIntervals(c(min(xi_map$xi) - .00001, xi_map$xi), style = 'fixed', 
+#                          fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
+# eco_xi <- ecoregions_geom %>% 
+#   left_join(xi_map %>% left_join(full_reg_key)) %>% 
+#   mutate(xi_cat = cut(xi, unique(breaks$brks)))
+xi_model_map <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'white') +
   geom_sf(data = eco_xi,
-          aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + 
-  scale_fill_brewer(palette = "YlOrRd", 
-                    labels = c(expression(""<="0.2"), "(0.2, 0.4]", "(0.4, 0.6]", "(0.6, 0.8]", expression("">"0.8")),
-                    expression(xi))
-# ggsave("full-model/figures/paper/xi_map.pdf", bg ='white')
+          aes(fill=xi), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+  theme_void()
+xi_model_hcl <- xi_model_map + scale_fill_continuous_sequential(palette = 'Mint',
+                                                               na.value = "transparent",
+                                                               name = bquote(xi~value),
+                                                               limits = c(0,1.2),
+                                                               breaks = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0)) + 
+  theme(legend.position = c(0.95, 0.4), 
+        legend.key.size = unit(1, "cm"),
+        legend.text = element_text(size = 10),
+        legend.title = element_text(size = 12))
+ggsave("full-model/figures/paper/xi_model_map.pdf", width = 10)
 
-xi_map_eda <- readRDS("~/research/egpd-fires/full-model/figures/paper/burn_eda.RDS")
-breaks <- classIntervals(c(min(xi_map_eda$shape_include) - .00001, xi_map_eda$shape_include), style = 'fixed', 
-                         fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
-eco_eda <- ecoregions_geom %>% left_join(xi_map_eda) %>%
-  mutate(xi_cat = cut(shape_include, unique(breaks$brks)))
+eda_90_combo_plot <- eda_90_plot + scale_fill_continuous_sequential(palette = 'Mint',
+                                                                    na.value = "transparent",
+                                                                    limits = c(0,1.2)) +
+  theme(legend.position = "none")
+eda_95_combo_plot <- eda_95_plot + scale_fill_continuous_sequential(palette = 'Mint',
+                                                                    na.value = "transparent",
+                                                                    limits = c(0,1.2)) +
+  theme(legend.position = "none")
 
-p2 <- ecoregions_geom %>% group_by(NA_L2CODE) %>% summarise() %>%
-  ggplot(aes(fill = NA_L2CODE, group = NA_L2CODE)) +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_eda,
-          aes(fill=xi_cat), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void() + 
-  scale_fill_brewer(palette = "YlOrRd") + theme(legend.position = "none")
-p <- p1 + p2 + plot_layout(guides = "collect")
-ggsave("full-model/figures/paper/xi_map_with-eda.pdf", dpi = 320, bg ='white')
+p90 <- eda_90_combo_plot + xi_model_hcl + plot_layout(guides = 'collect')
+ggsave("full-model/figures/paper/xi_map_with-eda90.pdf")
 
-er_map_l1 <- ecoregions_geom %>%
-  ggplot() +
-  geom_sf(size = .2, fill = "white") +
-  geom_sf(data = ecoregions_geom,
-          aes(fill = NA_L2CODE), alpha = 0.6, lwd = 0, inherit.aes = FALSE, show.legend = FALSE) +
-  geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(),
-          fill = "transparent", lwd = 1, color = "gray20", inherit.aes = FALSE, show.legend = FALSE) +
-  theme_void() +
-  coord_sf(ndiscr = FALSE)
+p95 <- eda_95_combo_plot + xi_model_hcl + plot_layout(guides = 'collect')
+ggsave("full-model/figures/paper/xi_map_with-eda95.pdf")
+
 
 ## partial effects plots for lambda and kappa ---------
-beta_count <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-cst_2000iter/beta_count.RDS")
+beta_count <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/beta_count.RDS")
 r <- 84
 t <- 12*21 
 
@@ -716,7 +707,7 @@ for(k in seq_along(vars)) {
   coef_df_list_lambda[[k]] <- covar_effect(stored_df_lambda, vars[k], c(X_unstd[,,X_cols[[k]][2]]))
 }
 
-lambda_effects <- bind_rows(coef_df_list_lambda) %>% as_tibble() %>% left_join(., full_reg_key)
+lambda_effects <- bind_rows(coef_df_list_lambda) %>% as_tibble() %>% left_join(., full_reg_key) %>% mutate(NA_L2CODE = factor(NA_L2CODE, levels = levels_l2))
 p <- lambda_effects %>% 
   mutate(linear = case_when(covar == 'tmmx' ~ linear - 273.15,
                             TRUE ~ linear),
@@ -732,9 +723,10 @@ p <- lambda_effects %>%
   facet_wrap(. ~ covar, scales = "free_x") + theme_classic() + theme(legend.position = "none") +
   ylab("Partial effect") + xlab("")
 file_name <- "full-model/figures/paper/partial_effects_lambda_ri-model.pdf"
-ggsave(file_name, p, dpi = 320, width = 15, height = 8, bg = "white")
+ggsave(file_name, p)
 
 # partial effects for kappa
+beta_burn <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/beta_burn.RDS")
 X <- stan_data$X_train_burn
 vars <- c('log_housing_density', 'erc')
 X_covar <- c()
@@ -774,7 +766,7 @@ for(k in seq_along(vars)) {
   coef_df_list_kappa[[k]] <- covar_effect(stored_df_kappa, vars[k], c(X_unstd[,,X_cols[[k]][2]]))
 }
 
-kappa_effects <- bind_rows(coef_df_list_kappa) %>% as_tibble() %>% left_join(., full_reg_key)
+kappa_effects <- bind_rows(coef_df_list_kappa) %>% as_tibble() %>% left_join(., full_reg_key) %>% mutate(NA_L2CODE = factor(NA_L2CODE, levels = levels_l2))
 p <- kappa_effects %>% 
   mutate(covar = case_when(covar == 'log_housing_density' ~ "log(housing density (units/sq. km))",
                            covar == 'erc' ~ 'Energy Release Component',
@@ -784,26 +776,5 @@ p <- kappa_effects %>%
   facet_wrap(. ~ covar, scales = "free_x") + theme_classic() + theme(legend.position = "none") +
   ylab("Partial effect") + xlab("")
 file_name <- "full-model/figures/paper/partial_effects_kappa_ri-model.pdf"
-ggsave(file_name, p, dpi = 320, width = 10, height = 4, bg = "white")
+ggsave(file_name, p, width = 7.53, height = 4.035)
 
-#
-
-# er_map_l1 <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .2, aes(fill = NA_L1NAME)) + 
-#   theme_void() +
-#   coord_sf(ndiscr = FALSE)
-# 
-# er_map_l1 <- ecoregions_geom %>%
-#   ggplot() +
-#   geom_sf(size = .2, fill = "white") +
-#   geom_sf(data = ecoregions_geom,
-#           aes(fill = NA_L2CODE), alpha = 0.6, lwd = 0, inherit.aes = FALSE, show.legend = FALSE) +
-#   geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(),
-#           fill = "transparent", lwd = 1, color = "gray20", inherit.aes = FALSE, show.legend = FALSE) +
-#   theme_void() +
-#   coord_sf(ndiscr = FALSE)
-# 
-# ggsave("test_map.png", er_map_l1, dpi = 320, bg = "white")
-# 
-# 

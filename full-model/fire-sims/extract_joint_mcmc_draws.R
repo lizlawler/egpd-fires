@@ -149,7 +149,11 @@ saveRDS(burn_pred, file = paste0(draws_path, "burn_pred", ".RDS"))
 # delta <- delta_draws %>% as_draws_df() %>%
 #   select(-c(".iteration", ".chain")) %>% 
 #   pivot_longer(cols = !".draw") %>%
-#   rename(draw = ".draw")
+#   rename(draw = ".draw") %>% 
+  #   mutate(name = gsub("delta\\[", "", name),
+  #          name = as.integer(gsub("\\]", "", name))) %>%
+  #   rename(region = name, delta = value)
+
 # saveRDS(delta, file = paste0(draws_path, "delta", ".RDS"))
 # rm(list=ls(pattern = "delta"))
 # gc()

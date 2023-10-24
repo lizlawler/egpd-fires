@@ -6,15 +6,15 @@ library(posterior)
 
 # load in extracted gen quants done through Alpine
 score_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
-                      list.files("full-model/fire-sims/model_comparison/extracted_values/", pattern = "GQ.csv"))
-score_files <- score_files[grepl("theta-time", score_files)]
+                      list.files("full-model/fire-sims/model_comparison/extracted_values/", pattern = "GQwithpreds.csv"))
+# score_files <- score_files[grepl("theta-time", score_files)]
 nfits <- length(score_files)/3
 fit_groups <- vector(mode = "list", nfits)
 for(i in 1:nfits) {
   fit_groups[[i]] <- score_files[(3*i-2):(3*i)]
 }
 
-model_names <- lapply(fit_groups, function(x) str_remove(str_remove(str_remove(basename(x[1]), "_\\d{1}_GQ.csv"), 
+model_names <- lapply(fit_groups, function(x) str_remove(str_remove(str_remove(basename(x[1]), "_\\d{1}_GQwithpreds.csv"), 
                                      "joint_sigma-ri_theta-time_"), 
                           "_\\d{2}\\w{3}2023_\\d{4}")) %>% unlist()
 
@@ -144,20 +144,6 @@ train_twcrps <- bind_rows(train_twcrps)
 ll_full_count <- holdout_loglik_counts %>%
   full_join(train_loglik_counts) 
 
-train_ll_count_ranked <- ll_full_count %>% filter(train == TRUE) %>% 
-  group_by(model) %>% 
-  summarize(med_train_ll = median(loglik)) %>% 
-  arrange(-med_train_ll)
-top_mod_count_train <- as.character(train_ll_count_ranked$model[1])
-
-train_ll_count_comp <- ll_full_count %>% filter(train == TRUE) %>% 
-  select(c(draw, model, loglik)) %>% 
-  pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
-  mutate(across(.cols = -draw, ~ .x - get(top_mod_count_train))) %>% 
-  pivot_longer(cols = -draw, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
-
 test_ll_count_ranked <- ll_full_count %>% filter(train == FALSE) %>% 
   group_by(model) %>% 
   summarize(med_test_ll = median(loglik)) %>% arrange(-med_test_ll)
@@ -171,26 +157,8 @@ test_ll_count_comp <- ll_full_count %>% filter(train == FALSE) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 test_ll_count_comp
 
-ll_count_box <- ll_full_count %>% filter(train == FALSE) %>% 
-  ggplot(aes(x = model, y=loglik, group = model)) + 
-  geom_boxplot(outlier.size = 0.2) + theme_classic()
-ggsave("full-model/figures/paper/joint_ll_count_scores.pdf", width = 15)
-
 ll_full_burns <- holdout_loglik_burns %>%
   full_join(train_loglik_burns)
-
-train_ll_burns_ranked <- ll_full_burns %>% filter(train == TRUE) %>% 
-  group_by(model) %>% 
-  summarize(med_train_ll = median(loglik)) %>% arrange(-med_train_ll)
-top_mod_burns_train <- as.character(train_ll_burns_ranked$model[1])
-
-train_ll_burns_comp <- ll_full_burns %>% filter(train == TRUE) %>% 
-  select(c(draw, model, loglik)) %>% 
-  pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
-  mutate(across(.cols = -draw, ~ .x - get(top_mod_burns_train))) %>% 
-  pivot_longer(cols = -draw, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 
 test_ll_burns_ranked <- ll_full_burns %>% filter(train == FALSE) %>% 
   group_by(model) %>% 
@@ -204,10 +172,6 @@ test_ll_burns_comp <- ll_full_burns %>% filter(train == FALSE) %>%
   group_by(model) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(-med_diff)
 test_ll_burns_comp
-ll_burn_box <- ll_full_burns %>% filter(train == FALSE) %>% 
-  ggplot(aes(x = model, y=loglik, group = model)) + 
-  geom_boxplot(outlier.size = 0.2) + theme_classic()
-ggsave("full-model/figures/paper/joint_ll_burn_scores.pdf", width = 15)
 
 
 total_ll <- ll_full_burns %>% mutate(piece = "burn") %>% full_join(ll_full_count %>% mutate(piece = "count"))
@@ -237,21 +201,10 @@ names(joint_scores) <- c("holdout_loglik_burns", "holdout_loglik_counts", "holdo
 
 ## twCRPS calculations ---------
 twcrps_full <- holdout_twcrps %>%
-  full_join(train_twcrps) %>%
-  mutate(twcrps = twcrps * 10e3)
+  full_join(train_twcrps)
 
-train_twcrps_ranked <- twcrps_full %>% filter(train == TRUE) %>% 
-  group_by(model) %>% 
-  summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% arrange(mean_twcrps)
-top_mod_train_twcrps <- as.character(train_twcrps_ranked$model[1])
-
-train_twcrps_comp <- twcrps_full %>% filter(train == TRUE) %>% 
-  select(c(draw, model, twcrps)) %>% 
-  pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
-  mutate(across(.cols = -draw, ~ .x - get(top_mod_train_twcrps))) %>% 
-  pivot_longer(cols = -draw, names_to = "model") %>%
-  group_by(model) %>%
-  summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% arrange(mean_diff)
+joint_scores <- list(twcrps = twcrps_full, loglik_burns = ll_full_burns, loglik_counts = ll_full_count, loglik_joint = total_ll)
+saveRDS(joint_scores, "full-model/fire-sims/model_comparison/joint_scores.RDS")
 
 test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE, grepl("1000iter", model)) %>% 
   group_by(model) %>% 

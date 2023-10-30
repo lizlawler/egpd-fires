@@ -640,6 +640,29 @@ p90 <- eda_90_combo_plot + xi_model_hcl + plot_layout(guides = 'collect')
 ggsave("full-model/figures/paper/xi_map_with-eda90.png", dpi = 320, width = 20, height = 20, bg = 'transparent')
 knitr::plot_crop("full-model/figures/paper/xi_map_with-eda90.png")
 
+sigma_map <- rand_int %>% select(-xi) %>% group_by(region) %>% summarize(sigma = median(sigma))
+eco_sigma <- ecoregions_geom %>% 
+  left_join(sigma_map %>% left_join(full_reg_key))
+
+sigma_model_map <- ecoregions_geom %>%
+  ggplot() +
+  geom_sf(size = .1, fill = 'transparent') +
+  geom_sf(data = eco_sigma %>% group_by(NA_L3CODE, sigma) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          aes(fill=sigma), alpha = 0.6, lwd = 0.1, inherit.aes = FALSE) +
+  theme_void()
+
+sigma_model_hcl <- sigma_model_map + scale_fill_continuous_sequential(palette = 'Mint',
+                                                                na.value = "transparent",
+                                                                name = bquote(sigma~value),
+                                                                limits = c(0.25,4.5)) + 
+  theme(legend.position = c(0.9, 0.4), 
+        legend.key.size = unit(1.2, "cm"),
+        legend.text = element_text(size = 11),
+        legend.title = element_text(size = 13))
+ggsave("full-model/figures/paper/sigma_map.png", dpi = 320, width = 20, height = 20, bg = 'transparent')
+knitr::plot_crop("full-model/figures/paper/sigma_map.png")
+
+
 # p95 <- eda_95_combo_plot + xi_model_hcl + plot_layout(guides = 'collect')
 # ggsave("full-model/figures/paper/xi_map_with-eda95.pdf")
 
@@ -772,4 +795,46 @@ p <- kappa_effects %>%
   ylab("Partial effect") + xlab("")
 file_name <- "full-model/figures/paper/partial_effects_kappa_ri-model.pdf"
 ggsave(file_name, p, width = 7.53, height = 4.035)
+
+## look at rho values ----------
+# 1=lambda, 2=kappa, 3=pi, 4=delta, 5=sigma, 6=xi, 7 = gamma
+
+rho1 <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rho1.RDS")
+rho2 <- readRDS("~/research/egpd-fires/full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rho2.RDS")
+
+rho1 <- rho1 %>% mutate(rho1 = as.numeric(str_remove(str_remove(name, "rho1\\["), "\\]"))) %>%
+  mutate(rho1 = case_when(rho1 == 1 ~ 'lambda',
+                          rho1 == 2 ~ 'kappa',
+                          rho1 == 3 ~ 'pi',
+                          rho1 == 4 ~ 'delta',
+                          rho1 == 5 ~ 'sigma',
+                          rho1 == 6 ~ 'xi',
+                          rho1 == 7 ~ 'gamma')) %>% 
+  select(-name)
+
+rho2 <- rho2 %>% mutate(rho2 = as.numeric(str_remove(str_remove(name, "rho2\\["), "\\]"))) %>%
+  mutate(rho2 = case_when(rho2 == 1 ~ 'lambda',
+                          rho2 == 2 ~ 'kappa',
+                          rho2 == 3 ~ 'pi',
+                          rho2 == 4 ~ 'delta',
+                          rho2 == 5 ~ 'sigma',
+                          rho2 == 6 ~ 'xi',
+                          rho2 == 7 ~ 'gamma')) %>% 
+  select(-name)
+
+rho1_meds <- rho1 %>% group_by(rho1) %>% summarize(med_val = median(value)) %>% ungroup()
+rho2_meds <- rho2 %>% group_by(rho2) %>% summarize(med_val = median(value)) %>% ungroup()
+rho_full <- rho1_meds %>% 
+  rename(param = rho1, rho1 = med_val) %>% 
+  left_join(rho2_meds %>% rename(param = rho2, rho2 = med_val)) %>%
+  mutate(rho_sum = rho1 + rho2,
+         model_part = case_when(param == 'delta' ~ 'ZINB',
+                                param == 'gamma' ~ 'joint',
+                                param == 'kappa' ~ 'EGPD',
+                                param == 'lambda' ~ 'ZINB', 
+                                param == 'pi' ~ 'ZINB',
+                                param == 'sigma' ~ 'EGPD', 
+                                param == 'xi' ~ 'EGPD')) %>%
+  relocate(model_part, .before = param) %>% arrange(model_part)
+
 

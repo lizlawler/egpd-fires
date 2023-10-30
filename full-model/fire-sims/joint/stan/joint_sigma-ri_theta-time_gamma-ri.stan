@@ -6,7 +6,7 @@ functions {
 #include /../joint_data.stan
 transformed data {
   int S = 2; // # of parameters with regression (ranges from 2 to 3)
-  //ordering of S: 1 = lambda, 2 = sigma
+  //ordering of S: 1 = lambda, 2 = kappa
   int C = 7; // # of parameters with correlation (either regression or random intercept)
   // ordering: 1=lambda, 2=kappa, 3=pi, 4=delta, 5=sigma, 6=xi, 7 = gamma
 }

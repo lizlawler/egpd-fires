@@ -1,9 +1,14 @@
-args <- commandArgs(trailingOnly=TRUE)
-type <- args[1]
-model <- args[2]
-params <- args[3]
-dataset <- args[4]
-sttime <- args[5]
+# args <- commandArgs(trailingOnly=TRUE)
+# type <- args[1]
+# model <- args[2]
+# params <- args[3]
+# dataset <- args[4]
+# sttime <- args[5]
+
+type <- "burns"
+model <- "g4"
+params <- "sigma-ri_xi-ri_nu"
+dataset <- "erc"
 
 library(cmdstanr)
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)

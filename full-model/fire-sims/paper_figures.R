@@ -8,6 +8,7 @@ library(sf)
 library(classInt)
 library(RColorBrewer)
 library(patchwork)
+library(colorspace)
 
 ## read in region key 
 region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
@@ -69,42 +70,57 @@ high_quant <- function(N, kappa, sigma, xi) {
 }
 
 ## ecoregion maps ----------
-l1_only_map <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+l1_only_map <- ecoregions_geom %>%
   ggplot() +
-  geom_sf(size = .1, fill = "transparent", lwd = 0.3, inherit.aes = FALSE) +
+  geom_sf(size = .1, fill = "transparent") +
   geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
-          aes(fill = NA_L1CODE), alpha = 0.8, lwd = 0.6, inherit.aes = FALSE, show.legend = FALSE) +
+          aes(fill = NA_L1CODE), alpha = 0.8, lwd = 0.5, inherit.aes = FALSE, show.legend = FALSE) +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          fill = "transparent", lwd = 0.1, inherit.aes = FALSE) +
   theme_void() +
   coord_sf(ndiscr = FALSE)
-ggsave("full-model/figures/paper/level1_map.pdf", dpi = 320)
+ggsave(filename = "full-model/figures/paper/level1_map.png", plot = l1_only_map,
+       dpi = 320, width = 9, height = 9)
+knitr::plot_crop("full-model/figures/paper/level1_map.png")
 
-er_map_l1 <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+er_map_l1 <- ecoregions_geom %>%
   ggplot() +
-  geom_sf(size = .2, fill = "transparent") +
+  geom_sf(size = .1, fill = "transparent") +
   geom_sf(data = ecoregions_geom %>% group_by(NA_L2CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
           aes(fill = NA_L2CODE), alpha = 0.8, lwd = 0.25, inherit.aes = FALSE, show.legend = FALSE) +
   geom_sf(data = ecoregions_geom %>% group_by(NA_L1CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
           fill = "transparent", lwd = 0.8, color = "gray20", inherit.aes = FALSE, show.legend = FALSE) +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          fill = "transparent", lwd = 0.1, inherit.aes = FALSE) +
   theme_void() +
   coord_sf(ndiscr = FALSE)
-ggsave("full-model/figures/paper/er_map_l1.pdf", dpi = 320)
+ggsave(filename = "full-model/figures/paper/er_map_l1.png", plot = er_map_l1,
+       dpi = 320, width = 9, height = 9)
+knitr::plot_crop("full-model/figures/paper/er_map_l1.png")
 
-er_map_l2 <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+er_map_l2 <- ecoregions_geom %>%
   ggplot() +
-  geom_sf(size = .2, fill = "transparent", lwd = 0.3) +
+  geom_sf(size = .1, fill = "transparent") +
   geom_sf(data = ecoregions_geom %>% group_by(NA_L2CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
           aes(fill = NA_L2CODE), alpha = 0.8, lwd = 0.45, inherit.aes = FALSE, show.legend = FALSE) +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          fill = "transparent", lwd = 0.1, inherit.aes = FALSE) +
   theme_void() +
   coord_sf(ndiscr = FALSE)
-ggsave("full-model/figures/paper/er_map_l2.pdf", dpi = 320)
+ggsave(filename = "full-model/figures/paper/er_map_l2.png", plot = er_map_l2,
+       dpi = 320, width = 9, height = 9)
+knitr::plot_crop("full-model/figures/paper/er_map_l2.png")
 
-er_map_l3 <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+er_map_l3 <- ecoregions_geom %>% 
   ggplot() +
-  geom_sf(size = .2, fill = "white", lwd = .3) +
+  geom_sf(size = .1, fill = "white") +
+  geom_sf(data = ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          fill = "transparent", lwd = 0.3, inherit.aes = FALSE) +
   theme_void() +
   coord_sf(ndiscr = FALSE)
-ggsave("full-model/figures/paper/er_map_l3.pdf", dpi = 320)
-
+ggsave(filename = "full-model/figures/paper/er_map_l3.png", plot = er_map_l3,
+       dpi = 320, width = 9, height = 9)
+knitr::plot_crop("full-model/figures/paper/er_map_l3.png")
 
 # read in extracted mcmc draws ------
 # files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/",
@@ -417,7 +433,7 @@ true_burns_full <- true_burns %>%
   select(-c(NA_L1NAME, NA_L3CODE, NA_L2CODE, NA_L1CODE, region, NA_L1NAME)) %>% 
   left_join(full_reg_key)
 zero_out <- true_burns_full %>% mutate(zeroes = case_when(is.na(burn_er) ~ 0,
-                                                                 TRUE ~ 1)) %>%
+                                                          TRUE ~ 1)) %>%
   select(-c(burn_er, NA_L1CODE, NA_L3CODE, NA_L2CODE)) 
 
 burn_preds_gamma_ri_l3_zeroes <- burn_preds_gamma_ri_l3 %>% left_join(zero_out) %>% mutate(area_zero = total_area * zeroes)
@@ -530,18 +546,20 @@ eco_gamma <- ecoregions_geom %>%
   left_join(gamma_map %>% left_join(full_reg_key)) 
 # %>%
 #   mutate(gamma_cat = cut(gamma, unique(breaks$brks)))
-p <- ecoregions_geom %>% group_by(NA_L3CODE) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+p <- ecoregions_geom %>%
   ggplot() +
-  geom_sf(size = .1, fill = 'white') +
+  geom_sf(size = .1, fill = 'transparent') +
   geom_sf(data = eco_gamma %>% group_by(NA_L3CODE, gamma) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
-          aes(fill=gamma), alpha = 1, lwd = 0, inherit.aes = FALSE) +
+          aes(fill=gamma), alpha = 1, lwd = 0.1, inherit.aes = FALSE) +
   theme_void() + scale_fill_gradient2(name = bquote(gamma~value))
 p_legend <- p + theme(legend.position = c(0.95, 0.4), 
-                      legend.key.size = unit(1, "cm"),
+                      legend.key.size = unit(1.3, "cm"),
                       legend.text = element_text(size = 12),
                       legend.title = element_text(size = 15))
-ggsave("full-model/figures/paper/gamma_map.pdf", width = 10, height = 8)
-
+ggsave(filename = "full-model/figures/paper/gamma_map.png", plot = p_legend, 
+       dpi = 320, 
+       width = 10, height = 10)
+knitr::plot_crop("full-model/figures/paper/gamma_map.png")
 # parse(text = paste("tau[", 1:2, "]")))
 
 # sigma_map <- rand_int %>% select(-xi) %>% group_by(region) %>% summarize(sigma = median(sigma))
@@ -559,94 +577,71 @@ ggsave("full-model/figures/paper/gamma_map.pdf", width = 10, height = 8)
 # 
 burn_eda <- readRDS("~/Desktop/research/egpd-fires/full-model/figures/paper/burn_eda.RDS")
 eco_eda <- ecoregions_geom %>% left_join(burn_eda)
-eda_95_plot <- ecoregions_geom %>% group_by(NA_L2NAME) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
-  ggplot() +
-  geom_sf(size = .1, fill = 'transparent', inherit.aes = FALSE) +
-  geom_sf(data = eco_eda %>% group_by(NA_L2NAME, shape_inc_95) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))), 
-          aes(fill=shape_inc_95), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
-  theme_void()
-eda_95_hcl <- eda_95_plot + scale_fill_continuous_sequential(palette = 'Mint', 
-                                              na.value = 'transparent',
-                                              name = bquote(xi~value)) +
-  theme(legend.position = c(0.95, 0.4), 
-        legend.key.size = unit(1, "cm"),
-        legend.text = element_text(size = 12),
-        legend.title = element_text(size = 15))
-ggsave("full-model/figures/paper/xi_eda_95th-quant_v2.pdf", width = 10)
 
-eda_95_gradient <- eda_95_plot + scale_fill_gradient2(na.value = "transparent",
-                                    name = bquote(xi~value)) + 
-  theme(legend.position = c(0.95, 0.4), 
-        legend.key.size = unit(1, "cm"),
-        legend.text = element_text(size = 12),
-        legend.title = element_text(size = 15))
-ggsave("full-model/figures/paper/xi_eda_95th-quant.pdf", width = 10, height = 8)
-
-eda_90_plot <- ecoregions_geom %>% group_by(NA_L2NAME) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))) %>%
+eda_90_plot <- ecoregions_geom %>%
   ggplot() +
-  geom_sf(size = .1, fill = 'transparent', inherit.aes = FALSE) +
+  geom_sf(size = .1, fill = 'transparent') +
   geom_sf(data = eco_eda %>% group_by(NA_L2NAME, shape_inc_90) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))), 
-          aes(fill=shape_inc_90), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+          aes(fill=shape_inc_90), alpha = 0.6, lwd = 0.1, inherit.aes = FALSE) +
   theme_void()
 eda_90_hcl <- eda_90_plot + scale_fill_continuous_sequential(palette = 'Mint',
-                                              na.value = "transparent",
-                                              name = bquote(xi~value)) + 
+                                                             na.value = "transparent",
+                                                             name = bquote(xi~value)) + 
   theme(legend.position = c(0.95, 0.4), 
         legend.key.size = unit(1, "cm"),
         legend.text = element_text(size = 12),
         legend.title = element_text(size = 15))
-ggsave("full-model/figures/paper/xi_eda_90th-quant_v2.pdf", width = 10)
-eda_90_gradient <- eda_90_plot + scale_fill_gradient2(na.value = "transparent",
-                                    name = bquote(xi~value)) + 
-  theme(legend.position = c(0.95, 0.4), 
-        legend.key.size = unit(1, "cm"),
-        legend.text = element_text(size = 12),
-        legend.title = element_text(size = 15))
-ggsave("full-model/figures/paper/xi_eda_90th-quant.pdf", width = 10, height = 8)
+ggsave(filename = "full-model/figures/paper/xi_eda_90th-quant.png", 
+       plot = eda_90_hcl, 
+       width = 10, height = 10,
+       dpi = 320)
+knitr::plot_crop("full-model/figures/paper/xi_eda_90th-quant.png")
 
+# eda_90_gradient <- eda_90_plot + scale_fill_gradient2(na.value = "transparent",
+#                                     name = bquote(xi~value)) + 
+#   theme(legend.position = c(0.95, 0.4), 
+#         legend.key.size = unit(1, "cm"),
+#         legend.text = element_text(size = 12),
+#         legend.title = element_text(size = 15))
+# ggsave("full-model/figures/paper/xi_eda_90th-quant.pdf", width = 10, height = 8)
 
 rand_int <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_1000iter/rand_int.RDS")
 xi_map <- rand_int %>% select(-sigma) %>% group_by(region) %>% summarize(xi = median(xi))
 eco_xi <- ecoregions_geom %>% 
   left_join(xi_map %>% left_join(full_reg_key))
 
-
-# breaks <- classIntervals(c(min(xi_map$xi) - .00001, xi_map$xi), style = 'fixed', 
-#                          fixedBreaks = c(0, 0.2, 0.4, 0.6, 0.8, 2.0), intervalClosure = 'left')
-# eco_xi <- ecoregions_geom %>% 
-#   left_join(xi_map %>% left_join(full_reg_key)) %>% 
-#   mutate(xi_cat = cut(xi, unique(breaks$brks)))
 xi_model_map <- ecoregions_geom %>%
   ggplot() +
-  geom_sf(size = .1, fill = 'white') +
-  geom_sf(data = eco_xi,
-          aes(fill=xi), alpha = 0.6, lwd = 0, inherit.aes = FALSE) +
+  geom_sf(size = .1, fill = 'transparent') +
+  geom_sf(data = eco_xi %>% group_by(NA_L3CODE, xi) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
+          aes(fill=xi), alpha = 0.6, lwd = 0.1, inherit.aes = FALSE) +
   theme_void()
 xi_model_hcl <- xi_model_map + scale_fill_continuous_sequential(palette = 'Mint',
-                                                               na.value = "transparent",
-                                                               name = bquote(xi~value),
-                                                               limits = c(0,1.2),
-                                                               breaks = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0)) + 
-  theme(legend.position = c(0.95, 0.4), 
-        legend.key.size = unit(1, "cm"),
-        legend.text = element_text(size = 10),
-        legend.title = element_text(size = 12))
-ggsave("full-model/figures/paper/xi_model_map.pdf", width = 10)
+                                                                na.value = "transparent",
+                                                                name = bquote(xi~value),
+                                                                limits = c(0,1.2),
+                                                                breaks = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0)) + 
+  theme(legend.position = c(0.9, 0.4), 
+        legend.key.size = unit(1.2, "cm"),
+        legend.text = element_text(size = 11),
+        legend.title = element_text(size = 13))
+# ggsave("full-model/figures/paper/xi_model_map.pdf", width = 10)
 
 eda_90_combo_plot <- eda_90_plot + scale_fill_continuous_sequential(palette = 'Mint',
                                                                     na.value = "transparent",
                                                                     limits = c(0,1.2)) +
   theme(legend.position = "none")
-eda_95_combo_plot <- eda_95_plot + scale_fill_continuous_sequential(palette = 'Mint',
-                                                                    na.value = "transparent",
-                                                                    limits = c(0,1.2)) +
-  theme(legend.position = "none")
+# eda_95_combo_plot <- eda_95_plot + scale_fill_continuous_sequential(palette = 'Mint',
+#                                                                     na.value = "transparent",
+#                                                                     limits = c(0,1.2)) +
+#   theme(legend.position = "none")
 
 p90 <- eda_90_combo_plot + xi_model_hcl + plot_layout(guides = 'collect')
-ggsave("full-model/figures/paper/xi_map_with-eda90.pdf")
+ggsave("full-model/figures/paper/xi_map_with-eda90.png", dpi = 320, width = 20, height = 20, bg = 'transparent')
+knitr::plot_crop("full-model/figures/paper/xi_map_with-eda90.png")
 
-p95 <- eda_95_combo_plot + xi_model_hcl + plot_layout(guides = 'collect')
-ggsave("full-model/figures/paper/xi_map_with-eda95.pdf")
+# p95 <- eda_95_combo_plot + xi_model_hcl + plot_layout(guides = 'collect')
+# ggsave("full-model/figures/paper/xi_map_with-eda95.pdf")
 
 
 ## partial effects plots for lambda and kappa ---------

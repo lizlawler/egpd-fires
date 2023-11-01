@@ -8,17 +8,10 @@ datafile="../../data/stan_data_joint.json"
 basedir="./full-model/fire-sims/${modtype}/"
 cd ${basedir}
 model="stan/${modtype}_${modname}_${params}"
-outbase="csv-fits/${modtype}_${modname}_${params}_${sttime}_${iter}iter"
+outbase="csv-fits/${modtype}_${modname}_${params}_${sttime}_erc_fwi"
 
 # run model with 3 chains
-if [ ${iter} -eq 2000 ]
-then
-  thinby=2
-else 
-  thinby=1
-fi
-
-./${model} sample num_chains=3 num_warmup=${iter} num_samples=${iter} thin=${thinby} \
+./${model} sample num_chains=3 num_warmup=1000 num_samples=1000 \
                   data file=${datafile} \
                   init=0.01 \
                   output file=${outbase}.csv \

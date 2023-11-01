@@ -256,12 +256,12 @@ assert_that(all(X_full$er_ym[idx_hold_all] == holdout_burns_full$er_ym))
 assert_that(all(X_full$er_ym[idx_hold_all][idx_hold_obs] == holdout_burns_full$er_ym[idx_hold_obs]))
 
 # original burn area
-burn_train_obs_og <- train_burns_full$BurnBndAc[idx_tb_obs]/1000
-assert_that(all(!is.na(burn_train_obs_og)))
-hist(burn_train_obs_og)
-burn_hold_obs_og <- holdout_burns_full$BurnBndAc[idx_hold_obs]/1000
-assert_that(all(!is.na(burn_hold_obs_og)))
-hist(burn_hold_obs_og)
+burn_train_obs <- train_burns_full$BurnBndAc[idx_tb_obs]/1000
+assert_that(all(!is.na(burn_train_obs)))
+hist(burn_train_obs)
+burn_hold_obs <- holdout_burns_full$BurnBndAc[idx_hold_obs]/1000
+assert_that(all(!is.na(burn_hold_obs)))
+hist(burn_hold_obs)
 
 # reshape design matrices into arrays for stan model
 X_list_full <- lapply(X_list_full, function(x) dplyr::select(x, -c(year, er_ym)))
@@ -319,10 +319,10 @@ for(i in cov_vec_idx) {
 
 # points for twCRPS calculation
 n_int <- 5000
-int_holdout <- max(burn_hold_obs_og) - min(burn_hold_obs_og)
-int_train <- max(burn_train_obs_og) - min(burn_train_obs_og)
-int_pts_holdout <- min(burn_hold_obs_og) + (1:n_int)*(int_holdout/n_int)
-int_pts_train <- min(burn_train_obs_og) + (1:n_int)*(int_train/n_int)
+int_holdout <- max(burn_hold_obs) - min(burn_hold_obs)
+int_train <- max(burn_train_obs) - min(burn_train_obs)
+int_pts_holdout <- min(burn_hold_obs) + (1:n_int)*(int_holdout/n_int)
+int_pts_train <- min(burn_train_obs) + (1:n_int)*(int_train/n_int)
 
 # Bundle up data into a list to pass to Stan -----------------------------
 stan_data_climate <- list(
@@ -345,8 +345,8 @@ stan_data_climate <- list(
 
   # burn data 
   # training data
-  y_min = min(burn_hold_obs_og, burn_train_obs_og),
-  y_train_obs = burn_train_obs_og,
+  y_min = min(burn_hold_obs, burn_train_obs),
+  y_train_obs = burn_train_obs,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
   ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
@@ -355,7 +355,7 @@ stan_data_climate <- list(
   N_tb_all = length(idx_tb_all),
   
   # holdout data
-  y_hold_obs = burn_hold_obs_og,
+  y_hold_obs = burn_hold_obs,
   N_hold_obs = length(idx_hold_obs),
   N_hold_all = length(idx_hold_all),
   ii_hold_obs = idx_hold_obs,
@@ -410,8 +410,8 @@ stan_data_joint <- list(
   
   # burn data 
   # training data
-  y_min = min(burn_hold_obs_og, burn_train_obs_og),
-  y_train_burn_obs = burn_train_obs_og,
+  y_min = min(burn_hold_obs, burn_train_obs),
+  y_train_burn_obs = burn_train_obs,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
   ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
@@ -420,7 +420,71 @@ stan_data_joint <- list(
   N_tb_all = length(idx_tb_all),
   
   # holdout data
-  y_hold_burn_obs = burn_hold_obs_og,
+  y_hold_burn_obs = burn_hold_obs,
+  N_hold_obs = length(idx_hold_obs),
+  N_hold_all = length(idx_hold_all),
+  ii_hold_obs = idx_hold_obs,
+  ii_hold_all = idx_hold_all, 
+  
+  # indicator matrices for region correlation
+  l3 = level3,
+  l2 = level2,
+  l1 = level1,
+  
+  # indicator matrices for AR(1) process
+  equal = equal,
+  bp_lin = bp_lin,
+  bp_square = bp_square,
+  bp_cube = bp_cube,
+  bp_quart = bp_quart,
+  
+  n_edges = length(B@i),
+  node1 = B@i + 1, # add one to offset zero-based index
+  node2 = B@j + 1,
+  
+  # for twCRPS
+  n_int = n_int,
+  int_train = int_train,
+  int_pts_train = int_pts_train,
+  int_holdout = int_holdout,
+  int_pts_holdout = int_pts_holdout
+)
+
+# climate covariates for count, ERC-FWI for burns
+stan_data_joint_erc_fwi <- list(
+  R = 84, # total number of regions
+  p = p,
+  p_burn = dim(X_array_full_erc_fwi)[3],
+  T_all = t_all,
+  T_train = t_train,
+  T_hold = t_all - t_train,
+  
+  # covariate data
+  X_full_count = X_array_full_climate,
+  X_train_count = X_array_train_climate,
+  X_full_burn = X_array_full_erc_fwi,
+  X_train_burn = X_array_train_erc_fwi,
+  
+  # count data
+  area_offset = log(area_df$area * 1e-11) / 2,
+  y_train_count = nfire_matrix_train,
+  y_hold_count = nfire_matrix_hold,
+  idx_train_er = setdiff(1:372, idx_count_hold),
+  idx_hold_er = idx_count_hold,
+  
+  # burn data 
+  # training data
+  y_min = min(burn_hold_obs, burn_train_obs),
+  y_train_burn_obs = burn_train_obs,
+  ii_tb_obs = idx_tb_obs,
+  ii_tb_mis = idx_tb_mis,
+  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
+  N_tb_obs = length(idx_tb_obs),
+  N_tb_mis = length(idx_tb_mis),
+  N_tb_all = length(idx_tb_all),
+  
+  # holdout data
+  y_hold_burn_obs = burn_hold_obs,
   N_hold_obs = length(idx_hold_obs),
   N_hold_all = length(idx_hold_all),
   ii_hold_obs = idx_hold_obs,
@@ -475,8 +539,8 @@ stan_data_erc <- list(
   
   # burn data 
   # training data
-  y_min = min(burn_hold_obs_og, burn_train_obs_og),
-  y_train_obs = burn_train_obs_og,
+  y_min = min(burn_hold_obs, burn_train_obs),
+  y_train_obs = burn_train_obs,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
   ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
@@ -485,7 +549,7 @@ stan_data_erc <- list(
   N_tb_all = length(idx_tb_all),
   
   # holdout data
-  y_hold_obs = burn_hold_obs_og,
+  y_hold_obs = burn_hold_obs,
   N_hold_obs = length(idx_hold_obs),
   N_hold_all = length(idx_hold_all),
   ii_hold_obs = idx_hold_obs,
@@ -537,8 +601,8 @@ stan_data_fwi <- list(
   
   # burn data 
   # training data
-  y_min = min(burn_hold_obs_og, burn_train_obs_og),
-  y_train_obs = burn_train_obs_og,
+  y_min = min(burn_hold_obs, burn_train_obs),
+  y_train_obs = burn_train_obs,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
   ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
@@ -547,7 +611,7 @@ stan_data_fwi <- list(
   N_tb_all = length(idx_tb_all),
   
   # holdout data
-  y_hold_obs = burn_hold_obs_og,
+  y_hold_obs = burn_hold_obs,
   N_hold_obs = length(idx_hold_obs),
   N_hold_all = length(idx_hold_all),
   ii_hold_obs = idx_hold_obs,
@@ -600,8 +664,8 @@ stan_data_erc_fwi <- list(
   
   # burn data 
   # training data
-  y_min = min(burn_hold_obs_og, burn_train_obs_og),
-  y_train_obs = burn_train_obs_og,
+  y_min = min(burn_hold_obs, burn_train_obs),
+  y_train_obs = burn_train_obs,
   ii_tb_obs = idx_tb_obs,
   ii_tb_mis = idx_tb_mis,
   ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
@@ -610,7 +674,7 @@ stan_data_erc_fwi <- list(
   N_tb_all = length(idx_tb_all),
   
   # holdout data
-  y_hold_obs = burn_hold_obs_og,
+  y_hold_obs = burn_hold_obs,
   N_hold_obs = length(idx_hold_obs),
   N_hold_all = length(idx_hold_all),
   ii_hold_obs = idx_hold_obs,
@@ -646,15 +710,18 @@ assert_that(!any(lapply(stan_data_erc, function(x) any(is.na(x))) %>% unlist))
 assert_that(!any(lapply(stan_data_fwi, function(x) any(is.na(x))) %>% unlist))
 assert_that(!any(lapply(stan_data_erc_fwi, function(x) any(is.na(x))) %>% unlist))
 assert_that(!any(lapply(stan_data_joint, function(x) any(is.na(x))) %>% unlist))
+assert_that(!any(lapply(stan_data_joint_erc_fwi, function(x) any(is.na(x))) %>% unlist))
 saveRDS(stan_data_climate, file = './full-model/data/stan_data_climate.RDS')
 saveRDS(stan_data_erc, file = './full-model/data/stan_data_erc.RDS')
 saveRDS(stan_data_fwi, file = './full-model/data/stan_data_fwi.RDS')
 saveRDS(stan_data_erc_fwi, file = './full-model/data/stan_data_erc_fwi.RDS')
 saveRDS(stan_data_joint, file = './full-model/data/stan_data_joint.RDS')
+saveRDS(stan_data_joint_erc_fwi, file = './full-model/data/stan_data_joint_erc_fwi.RDS')
 write_stan_json(data = stan_data_climate, file = './full-model/data/stan_data_climate.json')
 write_stan_json(data = stan_data_erc, file = './full-model/data/stan_data_erc.json')
 write_stan_json(data = stan_data_fwi, file = './full-model/data/stan_data_fwi.json')
 write_stan_json(data = stan_data_erc_fwi, file = './full-model/data/stan_data_erc_fwi.json')
 write_stan_json(data = stan_data_joint, file = './full-model/data/stan_data_joint.json')
+write_stan_json(data = stan_data_joint_erc_fwi, file = './full-model/data/stan_data_joint_erc_fwi.json')
 saveRDS(un_std, file = './full-model/data/un_std_all.RDS')
 saveRDS(burn_df_agg, file = "./full-model/data/burn_area_level1.RDS")

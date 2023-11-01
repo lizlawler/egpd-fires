@@ -8,14 +8,11 @@ conda activate lawler
 
 modtype="joint"
 modname="sigma-ri"
-for params in "theta-time_gamma-ri" "theta-time_gamma-cst"
+for params in "theta-time_gamma-ri"
 do
-for iter in 1000
-do
-export modtype modname params iter
-sbatch --job-name ${modname}_${params}__${iter}iter_draws \
+export modtype modname params
+sbatch --job-name ${modname}_${params}_erc_fwi_draws \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_joint_extraction.sh
 sleep 1
-done
 done

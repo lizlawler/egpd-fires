@@ -4,7 +4,7 @@
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
-datafile="../../data/stan_data_joint.json"
+datafile="../../data/stan_data_joint_erc_fwi.json"
 basedir="./full-model/fire-sims/${modtype}/"
 cd ${basedir}
 model="stan/${modtype}_${modname}_${params}"

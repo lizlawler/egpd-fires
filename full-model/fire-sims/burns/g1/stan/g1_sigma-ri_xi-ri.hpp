@@ -8,7 +8,7 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 319> locations_array__ = 
+static constexpr std::array<const char*, 335> locations_array__ = 
 {" (found before start of program)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 12, column 2 to column 48)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 13, column 2 to column 17)",
@@ -292,26 +292,42 @@ static constexpr std::array<const char*, 319> locations_array__ =
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 28, column 23, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 28, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 27, column 59, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 41, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 40, column 9, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 42, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 41, column 9, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 38, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 39, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 37, column 23, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 37, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 35, column 62, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 47, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 48, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 45, column 75, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 53, column 11, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 49, column 11, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 49, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 50, column 11, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 50, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 51, column 11, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 51, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 52, column 10, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 52, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 54, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 55, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 53, column 19, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 53, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 54, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 55, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 57, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 58, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 56, column 23, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 56, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 60, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
- " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 52, column 94, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 57, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 46, column 69, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 61, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 62, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 63, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 60, column 75, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 68, column 11, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 68, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 69, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 70, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 72, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 73, column 6, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 71, column 23, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 71, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 75, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g1/stan//g1_fcns.stanfunctions', line 67, column 94, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 3, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan///../../twcrps_matnorm_fcns.stanfunctions', line 2, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 4, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan///../../twcrps_matnorm_fcns.stanfunctions', line 3, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 4, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan///../../twcrps_matnorm_fcns.stanfunctions', line 4, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 4, column 2)",
@@ -329,6 +345,17 @@ static constexpr std::array<const char*, 319> locations_array__ =
  " (in 'full-model/fire-sims/burns/g1/stan///../../twcrps_matnorm_fcns.stanfunctions', line 21, column 4, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 4, column 2)",
  " (in 'full-model/fire-sims/burns/g1/stan///../../twcrps_matnorm_fcns.stanfunctions', line 14, column 57, included from\n'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 4, column 2)"};
 
+struct egpd_rng_functor__ {
+  template <typename T1__, typename T2__, typename T3__, typename T4__,
+            typename RNG,
+            stan::require_all_t<stan::is_stan_scalar<T1__>,
+                                stan::is_stan_scalar<T2__>,
+                                stan::is_stan_scalar<T3__>,
+                                stan::is_stan_scalar<T4__>>* = nullptr>
+  Eigen::Matrix<stan::promote_args_t<T1__, T2__, T3__, T4__>, -1, 1>
+  operator()(const int& n, const T1__& ymin, const T2__& sigma, const T3__& xi,
+             const T4__& kappa, RNG& base_rng__, std::ostream* pstream__) const;
+};
 struct egpd_icdf_functor__ {
   template <typename T0__, typename T1__, typename T2__, typename T3__,
             stan::require_all_t<stan::is_stan_scalar<T0__>,
@@ -475,7 +502,7 @@ struct gpareto_icdf_functor__ {
                                 stan::is_stan_scalar<T1__>,
                                 stan::is_stan_scalar<T2__>>* = nullptr>
   stan::promote_args_t<T0__, T1__, T2__>
-  operator()(const T0__& u, const T1__& sigma, const T2__& xi,
+  operator()(const T0__& p, const T1__& sigma, const T2__& xi,
              std::ostream* pstream__) const;
 };
 
@@ -690,7 +717,7 @@ template <typename T0__, typename T1__, typename T2__,
                               stan::is_stan_scalar<T1__>,
                               stan::is_stan_scalar<T2__>>* = nullptr>
   stan::promote_args_t<T0__, T1__, T2__>
-  gpareto_icdf(const T0__& u, const T1__& sigma, const T2__& xi,
+  gpareto_icdf(const T0__& p, const T1__& sigma, const T2__& xi,
                std::ostream* pstream__) {
     using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
     int current_statement__ = 0; 
@@ -710,10 +737,13 @@ template <typename T0__, typename T1__, typename T2__,
         current_statement__ = 255;
         if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
           current_statement__ = 254;
-          return ((sigma / xi) * (stan::math::pow((1 - u), -xi) - 1));
+          return stan::math::exp(
+                   ((stan::math::log(
+                       (stan::math::exp((-xi * stan::math::log1m(p))) - 1)) +
+                      stan::math::log(sigma)) - stan::math::log(xi)));
         } else {
           current_statement__ = 253;
-          return (-sigma * stan::math::log1m(u));
+          return (-sigma * stan::math::log1m(p));
         }
       }
     } catch (const std::exception& e) {
@@ -858,11 +888,15 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 287;
+      current_statement__ = 288;
       if (stan::math::logical_gt(kappa, 1e-15)) {
+        local_scalar_t__ p = DUMMY_VAR__;
         current_statement__ = 285;
-        return gpareto_icdf(stan::math::pow(u_adj, (1 / kappa)), sigma,
-                 xi, pstream__);
+        p = stan::math::exp(
+              (stan::math::exp(-stan::math::log(kappa)) *
+                stan::math::log(u_adj)));
+        current_statement__ = 286;
+        return gpareto_icdf(p, sigma, xi, pstream__);
       } else {
         current_statement__ = 283;
         std::stringstream errmsg_stream__;
@@ -870,6 +904,68 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
         stan::math::stan_print(&errmsg_stream__, kappa);
         throw std::domain_error(errmsg_stream__.str());
       }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T1__, typename T2__, typename T3__, typename T4__,
+          typename RNG,
+          stan::require_all_t<stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>,
+                              stan::is_stan_scalar<T4__>>* = nullptr>
+  Eigen::Matrix<stan::promote_args_t<T1__, T2__, T3__, T4__>, -1, 1>
+  egpd_rng(const int& n, const T1__& ymin, const T2__& sigma, const T3__& xi,
+           const T4__& kappa, RNG& base_rng__, std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T1__, T2__, T3__, T4__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ cst = DUMMY_VAR__;
+      current_statement__ = 290;
+      cst = egpd_cdf(ymin, sigma, xi, kappa, pstream__);
+      current_statement__ = 291;
+      stan::math::validate_non_negative_index("rng_val", "n", n);
+      Eigen::Matrix<local_scalar_t__, -1, 1> rng_val =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
+      current_statement__ = 293;
+      stan::math::validate_non_negative_index("alpha", "n", n);
+      Eigen::Matrix<local_scalar_t__, -1, 1> alpha =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
+      current_statement__ = 294;
+      stan::model::assign(alpha, stan::math::rep_vector(0, n),
+        "assigning variable alpha");
+      current_statement__ = 295;
+      stan::math::validate_non_negative_index("beta", "n", n);
+      Eigen::Matrix<local_scalar_t__, -1, 1> beta =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
+      current_statement__ = 296;
+      stan::model::assign(beta, stan::math::rep_vector(1, n),
+        "assigning variable beta");
+      current_statement__ = 297;
+      stan::math::validate_non_negative_index("u", "n", n);
+      std::vector<local_scalar_t__> u =
+         std::vector<local_scalar_t__>(n, DUMMY_VAR__);
+      current_statement__ = 298;
+      stan::model::assign(u,
+        stan::math::uniform_rng(alpha, beta, base_rng__),
+        "assigning variable u");
+      current_statement__ = 302;
+      for (int i = 1; i <= n; ++i) {
+        local_scalar_t__ u_adj = DUMMY_VAR__;
+        current_statement__ = 299;
+        u_adj = ((stan::model::rvalue(u, "u", stan::model::index_uni(i)) *
+                   (1 - cst)) + cst);
+        current_statement__ = 300;
+        stan::model::assign(rng_val,
+          egpd_icdf(u_adj, sigma, xi, kappa, pstream__),
+          "assigning variable rng_val", stan::model::index_uni(i));
+      }
+      current_statement__ = 303;
+      return rng_val;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -891,12 +987,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
-      current_statement__ = 289;
+      current_statement__ = 305;
       lpdf = egpd_lpdf<false>(y, sigma, xi, kappa, pstream__);
       local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 290;
+      current_statement__ = 306;
       cst = egpd_lccdf(ymin, sigma, xi, kappa, pstream__);
-      current_statement__ = 291;
+      current_statement__ = 307;
       return (lpdf - cst);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -924,31 +1020,31 @@ template <typename T1__, typename T2__, typename T3__, typename T4__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 293;
+      current_statement__ = 309;
       stan::math::validate_non_negative_index("pred_probs", "n_int", n_int);
       Eigen::Matrix<local_scalar_t__, -1, 1> pred_probs =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n_int, DUMMY_VAR__);
       local_scalar_t__ numer_cst = DUMMY_VAR__;
-      current_statement__ = 295;
+      current_statement__ = 311;
       numer_cst = egpd_cdf(ymin, sigma, xi, kappa, pstream__);
       local_scalar_t__ denom_cst = DUMMY_VAR__;
-      current_statement__ = 296;
+      current_statement__ = 312;
       denom_cst = stan::math::exp(
                     egpd_lccdf(ymin, sigma, xi, kappa, pstream__));
-      current_statement__ = 300;
+      current_statement__ = 316;
       for (int n = 1; n <= n_int; ++n) {
         local_scalar_t__ unnorm_pred_prob = DUMMY_VAR__;
-        current_statement__ = 297;
+        current_statement__ = 313;
         unnorm_pred_prob = egpd_cdf(
                              stan::model::rvalue(int_pts, "int_pts",
                                stan::model::index_uni(n)), sigma, xi,
                              kappa, pstream__);
-        current_statement__ = 298;
+        current_statement__ = 314;
         stan::model::assign(pred_probs,
           ((unnorm_pred_prob - numer_cst) / denom_cst),
           "assigning variable pred_probs", stan::model::index_uni(n));
       }
-      current_statement__ = 301;
+      current_statement__ = 317;
       return pred_probs;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -980,13 +1076,13 @@ template <typename T0__, typename T2__, typename T3__, typename T4__,
       local_scalar_t__ score = DUMMY_VAR__;
       local_scalar_t__ summand = DUMMY_VAR__;
       local_scalar_t__ delta = DUMMY_VAR__;
-      current_statement__ = 305;
+      current_statement__ = 321;
       delta = (interval / (n_int - 1));
-      current_statement__ = 306;
+      current_statement__ = 322;
       summand = 0;
-      current_statement__ = 309;
+      current_statement__ = 325;
       for (int n = 1; n <= n_int; ++n) {
-        current_statement__ = 307;
+        current_statement__ = 323;
         summand = (summand +
                     (stan::math::pow(
                        (stan::model::rvalue(pred_probs, "pred_probs",
@@ -998,9 +1094,9 @@ template <typename T0__, typename T2__, typename T3__, typename T4__,
                         stan::model::rvalue(int_pts, "int_pts",
                           stan::model::index_uni(n)), 21, 9)));
       }
-      current_statement__ = 310;
+      current_statement__ = 326;
       score = (summand * delta);
-      current_statement__ = 311;
+      current_statement__ = 327;
       return score;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -1030,12 +1126,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
       local_scalar_t__ r = DUMMY_VAR__;
-      current_statement__ = 314;
+      current_statement__ = 330;
       r = stan::math::rows(corr);
       local_scalar_t__ p = DUMMY_VAR__;
-      current_statement__ = 315;
+      current_statement__ = 331;
       p = stan::math::rows(cov);
-      current_statement__ = 316;
+      current_statement__ = 332;
       lpdf = ((((-((r * p) / 2) * stan::math::log((2 * stan::math::pi()))) -
                  ((p / 2) * stan::math::log_determinant(corr))) -
                 ((r / 2) * stan::math::log_determinant(cov))) -
@@ -1045,12 +1141,27 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
                      stan::math::mdivide_right_spd(
                        stan::math::mdivide_left_spd(corr,
                          stan::math::transpose(y)), cov), y))));
-      current_statement__ = 317;
+      current_statement__ = 333;
       return lpdf;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
     }
+template <typename T1__, typename T2__, typename T3__, typename T4__,
+          typename RNG,
+          stan::require_all_t<stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>,
+                              stan::is_stan_scalar<T4__>>*>
+Eigen::Matrix<stan::promote_args_t<T1__, T2__, T3__, T4__>, -1, 1>
+egpd_rng_functor__::operator()(const int& n, const T1__& ymin,
+                               const T2__& sigma, const T3__& xi,
+                               const T4__& kappa, RNG& base_rng__,
+                               std::ostream* pstream__)  const
+{
+  return egpd_rng(n, ymin, sigma, xi, kappa, base_rng__, pstream__);
+}
+
 template <typename T0__, typename T1__, typename T2__, typename T3__,
           stan::require_all_t<stan::is_stan_scalar<T0__>,
                               stan::is_stan_scalar<T1__>,
@@ -1236,11 +1347,11 @@ template <typename T0__, typename T1__, typename T2__,
                               stan::is_stan_scalar<T1__>,
                               stan::is_stan_scalar<T2__>>*>
 stan::promote_args_t<T0__, T1__, T2__>
-gpareto_icdf_functor__::operator()(const T0__& u, const T1__& sigma,
+gpareto_icdf_functor__::operator()(const T0__& p, const T1__& sigma,
                                    const T2__& xi, std::ostream* pstream__) 
 const
 {
-  return gpareto_icdf(u, sigma, xi, pstream__);
+  return gpareto_icdf(p, sigma, xi, pstream__);
 }
 
 

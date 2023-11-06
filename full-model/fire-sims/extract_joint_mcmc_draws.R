@@ -14,10 +14,10 @@ library(dplyr)
 csvbase <- paste0("./full-model/fire-sims/", type, "/csv-fits/")
 csvpattern <- paste0(type, "_", model, "_", params)
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
-csvfiles <- csvfiles[grepl("erc_fwi", csvfiles)]
+files <- csvfiles[grepl("erc_fwi", csvfiles)]
 
 print("Filenames being used are:")
-csvfiles
+files
 
 # create directory to save mcmc draws 
 draws_path <- paste0("full-model/figures/paper/mcmc_draws/", params, "_erc_fwi")

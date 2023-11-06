@@ -12,7 +12,8 @@ library(tidyr)
 library(dplyr)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/csv-fits/")
-csvpattern <- paste0(type, "_", model, "_", params, "_erc_fwi")
+csvpattern <- paste0(type, "_", model, "_", params)
+csvpattern <- csvpattern[grepl("erc_fwi", csvpattern)]
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 
 print("Filenames being used are:")

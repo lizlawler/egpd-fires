@@ -717,6 +717,11 @@ p <- lambda_effects %>%
 file_name <- "full-model/figures/paper/partial_effects_lambda_erc_fwi.pdf"
 ggsave(file_name, p, width = 15, height = 9)
 
+# determine regions with particularly prominent effects
+lambda_effects %>% filter(covar == 'vs', effect > 0.5, linear > 5) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
+lambda_effects %>% filter(covar == 'pr', effect < -2.5, linear > 290) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
+lambda_effects %>% filter(covar == 'pr', effect > 0, linear > 200) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
+
 # partial effects for kappa
 beta_burn <- readRDS("./full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_erc_fwi/beta_burn.RDS")
 X <- stan_data$X_train_burn
@@ -770,6 +775,10 @@ p <- kappa_effects %>%
   ylab("Partial effect") + xlab("")
 file_name <- "full-model/figures/paper/partial_effects_kappa_erc_fwi.pdf"
 ggsave(file_name, p, width = 15, height = 4.5)
+
+# determine regions with particularly prominent effects
+kappa_effects %>% filter(covar == 'erc', effect > 0, linear < 10) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
+kappa_effects %>% filter(covar == 'erc', effect > -0.5, effect <0, linear < 10) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
 
 ## look at rho values ----------
 # 1=lambda, 2=kappa, 3=pi, 4=delta, 5=sigma, 6=xi, 7 = gamma

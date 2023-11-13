@@ -87,44 +87,61 @@
 \maketitle
 
 \begin{verbatim}
-## # A tibble: 6 x 3
-##   model                        loglik_med_diff loglik_sd_diff
-##   <chr>                                  <dbl>          <dbl>
-## 1 zinb_er_pi-ri_climate_long               0               0 
-## 2 zinb_er_all-reg_climate_long           -53.8           270.
-## 3 zinb_pi-ri_climate_long               -534.            313.
-## 4 zinb_all-reg_climate_long             -549.            306.
-## 5 zip_all-reg_climate_long             -1132.            341.
-## 6 zip_pi-ri_climate_long               -1146.            358.
+## 
+## Attaching package: 'dplyr'
 \end{verbatim}
 
-\begin{tabular}{cccccc}
+\begin{verbatim}
+## The following object is masked from 'package:kableExtra':
+## 
+##     group_rows
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 7 x 3
+##   model                     twcrps_mdiff twcrps_sd
+##   <chr>                            <dbl>     <dbl>
+## 1 g1_sigma-ri_xi-ri_long          0          0    
+## 2 g2_sigma-ri_xi-ri_long          0.0307     0.110
+## 3 g2_sigma-ri_xi-ri_nu_long       0.0415     0.107
+## 4 g1_kappa-ri_xi-ri_long          0.0586     0.111
+## 5 g1_xi-ri_long                   0.143      0.195
+## 6 lognorm_sigma-cst_long         17.5        8.08 
+## 7 lognorm_sigma-ri_long          22.7        8.69
+\end{verbatim}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'draw', 'model'. You can override using the
+## `.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'draw', 'model'. You can override using the
+## `.groups` argument.
+## Joining with `by = join_by(model)`
+\end{verbatim}
+
+\begin{tabular}{cccccccc}
 \toprule
-\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Regression} & \multicolumn{2}{c}{Difference} \\
-\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-6}
-Model & $\lambda$ & $\pi$ & $\delta$ & Median & SD\\
+Model & $\kappa$($\mu$) & $\sigma$ & $\xi$ & twcrps_mdiff & twcrps_sd & loglik_mdiff & loglik_sd\\
 \midrule
- & $\checkmark$ & -- & -- & 0.000 & 0.000\\
+ & $\checkmark$ & -- & -- & 0.000 & 0.000 & 0.000 & 0.000\\
 
- & $\checkmark$ & $\checkmark$ & -- & -53.764 & 269.599\\
+ & -- & $\checkmark$ & -- & 0.059 & 0.111 & -105.987 & 671.376\\
 
- & $\checkmark$ & -- & * & -534.445 & 313.112\\
-
-\multirow{-4}{*}{\centering\arraybackslash ZI-Negative Binomial} & $\checkmark$ & $\checkmark$ & * & -549.265 & 305.717\\
-\cmidrule{1-6}
- & $\checkmark$ & $\checkmark$ &  & -1132.441 & 340.581\\
-
-\multirow{-2}{*}{\centering\arraybackslash ZI-Poisson} & $\checkmark$ & -- &  & -1146.341 & 358.054\\
-\bottomrule
-\end{tabular}
-
-\begin{tabular}{lrr}
-\toprule
-Model & Median & SD\\
-\midrule
-Climate & 0.000 & 0.000\\
-ERC & -799.314 & 341.882\\
-FWI & -959.073 & 361.588\\
+\multirow{-3}{*}{\centering\arraybackslash $G_1$} & $\checkmark$ & $\checkmark$ & -- & 0.143 & 0.195 & -202.665 & 8744.031\\
 \bottomrule
 \end{tabular}
 

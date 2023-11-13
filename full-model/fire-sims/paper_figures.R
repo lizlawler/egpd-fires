@@ -779,6 +779,7 @@ ggsave(file_name, p, width = 15, height = 4.5)
 # determine regions with particularly prominent effects
 kappa_effects %>% filter(covar == 'erc', effect > 0, linear < 10) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
 kappa_effects %>% filter(covar == 'erc', effect > -0.5, effect <0, linear < 10) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
+kappa_effects %>% filter(covar == 'fwi', effect < -2) %>% group_by(NA_L2CODE, NA_L1NAME) %>% count() %>% arrange(-n)
 
 ## look at rho values ----------
 # 1=lambda, 2=kappa, 3=pi, 4=delta, 5=sigma, 6=xi, 7 = gamma

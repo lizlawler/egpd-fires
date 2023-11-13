@@ -8,7 +8,7 @@ model="stan/${modname}_${params}"
 outbase="csv-fits/${modname}_${dataset}_${params}_${sttime}"
 
 # run model with 3 chains
-./${model} sample num_chains=3 num_warmup=2000 num_samples=2000 thin=2 \
+./${model} sample num_chains=3 num_warmup=1000 num_samples=1000 \
                   data file=${datafile} \
                   init=0.01 \
                   output file=${outbase}.csv \

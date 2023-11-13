@@ -65,7 +65,7 @@ transformed parameters {
 model {
   vector[N_tb_all] kappa = exp(to_vector(reg[1]))[ii_tb_all];
   vector[N_tb_all] sigma = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] xi = (inv_logit(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all]) * 1.5 - 0.5;
   
   to_vector(Z) ~ std_normal();
   

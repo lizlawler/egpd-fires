@@ -20,4 +20,4 @@ source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate lawler
 
 Rscript --vanilla ./full-model/fire-sims/extract_joint_mcmc_draws.R \
-${modtype} ${modname} ${params}
+${modtype} ${modname} ${params} ${sttime}

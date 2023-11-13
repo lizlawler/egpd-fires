@@ -84,7 +84,7 @@ transformed parameters {
 model {
   vector[N_tb_all] kappa = exp(to_vector(reg))[ii_tb_all];
   vector[N_tb_all] sigma = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] xi = (inv_logit(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all]) * 1.5 - 0.5;
   
   to_vector(Z) ~ std_normal();
   
@@ -159,7 +159,7 @@ generated quantities {
   for (n in 1:N_tb_obs) {
     real kappa_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
     real sigma_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real xi_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+    real xi_train = (inv_logit(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n]) * 1.5 - 0.5;
     
     train_loglik_burn[n] = egpd_trunc_lpdf(y_train_burn_obs[n] | y_min, sigma_train, xi_train, kappa_train);
     // forecasting then twCRPS, on training dataset
@@ -171,7 +171,7 @@ generated quantities {
   for (n in 1:N_hold_obs) {
     real kappa_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];
     real sigma_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs][n];
-    real xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs][n];
+    real xi_hold = (inv_logit(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs][n]) * 1.5 - 0.5;
     
     // log-likelihood
     holdout_loglik_burn[n] = egpd_trunc_lpdf(y_hold_burn_obs[n] | y_min, sigma_hold, xi_hold, kappa_hold);
@@ -216,7 +216,7 @@ generated quantities {
     for (t in 1:T_all) {
       vector[500] burn_draws;
       real sigma = exp(ri_init[1][r]);
-      real xi = exp(ri_init[2][r]);
+      real xi = (inv_logit(ri_init[2][r])) * 1.5 - 0.5;
       real kappa = exp(reg_full[t, r]);
       for (i in 1:500) {
         int zero = bernoulli_logit_rng(pi_prob[r]);

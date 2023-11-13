@@ -2,6 +2,7 @@ args <- commandArgs(trailingOnly=TRUE)
 type <- args[1]
 model <- args[2]
 params <- args[3]
+sttime <- args[4]
 
 library(cmdstanr)
 set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
@@ -12,9 +13,8 @@ library(tidyr)
 library(dplyr)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/csv-fits/")
-csvpattern <- paste0(type, "_", model, "_", params)
+csvpattern <- paste0(type, "_", model, "_", params, "_", sttime, "_erc_fwi")
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
-files <- csvfiles[grepl("erc_fwi", csvfiles)]
 
 print("Filenames being used are:")
 files

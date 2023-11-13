@@ -9,7 +9,7 @@ conda activate stan
 stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="joint"
 modname="sigma-ri"
-for params in "theta-time_gamma-ri"
+for params in "xi-expit"
 do
 # compile model and link c++ 
 inc_path="full-model/fire-sims/${modtype}/stan/"

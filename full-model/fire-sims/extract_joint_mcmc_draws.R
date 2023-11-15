@@ -2,6 +2,7 @@ args <- commandArgs(trailingOnly=TRUE)
 type <- args[1]
 model <- args[2]
 params <- args[3]
+sttime <- args[4]
 
 library(cmdstanr)
 set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
@@ -12,14 +13,14 @@ library(tidyr)
 library(dplyr)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/csv-fits/")
-csvpattern <- paste0(type, "_", model, "_", params)
+csvpattern <- paste0(type, "_", model, "_", params, "_", sttime, "_erc_fwi")
 files <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 
 print("Filenames being used are:")
 files
 
 # create directory to save mcmc draws 
-draws_path <- paste0("full-model/figures/paper/mcmc_draws/", params, "_erc_fwi/")
+draws_path <- paste0("full-model/figures/paper/mcmc_draws/", params, "_erc_fwi_take2/")
 dir.create(path = draws_path, recursive = TRUE)
 
 burn_pred_draws <- read_cmdstan_csv(files, variables = "burn_pred")$post_warmup_draws

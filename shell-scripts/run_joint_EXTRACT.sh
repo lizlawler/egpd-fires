@@ -8,7 +8,7 @@ conda activate lawler
 
 modtype="joint"
 modname="sigma-ri"
-for params in "theta-time_gamma-ri"
+for params in "xi-expit"
 do
 export modtype modname params
 sbatch --job-name ${modname}_${params}_erc_fwi_draws \

@@ -216,7 +216,7 @@ generated quantities {
     for (t in 1:T_all) {
       vector[500] burn_draws;
       real sigma = exp(ri_init[1][r]);
-      real xi = (inv_logit(ri_init[2][r])) * 1.5 - 0.5;
+      real xi = inv_logit(ri_init[2][r]) * 1.5 - 0.5;
       real kappa = exp(reg_full[t, r]);
       for (i in 1:500) {
         int zero = bernoulli_logit_rng(pi_prob[r]);

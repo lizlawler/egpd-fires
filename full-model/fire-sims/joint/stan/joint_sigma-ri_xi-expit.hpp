@@ -117,7 +117,7 @@ static constexpr std::array<const char*, 436> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 200, column 2 to line 212, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 217, column 6 to column 29)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 218, column 6 to column 38)",
- " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 219, column 6 to column 55)",
+ " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 219, column 6 to column 53)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 220, column 6 to column 39)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 222, column 8 to column 51)",
  " (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 223, column 8 to column 90)",
@@ -628,8 +628,10 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
           stan::math::logical_gt((y / sigma), -inv_xi)))) {
         current_statement__ = 311;
         std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found xi = ");
-        stan::math::stan_print(&errmsg_stream__, xi);
+        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
+        stan::math::stan_print(&errmsg_stream__, -inv_xi);
+        stan::math::stan_print(&errmsg_stream__, " y = ");
+        stan::math::stan_print(&errmsg_stream__, y);
         stan::math::stan_print(&errmsg_stream__, " sigma = ");
         stan::math::stan_print(&errmsg_stream__, sigma);
         throw std::domain_error(errmsg_stream__.str());
@@ -645,7 +647,7 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
           current_statement__ = 307;
           if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
             current_statement__ = 305;
-            return ((-(1 + inv_xi) * stan::math::log1p((y * (xi / sigma)))) -
+            return ((-(1 + inv_xi) * stan::math::log1p((xi * (y / sigma)))) -
                      stan::math::log(sigma));
           } else {
             current_statement__ = 303;
@@ -680,8 +682,10 @@ template <typename T0__, typename T1__, typename T2__,
           stan::math::logical_gt((y / sigma), -inv_xi)))) {
         current_statement__ = 324;
         std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found xi = ");
-        stan::math::stan_print(&errmsg_stream__, xi);
+        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
+        stan::math::stan_print(&errmsg_stream__, -inv_xi);
+        stan::math::stan_print(&errmsg_stream__, " y = ");
+        stan::math::stan_print(&errmsg_stream__, y);
         stan::math::stan_print(&errmsg_stream__, " sigma = ");
         stan::math::stan_print(&errmsg_stream__, sigma);
         throw std::domain_error(errmsg_stream__.str());
@@ -699,7 +703,7 @@ template <typename T0__, typename T1__, typename T2__,
             current_statement__ = 318;
             return stan::math::exp(
                      stan::math::log1m_exp(
-                       (-inv_xi * stan::math::log1p((y * (xi / sigma))))));
+                       (-inv_xi * stan::math::log1p((xi * (y / sigma))))));
           } else {
             current_statement__ = 316;
             return stan::math::exp(stan::math::log1m_exp((-y / sigma)));
@@ -733,8 +737,10 @@ template <typename T0__, typename T1__, typename T2__,
           stan::math::logical_gt((y / sigma), -inv_xi)))) {
         current_statement__ = 337;
         std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found xi = ");
-        stan::math::stan_print(&errmsg_stream__, xi);
+        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
+        stan::math::stan_print(&errmsg_stream__, -inv_xi);
+        stan::math::stan_print(&errmsg_stream__, " y = ");
+        stan::math::stan_print(&errmsg_stream__, y);
         stan::math::stan_print(&errmsg_stream__, " sigma = ");
         stan::math::stan_print(&errmsg_stream__, sigma);
         throw std::domain_error(errmsg_stream__.str());
@@ -751,7 +757,7 @@ template <typename T0__, typename T1__, typename T2__,
           if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
             current_statement__ = 331;
             return stan::math::log1m_exp(
-                     (-inv_xi * stan::math::log1p((y * (xi / sigma)))));
+                     (-inv_xi * stan::math::log1p((xi * (y / sigma)))));
           } else {
             current_statement__ = 329;
             return stan::math::log1m_exp((-y / sigma));
@@ -785,8 +791,10 @@ template <typename T0__, typename T1__, typename T2__,
           stan::math::logical_gt((y / sigma), -inv_xi)))) {
         current_statement__ = 350;
         std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found xi = ");
-        stan::math::stan_print(&errmsg_stream__, xi);
+        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
+        stan::math::stan_print(&errmsg_stream__, -inv_xi);
+        stan::math::stan_print(&errmsg_stream__, " y = ");
+        stan::math::stan_print(&errmsg_stream__, y);
         stan::math::stan_print(&errmsg_stream__, " sigma = ");
         stan::math::stan_print(&errmsg_stream__, sigma);
         throw std::domain_error(errmsg_stream__.str());
@@ -802,7 +810,7 @@ template <typename T0__, typename T1__, typename T2__,
           current_statement__ = 346;
           if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
             current_statement__ = 344;
-            return (-inv_xi * stan::math::log1p((y * (xi / sigma))));
+            return (-inv_xi * stan::math::log1p((xi * (y / sigma))));
           } else {
             current_statement__ = 342;
             return (-y / sigma);

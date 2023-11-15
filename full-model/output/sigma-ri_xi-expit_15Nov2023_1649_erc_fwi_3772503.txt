@@ -967,3 +967,195 @@ Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/x
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 3.29281 y = 2.80406 sigma = 0.85121 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.66378 y = 2.53615 sigma = 0.951936 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.13377 y = 2.46368 sigma = 1.1522 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.599 y = 2.65164 sigma = 1.01862 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.20164 y = 2.32782 sigma = 1.04466 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 3.84845 y = 3.00575 sigma = 0.778783 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 3.00554 y = 2.64871 sigma = 0.881079 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.57629 y = 2.62113 sigma = 1.01692 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.13283 y = 2.4628 sigma = 1.15379 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.96122 y = 2.86215 sigma = 0.963548 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.259 y = 2.29969 sigma = 1.01453 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 3.59737 y = 3.466 sigma = 0.963273 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 4.38506 y = 3.299 sigma = 0.751393 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.27312 y = 2.3164 sigma = 1.01853 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.27941 y = 2.26637 sigma = 0.984205 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.28908 y = 2.29194 sigma = 0.979569 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.26383 y = 2.28928 sigma = 0.993914 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.31797 y = 2.30676 sigma = 0.989856 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.30284 y = 2.28883 sigma = 0.993826 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.36552 y = 2.28565 sigma = 0.965655 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.3401 y = 2.30486 sigma = 0.977711 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.40155 y = 2.26895 sigma = 0.94088 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 3.44975 y = 3.16275 sigma = 0.916487 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: xi<0 and y/sigma > -1/xi; found -1/xi = 2.14301 y = 2.38265 sigma = 1.11179 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 5, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 4, column 6, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g1/stan/g1_fcns.stanfunctions', line 61, column 4, included from
+'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_sigma-ri_xi-expit.stan', line 121, column 4 to column 82)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+

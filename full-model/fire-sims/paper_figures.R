@@ -346,9 +346,8 @@ ggsave("full-model/figures/paper/counts_preds-vs-truth_winsor_erc_fwi.pdf", widt
 
 
 ## create boxplot of predicted burn area for entire US annually for all timepoints (holdout and training) and overlay truth ------
-burn_preds <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_erc_fwi/burn_pred.RDS")
+burn_preds <- readRDS("full-model/figures/paper/mcmc_draws/xi-expit_erc_fwi/burn_pred.RDS")
 
-# create for 'gamma-ri' model
 burn_preds_l1 <- burn_preds %>% 
   left_join(full_reg_key) %>% 
   left_join(time_df) %>% 
@@ -412,16 +411,16 @@ true_burns_level1 <- true_burns %>% group_by(NA_L1NAME, fire_yr) %>%
   summarize(true_area = sum(total_burns)*0.405) %>% ungroup()
 
 true_burns_level1_full <- true_burns_level1 %>% complete(NA_L1NAME, fire_yr) %>% rename(year = fire_yr)
-true_burns_full <- true_burns %>% 
-  group_by(NA_L3NAME, fire_yr, NA_L1NAME) %>% 
-  summarize(burn_er = sum(total_burns)) %>% 
-  ungroup() %>% 
-  full_join(full_reg_key)%>% 
-  complete(NA_L3NAME, fire_yr) %>% 
-  rename(year = fire_yr) %>% 
-  filter(!is.na(year)) %>% 
-  select(-c(NA_L1NAME, NA_L3CODE, NA_L2CODE, NA_L1CODE, region, NA_L1NAME)) %>% 
-  left_join(full_reg_key)
+# true_burns_full <- true_burns %>% 
+#   group_by(NA_L3NAME, fire_yr, NA_L1NAME) %>% 
+#   summarize(burn_er = sum(total_burns)) %>% 
+#   ungroup() %>% 
+#   full_join(full_reg_key)%>% 
+#   complete(NA_L3NAME, fire_yr) %>% 
+#   rename(year = fire_yr) %>% 
+#   filter(!is.na(year)) %>% 
+#   select(-c(NA_L1NAME, NA_L3CODE, NA_L2CODE, NA_L1CODE, region, NA_L1NAME)) %>% 
+#   left_join(full_reg_key)
 
 # burn_preds_l1_annual <- burn_preds_l1 %>%
 #   group_by(NA_L1NAME, year, draw, train) %>% 
@@ -496,7 +495,7 @@ p <- burn_preds_l1 %>%
   xlab("Year (1990-2020)") + 
   ylab("Expected burn area (ha)") +
   theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_erc_fwi.pdf", width = 15)
+ggsave("full-model/figures/paper/burns_preds-vs-truth_xi-expit_erc_fwi.pdf", width = 15)
 
 p <- burn_preds_winsor %>% 
   ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 

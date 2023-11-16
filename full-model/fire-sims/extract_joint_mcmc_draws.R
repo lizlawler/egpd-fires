@@ -20,7 +20,7 @@ print("Filenames being used are:")
 files
 
 # create directory to save mcmc draws 
-draws_path <- paste0("full-model/figures/paper/mcmc_draws/", params, "_erc_fwi_take2/")
+draws_path <- paste0("full-model/figures/paper/mcmc_draws/", params, "_erc_fwi/")
 dir.create(path = draws_path, recursive = TRUE)
 
 burn_pred_draws <- read_cmdstan_csv(files, variables = "burn_pred")$post_warmup_draws

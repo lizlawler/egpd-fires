@@ -55,6 +55,22 @@ MCMCtrace(fitmcmc,
           filename = paste0(plotbase, csvpattern, "_phi.pdf"))
 print("phi traceplots created")
 
+print("Creating traceplot of xi...")
+MCMCtrace(fitmcmc,
+          params = 'xi', 
+          ind = TRUE, 
+          open_pdf = FALSE, 
+          filename = paste0(plotbase, csvpattern, "_xi.pdf"))
+print("xi traceplots created")
+
+print("Creating traceplot of sigma...")
+MCMCtrace(fitmcmc,
+          params = 'sigma', 
+          ind = TRUE, 
+          open_pdf = FALSE, 
+          filename = paste0(plotbase, csvpattern, "_sigma.pdf"))
+print("sigma traceplots created")
+
 print("Extracting scores from model object...")
 train_loglik_count <- fit$draws(variables = "train_loglik_count")
 holdout_loglik_count <- fit$draws(variables = "holdout_loglik_count")

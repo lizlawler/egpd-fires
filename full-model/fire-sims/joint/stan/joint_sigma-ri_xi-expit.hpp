@@ -630,10 +630,8 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
         stan::math::stan_print(&errmsg_stream__, -inv_xi);
-        stan::math::stan_print(&errmsg_stream__, " y = ");
-        stan::math::stan_print(&errmsg_stream__, y);
-        stan::math::stan_print(&errmsg_stream__, " sigma = ");
-        stan::math::stan_print(&errmsg_stream__, sigma);
+        stan::math::stan_print(&errmsg_stream__, " , y/sigma = ");
+        stan::math::stan_print(&errmsg_stream__, (y / sigma));
         throw std::domain_error(errmsg_stream__.str());
       } else {
         current_statement__ = 310;
@@ -684,10 +682,8 @@ template <typename T0__, typename T1__, typename T2__,
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
         stan::math::stan_print(&errmsg_stream__, -inv_xi);
-        stan::math::stan_print(&errmsg_stream__, " y = ");
-        stan::math::stan_print(&errmsg_stream__, y);
-        stan::math::stan_print(&errmsg_stream__, " sigma = ");
-        stan::math::stan_print(&errmsg_stream__, sigma);
+        stan::math::stan_print(&errmsg_stream__, " , y/sigma = ");
+        stan::math::stan_print(&errmsg_stream__, (y / sigma));
         throw std::domain_error(errmsg_stream__.str());
       } else {
         current_statement__ = 323;
@@ -739,10 +735,8 @@ template <typename T0__, typename T1__, typename T2__,
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
         stan::math::stan_print(&errmsg_stream__, -inv_xi);
-        stan::math::stan_print(&errmsg_stream__, " y = ");
-        stan::math::stan_print(&errmsg_stream__, y);
-        stan::math::stan_print(&errmsg_stream__, " sigma = ");
-        stan::math::stan_print(&errmsg_stream__, sigma);
+        stan::math::stan_print(&errmsg_stream__, " , y/sigma = ");
+        stan::math::stan_print(&errmsg_stream__, (y / sigma));
         throw std::domain_error(errmsg_stream__.str());
       } else {
         current_statement__ = 336;
@@ -793,10 +787,8 @@ template <typename T0__, typename T1__, typename T2__,
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
         stan::math::stan_print(&errmsg_stream__, -inv_xi);
-        stan::math::stan_print(&errmsg_stream__, " y = ");
-        stan::math::stan_print(&errmsg_stream__, y);
-        stan::math::stan_print(&errmsg_stream__, " sigma = ");
-        stan::math::stan_print(&errmsg_stream__, sigma);
+        stan::math::stan_print(&errmsg_stream__, " , y/sigma = ");
+        stan::math::stan_print(&errmsg_stream__, (y / sigma));
         throw std::domain_error(errmsg_stream__.str());
       } else {
         current_statement__ = 349;

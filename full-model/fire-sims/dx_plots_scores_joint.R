@@ -25,51 +25,43 @@ fit$diagnostic_summary()
 print("Creating mcmc list from cmdstan object...")
 fitmcmc <- as_mcmc.list(fit)
 
-print("Creating traceplot of rhos...")
+# print("Creating traceplot of rhos...")
+# MCMCtrace(fitmcmc,
+#           params = c('rho1', 'rho2'), 
+#           ind = TRUE, 
+#           open_pdf = FALSE, 
+#           filename = paste0(plotbase, csvpattern, "_rho.pdf"))
+# print("rho traceplots created")
+# 
+# print("Creating traceplot of betas for lambda")
+# MCMCtrace(fitmcmc,
+#           params = 'beta_count', 
+#           ind = TRUE, 
+#           open_pdf = FALSE, 
+#           filename = paste0(plotbase, csvpattern, "_lambda-beta.pdf"))
+# print("Creating traceplot of betas for kappa")
+# MCMCtrace(fitmcmc,
+#           params = 'beta_burn', 
+#           ind = TRUE, 
+#           open_pdf = FALSE, 
+#           filename = paste0(plotbase, csvpattern, "_kappa-beta.pdf"))
+# print("beta traceplots created")
+# 
+# print("Creating traceplot of phi...")
+# MCMCtrace(fitmcmc,
+#           params = 'phi', 
+#           ind = TRUE, 
+#           open_pdf = FALSE, 
+#           filename = paste0(plotbase, csvpattern, "_phi.pdf"))
+# print("phi traceplots created")
+# 
+print("Creating traceplot of ri_init...")
 MCMCtrace(fitmcmc,
-          params = c('rho1', 'rho2'), 
-          ind = TRUE, 
-          open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_rho.pdf"))
-print("rho traceplots created")
-
-print("Creating traceplot of betas for lambda")
-MCMCtrace(fitmcmc,
-          params = 'beta_count', 
-          ind = TRUE, 
-          open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_lambda-beta.pdf"))
-print("Creating traceplot of betas for kappa")
-MCMCtrace(fitmcmc,
-          params = 'beta_burn', 
-          ind = TRUE, 
-          open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_kappa-beta.pdf"))
-print("beta traceplots created")
-
-print("Creating traceplot of phi...")
-MCMCtrace(fitmcmc,
-          params = 'phi', 
-          ind = TRUE, 
-          open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_phi.pdf"))
-print("phi traceplots created")
-
-print("Creating traceplot of xi...")
-MCMCtrace(fitmcmc,
-          params = 'xi', 
-          ind = TRUE, 
-          open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_xi.pdf"))
-print("xi traceplots created")
-
-print("Creating traceplot of sigma...")
-MCMCtrace(fitmcmc,
-          params = 'sigma', 
-          ind = TRUE, 
-          open_pdf = FALSE, 
-          filename = paste0(plotbase, csvpattern, "_sigma.pdf"))
-print("sigma traceplots created")
+          params = 'ri_init',
+          ind = TRUE,
+          open_pdf = FALSE,
+          filename = paste0(plotbase, csvpattern, "_ri-init.pdf"))
+print("sigma and xi traceplots created")
 
 print("Extracting scores from model object...")
 train_loglik_count <- fit$draws(variables = "train_loglik_count")
@@ -78,9 +70,9 @@ train_loglik_burn <- fit$draws(variables = "train_loglik_burn")
 holdout_loglik_burn <- fit$draws(variables = "holdout_loglik_burn")
 train_twcrps <- fit$draws(variables = "train_twcrps")
 holdout_twcrps <- fit$draws(variables = "holdout_twcrps")
-scores <- list(train_loglik_count, holdout_loglik_count, train_loglik_burn, 
+scores <- list(train_loglik_count, holdout_loglik_count, train_loglik_burn,
                holdout_loglik_burn, train_twcrps, holdout_twcrps)
-names(scores) <- c("train_loglik_count", "holdout_loglik_count", "train_loglik_burn", 
+names(scores) <- c("train_loglik_count", "holdout_loglik_count", "train_loglik_burn",
                    "holdout_loglik_burn","train_twcrps", "holdout_twcrps")
 filename <- paste0("full-model/fire-sims/model_comparison/extracted_values/", csvpattern, "_scores.RDS")
 saveRDS(scores, file = filename)

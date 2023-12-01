@@ -9,16 +9,16 @@ conda activate stan
 stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="burns"
 modname="g1"
-for params in "xi-ri" "kappa-ri_xi-ri" "sigma-ri_xi-ri"
+for params in "all-reg"
 do
 # compile model and link c++ 
 inc_path="full-model/fire-sims/${modtype}/${modname}/stan/"
 object="full-model/fire-sims/${modtype}/${modname}/stan/${modname}_${params}"
 ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
-for dataset in "climate" "erc" "fwi" "erc_fwi"
+for dataset in "climate"
 do
-for qos in "normal" "long"
+for qos in "long"
 do
 for chain in 1 2 3
 do

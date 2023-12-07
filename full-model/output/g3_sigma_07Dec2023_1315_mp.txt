@@ -1,0 +1,435 @@
+method = sample (Default)
+  sample
+    num_samples = 1000 (Default)
+    num_warmup = 1000 (Default)
+    save_warmup = 0 (Default)
+    thin = 1 (Default)
+    adapt
+      engaged = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      delta = 0.80000000000000004 (Default)
+      kappa = 0.75 (Default)
+      t0 = 10 (Default)
+      init_buffer = 75 (Default)
+      term_buffer = 50 (Default)
+      window = 25 (Default)
+    algorithm = hmc (Default)
+      hmc
+        engine = nuts (Default)
+          nuts
+            max_depth = 10 (Default)
+        metric = diag_e (Default)
+        metric_file =  (Default)
+        stepsize = 1 (Default)
+        stepsize_jitter = 0 (Default)
+    num_chains = 1 (Default)
+id = 1 (Default)
+data
+  file = ../../data/stan_data_joint_erc_fwi.json
+init = 0.01
+random
+  seed = 1293246723 (Default)
+output
+  file = csv-fits/joint_g3_sigma_07Dec2023_1315_2.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = sample (Default)
+  sample
+    num_samples = 1000 (Default)
+    num_warmup = 1000 (Default)
+    save_warmup = 0 (Default)
+    thin = 1 (Default)
+    adapt
+      engaged = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      delta = 0.80000000000000004 (Default)
+      kappa = 0.75 (Default)
+      t0 = 10 (Default)
+      init_buffer = 75 (Default)
+      term_buffer = 50 (Default)
+      window = 25 (Default)
+    algorithm = hmc (Default)
+      hmc
+        engine = nuts (Default)
+          nuts
+            max_depth = 10 (Default)
+        metric = diag_e (Default)
+        metric_file =  (Default)
+        stepsize = 1 (Default)
+        stepsize_jitter = 0 (Default)
+    num_chains = 1 (Default)
+id = 1 (Default)
+data
+  file = ../../data/stan_data_joint_erc_fwi.json
+init = 0.01
+random
+  seed = 1293246723 (Default)
+output
+  file = csv-fits/joint_g3_sigma_07Dec2023_1315_1.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = sample (Default)
+  sample
+    num_samples = 1000 (Default)
+    num_warmup = 1000 (Default)
+    save_warmup = 0 (Default)
+    thin = 1 (Default)
+    adapt
+      engaged = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      delta = 0.80000000000000004 (Default)
+      kappa = 0.75 (Default)
+      t0 = 10 (Default)
+      init_buffer = 75 (Default)
+      term_buffer = 50 (Default)
+      window = 25 (Default)
+    algorithm = hmc (Default)
+      hmc
+        engine = nuts (Default)
+          nuts
+            max_depth = 10 (Default)
+        metric = diag_e (Default)
+        metric_file =  (Default)
+        stepsize = 1 (Default)
+        stepsize_jitter = 0 (Default)
+    num_chains = 1 (Default)
+id = 1 (Default)
+data
+  file = ../../data/stan_data_joint_erc_fwi.json
+init = 0.01
+random
+  seed = 1293246723 (Default)
+output
+  file = csv-fits/joint_g3_sigma_07Dec2023_1315_3.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = sample (Default)
+  sample
+    num_samples = 1000 (Default)
+    num_warmup = 1000 (Default)
+    save_warmup = 0 (Default)
+    thin = 1 (Default)
+    adapt
+      engaged = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      delta = 0.80000000000000004 (Default)
+method = sample (Default)
+      kappa = 0.75 (Default)
+  sample
+      t0 = 10 (Default)
+    num_samples = 1000 (Default)
+      init_buffer = 75 (Default)
+    num_warmup = 1000 (Default)
+      term_buffer = 50 (Default)
+    save_warmup = 0 (Default)
+      window = 25 (Default)
+    thin = 1 (Default)
+    algorithm = hmc (Default)
+    adapt
+      hmc
+      engaged = 1 (Default)
+        engine = nuts (Default)
+      gamma = 0.050000000000000003 (Default)
+          nuts
+      delta = 0.80000000000000004 (Default)
+            max_depth = 10 (Default)
+      kappa = 0.75 (Default)
+        metric = diag_e (Default)
+      t0 = 10 (Default)
+        metric_file =  (Default)
+      init_buffer = 75 (Default)
+        stepsize = 1 (Default)
+      term_buffer = 50 (Default)
+        stepsize_jitter = 0 (Default)
+      window = 25 (Default)
+    num_chains = 1 (Default)
+    algorithm = hmc (Default)
+id = 1 (Default)
+      hmc
+data
+        engine = nuts (Default)
+  file = ../../data/stan_data_joint_erc_fwi.json
+          nuts
+init = 0.01
+            max_depth = 10 (Default)
+random
+        metric = diag_e (Default)
+  seed = 1293246723 (Default)
+        metric_file =  (Default)
+output
+        stepsize = 1 (Default)
+  file = csv-fits/joint_g3_sigma_07Dec2023_1315_4.csv
+        stepsize_jitter = 0 (Default)
+  diagnostic_file =  (Default)
+    num_chains = 1 (Default)
+  refresh = 100 (Default)
+id = 1 (Default)
+  sig_figs = -1 (Default)
+data
+  profile_file = profile.csv (Default)
+  file = ../../data/stan_data_joint_erc_fwi.json
+num_threads = 1 (Default)
+init = 0.01
+
+random
+  seed = 1293246723 (Default)
+output
+  file = csv-fits/joint_g3_sigma_07Dec2023_1315_5.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+
+Gradient evaluation took 0.313563 seconds
+1000 transitions using 10 leapfrog steps per transition would take 3135.63 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.314132 seconds
+1000 transitions using 10 leapfrog steps per transition would take 3141.32 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.314401 seconds
+1000 transitions using 10 leapfrog steps per transition would take 3144.01 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.315682 seconds
+1000 transitions using 10 leapfrog steps per transition would take 3156.82 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.314533 seconds
+1000 transitions using 10 leapfrog steps per transition would take 3145.33 seconds.
+Adjust your expectations accordingly!
+
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.02812e-18 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.02812e-18 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.02812e-18 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.02812e-18 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.02812e-18 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 23, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.08485e-17 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.08485e-17 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.08485e-17 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.08485e-17 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.08485e-17 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g3/stan/g3_fcns.stanfunctions', line 74, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g3_sigma.stan', line 121, column 4 to column 81)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+

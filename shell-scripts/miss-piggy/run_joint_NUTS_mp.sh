@@ -6,7 +6,8 @@
 trap '' HUP
 stanc_exe="/data/accounts/lawler/.conda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="joint"
-for modname in "g3" "g4"
+# for modname in "g3" "g4"
+for modname in "g4"
 do
 for params in "nu" "sigma"
 do

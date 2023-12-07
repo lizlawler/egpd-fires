@@ -51,7 +51,7 @@ transformed parameters {
 
   pi_prob = cholesky_decompose(corr[3])' * Z[,1];
   delta = exp(cholesky_decompose(corr[4])' * Z[,2]);  
-  for (i in 1:2) {
+  for (i in 1:3) {
     ri_init[i] = cholesky_decompose(corr[i+4])' * Z[,i+2];
     ri_matrix[i] = rep_matrix(ri_init[i]', T_all);
   }

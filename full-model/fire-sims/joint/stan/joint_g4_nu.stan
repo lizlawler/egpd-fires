@@ -1,18 +1,18 @@
 functions {
   #include /../../burns/gpd_fcns.stanfunctions
-  #include /../../burns/g3/stan/g3_fcns.stanfunctions
+  #include /../../burns/g4/stan/g4_fcns.stanfunctions
   #include /../../burns/twcrps_matnorm_fcns.stanfunctions
 }
 #include /../joint_data.stan
 transformed data {
   int S = 2; // # of parameters with regression (ranges from 2 to 3)
-  //ordering of S: 1 = lambda, 2 = sigma
-  int C = 7; // # of parameters with correlation (either regression or random intercept)
-  // ordering: 1=lambda, 2=sigma, 3=pi, 4=delta, 5 = mu, 6 = xi, 7 = gamma
+  //ordering of S: 1 = lambda, 2 = kappa
+  int C = 8; // # of parameters with correlation (either regression or random intercept)
+  // ordering: 1=lambda, 2=kappa, 3=pi, 4=delta, 5 = nu, 6 = xi, 7 = zeta, 8 = gamma
 }
 parameters {
   array[N_tb_mis] real<lower=y_min> y_train_burn_mis;
-  matrix[R, C-S] Z; // ordering: 1 = pi, 2 = delta, 3 = xi, 4=mu, 5 = gamma
+  matrix[R, C-S] Z; // ordering: 1 = pi, 2 = delta, 3 = nu, 4 = xi, 5=zeta, 6 = gamma
   array[T_all, S] row_vector[R] phi_init;
   matrix[p, R] beta_count;
   matrix[p_burn, R] beta_burn;
@@ -27,7 +27,7 @@ parameters {
 transformed parameters {
   array[N_tb_all] real<lower=y_min> y_train_burn;
   vector<lower = 0>[R] delta;
-  vector[R] gamma; // scaling parameter, varying by region
+  vector[R] gamma; // modulating parameter, varying by region
   matrix[T_train, R] lambda;
   vector[R] pi_prob;
   array[S] matrix[T_all, R] phi;
@@ -39,8 +39,8 @@ transformed parameters {
   array[C] corr_matrix[R] corr;
   vector[T_all] theta;
   
-  array[2] vector[R] ri_init; // random intercept vector
-  array[2] matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
+  array[3] vector[R] ri_init; // random intercept vector
+  array[3] matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
   
   y_train_burn[ii_tb_obs] = y_train_burn_obs;
   y_train_burn[ii_tb_mis] = y_train_burn_mis;
@@ -55,7 +55,7 @@ transformed parameters {
     ri_init[i] = cholesky_decompose(corr[i+4])' * Z[,i+2];
     ri_matrix[i] = rep_matrix(ri_init[i]', T_all);
   }
-  gamma = cholesky_decompose(corr[7])' * Z[,5];
+  gamma = cholesky_decompose(corr[8])' * Z[,6];
 
   for (s in 1:S) {
     cov_ar1[s] = equal + bp[s] * bp_lin + bp[s] ^ 2 * bp_square
@@ -75,16 +75,18 @@ transformed parameters {
     theta[t] = eta[S+1] * theta[t-1] + theta_init[t];
   }
   
-  // regression link for lambda (counts) and sigma (burns)
+  // regression link for lambda (counts) and nu (burns)
   for (r in 1:R) {
     lambda[, r] = X_train_count[r] * beta_count[, r] + phi[1][idx_train_er, r] + area_offset[r] + theta[idx_train_er];
     reg[, r] = X_train_burn[r] * beta_burn[, r] + phi[2][idx_train_er, r] + gamma[r] * theta[idx_train_er];
   }
 }
 model {
-  vector[N_tb_all] sigma = exp(to_vector(reg))[ii_tb_all];
-  vector[N_tb_all] mu = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] kappa = exp(to_vector(reg))[ii_tb_all];
+  vector[N_tb_all] nu = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] zeta = exp(to_vector(ri_matrix[3][idx_train_er,]))[ii_tb_all];
+  vector[N_tb_all] sigma = nu ./ (1 + xi);
   
   to_vector(Z) ~ std_normal();
   
@@ -118,7 +120,7 @@ model {
   
   // burn likelihood
   for (n in 1:N_tb_all) {
-    target += egpd_trunc_lpdf(y_train_burn[n] | y_min, sigma[n], xi[n], mu[n]);
+    target += egpd_trunc_lpdf(y_train_burn[n] | y_min, sigma[n], xi[n], zeta[n], kappa[n]);
   }
 
   // count likelihood
@@ -157,27 +159,31 @@ generated quantities {
   // burn component scores
   // training scores
   for (n in 1:N_tb_obs) {
-    real sigma_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real mu_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+    real kappa_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+    real nu_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
     real xi_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+    real zeta_train = exp(to_vector(ri_matrix[3][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+    real sigma_train = nu_train / (1 + xi_train);
     
-    train_loglik_burn[n] = egpd_trunc_lpdf(y_train_burn_obs[n] | y_min, sigma_train, xi_train, mu_train);
+    train_loglik_burn[n] = egpd_trunc_lpdf(y_train_burn_obs[n] | y_min, sigma_train, xi_train, zeta_train, kappa_train);
     // forecasting then twCRPS, on training dataset
     vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, 
-                                            sigma_train, xi_train, mu_train);
+                                            sigma_train, xi_train, zeta_train, kappa_train);
     train_twcrps[n] = twCRPS(y_train_burn_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
   }
   // holdout scores
   for (n in 1:N_hold_obs) {
-    real sigma_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];
-    real mu_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs][n];
+    real kappa_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];
+    real nu_hold = exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs][n];
     real xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs][n];
+    real zeta_hold = exp(to_vector(ri_matrix[3]))[ii_hold_all][ii_hold_obs][n];
+    real sigma_hold = nu_hold / (1 + xi_hold);
     
     // log-likelihood
-    holdout_loglik_burn[n] = egpd_trunc_lpdf(y_hold_burn_obs[n] | y_min, sigma_hold, xi_hold, mu_hold);
+    holdout_loglik_burn[n] = egpd_trunc_lpdf(y_hold_burn_obs[n] | y_min, sigma_hold, xi_hold, zeta_hold, kappa_hold);
       // forecasting then twCRPS, on holdout dataset
     vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_holdout, y_min, 
-                                          sigma_hold, xi_hold, mu_hold);
+                                          sigma_hold, xi_hold, zeta_hold, kappa_hold);
     holdout_twcrps[n] = twCRPS(y_hold_burn_obs[n], n_int, int_holdout, int_pts_holdout, pred_probs_hold);
   }
 
@@ -215,16 +221,18 @@ generated quantities {
   for (r in 1:R) {
     for (t in 1:T_all) {
       vector[500] burn_draws;
-      real mu = exp(ri_init[1][r]); // mu = delta in G3 function, since delta is used in ZINB component
-      real xi = exp(ri_init[2][r]);
-      real sigma = exp(reg_full[t, r]);
+      real kappa = exp(reg_full[t, r]);
+      real nu = exp(ri_init[1][r]); 
+      real xi = exp(ri_init[2][r]); 
+      real zeta = exp(ri_init[3][r]); // zeta = delta in G4 function, since delta is used in ZINB component
+      real sigma = nu ./ (1 + xi);
       for (i in 1:500) {
         int zero = bernoulli_logit_rng(pi_prob[r]);
         int count_draw = (1 - zero) * neg_binomial_2_log_rng(lambda_full[t, r], delta[r]);
         if (count_draw == 0) {
           burn_draws[i] = 0; 
         } else {
-          burn_draws[i] = sum(egpd_rng(count_draw, y_min, sigma, xi, mu));
+          burn_draws[i] = sum(egpd_rng(count_draw, y_min, sigma, xi, zeta, kappa));
         }
       }
       burn_pred[t, r] = mean(burn_draws);

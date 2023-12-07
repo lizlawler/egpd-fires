@@ -1,6 +1,3 @@
-functions{
-#include /../../twcrps_matnorm_fcns.stanfunctions
-#include /../../gpd_fcns.stanfunctions
   // custom distribution functions of EGPD
   real egpd_lpdf(real y, real sigma, real xi, real delta, real kappa) {
     real alpha = 1/delta;
@@ -46,6 +43,35 @@ functions{
       reject("delta or kappa <=0; found delta = ", delta, " kappa = ", kappa);
     }
   }  
+  
+  real egpd_icdf(real u_adj, real sigma, real xi, real delta, real kappa) {
+    // input is 'u' adjusted for lower bound truncation
+    real alpha = 1/delta;
+    real beta = 2;
+    if (delta > 1e-15 && kappa > 1e-15) {
+      real q = 1 - u_adj ^ (2 / kappa);
+      real p = exp(log1m(inv_inc_beta(alpha, beta, q) ^ delta));
+      return gpareto_icdf(p, sigma, xi);
+    }
+    else {
+      reject("delta or kappa <=0; found delta = ", delta, " kappa = ", kappa);
+    }
+  } 
+
+  vector egpd_rng(int n, real ymin, real sigma, real xi, real delta, real kappa) {
+    // returns a vector length n of burn area predictions
+    real cst = egpd_cdf(ymin | sigma, xi, delta, kappa);
+    vector[n] rng_val;
+    vector[n] a = rep_vector(0, n);
+    vector[n] b = rep_vector(1, n);
+    array[n] real u = uniform_rng(a, b);
+    for (i in 1:n) {
+      real u_adj = cst * (1 - u[i]) + u[i];
+      rng_val[i] = egpd_icdf(u_adj, sigma, xi, delta, kappa);
+    }
+    return rng_val;
+  }
+  
   // truncated EGPD distribution
   real egpd_trunc_lpdf(real y, real ymin, real sigma, real xi, real delta, real kappa) {
     real lpdf = egpd_lpdf(y | sigma, xi, delta, kappa);
@@ -64,4 +90,3 @@ functions{
     }
     return pred_probs;
   }
-}

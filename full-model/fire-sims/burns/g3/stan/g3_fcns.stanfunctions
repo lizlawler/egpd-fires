@@ -43,7 +43,7 @@
   }  
 
   real egpd_icdf(real u_adj, real sigma, real xi, real delta) {
-    // input is 'u' adjusted for lower bound truncation
+    // input is u_adj = (1 - 'u*'), where 'u*' is 'u' adjusted for lower bound truncation
     real alpha = 1/delta;
     real beta = 2;
     if (delta > 1e-15) {
@@ -57,7 +57,7 @@
 
   vector egpd_rng(int n, real ymin, real sigma, real xi, real delta) {
     // returns a vector length n of burn area predictions
-    real cst = egpd_lccdf(ymin | sigma, xi, delta);
+    real cst = exp(egpd_lccdf(ymin | sigma, xi, delta));
     vector[n] rng_val;
     vector[n] a = rep_vector(0, n);
     vector[n] b = rep_vector(1, n);

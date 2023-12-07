@@ -8,14 +8,10 @@ model="stan/${modname}_${params}"
 outbase="csv-fits/${modname}_${dataset}_${params}_${sttime}"
 
 # run model with 3 chains
-./${model} sample num_chains=3 num_warmup=1000 num_samples=1000 \
+for i in {1..5}
+  do
+    ./${model} sample num_warmup=1000 num_samples=1000 \
                   data file=${datafile} \
                   init=0.01 \
-                  output file=${outbase}.csv \
-                  num_threads=3
-
-echo "Model has finished running all 3 chains"
-echo "Now running script to create trace plots and pull scores..."
-export modtype modname params dataset sttime
-nohup Rscript --vanilla full-model/fire-sims/dx_plots_scores_mp.R > \
-full-model/output/${modname}_${dataset}_${params}_plots_mp.txt 2>&1 &
+                  output file=${outbase}_${i}.csv &
+  done

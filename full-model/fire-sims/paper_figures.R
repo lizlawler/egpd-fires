@@ -164,15 +164,19 @@ p <- returns_regional %>% ggplot() +
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1CODE, alpha = 0.5)) +
   geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + 
   scale_y_log10() +
-  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
+  scale_x_date(name = "Year (1990-2020)", date_breaks = "7 years", date_labels = "%Y") + 
   ylab("Expected burn area (ha)") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
   theme_classic() + 
-  theme(legend.position = "none") + 
-  theme(strip.text.x = element_text(size = rel(1.4)))
-file_name <- "full-model/figures/paper/50yr_returns_erc_fwi.pdf"
-ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
-
+  theme(legend.position = "none", 
+        strip.text.x = element_text(size = rel(1.5)), 
+        axis.text.x = element_text(size = rel(1.8)),
+        axis.title.x = element_text(size = rel(1.7)),
+        axis.text.y = element_text(size = rel(1.8)),
+        axis.title.y = element_text(size = rel(1.7)))
+file_name <- "full-model/figures/paper/50yr_returns.pdf"
+ggsave(file_name, p, dpi = 320, bg = "white", width = 15.5, height = 8)
+knitr::plot_crop("full-model/figures/paper/50yr_returns.pdf")
 ## calculate 98th quantile expected burn areas ----------
 level98_areas <- all_params %>%
   mutate(yr50 = high_quant(50, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
@@ -191,14 +195,19 @@ level98_areas_regional <- level98_areas_regional %>% mutate(NA_L1CODE = factor(N
 p <- level98_areas_regional %>% ggplot() + 
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1CODE, alpha = 0.5)) +
   geom_line(aes(x=date, y=med50, group = region), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
-  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
+  scale_x_date(name = "Year (1990-2020)", date_breaks = "7 years", date_labels = "%Y",  ) + 
   ylab("Expected burn area (ha) given fire occurrence") +
   facet_wrap(. ~ NA_L1NAME, nrow = 2) +
   theme_classic() + 
-  theme(legend.position = "none") + 
-  theme(strip.text.x = element_text(size = rel(1.4)))
-file_name <- "full-model/figures/paper/98th_quant_burn-areas_erc_fwi.pdf"
-ggsave(file_name, p, dpi = 320, bg = "white", width = 17, height = 9)
+  theme(legend.position = "none", 
+        strip.text.x = element_text(size = rel(1.5)), 
+        axis.text.x = element_text(size = rel(1.8)),
+        axis.title.x = element_text(size = rel(1.7)),
+        axis.text.y = element_text(size = rel(1.8)),
+        axis.title.y = element_text(size = rel(1.7)))
+file_name <- "full-model/figures/paper/98th_quant_burn-areas.pdf"
+ggsave(file_name, p, dpi = 320, bg = "white", width = 15.5, height = 8)
+knitr::plot_crop("full-model/figures/paper/98th_quant_burn-areas.pdf")
 
 ## area-weighted average of burn area exceedances -------
 eco_areas <- ecoregions_geom %>% as_tibble() %>% group_by(NA_L3CODE) %>% summarise(area = sum(Shape_Area))
@@ -341,12 +350,21 @@ p <- count_preds_winsor %>%
   xlab("Year (1990-2020)") + 
   ylab("Expected number of fires") +
   theme_classic() + 
-  theme(legend.position = "none")
-ggsave("full-model/figures/paper/counts_preds-vs-truth_winsor_erc_fwi.pdf", width = 15)
+  theme(legend.position = "none",
+        strip.text.x = element_text(size = rel(0.7)),
+        axis.text = element_text(size = rel(0.74)))
 
+# ,
+# axis.text.x = element_text(size = rel(1.8)),
+# axis.title.x = element_text(size = rel(1.7)),
+# axis.text.y = element_text(size = rel(1.8)),
+# axis.title.y = element_text(size = rel(1.7))
+
+ggsave("full-model/figures/paper/counts_preds-vs-truth_winsor.pdf", dpi = 320, width = 8.5, height = 4)
+knitr::plot_crop("full-model/figures/paper/counts_preds-vs-truth_winsor.pdf")
 
 ## create boxplot of predicted burn area for entire US annually for all timepoints (holdout and training) and overlay truth ------
-burn_preds <- readRDS("full-model/figures/paper/mcmc_draws/xi-expit_erc_fwi/burn_pred.RDS")
+burn_preds <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_erc_fwi/burn_pred.RDS")
 
 burn_preds_l1 <- burn_preds %>% 
   left_join(full_reg_key) %>% 
@@ -507,8 +525,14 @@ p <- burn_preds_winsor %>%
   scale_y_log10() +
   xlab("Year (1990-2020)") + 
   ylab("Expected burn area (ha)") +
-  theme_classic() + theme(legend.position = "none")
-ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor_erc_fwi.pdf", width = 15)
+  theme_classic() + 
+  theme(legend.position = "none", 
+        strip.text.x = element_text(size = rel(1.3)), 
+        axis.text.x = element_text(size = rel(1.5)),
+        axis.title.x = element_text(size = rel(1.4)),
+        axis.text.y = element_text(size = rel(1.3)),
+        axis.title.y = element_text(size = rel(1.4)))
+ggsave("full-model/figures/paper/burns_preds-vs-truth_winsor.pdf", width = 15.3, height = 8)
 
 ## maps of xi, sigma, pi_prob, gamma ---------
 gamma <- readRDS("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_erc_fwi/gamma.RDS")
@@ -529,9 +553,9 @@ p_legend <- p + theme(legend.position = c(0.95, 0.4),
                       legend.key.size = unit(1.3, "cm"),
                       legend.text = element_text(size = 12),
                       legend.title = element_text(size = 15))
-ggsave(filename = "full-model/figures/paper/gamma_map.png", plot = p_legend, 
+ggsave(filename = "full-model/figures/paper/gamma_map.png", plot = p, 
        dpi = 320, 
-       width = 10, height = 10)
+       width = 5, height = 5)
 knitr::plot_crop("full-model/figures/paper/gamma_map.png")
 # parse(text = paste("tau[", 1:2, "]")))
 
@@ -559,14 +583,14 @@ eda_90_plot <- ecoregions_geom %>%
   theme_void()
 eda_90_hcl <- eda_90_plot + scale_fill_continuous_sequential(palette = 'Mint',
                                                              na.value = "transparent",
-                                                             name = bquote(xi~value)) + 
-  theme(legend.position = c(0.95, 0.4), 
-        legend.key.size = unit(1, "cm"),
-        legend.text = element_text(size = 12),
-        legend.title = element_text(size = 15))
+                                                             name = bquote(xi~value))
+  # theme(legend.position = c(0.95, 0.4), 
+  #       legend.key.size = unit(1, "cm"),
+  #       legend.text = element_text(size = 12),
+  #       legend.title = element_text(size = 15))
 ggsave(filename = "full-model/figures/paper/xi_eda_90th-quant.png", 
        plot = eda_90_hcl, 
-       width = 10, height = 10,
+       width = 5, height = 5,
        dpi = 320)
 knitr::plot_crop("full-model/figures/paper/xi_eda_90th-quant.png")
 
@@ -593,11 +617,11 @@ xi_model_hcl <- xi_model_map + scale_fill_continuous_sequential(palette = 'Mint'
                                                                 na.value = "transparent",
                                                                 name = bquote(xi~value),
                                                                 limits = c(0,1.2),
-                                                                breaks = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0)) + 
-  theme(legend.position = c(0.9, 0.4), 
-        legend.key.size = unit(1.2, "cm"),
-        legend.text = element_text(size = 11),
-        legend.title = element_text(size = 13))
+                                                                breaks = c(0.0, 0.2, 0.4, 0.6, 0.8, 1.0))  
+  # theme(legend.position = c(0.9, 0.4), 
+  #       legend.key.size = unit(1.2, "cm"),
+  #       legend.text = element_text(size = 11),
+  #       legend.title = element_text(size = 13))
 # ggsave("full-model/figures/paper/xi_model_map.pdf", width = 10)
 
 eda_90_combo_plot <- eda_90_plot + scale_fill_continuous_sequential(palette = 'Mint',
@@ -610,7 +634,7 @@ eda_90_combo_plot <- eda_90_plot + scale_fill_continuous_sequential(palette = 'M
 #   theme(legend.position = "none")
 
 p90 <- eda_90_combo_plot + xi_model_hcl + plot_layout(guides = 'collect')
-ggsave("full-model/figures/paper/xi_map_with-eda90.png", dpi = 320, width = 20, height = 20, bg = 'transparent')
+ggsave("full-model/figures/paper/xi_map_with-eda90.png", dpi = 320, width = 8, height = 8, bg = 'transparent')
 knitr::plot_crop("full-model/figures/paper/xi_map_with-eda90.png")
 
 sigma_map <- rand_int %>% select(-xi) %>% group_by(region) %>% summarize(sigma = median(sigma))
@@ -711,10 +735,12 @@ p <- lambda_effects %>%
                            TRUE ~ covar)) %>% 
   ggplot(aes(x = linear, y = effect, group = region)) + 
   geom_line(aes(color = NA_L2CODE)) +
-  facet_wrap(. ~ covar, scales = "free_x") + theme_classic() + theme(legend.position = "none") +
+  facet_wrap(. ~ covar, scales = "free_x") + 
+  theme_classic() + 
+  theme(legend.position = "none") +
   ylab("Partial effect") + xlab("")
-file_name <- "full-model/figures/paper/partial_effects_lambda_erc_fwi.pdf"
-ggsave(file_name, p, width = 15, height = 9)
+file_name <- "full-model/figures/paper/partial_effects_lambda.pdf"
+ggsave(file_name, p, width = 7, height = 4)
 
 # determine regions with particularly prominent effects
 lambda_effects %>% filter(covar == 'vs', effect > 0.5, linear > 5) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
@@ -772,8 +798,8 @@ p <- kappa_effects %>%
   geom_line(aes(color = NA_L2CODE)) +
   facet_wrap(. ~ covar, scales = "free_x") + theme_classic() + theme(legend.position = "none") +
   ylab("Partial effect") + xlab("")
-file_name <- "full-model/figures/paper/partial_effects_kappa_erc_fwi.pdf"
-ggsave(file_name, p, width = 15, height = 4.5)
+file_name <- "full-model/figures/paper/partial_effects_kappa.pdf"
+ggsave(file_name, p, width = 7, height = 2)
 
 # determine regions with particularly prominent effects
 kappa_effects %>% filter(covar == 'erc', effect > 0, linear < 10) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)

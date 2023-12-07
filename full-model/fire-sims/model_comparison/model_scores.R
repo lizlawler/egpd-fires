@@ -11,9 +11,20 @@ score_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
 # process scores only from "normal" qos - run for 24 hrs or less
 # score_files <- score_files[grepl("normal", score_files)]
 erc_burn_files <- score_files[!grepl("fwi", score_files)]
-erc_burn_files <- erc_burn_files[grepl("g1", erc_burn_files)]
+erc_burn_files <- erc_burn_files[!grepl("g3", erc_burn_files)]
+erc_burn_files <- erc_burn_files[!grepl("g4", erc_burn_files)]
 erc_burn_files <- erc_burn_files[grepl("long", erc_burn_files)]
 erc_burn_files <- erc_burn_files[grepl("GQ", erc_burn_files)]
+g1_burn_files <- erc_burn_files[grepl("g1", erc_burn_files)]
+g2_files <- erc_burn_files[grepl("nu_erc", erc_burn_files)]
+lognorm_files <- erc_burn_files[grepl("lognorm", erc_burn_files)]
+burn_files <- c(g2_files, lognorm_files)
+
+erc_burn_files <- erc_burn_files[grepl("14Sep", erc_burn_files)]
+g2_gq_files <- score_files[grepl("g1", score_files)]
+g2_gq_files <- g1_gq_files[grepl("_GQ", g1_gq_files)]
+g2_gq_files <- g1_gq_files[grepl("long", g1_gq_files)]
+
 burn_files <- c(score_files[grepl("g1", score_files)], 
                 score_files[grepl("lognorm", score_files)], 
                 score_files[grepl("g2", score_files)])
@@ -54,24 +65,26 @@ extraction <- function(file_group, model) {
   gc()
 }
 
-nfits <- length(burn_files_climate)/3
+nfits <- length(burn_files)/3
 fit_groups <- vector(mode = "list", nfits)
 for(i in 1:nfits) {
-  fit_groups[[i]] <- burn_files_climate[(3*i-2):(3*i)]
+  fit_groups[[i]] <- burn_files[(3*i-2):(3*i)]
 }
 
-burn_model_names <- lapply(fit_groups, function(x) {
+model_names <- lapply(fit_groups, function(x) {
   basename(x[[1]]) %>% 
-    str_remove(., "_climate_\\d{2}\\w{3}2023_\\d{4}") %>%
-    str_remove(., "_\\d{1}_GQ.csv")
+    str_remove(., "_erc_\\d{2}\\w{3}2023_\\d{4}_long_\\d{1}_GQ.csv")
   }) %>% 
   unlist()
 
 
 # pull scores from each BURN model and aggregate -----
-for(i in seq_along(burn_model_names)) {
-  extraction(fit_groups[[i]], burn_model_names[i])
+for(i in seq_along(model_names)) {
+  extraction(fit_groups[[i]], model_names[i])
 }
+
+model_names <- c("g1_sigma-ri_xi-ri", model_names)
+extraction(g1_burn_files, model_names[1])
 
 # read in G3 model that finished and is analogous to G1 "best" model
 g3_files <- paste0("full-model/fire-sims/burns/g3/csv-fits/",
@@ -92,6 +105,16 @@ g3_holdout_loglik <- `g3_erc_xi-ri_nu`$holdout_loglik$post_warmup_draws %>%
   summarize(loglik = sum(value)) %>%
   mutate(model = g3_name,
          train = FALSE)
+
+g2_chains <- `g2_sigma-ri_xi-ri_nu`$holdout_loglik$generated_quantities %>%
+  as_draws_df() %>%
+  select(-c(".iteration")) %>% 
+  pivot_longer(cols = !c(".draw",".chain")) %>%
+  rename(draw = ".draw", chain = ".chain") %>%
+  group_by(chain, draw) %>% 
+  summarize(loglik = sum(value)) %>% ungroup()
+
+unique((g2_chains %>% filter(chain == 1))$loglik) # chain 1 didn't mix
 
 g4_holdout_loglik <- `g4_erc_sigma-ri_xi-ri_nu_scores`$holdout_loglik %>% 
   as_draws_df() %>%
@@ -161,91 +184,132 @@ test_twcrps_comp <- g1_g3_g4_erc_twcrps %>%
 test_twcrps_comp
 
 
-# nfits <- length(burn_model_names)
-# holdout_loglik <- vector("list", nfits)
-# train_loglik <- vector("list", nfits)
-# train_twcrps <- vector("list", nfits)
-# holdout_twcrps <- vector("list", nfits)
-# for(i in seq_along(burn_model_names)) {
-#   holdout_loglik[[i]] <- get(burn_model_names[i])[["holdout_loglik"]]$generated_quantities %>%
-#     as_draws_df() %>%
-#     select(-c(".iteration", ".chain")) %>% 
-#     pivot_longer(cols = !".draw") %>%
-#     rename(draw = ".draw") %>%
-#     group_by(draw) %>% 
-#     summarize(loglik = sum(value)) %>%
-#     mutate(model = burn_model_names[i],
-#            train = FALSE)
-#   holdout_twcrps[[i]] <- get(burn_model_names[i])[["holdout_twcrps"]]$generated_quantities %>%
-#     as_draws_df() %>%
-#     select(-c(".iteration", ".chain")) %>% 
-#     pivot_longer(cols = !".draw") %>%
-#     rename(draw = ".draw") %>%
-#     group_by(draw) %>% 
-#     summarize(twcrps = mean(value)) %>%
-#     mutate(model = burn_model_names[i],
-#            train = FALSE)
-#   train_loglik[[i]] <- get(burn_model_names[i])[["train_loglik"]]$generated_quantities %>%
-#     as_draws_df() %>%
-#     select(-c(".iteration", ".chain")) %>% 
-#     pivot_longer(cols = !".draw") %>%
-#     rename(draw = ".draw") %>%
-#     group_by(draw) %>% 
-#     summarize(loglik = sum(value)) %>%
-#     mutate(model = burn_model_names[i],
-#            train = TRUE)
-#   train_twcrps[[i]] <- get(burn_model_names[i])[["train_twcrps"]]$generated_quantities %>%
-#     as_draws_df() %>%
-#     select(-c(".iteration", ".chain")) %>% 
-#     pivot_longer(cols = !".draw") %>%
-#     rename(draw = ".draw") %>%
-#     group_by(draw) %>% 
-#     summarize(twcrps = mean(value)) %>%
-#     mutate(model = burn_model_names[i],
-#            train = TRUE)
-# }
+holdout_loglik <- vector("list", nfits+2)
+train_loglik <- vector("list", nfits+2)
+train_twcrps <- vector("list", nfits+2)
+holdout_twcrps <- vector("list", nfits+2)
+for(i in c(1,3:4)) {
+  holdout_loglik[[i]] <- get(model_names[i])[["holdout_loglik"]]$generated_quantities %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>%
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>%
+    summarize(loglik = sum(value)) %>%
+    mutate(model = model_names[i],
+           train = FALSE)
+  holdout_twcrps[[i]] <- get(model_names[i])[["holdout_twcrps"]]$generated_quantities %>%
+    as_draws_df() %>%
+    select(-c(".iteration", ".chain")) %>%
+    pivot_longer(cols = !".draw") %>%
+    rename(draw = ".draw") %>%
+    group_by(draw) %>%
+    summarize(twcrps = mean(value)) %>%
+    mutate(model = model_names[i],
+           train = FALSE)
+  # train_loglik[[i]] <- get(model_names[i])[["train_loglik"]]$generated_quantities %>%
+  #   as_draws_df() %>%
+  #   select(-c(".iteration", ".chain")) %>%
+  #   pivot_longer(cols = !".draw") %>%
+  #   rename(draw = ".draw") %>%
+  #   group_by(draw) %>%
+  #   summarize(loglik = sum(value)) %>%
+  #   mutate(model = model_names[i],
+  #          train = TRUE)
+  # train_twcrps[[i]] <- get(model_names[i])[["train_twcrps"]]$generated_quantities %>%
+  #   as_draws_df() %>%
+  #   select(-c(".iteration", ".chain")) %>%
+  #   pivot_longer(cols = !".draw") %>%
+  #   rename(draw = ".draw") %>%
+  #   group_by(draw) %>%
+  #   summarize(twcrps = mean(value)) %>%
+  #   mutate(model = model_names[i],
+  #          train = TRUE)
+}
 
 # add in g3 scores
-# holdout_loglik[[13]] <- get(g3_name)[["holdout_loglik"]]$post_warmup_draws %>%
+g3_name <- 'g3_erc_xi-ri_nu'
+holdout_loglik[[5]] <- get(g3_name)[["holdout_loglik"]]$post_warmup_draws %>%
+  as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>%
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  group_by(draw) %>%
+  summarize(loglik = sum(value)) %>%
+  mutate(model = g3_name,
+         train = FALSE)
+holdout_twcrps[[5]] <- get(g3_name)[["holdout_twcrps"]]$post_warmup_draws %>%
+  as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>%
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  group_by(draw) %>%
+  summarize(twcrps = mean(value)) %>%
+  mutate(model = g3_name,
+         train = FALSE)
+# train_loglik[[4]] <- get(g3_name)[["train_loglik"]]$post_warmup_draws %>%
 #   as_draws_df() %>%
-#   select(-c(".iteration", ".chain")) %>% 
+#   select(-c(".iteration", ".chain")) %>%
 #   pivot_longer(cols = !".draw") %>%
 #   rename(draw = ".draw") %>%
-#   group_by(draw) %>% 
-#   summarize(loglik = sum(value)) %>%
-#   mutate(model = g3_name,
-#          train = FALSE)
-# holdout_twcrps[[13]] <- get(g3_name)[["holdout_twcrps"]]$post_warmup_draws %>%
-#   as_draws_df() %>%
-#   select(-c(".iteration", ".chain")) %>% 
-#   pivot_longer(cols = !".draw") %>%
-#   rename(draw = ".draw") %>%
-#   group_by(draw) %>% 
-#   summarize(twcrps = mean(value)) %>%
-#   mutate(model = g3_name,
-#          train = FALSE)
-# train_loglik[[13]] <- get(g3_name)[["train_loglik"]]$post_warmup_draws %>%
-#   as_draws_df() %>%
-#   select(-c(".iteration", ".chain")) %>% 
-#   pivot_longer(cols = !".draw") %>%
-#   rename(draw = ".draw") %>%
-#   group_by(draw) %>% 
+#   group_by(draw) %>%
 #   summarize(loglik = sum(value)) %>%
 #   mutate(model = g3_name,
 #          train = TRUE)
-# train_twcrps[[13]] <- get(g3_name)[["train_twcrps"]]$post_warmup_draws %>%
+# train_twcrps[[4]] <- get(g3_name)[["train_twcrps"]]$post_warmup_draws %>%
 #   as_draws_df() %>%
-#   select(-c(".iteration", ".chain")) %>% 
+#   select(-c(".iteration", ".chain")) %>%
 #   pivot_longer(cols = !".draw") %>%
 #   rename(draw = ".draw") %>%
-#   group_by(draw) %>% 
+#   group_by(draw) %>%
 #   summarize(twcrps = mean(value)) %>%
 #   mutate(model = g3_name,
 #          train = TRUE)
 
-holdout_loglik_burns <- bind_rows(holdout_loglik)
-train_loglik_burns <- bind_rows(train_loglik)
-holdout_twcrps <- bind_rows(holdout_twcrps)
+g2_name <- "g2_sigma-ri_xi-ri_nu"
+holdout_loglik[[2]] <- get(g2_name)[["holdout_loglik"]]$generated_quantities %>%
+  as_draws_df() %>%
+  select(-c(".iteration")) %>%
+  pivot_longer(cols = !c(".draw", ".chain")) %>%
+  rename(draw = ".draw", chain = ".chain") %>%
+  filter(chain != 1) %>% select(-chain) %>%
+  group_by(draw) %>%
+  summarize(loglik = sum(value)) %>%
+  mutate(model = g2_name,
+         train = FALSE)
+holdout_twcrps[[2]] <- get(g2_name)[["holdout_twcrps"]]$generated_quantities %>%
+  as_draws_df() %>%
+  select(-c(".iteration")) %>%
+  pivot_longer(cols = !c(".draw", ".chain")) %>%
+  rename(draw = ".draw", chain = ".chain") %>%
+  filter(chain != 1) %>% select(-chain) %>%
+  group_by(draw) %>%
+  summarize(twcrps = mean(value)) %>%
+  mutate(model = g2_name,
+         train = FALSE)
+train_loglik[[1]] <- get(g2_name)[["train_loglik"]]$generated_quantities %>%
+  as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>%
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  group_by(draw) %>%
+  summarize(loglik = sum(value)) %>%
+  mutate(model = g2_name,
+         train = TRUE)
+train_twcrps[[1]] <- get(g2_name)[["train_twcrps"]]$generated_quantities %>%
+  as_draws_df() %>%
+  select(-c(".iteration", ".chain")) %>%
+  pivot_longer(cols = !".draw") %>%
+  rename(draw = ".draw") %>%
+  group_by(draw) %>%
+  summarize(twcrps = mean(value)) %>%
+  mutate(model = g2_name,
+         train = TRUE)
+
+
+holdout_loglik_burns <- bind_rows(holdout_loglik) %>% rbind(g4_holdout_loglik)
+# train_loglik_burns <- bind_rows(train_loglik)
+holdout_twcrps_df <- bind_rows(holdout_twcrps) %>% rbind(g4_holdout_twcrps)
 train_twcrps <- bind_rows(train_twcrps)
 
 ## log-likelihood aggregating and analysis (burns) -------
@@ -269,14 +333,12 @@ train_ll_burns_comp <- ll_full_burns %>% filter(grepl("long", model)) %>%
   summarize(med_diff = median(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% 
   arrange(-med_diff)
 
-test_ll_burns_ranked <- ll_full_burns %>% filter(grepl("long", model)) %>%
-  filter(train == FALSE) %>% 
+test_ll_burns_ranked <- holdout_loglik_burns %>%
   group_by(model) %>% 
   summarize(med_train_ll = median(loglik)) %>% 
   arrange(-med_train_ll)
 top_mod_burns_test <- as.character(test_ll_burns_ranked$model[1])
-test_ll_burns_comp <- ll_full_burns %>% filter(grepl("long", model)) %>%
-  filter(train == FALSE) %>% 
+test_ll_burns_comp <- holdout_loglik_burns %>%
   select(c(draw, model, loglik)) %>% 
   pivot_wider(names_from = model, values_from = loglik, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_burns_test))) %>% 
@@ -305,12 +367,12 @@ train_twcrps_comp <- twcrps_full %>% filter(train == TRUE) %>%
   summarize(mean_diff = mean(value[is.finite(value)]), sd_diff = sd(value[is.finite(value)])) %>% 
   arrange(mean_diff)
 
-test_twcrps_ranked <- twcrps_full %>% filter(train == FALSE) %>% 
+test_twcrps_ranked <- holdout_twcrps_df %>% 
   group_by(model) %>% 
   summarize(mean_twcrps = mean(twcrps, na.rm = TRUE)) %>% 
   arrange(mean_twcrps)
 top_mod_test_twcrps <- as.character(test_twcrps_ranked$model[1])
-test_twcrps_comp <- twcrps_full %>% filter(train == FALSE) %>% 
+test_twcrps_comp <- holdout_twcrps_df %>% mutate(twcrps = twcrps * 10^2) %>%
   select(c(draw, model, twcrps)) %>% 
   pivot_wider(names_from = model, values_from = twcrps, values_fill = NA) %>% 
   mutate(across(.cols = -draw, ~ .x - get(top_mod_test_twcrps))) %>% 

@@ -5,7 +5,7 @@ datafile="../../../data/stan_data_${dataset}.json"
 basedir="./full-model/fire-sims/${modtype}/${modname}/"
 cd ${basedir}
 model="stan/${modname}_${params}"
-outbase="csv-fits/${modname}_${dataset}_${params}_${sttime}"
+outbase="csv-fits/${modname}_${params}_${dataset}_${sttime}"
 
 # run model with 3 chains
 for i in {1..5}

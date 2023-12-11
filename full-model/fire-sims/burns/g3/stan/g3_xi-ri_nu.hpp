@@ -8,333 +8,378 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 325> locations_array__ = 
+static constexpr std::array<const char*, 349> locations_array__ = 
 {" (found before start of program)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 8, column 2 to column 48)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 9, column 2 to column 17)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 10, column 2 to column 41)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 11, column 2 to column 29)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 12, column 2 to column 30)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 13, column 2 to column 36)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 14, column 2 to column 40)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 15, column 2 to column 37)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 16, column 2 to column 43)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 19, column 2 to column 44)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 32)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 21, column 2 to column 34)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 22, column 2 to column 38)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 23, column 2 to column 40)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 24, column 2 to column 34)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 25, column 2 to column 33)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 26, column 2 to column 31)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 28, column 2 to column 29)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 29, column 2 to column 38)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 31, column 2 to column 35)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 32, column 2 to column 35)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 35, column 4 to column 47)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 34, column 17 to line 36, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 34, column 2 to line 36, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 39, column 4 to column 56)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 40, column 4 to column 50)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 38, column 17 to line 41, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 38, column 2 to line 41, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 44, column 4 to line 45, column 62)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 48, column 4 to column 46)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 50, column 6 to line 51, column 53)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 49, column 23 to line 52, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 49, column 4 to line 52, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 56, column 6 to column 72)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 55, column 19 to line 57, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 55, column 4 to line 57, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 43, column 17 to line 58, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 43, column 2 to line 58, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 95, column 2 to column 36)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 96, column 2 to column 40)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 97, column 2 to column 36)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 98, column 2 to column 40)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 100, column 2 to column 37)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 103, column 6 to column 64)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 102, column 19 to line 104, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 102, column 4 to line 104, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 101, column 17 to line 105, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 101, column 2 to line 105, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 108, column 4 to column 73)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 109, column 4 to column 74)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 110, column 4 to column 77)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 111, column 4 to column 49)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 113, column 4 to column 98)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 115, column 11 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 115, column 4 to line 116, column 80)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 117, column 4 to column 96)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 107, column 24 to line 118, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 107, column 2 to line 118, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 121, column 4 to column 76)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 122, column 4 to column 77)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 123, column 4 to column 80)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 124, column 4 to column 46)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 127, column 4 to column 96)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 129, column 11 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 129, column 4 to line 130, column 75)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 12, column 2 to column 48)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 13, column 2 to column 17)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 14, column 2 to column 41)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 15, column 2 to column 29)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 16, column 2 to column 30)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 17, column 2 to column 36)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 18, column 2 to column 40)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 19, column 2 to column 37)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 23, column 2 to column 44)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 24, column 2 to column 32)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 25, column 2 to column 34)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 26, column 2 to column 38)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 27, column 2 to column 40)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 28, column 2 to column 34)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 29, column 2 to column 33)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 30, column 2 to column 31)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 32, column 2 to column 29)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 33, column 2 to column 38)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 35, column 2 to column 35)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 36, column 2 to column 35)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 39, column 4 to column 47)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 38, column 17 to line 40, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 38, column 2 to line 40, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 43, column 4 to column 56)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 44, column 4 to column 50)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 42, column 17 to line 45, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 42, column 2 to line 45, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 48, column 4 to line 49, column 62)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 52, column 4 to column 46)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 54, column 6 to line 55, column 53)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 53, column 23 to line 56, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 53, column 4 to line 56, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 60, column 6 to column 72)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 59, column 19 to line 61, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 59, column 4 to line 61, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 47, column 17 to line 62, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 47, column 2 to line 62, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 99, column 2 to column 36)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 100, column 2 to column 40)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 101, column 2 to column 36)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 102, column 2 to column 40)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 104, column 2 to column 37)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 107, column 6 to column 64)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 106, column 19 to line 108, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 106, column 4 to line 108, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 105, column 17 to line 109, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 105, column 2 to line 109, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 112, column 4 to column 88)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 113, column 4 to column 89)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 114, column 4 to column 92)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 115, column 4 to column 49)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 117, column 4 to column 98)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 119, column 11 to column 16)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 119, column 4 to line 120, column 80)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 121, column 4 to column 96)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 111, column 24 to line 122, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 111, column 2 to line 122, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 125, column 4 to column 76)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 126, column 4 to column 77)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 127, column 4 to column 80)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 128, column 4 to column 46)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 131, column 4 to column 96)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 120, column 26 to line 132, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 120, column 2 to line 132, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 61, column 9 to column 17)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 61, column 2 to column 58)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 62, column 9 to column 17)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 62, column 2 to column 79)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 63, column 9 to column 17)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 63, column 2 to column 82)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 64, column 9 to column 17)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 64, column 2 to column 42)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 66, column 2 to column 30)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 69, column 2 to column 37)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 72, column 2 to column 30)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 73, column 2 to column 39)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 76, column 2 to column 31)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 77, column 2 to column 34)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 81, column 4 to column 60)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 84, column 6 to column 78)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 85, column 6 to column 49)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 83, column 23 to line 86, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 83, column 4 to line 86, column 5)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 79, column 17 to line 87, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 79, column 2 to line 87, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 91, column 4 to column 77)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 90, column 24 to line 92, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 90, column 2 to line 92, column 3)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 2, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 3, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 4, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 5, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 6, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 9, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 9, column 18, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 9, column 25, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 9, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 10, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 10, column 18, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 10, column 27, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 10, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 13, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 16, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 17, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 18, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 19, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 19, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 20, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 20, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 21, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 21, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 22, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 22, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 23, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 23, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 26, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 27, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 28, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 28, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 29, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 29, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 30, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 30, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 31, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 31, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 34, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 35, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 35, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 36, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 36, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 39, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 39, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 39, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 40, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 40, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 40, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 41, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 41, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 41, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 44, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 44, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 44, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 45, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 45, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 45, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 46, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 46, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 46, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 47, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 47, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 47, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 48, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 48, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 48, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 51, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 52, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 53, column 22, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 53, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 54, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 55, column 22, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 55, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2 to column 12)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 5, column 2 to column 12)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 8, column 8 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 9, column 9 to column 10)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 10, column 8 to column 13)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 10, column 15 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 10, column 29 to column 30)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 11, column 8 to column 9)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 11, column 18 to column 19)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 11, column 21 to column 22)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 12, column 18 to column 19)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 13, column 29 to column 30)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 133, column 11 to column 16)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 133, column 4 to line 134, column 75)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 135, column 4 to column 100)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 124, column 26 to line 136, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 124, column 2 to line 136, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 65, column 9 to column 17)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 65, column 2 to column 58)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 66, column 9 to column 17)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 66, column 2 to column 79)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 67, column 9 to column 17)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 67, column 2 to column 82)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 68, column 9 to column 17)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 68, column 2 to column 42)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 70, column 2 to column 30)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 73, column 2 to column 37)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 76, column 2 to column 30)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 77, column 2 to column 39)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 80, column 2 to column 31)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 81, column 2 to column 34)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 85, column 4 to column 60)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 88, column 6 to column 78)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 89, column 6 to column 49)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 87, column 23 to line 90, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 87, column 4 to line 90, column 5)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 83, column 17 to line 91, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 83, column 2 to line 91, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 95, column 4 to column 77)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 94, column 24 to line 96, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 94, column 2 to line 96, column 3)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 2, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 3, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 4, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 5, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 6, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 9, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 9, column 18, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 9, column 25, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 9, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 10, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 10, column 18, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 10, column 27, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 10, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 13, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 16, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 17, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 18, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 19, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 19, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 20, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 20, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 21, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 21, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 22, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 22, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 23, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 23, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 26, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 27, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 28, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 28, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 29, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 29, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 30, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 30, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 31, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 31, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 34, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 35, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 35, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 36, column 8, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 36, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 39, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 39, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 39, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 40, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 40, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 40, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 41, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 41, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 41, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 44, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 44, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 44, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 45, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 45, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 45, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 46, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 46, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 46, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 47, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 47, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 47, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 48, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 48, column 12, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 48, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 51, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 52, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 53, column 22, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 53, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 54, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 55, column 22, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../burns_data.stan', line 55, column 2, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 6, column 0)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 8, column 2 to column 12)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 9, column 2 to column 12)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 12, column 8 to column 16)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 13, column 9 to column 10)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 14, column 8 to column 13)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 14, column 15 to column 16)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 14, column 29 to column 30)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 15, column 29 to column 30)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 16, column 32 to column 33)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 19, column 8 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 8 to column 9)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 18 to column 23)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 25 to column 26)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 21, column 8 to column 9)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 21, column 18 to column 25)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 21, column 27 to column 28)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 22, column 18 to column 19)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 23, column 18 to column 19)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 24, column 9 to column 10)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 15, column 8 to column 9)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 15, column 18 to column 19)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 15, column 21 to column 22)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 16, column 18 to column 19)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 17, column 29 to column 30)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 18, column 29 to column 30)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 19, column 29 to column 30)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 32 to column 33)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 23, column 8 to column 16)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 24, column 8 to column 9)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 24, column 18 to column 23)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 24, column 25 to column 26)",
  " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 25, column 8 to column 9)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 25, column 22 to column 23)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 26, column 8 to column 9)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 26, column 23 to column 24)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 28, column 18 to column 19)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 29, column 18 to column 23)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 29, column 25 to column 26)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 95, column 8 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 96, column 8 to column 18)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 97, column 8 to column 16)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 98, column 8 to column 18)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 100, column 8 to column 9)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 100, column 18 to column 23)",
- " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 100, column 25 to column 26)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 2, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 3, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 4, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 5, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 7, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 6, column 23, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 6, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 10, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 11, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 1, column 83, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 15, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 16, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 17, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 18, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 21, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 14, column 57, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 3, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 14, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 13, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 11, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 10, column 30, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 10, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 7, column 28, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 7, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 5, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 4, column 37, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 4, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 2, column 49, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 18, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 29, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 28, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 26, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 25, column 30, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 25, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 23, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 22, column 28, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 22, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 20, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 19, column 37, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 19, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 17, column 48, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 33, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 44, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 43, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 41, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 40, column 30, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 40, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 38, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 37, column 28, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 37, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 35, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 34, column 37, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 34, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 32, column 49, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 48, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 59, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 58, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 56, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 55, column 30, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 55, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 53, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 52, column 28, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 52, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 50, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 49, column 37, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 49, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 47, column 50, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 69, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 67, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 66, column 9, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 65, column 6, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 64, column 4, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 62, column 49, included from\n'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 0, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 6, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 7, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 14, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 13, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 9, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 8, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 8, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 5, column 58, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 18, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 19, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 24, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 23, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 21, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 20, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 20, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 17, column 57, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 28, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 29, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 34, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 33, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 31, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 30, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 30, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 27, column 58, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 38, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 39, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 44, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 43, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 41, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 40, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 40, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 37, column 59, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 50, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 51, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 52, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 49, column 75, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 57, column 11, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 57, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 58, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 59, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 61, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 62, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 60, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 60, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 64, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)",
- " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 56, column 94, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 1, column 0)"};
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 25, column 18 to column 25)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 25, column 27 to column 28)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 26, column 18 to column 19)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 27, column 18 to column 19)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 28, column 9 to column 10)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 29, column 8 to column 9)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 29, column 22 to column 23)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 30, column 8 to column 9)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 30, column 23 to column 24)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 32, column 18 to column 19)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 33, column 18 to column 23)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 33, column 25 to column 26)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 99, column 8 to column 16)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 100, column 8 to column 18)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 101, column 8 to column 16)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 102, column 8 to column 18)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 104, column 8 to column 9)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 104, column 18 to column 23)",
+ " (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 104, column 25 to column 26)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 3, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 14, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 13, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 11, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 10, column 30, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 10, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 8, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 7, column 28, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 7, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 5, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 4, column 37, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 4, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 2, column 49, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 18, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 29, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 28, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 26, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 25, column 30, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 25, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 23, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 22, column 28, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 22, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 20, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 19, column 37, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 19, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 17, column 48, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 33, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 44, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 43, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 41, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 40, column 30, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 40, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 38, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 37, column 28, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 37, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 35, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 34, column 37, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 34, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 32, column 49, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 48, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 59, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 58, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 56, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 55, column 30, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 55, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 53, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 52, column 28, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 52, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 50, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 49, column 37, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 49, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 47, column 50, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 69, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 67, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 66, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 65, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 64, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../gpd_fcns.stanfunctions', line 62, column 49, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 2, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 3, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 4, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 11, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 10, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 6, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 5, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 5, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 2, column 58, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 15, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 16, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 21, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 20, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 18, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 17, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 17, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 14, column 57, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 25, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 26, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 31, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 30, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 28, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 27, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 27, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 24, column 58, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 35, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 36, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 41, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 40, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 38, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 37, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 37, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 34, column 59, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 47, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 48, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 54, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 53, column 9, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 50, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 51, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 49, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 49, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 45, column 62, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 60, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 61, column 11, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 61, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 62, column 11, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 62, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 63, column 11, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 63, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 64, column 10, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 64, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 66, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 67, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 65, column 19, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 65, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 69, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 58, column 69, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 74, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 75, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 76, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 73, column 75, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 81, column 11, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 81, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 82, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 83, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 85, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 86, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 84, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 84, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 88, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan//g3_fcns.stanfunctions', line 80, column 94, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 3, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 2, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 3, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 4, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 5, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 7, column 6, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 6, column 23, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 6, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 10, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 11, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 1, column 83, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 15, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 16, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 17, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 18, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 21, column 4, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)",
+ " (in 'full-model/fire-sims/burns/g3/stan///../../twcrps_matnorm_fcns.stanfunctions', line 14, column 57, included from\n'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 4, column 2)"};
 
+struct egpd_rng_functor__ {
+  template <typename T1__, typename T2__, typename T3__, typename T4__,
+            typename RNG,
+            stan::require_all_t<stan::is_stan_scalar<T1__>,
+                                stan::is_stan_scalar<T2__>,
+                                stan::is_stan_scalar<T3__>,
+                                stan::is_stan_scalar<T4__>>* = nullptr>
+  Eigen::Matrix<stan::promote_args_t<T1__, T2__, T3__, T4__>, -1, 1>
+  operator()(const int& n, const T1__& ymin, const T2__& sigma, const T3__& xi,
+             const T4__& delta, RNG& base_rng__, std::ostream* pstream__) const;
+};
+struct egpd_icdf_functor__ {
+  template <typename T0__, typename T1__, typename T2__, typename T3__,
+            stan::require_all_t<stan::is_stan_scalar<T0__>,
+                                stan::is_stan_scalar<T1__>,
+                                stan::is_stan_scalar<T2__>,
+                                stan::is_stan_scalar<T3__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__, T3__>
+  operator()(const T0__& u_adj, const T1__& sigma, const T2__& xi,
+             const T3__& delta, std::ostream* pstream__) const;
+};
 struct prob_forecast_functor__ {
   template <typename T1__, typename T2__, typename T3__, typename T4__,
             typename T5__,
@@ -471,10 +516,597 @@ struct gpareto_icdf_functor__ {
                                 stan::is_stan_scalar<T1__>,
                                 stan::is_stan_scalar<T2__>>* = nullptr>
   stan::promote_args_t<T0__, T1__, T2__>
-  operator()(const T0__& u, const T1__& sigma, const T2__& xi,
+  operator()(const T0__& p, const T1__& sigma, const T2__& xi,
              std::ostream* pstream__) const;
 };
 
+template <bool propto__, typename T0__, typename T1__, typename T2__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__>
+  gpareto_lpdf(const T0__& y, const T1__& sigma, const T2__& xi,
+               std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
+    int current_statement__ = 0; 
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ inv_xi = DUMMY_VAR__;
+      current_statement__ = 205;
+      inv_xi = stan::math::inv(xi);
+      current_statement__ = 216;
+      if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
+          stan::math::primitive_value(
+          stan::math::logical_gt((y / sigma), -inv_xi)))) {
+        current_statement__ = 214;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
+        stan::math::stan_print(&errmsg_stream__, -inv_xi);
+        stan::math::stan_print(&errmsg_stream__, " , y/sigma = ");
+        stan::math::stan_print(&errmsg_stream__, (y / sigma));
+        throw std::domain_error(errmsg_stream__.str());
+      } else {
+        current_statement__ = 213;
+        if (stan::math::logical_lt(sigma, 1e-15)) {
+          current_statement__ = 211;
+          std::stringstream errmsg_stream__;
+          stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
+          stan::math::stan_print(&errmsg_stream__, sigma);
+          throw std::domain_error(errmsg_stream__.str());
+        } else {
+          current_statement__ = 210;
+          if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
+            current_statement__ = 208;
+            return ((-(1 + inv_xi) * stan::math::log1p((xi * (y / sigma)))) -
+                     stan::math::log(sigma));
+          } else {
+            current_statement__ = 206;
+            return (-stan::math::log(sigma) - (y / sigma));
+          }
+        }
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T1__, typename T2__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__>
+  gpareto_cdf(const T0__& y, const T1__& sigma, const T2__& xi,
+              std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ inv_xi = DUMMY_VAR__;
+      current_statement__ = 218;
+      inv_xi = stan::math::inv(xi);
+      current_statement__ = 229;
+      if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
+          stan::math::primitive_value(
+          stan::math::logical_gt((y / sigma), -inv_xi)))) {
+        current_statement__ = 227;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
+        stan::math::stan_print(&errmsg_stream__, -inv_xi);
+        stan::math::stan_print(&errmsg_stream__, " , y/sigma = ");
+        stan::math::stan_print(&errmsg_stream__, (y / sigma));
+        throw std::domain_error(errmsg_stream__.str());
+      } else {
+        current_statement__ = 226;
+        if (stan::math::logical_lt(sigma, 1e-15)) {
+          current_statement__ = 224;
+          std::stringstream errmsg_stream__;
+          stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
+          stan::math::stan_print(&errmsg_stream__, sigma);
+          throw std::domain_error(errmsg_stream__.str());
+        } else {
+          current_statement__ = 223;
+          if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
+            current_statement__ = 221;
+            return stan::math::exp(
+                     stan::math::log1m_exp(
+                       (-inv_xi * stan::math::log1p((xi * (y / sigma))))));
+          } else {
+            current_statement__ = 219;
+            return stan::math::exp(stan::math::log1m_exp((-y / sigma)));
+          }
+        }
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T1__, typename T2__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__>
+  gpareto_lcdf(const T0__& y, const T1__& sigma, const T2__& xi,
+               std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ inv_xi = DUMMY_VAR__;
+      current_statement__ = 231;
+      inv_xi = stan::math::inv(xi);
+      current_statement__ = 242;
+      if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
+          stan::math::primitive_value(
+          stan::math::logical_gt((y / sigma), -inv_xi)))) {
+        current_statement__ = 240;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
+        stan::math::stan_print(&errmsg_stream__, -inv_xi);
+        stan::math::stan_print(&errmsg_stream__, " , y/sigma = ");
+        stan::math::stan_print(&errmsg_stream__, (y / sigma));
+        throw std::domain_error(errmsg_stream__.str());
+      } else {
+        current_statement__ = 239;
+        if (stan::math::logical_lt(sigma, 1e-15)) {
+          current_statement__ = 237;
+          std::stringstream errmsg_stream__;
+          stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
+          stan::math::stan_print(&errmsg_stream__, sigma);
+          throw std::domain_error(errmsg_stream__.str());
+        } else {
+          current_statement__ = 236;
+          if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
+            current_statement__ = 234;
+            return stan::math::log1m_exp(
+                     (-inv_xi * stan::math::log1p((xi * (y / sigma)))));
+          } else {
+            current_statement__ = 232;
+            return stan::math::log1m_exp((-y / sigma));
+          }
+        }
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T1__, typename T2__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__>
+  gpareto_lccdf(const T0__& y, const T1__& sigma, const T2__& xi,
+                std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ inv_xi = DUMMY_VAR__;
+      current_statement__ = 244;
+      inv_xi = stan::math::inv(xi);
+      current_statement__ = 255;
+      if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
+          stan::math::primitive_value(
+          stan::math::logical_gt((y / sigma), -inv_xi)))) {
+        current_statement__ = 253;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
+        stan::math::stan_print(&errmsg_stream__, -inv_xi);
+        stan::math::stan_print(&errmsg_stream__, " , y/sigma = ");
+        stan::math::stan_print(&errmsg_stream__, (y / sigma));
+        throw std::domain_error(errmsg_stream__.str());
+      } else {
+        current_statement__ = 252;
+        if (stan::math::logical_lt(sigma, 1e-15)) {
+          current_statement__ = 250;
+          std::stringstream errmsg_stream__;
+          stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
+          stan::math::stan_print(&errmsg_stream__, sigma);
+          throw std::domain_error(errmsg_stream__.str());
+        } else {
+          current_statement__ = 249;
+          if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
+            current_statement__ = 247;
+            return (-inv_xi * stan::math::log1p((xi * (y / sigma))));
+          } else {
+            current_statement__ = 245;
+            return (-y / sigma);
+          }
+        }
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T1__, typename T2__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__>
+  gpareto_icdf(const T0__& p, const T1__& sigma, const T2__& xi,
+               std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      current_statement__ = 261;
+      if (stan::math::logical_lt(sigma, 1e-15)) {
+        current_statement__ = 260;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma =");
+        stan::math::stan_print(&errmsg_stream__, sigma);
+        throw std::domain_error(errmsg_stream__.str());
+      } else {
+        current_statement__ = 259;
+        if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
+          current_statement__ = 258;
+          return stan::math::exp(
+                   ((stan::math::log(
+                       (stan::math::exp((-xi * stan::math::log1m(p))) - 1)) +
+                      stan::math::log(sigma)) - stan::math::log(xi)));
+        } else {
+          current_statement__ = 257;
+          return (-sigma * stan::math::log1m(p));
+        }
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <bool propto__, typename T0__, typename T1__, typename T2__,
+          typename T3__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__, T3__>
+  egpd_lpdf(const T0__& y, const T1__& sigma, const T2__& xi,
+            const T3__& delta, std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
+    int current_statement__ = 0; 
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ alpha = DUMMY_VAR__;
+      current_statement__ = 263;
+      alpha = (1 / delta);
+      local_scalar_t__ beta = DUMMY_VAR__;
+      current_statement__ = 264;
+      beta = 2;
+      current_statement__ = 269;
+      if (stan::math::logical_gt(delta, 1e-15)) {
+        current_statement__ = 267;
+        return (((stan::math::log(delta) +
+                   ((delta - 1) * gpareto_lccdf(y, sigma, xi, pstream__))) +
+                  gpareto_lpdf<false>(y, sigma, xi, pstream__)) +
+                 stan::math::beta_lpdf<false>(
+                   stan::math::exp(
+                     (delta * gpareto_lccdf(y, sigma, xi, pstream__))),
+                   alpha, beta));
+      } else {
+        current_statement__ = 265;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
+        stan::math::stan_print(&errmsg_stream__, delta);
+        throw std::domain_error(errmsg_stream__.str());
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T1__, typename T2__, typename T3__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__, T3__>
+  egpd_cdf(const T0__& y, const T1__& sigma, const T2__& xi,
+           const T3__& delta, std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ alpha = DUMMY_VAR__;
+      current_statement__ = 271;
+      alpha = (1 / delta);
+      local_scalar_t__ beta = DUMMY_VAR__;
+      current_statement__ = 272;
+      beta = 2;
+      current_statement__ = 277;
+      if (stan::math::logical_gt(delta, 1e-15)) {
+        current_statement__ = 275;
+        return stan::math::exp(
+                 stan::math::beta_lccdf(
+                   stan::math::exp(
+                     (delta * gpareto_lccdf(y, sigma, xi, pstream__))),
+                   alpha, beta));
+      } else {
+        current_statement__ = 273;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
+        stan::math::stan_print(&errmsg_stream__, delta);
+        throw std::domain_error(errmsg_stream__.str());
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T1__, typename T2__, typename T3__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__, T3__>
+  egpd_lcdf(const T0__& y, const T1__& sigma, const T2__& xi,
+            const T3__& delta, std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ alpha = DUMMY_VAR__;
+      current_statement__ = 279;
+      alpha = (1 / delta);
+      local_scalar_t__ beta = DUMMY_VAR__;
+      current_statement__ = 280;
+      beta = 2;
+      current_statement__ = 285;
+      if (stan::math::logical_gt(delta, 1e-15)) {
+        current_statement__ = 283;
+        return stan::math::beta_lccdf(
+                 stan::math::exp(
+                   (delta * gpareto_lccdf(y, sigma, xi, pstream__))), alpha,
+                 beta);
+      } else {
+        current_statement__ = 281;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
+        stan::math::stan_print(&errmsg_stream__, delta);
+        throw std::domain_error(errmsg_stream__.str());
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T1__, typename T2__, typename T3__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__, T3__>
+  egpd_lccdf(const T0__& y, const T1__& sigma, const T2__& xi,
+             const T3__& delta, std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ alpha = DUMMY_VAR__;
+      current_statement__ = 287;
+      alpha = (1 / delta);
+      local_scalar_t__ beta = DUMMY_VAR__;
+      current_statement__ = 288;
+      beta = 2;
+      current_statement__ = 293;
+      if (stan::math::logical_gt(delta, 1e-15)) {
+        current_statement__ = 291;
+        return stan::math::beta_lcdf(
+                 stan::math::exp(
+                   (delta * gpareto_lccdf(y, sigma, xi, pstream__))), alpha,
+                 beta);
+      } else {
+        current_statement__ = 289;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
+        stan::math::stan_print(&errmsg_stream__, delta);
+        throw std::domain_error(errmsg_stream__.str());
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T0__, typename T1__, typename T2__, typename T3__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__, T3__>
+  egpd_icdf(const T0__& u_adj, const T1__& sigma, const T2__& xi,
+            const T3__& delta, std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ alpha = DUMMY_VAR__;
+      current_statement__ = 295;
+      alpha = (1 / delta);
+      local_scalar_t__ beta = DUMMY_VAR__;
+      current_statement__ = 296;
+      beta = 2;
+      current_statement__ = 302;
+      if (stan::math::logical_gt(delta, 1e-15)) {
+        local_scalar_t__ p = DUMMY_VAR__;
+        current_statement__ = 299;
+        p = stan::math::exp(
+              stan::math::log1m(
+                stan::math::pow(stan::math::inv_inc_beta(alpha, beta, u_adj),
+                  delta)));
+        current_statement__ = 300;
+        return gpareto_icdf(p, sigma, xi, pstream__);
+      } else {
+        current_statement__ = 297;
+        std::stringstream errmsg_stream__;
+        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
+        stan::math::stan_print(&errmsg_stream__, delta);
+        throw std::domain_error(errmsg_stream__.str());
+      }
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T1__, typename T2__, typename T3__, typename T4__,
+          typename RNG,
+          stan::require_all_t<stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>,
+                              stan::is_stan_scalar<T4__>>* = nullptr>
+  Eigen::Matrix<stan::promote_args_t<T1__, T2__, T3__, T4__>, -1, 1>
+  egpd_rng(const int& n, const T1__& ymin, const T2__& sigma, const T3__& xi,
+           const T4__& delta, RNG& base_rng__, std::ostream* pstream__) {
+    using local_scalar_t__ = stan::promote_args_t<T1__, T2__, T3__, T4__>;
+    int current_statement__ = 0; 
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ cst = DUMMY_VAR__;
+      current_statement__ = 304;
+      cst = stan::math::exp(egpd_lccdf(ymin, sigma, xi, delta, pstream__));
+      current_statement__ = 305;
+      stan::math::validate_non_negative_index("rng_val", "n", n);
+      Eigen::Matrix<local_scalar_t__, -1, 1> rng_val =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
+      current_statement__ = 307;
+      stan::math::validate_non_negative_index("a", "n", n);
+      Eigen::Matrix<local_scalar_t__, -1, 1> a =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
+      current_statement__ = 308;
+      stan::model::assign(a, stan::math::rep_vector(0, n),
+        "assigning variable a");
+      current_statement__ = 309;
+      stan::math::validate_non_negative_index("b", "n", n);
+      Eigen::Matrix<local_scalar_t__, -1, 1> b =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
+      current_statement__ = 310;
+      stan::model::assign(b, stan::math::rep_vector(1, n),
+        "assigning variable b");
+      current_statement__ = 311;
+      stan::math::validate_non_negative_index("u", "n", n);
+      std::vector<local_scalar_t__> u =
+         std::vector<local_scalar_t__>(n, DUMMY_VAR__);
+      current_statement__ = 312;
+      stan::model::assign(u, stan::math::uniform_rng(a, b, base_rng__),
+        "assigning variable u");
+      current_statement__ = 316;
+      for (int i = 1; i <= n; ++i) {
+        local_scalar_t__ u_adj = DUMMY_VAR__;
+        current_statement__ = 313;
+        u_adj = (cst *
+                  (1 -
+                    stan::model::rvalue(u, "u", stan::model::index_uni(i))));
+        current_statement__ = 314;
+        stan::model::assign(rng_val,
+          egpd_icdf(u_adj, sigma, xi, delta, pstream__),
+          "assigning variable rng_val", stan::model::index_uni(i));
+      }
+      current_statement__ = 317;
+      return rng_val;
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <bool propto__, typename T0__, typename T1__, typename T2__,
+          typename T3__, typename T4__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>,
+                              stan::is_stan_scalar<T4__>>* = nullptr>
+  stan::promote_args_t<T0__, T1__, T2__, T3__, T4__>
+  egpd_trunc_lpdf(const T0__& y, const T1__& ymin, const T2__& sigma,
+                  const T3__& xi, const T4__& delta, std::ostream* pstream__) {
+    using local_scalar_t__ =
+            stan::promote_args_t<T0__, T1__, T2__, T3__, T4__>;
+    int current_statement__ = 0; 
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      local_scalar_t__ lpdf = DUMMY_VAR__;
+      current_statement__ = 319;
+      lpdf = egpd_lpdf<false>(y, sigma, xi, delta, pstream__);
+      local_scalar_t__ cst = DUMMY_VAR__;
+      current_statement__ = 320;
+      cst = egpd_lccdf(ymin, sigma, xi, delta, pstream__);
+      current_statement__ = 321;
+      return (lpdf - cst);
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
+template <typename T1__, typename T2__, typename T3__, typename T4__,
+          typename T5__,
+          stan::require_all_t<stan::is_col_vector<T1__>,
+                              stan::is_vt_not_complex<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>,
+                              stan::is_stan_scalar<T4__>,
+                              stan::is_stan_scalar<T5__>>* = nullptr>
+  Eigen::Matrix<stan::promote_args_t<stan::base_type_t<T1__>, T2__, T3__, T4__, T5__>, -1, 1>
+  prob_forecast(const int& n_int, const T1__& int_pts_arg__,
+                const T2__& ymin, const T3__& sigma, const T4__& xi,
+                const T5__& delta, std::ostream* pstream__) {
+    using local_scalar_t__ =
+            stan::promote_args_t<stan::base_type_t<T1__>, T2__, T3__, T4__,
+                                 T5__>;
+    int current_statement__ = 0; 
+    const auto& int_pts = stan::math::to_ref(int_pts_arg__);
+    static constexpr bool propto__ = true;
+    (void) propto__;
+    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+    (void) DUMMY_VAR__;  // suppress unused var warning
+    try {
+      current_statement__ = 323;
+      stan::math::validate_non_negative_index("pred_probs", "n_int", n_int);
+      Eigen::Matrix<local_scalar_t__, -1, 1> pred_probs =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n_int, DUMMY_VAR__);
+      local_scalar_t__ numer_cst = DUMMY_VAR__;
+      current_statement__ = 325;
+      numer_cst = egpd_cdf(ymin, sigma, xi, delta, pstream__);
+      local_scalar_t__ denom_cst = DUMMY_VAR__;
+      current_statement__ = 326;
+      denom_cst = stan::math::exp(
+                    egpd_lccdf(ymin, sigma, xi, delta, pstream__));
+      current_statement__ = 330;
+      for (int n = 1; n <= n_int; ++n) {
+        local_scalar_t__ unnorm_pred_prob = DUMMY_VAR__;
+        current_statement__ = 327;
+        unnorm_pred_prob = egpd_cdf(
+                             stan::model::rvalue(int_pts, "int_pts",
+                               stan::model::index_uni(n)), sigma, xi,
+                             delta, pstream__);
+        current_statement__ = 328;
+        stan::model::assign(pred_probs,
+          ((unnorm_pred_prob - numer_cst) / denom_cst),
+          "assigning variable pred_probs", stan::model::index_uni(n));
+      }
+      current_statement__ = 331;
+      return pred_probs;
+    } catch (const std::exception& e) {
+      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
+    }
+    }
 template <typename T0__, typename T2__, typename T3__, typename T4__,
           stan::require_all_t<stan::is_stan_scalar<T0__>,
                               stan::is_stan_scalar<T2__>,
@@ -501,13 +1133,13 @@ template <typename T0__, typename T2__, typename T3__, typename T4__,
       local_scalar_t__ score = DUMMY_VAR__;
       local_scalar_t__ summand = DUMMY_VAR__;
       local_scalar_t__ delta = DUMMY_VAR__;
-      current_statement__ = 207;
+      current_statement__ = 335;
       delta = (interval / (n_int - 1));
-      current_statement__ = 208;
+      current_statement__ = 336;
       summand = 0;
-      current_statement__ = 211;
+      current_statement__ = 339;
       for (int n = 1; n <= n_int; ++n) {
-        current_statement__ = 209;
+        current_statement__ = 337;
         summand = (summand +
                     (stan::math::pow(
                        (stan::model::rvalue(pred_probs, "pred_probs",
@@ -519,9 +1151,9 @@ template <typename T0__, typename T2__, typename T3__, typename T4__,
                         stan::model::rvalue(int_pts, "int_pts",
                           stan::model::index_uni(n)), 21, 9)));
       }
-      current_statement__ = 212;
+      current_statement__ = 340;
       score = (summand * delta);
-      current_statement__ = 213;
+      current_statement__ = 341;
       return score;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -551,12 +1183,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
       local_scalar_t__ r = DUMMY_VAR__;
-      current_statement__ = 216;
+      current_statement__ = 344;
       r = stan::math::rows(corr);
       local_scalar_t__ p = DUMMY_VAR__;
-      current_statement__ = 217;
+      current_statement__ = 345;
       p = stan::math::rows(cov);
-      current_statement__ = 218;
+      current_statement__ = 346;
       lpdf = ((((-((r * p) / 2) * stan::math::log((2 * stan::math::pi()))) -
                  ((p / 2) * stan::math::log_determinant(corr))) -
                 ((r / 2) * stan::math::log_determinant(cov))) -
@@ -566,492 +1198,40 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
                      stan::math::mdivide_right_spd(
                        stan::math::mdivide_left_spd(corr,
                          stan::math::transpose(y)), cov), y))));
-      current_statement__ = 219;
+      current_statement__ = 347;
       return lpdf;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
     }
-template <bool propto__, typename T0__, typename T1__, typename T2__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__>
-  gpareto_lpdf(const T0__& y, const T1__& sigma, const T2__& xi,
-               std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
-    int current_statement__ = 0; 
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ inv_xi = DUMMY_VAR__;
-      current_statement__ = 221;
-      inv_xi = stan::math::inv(xi);
-      current_statement__ = 232;
-      if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
-          stan::math::primitive_value(
-          stan::math::logical_gt((y / sigma), -inv_xi)))) {
-        current_statement__ = 230;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found xi = ");
-        stan::math::stan_print(&errmsg_stream__, xi);
-        stan::math::stan_print(&errmsg_stream__, " sigma = ");
-        stan::math::stan_print(&errmsg_stream__, sigma);
-        throw std::domain_error(errmsg_stream__.str());
-      } else {
-        current_statement__ = 229;
-        if (stan::math::logical_lt(sigma, 1e-15)) {
-          current_statement__ = 227;
-          std::stringstream errmsg_stream__;
-          stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
-          stan::math::stan_print(&errmsg_stream__, sigma);
-          throw std::domain_error(errmsg_stream__.str());
-        } else {
-          current_statement__ = 226;
-          if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-            current_statement__ = 224;
-            return ((-(1 + inv_xi) * stan::math::log1p((y * (xi / sigma)))) -
-                     stan::math::log(sigma));
-          } else {
-            current_statement__ = 222;
-            return (-stan::math::log(sigma) - (y / sigma));
-          }
-        }
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <typename T0__, typename T1__, typename T2__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__>
-  gpareto_cdf(const T0__& y, const T1__& sigma, const T2__& xi,
-              std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
-    int current_statement__ = 0; 
-    static constexpr bool propto__ = true;
-    (void) propto__;
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ inv_xi = DUMMY_VAR__;
-      current_statement__ = 234;
-      inv_xi = stan::math::inv(xi);
-      current_statement__ = 245;
-      if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
-          stan::math::primitive_value(
-          stan::math::logical_gt((y / sigma), -inv_xi)))) {
-        current_statement__ = 243;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found xi = ");
-        stan::math::stan_print(&errmsg_stream__, xi);
-        stan::math::stan_print(&errmsg_stream__, " sigma = ");
-        stan::math::stan_print(&errmsg_stream__, sigma);
-        throw std::domain_error(errmsg_stream__.str());
-      } else {
-        current_statement__ = 242;
-        if (stan::math::logical_lt(sigma, 1e-15)) {
-          current_statement__ = 240;
-          std::stringstream errmsg_stream__;
-          stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
-          stan::math::stan_print(&errmsg_stream__, sigma);
-          throw std::domain_error(errmsg_stream__.str());
-        } else {
-          current_statement__ = 239;
-          if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-            current_statement__ = 237;
-            return stan::math::exp(
-                     stan::math::log1m_exp(
-                       (-inv_xi * stan::math::log1p((y * (xi / sigma))))));
-          } else {
-            current_statement__ = 235;
-            return stan::math::exp(stan::math::log1m_exp((-y / sigma)));
-          }
-        }
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <typename T0__, typename T1__, typename T2__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__>
-  gpareto_lcdf(const T0__& y, const T1__& sigma, const T2__& xi,
-               std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
-    int current_statement__ = 0; 
-    static constexpr bool propto__ = true;
-    (void) propto__;
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ inv_xi = DUMMY_VAR__;
-      current_statement__ = 247;
-      inv_xi = stan::math::inv(xi);
-      current_statement__ = 258;
-      if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
-          stan::math::primitive_value(
-          stan::math::logical_gt((y / sigma), -inv_xi)))) {
-        current_statement__ = 256;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found xi = ");
-        stan::math::stan_print(&errmsg_stream__, xi);
-        stan::math::stan_print(&errmsg_stream__, " sigma = ");
-        stan::math::stan_print(&errmsg_stream__, sigma);
-        throw std::domain_error(errmsg_stream__.str());
-      } else {
-        current_statement__ = 255;
-        if (stan::math::logical_lt(sigma, 1e-15)) {
-          current_statement__ = 253;
-          std::stringstream errmsg_stream__;
-          stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
-          stan::math::stan_print(&errmsg_stream__, sigma);
-          throw std::domain_error(errmsg_stream__.str());
-        } else {
-          current_statement__ = 252;
-          if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-            current_statement__ = 250;
-            return stan::math::log1m_exp(
-                     (-inv_xi * stan::math::log1p((y * (xi / sigma)))));
-          } else {
-            current_statement__ = 248;
-            return stan::math::log1m_exp((-y / sigma));
-          }
-        }
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <typename T0__, typename T1__, typename T2__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__>
-  gpareto_lccdf(const T0__& y, const T1__& sigma, const T2__& xi,
-                std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
-    int current_statement__ = 0; 
-    static constexpr bool propto__ = true;
-    (void) propto__;
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ inv_xi = DUMMY_VAR__;
-      current_statement__ = 260;
-      inv_xi = stan::math::inv(xi);
-      current_statement__ = 271;
-      if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
-          stan::math::primitive_value(
-          stan::math::logical_gt((y / sigma), -inv_xi)))) {
-        current_statement__ = 269;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found xi = ");
-        stan::math::stan_print(&errmsg_stream__, xi);
-        stan::math::stan_print(&errmsg_stream__, " sigma = ");
-        stan::math::stan_print(&errmsg_stream__, sigma);
-        throw std::domain_error(errmsg_stream__.str());
-      } else {
-        current_statement__ = 268;
-        if (stan::math::logical_lt(sigma, 1e-15)) {
-          current_statement__ = 266;
-          std::stringstream errmsg_stream__;
-          stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
-          stan::math::stan_print(&errmsg_stream__, sigma);
-          throw std::domain_error(errmsg_stream__.str());
-        } else {
-          current_statement__ = 265;
-          if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-            current_statement__ = 263;
-            return (-inv_xi * stan::math::log1p((y * (xi / sigma))));
-          } else {
-            current_statement__ = 261;
-            return (-y / sigma);
-          }
-        }
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <typename T0__, typename T1__, typename T2__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__>
-  gpareto_icdf(const T0__& u, const T1__& sigma, const T2__& xi,
-               std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__>;
-    int current_statement__ = 0; 
-    static constexpr bool propto__ = true;
-    (void) propto__;
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      current_statement__ = 277;
-      if (stan::math::logical_lt(sigma, 1e-15)) {
-        current_statement__ = 276;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma =");
-        stan::math::stan_print(&errmsg_stream__, sigma);
-        throw std::domain_error(errmsg_stream__.str());
-      } else {
-        current_statement__ = 275;
-        if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-          current_statement__ = 274;
-          return ((sigma / xi) * (stan::math::pow((1 - u), -xi) - 1));
-        } else {
-          current_statement__ = 273;
-          return (-sigma * stan::math::log1m(u));
-        }
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <bool propto__, typename T0__, typename T1__, typename T2__,
-          typename T3__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>,
-                              stan::is_stan_scalar<T3__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__, T3__>
-  egpd_lpdf(const T0__& y, const T1__& sigma, const T2__& xi,
-            const T3__& delta, std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
-    int current_statement__ = 0; 
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 279;
-      alpha = (1 / delta);
-      local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 280;
-      beta = 2;
-      current_statement__ = 285;
-      if (stan::math::logical_gt(delta, 1e-15)) {
-        current_statement__ = 283;
-        return (((stan::math::log(delta) +
-                   ((delta - 1) * gpareto_lccdf(y, sigma, xi, pstream__))) +
-                  gpareto_lpdf<false>(y, sigma, xi, pstream__)) +
-                 stan::math::beta_lpdf<false>(
-                   stan::math::exp(
-                     (delta * gpareto_lccdf(y, sigma, xi, pstream__))),
-                   alpha, beta));
-      } else {
-        current_statement__ = 281;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
-        stan::math::stan_print(&errmsg_stream__, delta);
-        throw std::domain_error(errmsg_stream__.str());
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <typename T0__, typename T1__, typename T2__, typename T3__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>,
-                              stan::is_stan_scalar<T3__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__, T3__>
-  egpd_cdf(const T0__& y, const T1__& sigma, const T2__& xi,
-           const T3__& delta, std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
-    int current_statement__ = 0; 
-    static constexpr bool propto__ = true;
-    (void) propto__;
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 287;
-      alpha = (1 / delta);
-      local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 288;
-      beta = 2;
-      current_statement__ = 293;
-      if (stan::math::logical_gt(delta, 1e-15)) {
-        current_statement__ = 291;
-        return stan::math::exp(
-                 stan::math::beta_lccdf(
-                   stan::math::exp(
-                     (delta * gpareto_lccdf(y, sigma, xi, pstream__))),
-                   alpha, beta));
-      } else {
-        current_statement__ = 289;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
-        stan::math::stan_print(&errmsg_stream__, delta);
-        throw std::domain_error(errmsg_stream__.str());
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <typename T0__, typename T1__, typename T2__, typename T3__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>,
-                              stan::is_stan_scalar<T3__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__, T3__>
-  egpd_lcdf(const T0__& y, const T1__& sigma, const T2__& xi,
-            const T3__& delta, std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
-    int current_statement__ = 0; 
-    static constexpr bool propto__ = true;
-    (void) propto__;
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 295;
-      alpha = (1 / delta);
-      local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 296;
-      beta = 2;
-      current_statement__ = 301;
-      if (stan::math::logical_gt(delta, 1e-15)) {
-        current_statement__ = 299;
-        return stan::math::beta_lccdf(
-                 stan::math::exp(
-                   (delta * gpareto_lccdf(y, sigma, xi, pstream__))), alpha,
-                 beta);
-      } else {
-        current_statement__ = 297;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
-        stan::math::stan_print(&errmsg_stream__, delta);
-        throw std::domain_error(errmsg_stream__.str());
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <typename T0__, typename T1__, typename T2__, typename T3__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>,
-                              stan::is_stan_scalar<T3__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__, T3__>
-  egpd_lccdf(const T0__& y, const T1__& sigma, const T2__& xi,
-             const T3__& delta, std::ostream* pstream__) {
-    using local_scalar_t__ = stan::promote_args_t<T0__, T1__, T2__, T3__>;
-    int current_statement__ = 0; 
-    static constexpr bool propto__ = true;
-    (void) propto__;
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ alpha = DUMMY_VAR__;
-      current_statement__ = 303;
-      alpha = (1 / delta);
-      local_scalar_t__ beta = DUMMY_VAR__;
-      current_statement__ = 304;
-      beta = 2;
-      current_statement__ = 309;
-      if (stan::math::logical_gt(delta, 1e-15)) {
-        current_statement__ = 307;
-        return stan::math::beta_lcdf(
-                 stan::math::exp(
-                   (delta * gpareto_lccdf(y, sigma, xi, pstream__))), alpha,
-                 beta);
-      } else {
-        current_statement__ = 305;
-        std::stringstream errmsg_stream__;
-        stan::math::stan_print(&errmsg_stream__, "delta<=0; found delta = ");
-        stan::math::stan_print(&errmsg_stream__, delta);
-        throw std::domain_error(errmsg_stream__.str());
-      }
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
-template <bool propto__, typename T0__, typename T1__, typename T2__,
-          typename T3__, typename T4__,
-          stan::require_all_t<stan::is_stan_scalar<T0__>,
-                              stan::is_stan_scalar<T1__>,
-                              stan::is_stan_scalar<T2__>,
-                              stan::is_stan_scalar<T3__>,
-                              stan::is_stan_scalar<T4__>>* = nullptr>
-  stan::promote_args_t<T0__, T1__, T2__, T3__, T4__>
-  egpd_trunc_lpdf(const T0__& y, const T1__& ymin, const T2__& sigma,
-                  const T3__& xi, const T4__& delta, std::ostream* pstream__) {
-    using local_scalar_t__ =
-            stan::promote_args_t<T0__, T1__, T2__, T3__, T4__>;
-    int current_statement__ = 0; 
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      local_scalar_t__ lpdf = DUMMY_VAR__;
-      current_statement__ = 311;
-      lpdf = egpd_lpdf<false>(y, sigma, xi, delta, pstream__);
-      local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 312;
-      cst = egpd_lccdf(ymin, sigma, xi, delta, pstream__);
-      current_statement__ = 313;
-      return (lpdf - cst);
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
 template <typename T1__, typename T2__, typename T3__, typename T4__,
-          typename T5__,
-          stan::require_all_t<stan::is_col_vector<T1__>,
-                              stan::is_vt_not_complex<T1__>,
+          typename RNG,
+          stan::require_all_t<stan::is_stan_scalar<T1__>,
                               stan::is_stan_scalar<T2__>,
                               stan::is_stan_scalar<T3__>,
-                              stan::is_stan_scalar<T4__>,
-                              stan::is_stan_scalar<T5__>>* = nullptr>
-  Eigen::Matrix<stan::promote_args_t<stan::base_type_t<T1__>, T2__, T3__, T4__, T5__>, -1, 1>
-  prob_forecast(const int& n_int, const T1__& int_pts_arg__,
-                const T2__& ymin, const T3__& sigma, const T4__& xi,
-                const T5__& delta, std::ostream* pstream__) {
-    using local_scalar_t__ =
-            stan::promote_args_t<stan::base_type_t<T1__>, T2__, T3__, T4__,
-                                 T5__>;
-    int current_statement__ = 0; 
-    const auto& int_pts = stan::math::to_ref(int_pts_arg__);
-    static constexpr bool propto__ = true;
-    (void) propto__;
-    local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
-    (void) DUMMY_VAR__;  // suppress unused var warning
-    try {
-      current_statement__ = 315;
-      stan::math::validate_non_negative_index("pred_probs", "n_int", n_int);
-      Eigen::Matrix<local_scalar_t__, -1, 1> pred_probs =
-         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n_int, DUMMY_VAR__);
-      local_scalar_t__ numer_cst = DUMMY_VAR__;
-      current_statement__ = 317;
-      numer_cst = egpd_cdf(ymin, sigma, xi, delta, pstream__);
-      local_scalar_t__ denom_cst = DUMMY_VAR__;
-      current_statement__ = 318;
-      denom_cst = stan::math::exp(
-                    egpd_lccdf(ymin, sigma, xi, delta, pstream__));
-      current_statement__ = 322;
-      for (int n = 1; n <= n_int; ++n) {
-        local_scalar_t__ unnorm_pred_prob = DUMMY_VAR__;
-        current_statement__ = 319;
-        unnorm_pred_prob = egpd_cdf(
-                             stan::model::rvalue(int_pts, "int_pts",
-                               stan::model::index_uni(n)), sigma, xi,
-                             delta, pstream__);
-        current_statement__ = 320;
-        stan::model::assign(pred_probs,
-          ((unnorm_pred_prob - numer_cst) / denom_cst),
-          "assigning variable pred_probs", stan::model::index_uni(n));
-      }
-      current_statement__ = 323;
-      return pred_probs;
-    } catch (const std::exception& e) {
-      stan::lang::rethrow_located(e, locations_array__[current_statement__]);
-    }
-    }
+                              stan::is_stan_scalar<T4__>>*>
+Eigen::Matrix<stan::promote_args_t<T1__, T2__, T3__, T4__>, -1, 1>
+egpd_rng_functor__::operator()(const int& n, const T1__& ymin,
+                               const T2__& sigma, const T3__& xi,
+                               const T4__& delta, RNG& base_rng__,
+                               std::ostream* pstream__)  const
+{
+  return egpd_rng(n, ymin, sigma, xi, delta, base_rng__, pstream__);
+}
+
+template <typename T0__, typename T1__, typename T2__, typename T3__,
+          stan::require_all_t<stan::is_stan_scalar<T0__>,
+                              stan::is_stan_scalar<T1__>,
+                              stan::is_stan_scalar<T2__>,
+                              stan::is_stan_scalar<T3__>>*>
+stan::promote_args_t<T0__, T1__, T2__, T3__>
+egpd_icdf_functor__::operator()(const T0__& u_adj, const T1__& sigma,
+                                const T2__& xi, const T3__& delta,
+                                std::ostream* pstream__)  const
+{
+  return egpd_icdf(u_adj, sigma, xi, delta, pstream__);
+}
+
 template <typename T1__, typename T2__, typename T3__, typename T4__,
           typename T5__,
           stan::require_all_t<stan::is_col_vector<T1__>,
@@ -1224,11 +1404,11 @@ template <typename T0__, typename T1__, typename T2__,
                               stan::is_stan_scalar<T1__>,
                               stan::is_stan_scalar<T2__>>*>
 stan::promote_args_t<T0__, T1__, T2__>
-gpareto_icdf_functor__::operator()(const T0__& u, const T1__& sigma,
+gpareto_icdf_functor__::operator()(const T0__& p, const T1__& sigma,
                                    const T2__& xi, std::ostream* pstream__) 
 const
 {
-  return gpareto_icdf(u, sigma, xi, pstream__);
+  return gpareto_icdf(p, sigma, xi, pstream__);
 }
 
  class g3_xi_ri_nu_model final : public model_base_crtp<g3_xi_ri_nu_model> {
@@ -2920,11 +3100,15 @@ const
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)))),
-  "exp(to_vector(reg_full[1]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(reg_full[1]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(1)),
+      "reg_full[1]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(reg_full[1][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(reg_full[1][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                     "exp(to_vector(reg_full[1]))[ii_tb_all][ii_tb_obs]",
+                     "exp(to_vector(reg_full[1][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                      stan::model::index_uni(n));
         double xi_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 50;
@@ -2933,11 +3117,15 @@ const
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)))),
-  "exp(to_vector(ri_matrix[1]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(ri_matrix[1]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(1)),
+      "ri_matrix[1]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[1][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(ri_matrix[1][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                     "exp(to_vector(ri_matrix[1]))[ii_tb_all][ii_tb_obs]",
+                     "exp(to_vector(ri_matrix[1][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                      stan::model::index_uni(n));
         double delta_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 51;
@@ -2946,11 +3134,15 @@ const
   stan::model::rvalue(
   stan::math::exp(
   stan::math::to_vector(
-    stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)))),
-  "exp(to_vector(ri_matrix[2]))", stan::model::index_multi(ii_tb_all)),
-  "exp(to_vector(ri_matrix[2]))[ii_tb_all]",
+    stan::model::rvalue(
+      stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)),
+      "ri_matrix[2]",
+      stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
+  "exp(to_vector(ri_matrix[2][idx_train_er, :]))",
+  stan::model::index_multi(ii_tb_all)),
+  "exp(to_vector(ri_matrix[2][idx_train_er, :]))[ii_tb_all]",
   stan::model::index_multi(ii_tb_obs)),
-                        "exp(to_vector(ri_matrix[2]))[ii_tb_all][ii_tb_obs]",
+                        "exp(to_vector(ri_matrix[2][idx_train_er, :]))[ii_tb_all][ii_tb_obs]",
                         stan::model::index_uni(n));
         double sigma_train = std::numeric_limits<double>::quiet_NaN();
         current_statement__ = 52;
@@ -3039,14 +3231,14 @@ const
              std::numeric_limits<double>::quiet_NaN());
         current_statement__ = 65;
         stan::model::assign(pred_probs_hold,
-          prob_forecast(n_int, int_pts_train, y_min, sigma_hold, xi_hold,
+          prob_forecast(n_int, int_pts_holdout, y_min, sigma_hold, xi_hold,
             delta_hold, pstream__), "assigning variable pred_probs_hold");
         current_statement__ = 66;
         stan::model::assign(holdout_twcrps,
           twCRPS(
             stan::model::rvalue(y_hold_obs, "y_hold_obs",
-              stan::model::index_uni(n)), n_int, int_train, int_pts_train,
-            pred_probs_hold, pstream__),
+              stan::model::index_uni(n)), n_int, int_holdout,
+            int_pts_holdout, pred_probs_hold, pstream__),
           "assigning variable holdout_twcrps", stan::model::index_uni(n));
       }
       out__.write(train_loglik);

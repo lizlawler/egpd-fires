@@ -11,7 +11,7 @@ modname="g3"
 for params in "xi-ri_nu"
 do
 # compile model and link c++ 
-inc_path="full-model/fire-sims/${modtype}/stan/"
+inc_path="full-model/fire-sims/${modtype}/${modname}/stan/"
 object="full-model/fire-sims/${modtype}/${modname}/stan/${modname}_${params}"
 ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}

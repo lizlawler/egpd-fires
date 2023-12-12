@@ -7,7 +7,7 @@ trap '' HUP
 stanc_exe="/data/accounts/lawler/.conda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="burns"
 modname="g4"
-for params in "sigma-ri_xi-ri_nu"
+for params in "sigma-ri_xi-ri_nu" "sigma-ri_xi-ri"
 do
 # compile model and link c++ 
 inc_path="full-model/fire-sims/${modtype}/${modname}/stan/"
@@ -18,7 +18,7 @@ for dataset in "erc_fwi" "erc"
 do
 sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params dataset sttime
-nohup ./shell-scripts/miss-piggy/burn_sampling_mp.sh > full-model/output/${modname}_${params}_${dataset}_${sttime}.txt 2>&1 &
+nohup ./shell-scripts/miss-piggy/burn_sampling_mp.sh > full-model/output/${modname}_${params}_${dataset}_${sttime}_mp.txt 2>&1 &
 sleep 1
 done
 done

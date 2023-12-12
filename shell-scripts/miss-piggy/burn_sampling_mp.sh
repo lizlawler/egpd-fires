@@ -5,10 +5,10 @@ datafile="../../../data/stan_data_${dataset}.json"
 basedir="./full-model/fire-sims/${modtype}/${modname}/"
 cd ${basedir}
 model="stan/${modname}_${params}"
-outbase="csv-fits/${modname}_${params}_${dataset}_${sttime}"
+outbase="csv-fits/${modname}_${params}_${sttime}_${dataset}"
 
 # run model with 3 chains
-for i in {1..5}
+for i in {1..4}
   do
     ./${model} sample num_warmup=1000 num_samples=1000 \
                   data file=${datafile} \

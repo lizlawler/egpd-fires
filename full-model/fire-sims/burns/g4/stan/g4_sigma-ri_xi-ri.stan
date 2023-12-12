@@ -1,4 +1,8 @@
-#include g4_fcns.stanfunctions
+functions {
+  #include /../../gpd_fcns.stanfunctions
+  #include g4_fcns.stanfunctions
+  #include /../../twcrps_matnorm_fcns.stanfunctions
+}
 #include /../../burns_data.stan
 transformed data {
   int S = 1; // # of parameters with regression (ranges from 1 to 3)

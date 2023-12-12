@@ -1,0 +1,244 @@
+method = sample (Default)
+method = sample (Default)
+  sample
+  sample
+    num_samples = 1000 (Default)
+    num_samples = 1000 (Default)
+    num_warmup = 1000 (Default)
+    num_warmup = 1000 (Default)
+    save_warmup = 0 (Default)
+    save_warmup = 0 (Default)
+    thin = 1 (Default)
+    thin = 1 (Default)
+    adapt
+    adapt
+      engaged = 1 (Default)
+      engaged = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      gamma = 0.050000000000000003 (Default)
+      delta = 0.80000000000000004 (Default)
+      delta = 0.80000000000000004 (Default)
+      kappa = 0.75 (Default)
+      kappa = 0.75 (Default)
+      t0 = 10 (Default)
+      t0 = 10 (Default)
+      init_buffer = 75 (Default)
+      init_buffer = 75 (Default)
+      term_buffer = 50 (Default)
+      term_buffer = 50 (Default)
+      window = 25 (Default)
+      window = 25 (Default)
+    algorithm = hmc (Default)
+    algorithm = hmc (Default)
+      hmc
+      hmc
+        engine = nuts (Default)
+        engine = nuts (Default)
+          nuts
+          nuts
+            max_depth = 10 (Default)
+            max_depth = 10 (Default)
+        metric = diag_e (Default)
+        metric = diag_e (Default)
+        metric_file =  (Default)
+        stepsize = 1 (Default)
+        metric_file =  (Default)
+        stepsize_jitter = 0 (Default)
+        stepsize = 1 (Default)
+    num_chains = 1 (Default)
+        stepsize_jitter = 0 (Default)
+id = 1 (Default)
+    num_chains = 1 (Default)
+data
+id = 1 (Default)
+  file = ../../../data/stan_data_erc.json
+data
+init = 0.01
+  file = ../../../data/stan_data_erc.json
+random
+init = 0.01
+  seed = 1661154117 (Default)
+random
+output
+  seed = 1661154117 (Default)
+  file = csv-fits/g3_xi-ri_nu_11Dec2023_1927_erc_1.csv
+output
+method = sample (Default)
+  diagnostic_file =  (Default)
+  file = csv-fits/g3_xi-ri_nu_11Dec2023_1927_erc_4.csv
+  sample
+  refresh = 100 (Default)
+  diagnostic_file =  (Default)
+    num_samples = 1000 (Default)
+  sig_figs = -1 (Default)
+  refresh = 100 (Default)
+    num_warmup = 1000 (Default)
+  profile_file = profile.csv (Default)
+  sig_figs = -1 (Default)
+    save_warmup = 0 (Default)
+num_threads = 1 (Default)
+  profile_file = profile.csv (Default)
+    thin = 1 (Default)
+
+num_threads = 1 (Default)
+    adapt
+
+      engaged = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      delta = 0.80000000000000004 (Default)
+      kappa = 0.75 (Default)
+      t0 = 10 (Default)
+      init_buffer = 75 (Default)
+      term_buffer = 50 (Default)
+      window = 25 (Default)
+    algorithm = hmc (Default)
+      hmc
+        engine = nuts (Default)
+          nuts
+            max_depth = 10 (Default)
+        metric = diag_e (Default)
+        metric_file =  (Default)
+        stepsize = 1 (Default)
+method = sample (Default)
+        stepsize_jitter = 0 (Default)
+  sample
+    num_chains = 1 (Default)
+    num_samples = 1000 (Default)
+id = 1 (Default)
+    num_warmup = 1000 (Default)
+data
+    save_warmup = 0 (Default)
+  file = ../../../data/stan_data_erc.json
+    thin = 1 (Default)
+init = 0.01
+    adapt
+random
+      engaged = 1 (Default)
+  seed = 1661154117 (Default)
+      gamma = 0.050000000000000003 (Default)
+output
+      delta = 0.80000000000000004 (Default)
+  file = csv-fits/g3_xi-ri_nu_11Dec2023_1927_erc_2.csv
+      kappa = 0.75 (Default)
+  diagnostic_file =  (Default)
+      t0 = 10 (Default)
+  refresh = 100 (Default)
+      init_buffer = 75 (Default)
+  sig_figs = -1 (Default)
+      term_buffer = 50 (Default)
+  profile_file = profile.csv (Default)
+      window = 25 (Default)
+num_threads = 1 (Default)
+    algorithm = hmc (Default)
+
+      hmc
+        engine = nuts (Default)
+          nuts
+            max_depth = 10 (Default)
+        metric = diag_e (Default)
+        metric_file =  (Default)
+        stepsize = 1 (Default)
+        stepsize_jitter = 0 (Default)
+    num_chains = 1 (Default)
+id = 1 (Default)
+data
+  file = ../../../data/stan_data_erc.json
+init = 0.01
+random
+  seed = 1661154117 (Default)
+output
+  file = csv-fits/g3_xi-ri_nu_11Dec2023_1927_erc_3.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+
+Gradient evaluation took 0.218171 seconds
+1000 transitions using 10 leapfrog steps per transition would take 2181.71 seconds.
+Adjust your expectations accordingly!
+
+
+
+Gradient evaluation took 0.218967 seconds
+1000 transitions using 10 leapfrog steps per transition would take 2189.67 seconds.
+Adjust your expectations accordingly!
+
+
+
+
+Gradient evaluation took 0.219426 seconds
+1000 transitions using 10 leapfrog steps per transition would take 2194.26 seconds.
+Gradient evaluation took 0.219233 seconds
+Adjust your expectations accordingly!
+
+
+1000 transitions using 10 leapfrog steps per transition would take 2192.33 seconds.
+Adjust your expectations accordingly!
+
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: lub_constrain: lb[1] is 1, but must be less than 1.000000 (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 20, column 2 to column 43)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: g3_xi_ri_nu_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 30, column 2 to column 31)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: g3_xi_ri_nu_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 30, column 2 to column 31)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: g3_xi_ri_nu_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 30, column 2 to column 31)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: g3_xi_ri_nu_model_namespace::log_prob: corr is not positive definite. (in 'full-model/fire-sims/burns/g3/stan/g3_xi-ri_nu.stan', line 30, column 2 to column 31)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)
+Iteration:    1 / 2000 [  0%]  (Warmup)

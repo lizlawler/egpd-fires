@@ -20,4 +20,4 @@ source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
 ./shell-scripts/burn_joint_sampling.sh \
-${modtype} ${modname} ${params} ${sttime}
+${modtype} ${modname} ${params} ${dataset} ${sttime}

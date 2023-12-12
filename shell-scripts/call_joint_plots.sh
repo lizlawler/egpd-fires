@@ -20,4 +20,4 @@ source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate lawler
 
 Rscript --vanilla ./full-model/fire-sims/dx_plots_scores_joint.R \
-${modtype} ${modname} ${params} ${sttime}
+${modtype} ${modname} ${params} ${dataset} ${sttime}

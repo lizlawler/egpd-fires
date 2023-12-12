@@ -4,11 +4,11 @@
 source /curc/sw/anaconda3/2022.10/etc/profile.d/conda.sh
 conda activate stan
 
-datafile="../../data/stan_data_joint_erc_fwi.json"
+datafile="../../data/stan_data_${modtype}_${dataset}.json"
 basedir="./full-model/fire-sims/${modtype}/"
 cd ${basedir}
 model="stan/${modtype}_${modname}_${params}"
-outbase="csv-fits/${modtype}_${modname}_${params}_${sttime}_erc_fwi"
+outbase="csv-fits/${modtype}_${modname}_${params}_${sttime}_${dataset}"
 
 # run model with 3 chains
 ./${model} sample num_chains=3 num_warmup=1000 num_samples=1000 \

@@ -213,25 +213,24 @@ generated quantities {
       }
     }
   }
-  
-  // generate burn area predictions, based on how many fires occurred (draw from ZINB)
-  for (r in 1:R) {
-    for (t in 1:T_all) {
-      vector[500] burn_draws;
-      real nu = exp(reg_full[t, r]);
-      real xi = exp(ri_init[1][r]); // zeta = delta in G3 function, since delta is used in ZINB component
-      real zeta = exp(ri_init[2][r]);
-      real sigma = nu ./ (1 + xi);
-      for (i in 1:500) {
-        int zero = bernoulli_logit_rng(pi_prob[r]);
-        int count_draw = (1 - zero) * neg_binomial_2_log_rng(lambda_full[t, r], delta[r]);
-        if (count_draw == 0) {
-          burn_draws[i] = 0; 
-        } else {
-          burn_draws[i] = sum(egpd_rng(count_draw, y_min, sigma, xi, zeta));
-        }
-      }
-      burn_pred[t, r] = mean(burn_draws);
-    }
-  }
+  // // generate burn area predictions, based on how many fires occurred (draw from ZINB)
+  // for (r in 1:R) {
+  //   for (t in 1:T_all) {
+  //     vector[500] burn_draws;
+  //     real nu = exp(reg_full[t, r]);
+  //     real xi = exp(ri_init[1][r]); // zeta = delta in G3 function, since delta is used in ZINB component
+  //     real zeta = exp(ri_init[2][r]);
+  //     real sigma = nu ./ (1 + xi);
+  //     for (i in 1:500) {
+  //       int zero = bernoulli_logit_rng(pi_prob[r]);
+  //       int count_draw = (1 - zero) * neg_binomial_2_log_rng(lambda_full[t, r], delta[r]);
+  //       if (count_draw == 0) {
+  //         burn_draws[i] = 0; 
+  //       } else {
+  //         burn_draws[i] = sum(egpd_rng(count_draw, y_min, sigma, xi, zeta));
+  //       }
+  //     }
+  //     burn_pred[t, r] = mean(burn_draws);
+  //   }
+  // }
 }

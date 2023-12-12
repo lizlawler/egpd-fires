@@ -4,7 +4,6 @@ model <- args[2]
 params <- args[3]
 dataset <- args[4]
 sttime <- args[5]
-qos <- args[6]
 
 library(cmdstanr)
 set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
@@ -14,7 +13,7 @@ library(posterior)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/", model, "/csv-fits/")
 plotbase <- paste0("./full-model/figures/", type, "/", model, "/trace/")
-csvpattern <- paste0(model, "_", params, "_", dataset, "_", sttime, "_", qos)
+csvpattern <- paste0(model, "_", params, "_", dataset, "_", sttime)
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 
 print("Filenames being used are:")
@@ -53,17 +52,14 @@ print("rho traceplots created")
 
 print("Extracting scores from model object...")
 if (type == "burns") {
-  train_loglik <- fit$draws(variables = "train_loglik")
   holdout_loglik <- fit$draws(variables = "holdout_loglik")
-  train_twcrps <- fit$draws(variables = "train_twcrps")
   holdout_twcrps <- fit$draws(variables = "holdout_twcrps")
-  scores <- list(train_loglik, holdout_loglik, train_twcrps, holdout_twcrps)
-  names(scores) <- c("train_loglik", "holdout_loglik", "train_twcrps", "holdout_twcrps")
+  scores <- list(holdout_loglik, holdout_twcrps)
+  names(scores) <- c( "holdout_loglik", "holdout_twcrps")
 } else {
-  train_loglik <- fit$draws(variables = "train_loglik")
   holdout_loglik <- fit$draws(variables = "holdout_loglik")
-  scores <- list(train_loglik, holdout_loglik)
-  names(scores) <- c("train_loglik", "holdout_loglik")  
+  scores <- list(holdout_loglik)
+  names(scores) <- c("holdout_loglik")  
 }
 
 filename <- paste0("full-model/fire-sims/model_comparison/extracted_values/", csvpattern, "_scores.RDS")

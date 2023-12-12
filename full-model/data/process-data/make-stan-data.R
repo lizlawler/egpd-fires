@@ -70,8 +70,15 @@ for(i in 1:84) {
   }
 }
 
+
 ## FINAL DATA PROCESSING ## -----------
-ecoregion_df <- ecoregion_shp %>% as_tibble()
+# convert ecoregion shapefile to a tibble
+# fix names for Upper Gila Mountains
+# have checked that NAL2CODE for 'Upper Gila Mountains (?)', and it's the same as 'Upper Gila Mountains'; 
+# also checked that its only L3 ecoregion is Arizona/New Mexico Mountains, as it should be
+ecoregion_df <- ecoregion_shp %>% as_tibble() %>%
+  mutate(NA_L2NAME = case_when(NA_L2NAME == 'UPPER GILA MOUNTAINS (?)' ~ 'UPPER GILA MOUNTAINS',
+                               .default = NA_L2NAME))
 
 # get areas for each L3 ecoregion
 area_df <- ecoregion_df %>%
@@ -86,12 +93,12 @@ burn_df <- mtbs_er %>% as_tibble() %>%
          Shape_Leng, Shape_Area) %>%
   arrange(NA_L3NAME, ym, .locale = "en")
 
-# burn_df_agg <- burn_df %>%
-#   mutate(across(where(is.character), as.factor)) %>%
-#   group_by(NA_L3CODE, fire_yr, NA_L3NAME, NA_L1NAME, NA_L1CODE, NA_L2NAME, NA_L2CODE) %>%
-#   summarise(total_burns = sum(BurnBndAc)) %>%
-#   ungroup()
-# saveRDS(burn_df_agg, file = "full-model/data/burn_df_agg.RDS")
+burn_df_agg <- burn_df %>%
+  mutate(across(where(is.character), as.factor)) %>%
+  group_by(NA_L3CODE, fire_yr, NA_L3NAME, NA_L1NAME, NA_L1CODE, NA_L2NAME, NA_L2CODE) %>%
+  summarise(total_burns = sum(BurnBndAc)) %>%
+  ungroup()
+saveRDS(burn_df_agg, file = "full-model/data/burn_df_agg.RDS")
 
 count_df <- count_df_climate %>% 
   left_join(count_df_erc) %>% left_join(count_df_fwi) %>%
@@ -100,8 +107,7 @@ count_df <- count_df_climate %>%
 
 er_df <- ecoregion_df %>% 
   dplyr::select(NA_L3NAME, NA_L2NAME, NA_L1NAME, NA_L2CODE, NA_L1CODE) %>% 
-  distinct() %>%
-  filter(NA_L2NAME != 'UPPER GILA MOUNTAINS (?)')
+  distinct()
 
 ecoregion_summaries <- ecoregion_summaries %>% 
   left_join(ecoregion_summaries_erc) %>%
@@ -109,8 +115,7 @@ ecoregion_summaries <- ecoregion_summaries %>%
 
 er_covs <- ecoregion_summaries %>%
   left_join(er_df) %>%
-  filter(NA_L2NAME != "UPPER GILA MOUNTAINS (?)",
-         ym >= min(mtbs_er$ym),
+  filter(ym >= min(mtbs_er$ym),
          ym <= max(mtbs_er$ym)) %>%
   mutate(log_housing_density = log(housing_density),
          pr = ifelse(pr < 0 , 0, pr)) %>%
@@ -320,9 +325,7 @@ for(i in cov_vec_idx) {
 # points for twCRPS calculation
 n_int <- 5000
 int_holdout <- max(burn_hold_obs) - min(burn_hold_obs)
-int_train <- max(burn_train_obs) - min(burn_train_obs)
 int_pts_holdout <- min(burn_hold_obs) + (1:n_int)*(int_holdout/n_int)
-int_pts_train <- min(burn_train_obs) + (1:n_int)*(int_train/n_int)
 
 # Bundle up data into a list to pass to Stan -----------------------------
 stan_data_climate <- list(
@@ -379,8 +382,6 @@ stan_data_climate <- list(
   
   # for twCRPS
   n_int = n_int,
-  int_train = int_train,
-  int_pts_train = int_pts_train,
   int_holdout = int_holdout,
   int_pts_holdout = int_pts_holdout
 )
@@ -390,7 +391,7 @@ stan_data_climate <- list(
 stan_data_joint <- list(
   R = 84, # total number of regions
   p = p,
-  p_burn = 13,
+  p_burn = as.numeric(dim(X_array_full_erc)[3]),
   T_all = t_all,
   T_train = t_train,
   T_hold = t_all - t_train,
@@ -444,8 +445,6 @@ stan_data_joint <- list(
   
   # for twCRPS
   n_int = n_int,
-  int_train = int_train,
-  int_pts_train = int_pts_train,
   int_holdout = int_holdout,
   int_pts_holdout = int_pts_holdout
 )
@@ -454,7 +453,7 @@ stan_data_joint <- list(
 stan_data_joint_erc_fwi <- list(
   R = 84, # total number of regions
   p = p,
-  p_burn = dim(X_array_full_erc_fwi)[3],
+  p_burn = as.numeric(dim(X_array_full_erc_fwi)[3]),
   T_all = t_all,
   T_train = t_train,
   T_hold = t_all - t_train,
@@ -508,16 +507,13 @@ stan_data_joint_erc_fwi <- list(
   
   # for twCRPS
   n_int = n_int,
-  int_train = int_train,
-  int_pts_train = int_pts_train,
   int_holdout = int_holdout,
   int_pts_holdout = int_pts_holdout
 )
 
 ## MODEL WITH ERC and HOUSING COVARIATES ## -----------------------------------------
+p <- as.numeric(dim(X_array_full_erc)[3])
 # use the first 13 x 13 block from the AR(1) covariance indicator matrices generated above
-p <- 13
-
 # Bundle up data into a list to pass to Stan -----------------------------
 stan_data_erc <- list(
   R = 84, # total number of regions
@@ -573,13 +569,12 @@ stan_data_erc <- list(
   
   # for twCRPS
   n_int = n_int,
-  int_train = int_train,
-  int_pts_train = int_pts_train,
   int_holdout = int_holdout,
   int_pts_holdout = int_pts_holdout
 )
 
 ## MODEL WITH FWI and HOUSING COVARIATES ## -----------------------------------------
+p <- as.numeric(dim(X_array_full_fwi)[3])
 # Bundle up data into a list to pass to Stan -----------------------------
 stan_data_fwi <- list(
   R = 84, # total number of regions
@@ -635,14 +630,12 @@ stan_data_fwi <- list(
   
   # for twCRPS
   n_int = n_int,
-  int_train = int_train,
-  int_pts_train = int_pts_train,
   int_holdout = int_holdout,
   int_pts_holdout = int_pts_holdout
 )
 
 ## MODEL WITH ERC, FWI and HOUSING COVARIATES ## -----------------------------------------
-p <- 19
+p <- as.numeric(dim(X_array_full_erc_fwi)[3])
 # Bundle up data into a list to pass to Stan -----------------------------
 stan_data_erc_fwi <- list(
   R = 84, # total number of regions
@@ -698,8 +691,6 @@ stan_data_erc_fwi <- list(
   
   # for twCRPS
   n_int = n_int,
-  int_train = int_train,
-  int_pts_train = int_pts_train,
   int_holdout = int_holdout,
   int_pts_holdout = int_pts_holdout
 )
@@ -715,13 +706,12 @@ saveRDS(stan_data_climate, file = './full-model/data/stan_data_climate.RDS')
 saveRDS(stan_data_erc, file = './full-model/data/stan_data_erc.RDS')
 saveRDS(stan_data_fwi, file = './full-model/data/stan_data_fwi.RDS')
 saveRDS(stan_data_erc_fwi, file = './full-model/data/stan_data_erc_fwi.RDS')
-saveRDS(stan_data_joint, file = './full-model/data/stan_data_joint.RDS')
+saveRDS(stan_data_joint, file = './full-model/data/stan_data_joint_erc.RDS')
 saveRDS(stan_data_joint_erc_fwi, file = './full-model/data/stan_data_joint_erc_fwi.RDS')
 write_stan_json(data = stan_data_climate, file = './full-model/data/stan_data_climate.json')
 write_stan_json(data = stan_data_erc, file = './full-model/data/stan_data_erc.json')
 write_stan_json(data = stan_data_fwi, file = './full-model/data/stan_data_fwi.json')
 write_stan_json(data = stan_data_erc_fwi, file = './full-model/data/stan_data_erc_fwi.json')
-write_stan_json(data = stan_data_joint, file = './full-model/data/stan_data_joint.json')
+write_stan_json(data = stan_data_joint, file = './full-model/data/stan_data_joint_erc.json')
 write_stan_json(data = stan_data_joint_erc_fwi, file = './full-model/data/stan_data_joint_erc_fwi.json')
 saveRDS(un_std, file = './full-model/data/un_std_all.RDS')
-saveRDS(burn_df_agg, file = "./full-model/data/burn_area_level1.RDS")

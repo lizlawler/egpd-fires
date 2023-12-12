@@ -12,7 +12,7 @@ source('./full-model/data/process-data/helpers.R')
 # Read ecoregion data
 ecoregion_shp <- load_ecoregions()
 
-# fix names for chihuahuan desert
+# fix names for Chihuahuan Deserts (L3 ecoregion) 
 ecoregion_shp$NA_L3NAME <- as.character(ecoregion_shp$NA_L3NAME)
 ecoregion_shp$NA_L3NAME <- ifelse(ecoregion_shp$NA_L3NAME == 'Chihuahuan Desert',
                                   'Chihuahuan Deserts',

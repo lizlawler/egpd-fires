@@ -14,7 +14,7 @@ inc_path="full-model/fire-sims/${modtype}/${modname}/stan/"
 object="full-model/fire-sims/${modtype}/${modname}/stan/${modname}_${params}"
 ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
-for dataset in "erc_fwi"
+for dataset in "erc_fwi" "erc"
 do
 sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params dataset sttime

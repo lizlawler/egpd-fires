@@ -137,11 +137,11 @@ model {
 }
 
 generated quantities {
-  matrix[T_train, R] train_loglik_count;
+  // matrix[T_train, R] train_loglik_count;
   matrix[T_hold, R] holdout_loglik_count;
-  array[N_tb_obs] real train_loglik_burn;
+  // array[N_tb_obs] real train_loglik_burn;
   array[N_hold_obs] real holdout_loglik_burn;
-  array[N_tb_obs] real train_twcrps;
+  // array[N_tb_obs] real train_twcrps;
   array[N_hold_obs] real holdout_twcrps;  
 
   matrix[T_all, R] reg_full;
@@ -155,18 +155,18 @@ generated quantities {
   }
   
   // burn component scores
-  // training scores
-  for (n in 1:N_tb_obs) {
-    real sigma_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real xi_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real zeta_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    
-    train_loglik_burn[n] = egpd_trunc_lpdf(y_train_burn_obs[n] | y_min, sigma_train, xi_train, zeta_train);
-    // forecasting then twCRPS, on training dataset
-    vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, 
-                                            sigma_train, xi_train, zeta_train);
-    train_twcrps[n] = twCRPS(y_train_burn_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
-  }
+  // // training scores
+  // for (n in 1:N_tb_obs) {
+  //   real sigma_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  //   real xi_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  //   real zeta_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  //   
+  //   train_loglik_burn[n] = egpd_trunc_lpdf(y_train_burn_obs[n] | y_min, sigma_train, xi_train, zeta_train);
+  //   // forecasting then twCRPS, on training dataset
+  //   vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, 
+  //                                           sigma_train, xi_train, zeta_train);
+  //   train_twcrps[n] = twCRPS(y_train_burn_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
+  // }
   // holdout scores
   for (n in 1:N_hold_obs) {
     real sigma_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];
@@ -182,19 +182,19 @@ generated quantities {
   }
 
   // count component scores
-  // training log-likelihood
-  for (r in 1:R) {
-    for (t in 1:T_train) {
-      if (y_train_count[t, r] == 0) {
-        train_loglik_count[t, r] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[r]),
-                                         bernoulli_logit_lpmf(0 | pi_prob[r])
-                                         + neg_binomial_2_log_lpmf(y_train_count[t, r] | lambda[t, r], delta[r]));
-      } else {
-        train_loglik_count[t, r] = bernoulli_logit_lpmf(0 | pi_prob[r])
-                             + neg_binomial_2_log_lpmf(y_train_count[t, r] | lambda[t, r], delta[r]);
-      }
-    }
-  }
+  // // training log-likelihood
+  // for (r in 1:R) {
+  //   for (t in 1:T_train) {
+  //     if (y_train_count[t, r] == 0) {
+  //       train_loglik_count[t, r] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[r]),
+  //                                        bernoulli_logit_lpmf(0 | pi_prob[r])
+  //                                        + neg_binomial_2_log_lpmf(y_train_count[t, r] | lambda[t, r], delta[r]));
+  //     } else {
+  //       train_loglik_count[t, r] = bernoulli_logit_lpmf(0 | pi_prob[r])
+  //                            + neg_binomial_2_log_lpmf(y_train_count[t, r] | lambda[t, r], delta[r]);
+  //     }
+  //   }
+  // }
   
   // holdout log-likelihood
   for (r in 1:R) {

@@ -144,7 +144,7 @@ generated quantities {
   matrix[T_hold, R] lambda_hold;
   
   matrix[T_hold, R] holdout_loglik;
-  matrix[T_train, R] train_loglik;
+  // matrix[T_train, R] train_loglik;
   
   // expected values of parameters based on all timepoints, then cut to only be holdout parameters
   for (s in 1:S) {
@@ -154,19 +154,19 @@ generated quantities {
     }
   }
   
-  // training log-likelihood
-  for (r in 1:R) {
-    for (t in 1:T_train) {
-      if (y_train_count[t, r] == 0) {
-        train_loglik[t, r] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[r]),
-                                         bernoulli_logit_lpmf(0 | pi_prob[r])
-                                         + neg_binomial_2_log_lpmf(y_train_count[t, r] | lambda[t, r], delta));
-      } else {
-        train_loglik[t, r] = bernoulli_logit_lpmf(0 | pi_prob[r])
-                             + neg_binomial_2_log_lpmf(y_train_count[t, r] | lambda[t, r], delta);
-      }
-    }
-  }
+  // // training log-likelihood
+  // for (r in 1:R) {
+  //   for (t in 1:T_train) {
+  //     if (y_train_count[t, r] == 0) {
+  //       train_loglik[t, r] = log_sum_exp(bernoulli_logit_lpmf(1 | pi_prob[r]),
+  //                                        bernoulli_logit_lpmf(0 | pi_prob[r])
+  //                                        + neg_binomial_2_log_lpmf(y_train_count[t, r] | lambda[t, r], delta));
+  //     } else {
+  //       train_loglik[t, r] = bernoulli_logit_lpmf(0 | pi_prob[r])
+  //                            + neg_binomial_2_log_lpmf(y_train_count[t, r] | lambda[t, r], delta);
+  //     }
+  //   }
+  // }
   
   // holdout log-likelihood
   for (r in 1:R) {

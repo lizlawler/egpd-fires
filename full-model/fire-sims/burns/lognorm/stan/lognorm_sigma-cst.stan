@@ -71,24 +71,22 @@ model {
   }
 }
 generated quantities {
-  array[N_tb_obs] real train_loglik;
   array[N_hold_obs] real holdout_loglik;
-  array[N_tb_obs] real train_twcrps;
-  array[N_hold_obs] real holdout_twcrps;
+  array[N_hold_obs] real holdout_twcrps;  
 
   matrix[T_all, R] reg_full;
   for (r in 1:R) {
       reg_full[, r] = X_full[r] * beta[, r] + phi[, r];
   }
-  // training scores
-  for (n in 1:N_tb_obs) {
-    real mu_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    
-    train_loglik[n] = lognorm_trunc_lpdf(y_train_obs[n] | y_min, mu_train, sigma);
-    // forecasting then twCRPS, on training dataset
-    vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, mu_train, sigma);
-    train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
-  }
+  // // training scores
+  // for (n in 1:N_tb_obs) {
+  //   real mu_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  //   
+  //   train_loglik[n] = lognorm_trunc_lpdf(y_train_obs[n] | y_min, mu_train, sigma);
+  //   // forecasting then twCRPS, on training dataset
+  //   vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, mu_train, sigma);
+  //   train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
+  // }
   // holdout scores
   for (n in 1:N_hold_obs) {
     real mu_hold = exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs][n];

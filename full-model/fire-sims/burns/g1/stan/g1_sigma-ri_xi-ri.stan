@@ -97,9 +97,7 @@ model {
 }
 
 generated quantities {
-  array[N_tb_obs] real train_loglik;
   array[N_hold_obs] real holdout_loglik;
-  array[N_tb_obs] real train_twcrps;
   array[N_hold_obs] real holdout_twcrps;  
 
   array[S] matrix[T_all, R] reg_full;
@@ -109,18 +107,18 @@ generated quantities {
     }
   }
   
-  // training scores
-  for (n in 1:N_tb_obs) {
-    real kappa_train = exp(to_vector(reg_full[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real sigma_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real xi_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    
-    train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train, xi_train, kappa_train);
-    // forecasting then twCRPS, on training dataset
-    vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, 
-                                            sigma_train, xi_train, kappa_train);
-    train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
-  }
+  // // training scores
+  // for (n in 1:N_tb_obs) {
+  //   real kappa_train = exp(to_vector(reg_full[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  //   real sigma_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  //   real xi_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  //   
+  //   train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train, xi_train, kappa_train);
+  //   // forecasting then twCRPS, on training dataset
+  //   vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts_train, y_min, 
+  //                                           sigma_train, xi_train, kappa_train);
+  //   // train_twcrps[n] = twCRPS(y_train_obs[n], n_int, int_train, int_pts_train, pred_probs_train);
+  // }
   // holdout scores
   for (n in 1:N_hold_obs) {
     real kappa_hold = exp(to_vector(reg_full[1]))[ii_hold_all][ii_hold_obs][n];
@@ -129,7 +127,7 @@ generated quantities {
     
     // log-likelihood
     holdout_loglik[n] = egpd_trunc_lpdf(y_hold_obs[n] | y_min, sigma_hold, xi_hold, kappa_hold);
-      // forecasting then twCRPS, on holdout dataset
+    // forecasting then twCRPS, on holdout dataset
     vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts_holdout, y_min, 
                                           sigma_hold, xi_hold, kappa_hold);
     holdout_twcrps[n] = twCRPS(y_hold_obs[n], n_int, int_holdout, int_pts_holdout, pred_probs_hold);

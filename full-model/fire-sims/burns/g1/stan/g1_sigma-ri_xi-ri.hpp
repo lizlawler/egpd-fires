@@ -70,7 +70,7 @@ static constexpr std::array<const char*, 319> locations_array__ =
  " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 67, column 9 to column 17)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 67, column 2 to column 82)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 68, column 9 to column 17)",
- " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 68, column 2 to column 99)",
+ " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 68, column 2 to column 79)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 70, column 2 to column 30)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 73, column 2 to column 37)",
  " (in 'full-model/fire-sims/burns/g1/stan/g1_sigma-ri_xi-ri.stan', line 76, column 2 to column 30)",
@@ -2477,18 +2477,15 @@ class g1_sigma_ri_xi_ri_model final : public model_base_crtp<g1_sigma_ri_xi_ri_m
              DUMMY_VAR__);
         current_statement__ = 61;
         stan::model::assign(xi,
-          stan::math::subtract(
-            stan::math::multiply(
-              stan::model::rvalue(
-                stan::math::inv_logit(
+          stan::model::rvalue(
+            stan::math::exp(
   stan::math::to_vector(
     stan::model::rvalue(
       stan::model::rvalue(ri_matrix, "ri_matrix", stan::model::index_uni(2)),
       "ri_matrix[2]",
       stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
-                "inv_logit(to_vector(ri_matrix[2][idx_train_er, :]))",
-                stan::model::index_multi(ii_tb_all)), 1.5), 0.5),
-          "assigning variable xi");
+            "exp(to_vector(ri_matrix[2][idx_train_er, :]))",
+            stan::model::index_multi(ii_tb_all)), "assigning variable xi");
         current_statement__ = 62;
         lp_accum__.add(
           stan::math::std_normal_lpdf<propto__>(stan::math::to_vector(Z)));

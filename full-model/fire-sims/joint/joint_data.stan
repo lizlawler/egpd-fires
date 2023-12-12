@@ -59,6 +59,4 @@ data {
   int<lower=1> n_int;
   real<lower=1> int_holdout;
   vector<lower=y_min>[n_int] int_pts_holdout;
-  real<lower=1> int_train;
-  vector<lower=y_min>[n_int] int_pts_train;
 }

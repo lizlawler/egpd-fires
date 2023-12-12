@@ -1,0 +1,205 @@
+method = sample (Default)
+  sample
+    num_samples = 1000 (Default)
+    num_warmup = 1000 (Default)
+    save_warmup = 0 (Default)
+    thin = 1 (Default)
+    adapt
+      engaged = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      delta = 0.80000000000000004 (Default)
+      kappa = 0.75 (Default)
+      t0 = 10 (Default)
+      init_buffer = 75 (Default)
+      term_buffer = 50 (Default)
+      window = 25 (Default)
+    algorithm = hmc (Default)
+      hmc
+        engine = nuts (Default)
+          nuts
+            max_depth = 10 (Default)
+        metric = diag_e (Default)
+        metric_file =  (Default)
+        stepsize = 1 (Default)
+        stepsize_jitter = 0 (Default)
+    num_chains = 1 (Default)
+id = 1 (Default)
+data
+  file = ../../data/stan_data_joint_erc.json
+init = 0.01
+random
+  seed = 1671715045 (Default)
+output
+  file = csv-fits/joint_g3_nu_11Dec2023_2223_erc_1.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+method = sample (Default)
+  sample
+method = sample (Default)
+    num_samples = 1000 (Default)
+  sample
+    num_warmup = 1000 (Default)
+    num_samples = 1000 (Default)
+    save_warmup = 0 (Default)
+    num_warmup = 1000 (Default)
+    thin = 1 (Default)
+    save_warmup = 0 (Default)
+    adapt
+    thin = 1 (Default)
+      engaged = 1 (Default)
+    adapt
+      gamma = 0.050000000000000003 (Default)
+method = sample (Default)
+      engaged = 1 (Default)
+      delta = 0.80000000000000004 (Default)
+  sample
+      gamma = 0.050000000000000003 (Default)
+      kappa = 0.75 (Default)
+    num_samples = 1000 (Default)
+      delta = 0.80000000000000004 (Default)
+      t0 = 10 (Default)
+    num_warmup = 1000 (Default)
+      kappa = 0.75 (Default)
+      init_buffer = 75 (Default)
+    save_warmup = 0 (Default)
+      t0 = 10 (Default)
+      term_buffer = 50 (Default)
+    thin = 1 (Default)
+      init_buffer = 75 (Default)
+      window = 25 (Default)
+    adapt
+      term_buffer = 50 (Default)
+    algorithm = hmc (Default)
+      engaged = 1 (Default)
+      window = 25 (Default)
+      hmc
+      gamma = 0.050000000000000003 (Default)
+    algorithm = hmc (Default)
+method = sample (Default)
+        engine = nuts (Default)
+      delta = 0.80000000000000004 (Default)
+      hmc
+  sample
+          nuts
+      kappa = 0.75 (Default)
+        engine = nuts (Default)
+    num_samples = 1000 (Default)
+            max_depth = 10 (Default)
+      t0 = 10 (Default)
+          nuts
+    num_warmup = 1000 (Default)
+        metric = diag_e (Default)
+      init_buffer = 75 (Default)
+            max_depth = 10 (Default)
+    save_warmup = 0 (Default)
+        metric_file =  (Default)
+      term_buffer = 50 (Default)
+        metric = diag_e (Default)
+    thin = 1 (Default)
+        stepsize = 1 (Default)
+      window = 25 (Default)
+        metric_file =  (Default)
+    adapt
+        stepsize_jitter = 0 (Default)
+    algorithm = hmc (Default)
+        stepsize = 1 (Default)
+      engaged = 1 (Default)
+    num_chains = 1 (Default)
+      gamma = 0.050000000000000003 (Default)
+      hmc
+        stepsize_jitter = 0 (Default)
+id = 1 (Default)
+      delta = 0.80000000000000004 (Default)
+        engine = nuts (Default)
+    num_chains = 1 (Default)
+data
+      kappa = 0.75 (Default)
+          nuts
+id = 1 (Default)
+  file = ../../data/stan_data_joint_erc.json
+      t0 = 10 (Default)
+            max_depth = 10 (Default)
+data
+init = 0.01
+      init_buffer = 75 (Default)
+        metric = diag_e (Default)
+  file = ../../data/stan_data_joint_erc.json
+random
+      term_buffer = 50 (Default)
+        metric_file =  (Default)
+init = 0.01
+  seed = 1671715045 (Default)
+      window = 25 (Default)
+        stepsize = 1 (Default)
+random
+output
+    algorithm = hmc (Default)
+        stepsize_jitter = 0 (Default)
+  seed = 1671715045 (Default)
+  file = csv-fits/joint_g3_nu_11Dec2023_2223_erc_3.csv
+      hmc
+    num_chains = 1 (Default)
+output
+  diagnostic_file =  (Default)
+        engine = nuts (Default)
+id = 1 (Default)
+  file = csv-fits/joint_g3_nu_11Dec2023_2223_erc_2.csv
+  refresh = 100 (Default)
+          nuts
+data
+  diagnostic_file =  (Default)
+  sig_figs = -1 (Default)
+            max_depth = 10 (Default)
+  file = ../../data/stan_data_joint_erc.json
+  refresh = 100 (Default)
+  profile_file = profile.csv (Default)
+        metric = diag_e (Default)
+init = 0.01
+  sig_figs = -1 (Default)
+num_threads = 1 (Default)
+        metric_file =  (Default)
+random
+  profile_file = profile.csv (Default)
+
+        stepsize = 1 (Default)
+  seed = 1671715045 (Default)
+num_threads = 1 (Default)
+        stepsize_jitter = 0 (Default)
+output
+
+    num_chains = 1 (Default)
+  file = csv-fits/joint_g3_nu_11Dec2023_2223_erc_4.csv
+id = 1 (Default)
+  diagnostic_file =  (Default)
+data
+  refresh = 100 (Default)
+  file = ../../data/stan_data_joint_erc.json
+  sig_figs = -1 (Default)
+init = 0.01
+  profile_file = profile.csv (Default)
+random
+num_threads = 1 (Default)
+  seed = 1671715045 (Default)
+
+output
+  file = csv-fits/joint_g3_nu_11Dec2023_2223_erc_5.csv
+  diagnostic_file =  (Default)
+  refresh = 100 (Default)
+  sig_figs = -1 (Default)
+  profile_file = profile.csv (Default)
+num_threads = 1 (Default)
+
+Exception: variable does not exist; processing stage=data initialization; variable name=int_train; base type=double (in 'full-model/fire-sims/joint/stan///../joint_data.stan', line 62, column 2, included from
+'full-model/fire-sims/joint/stan/joint_g3_nu.stan', line 6, column 0)
+Exception: variable does not exist; processing stage=data initialization; variable name=int_train; base type=double (in 'full-model/fire-sims/joint/stan///../joint_data.stan', line 62, column 2, included from
+'full-model/fire-sims/joint/stan/joint_g3_nu.stan', line 6, column 0)
+Exception: variable does not exist; processing stage=data initialization; variable name=int_train; base type=double (in 'full-model/fire-sims/joint/stan///../joint_data.stan', line 62, column 2, included from
+'full-model/fire-sims/joint/stan/joint_g3_nu.stan', line 6, column 0)
+Exception: variable does not exist; processing stage=data initialization; variable name=int_train; base type=double (in 'full-model/fire-sims/joint/stan///../joint_data.stan', line 62, column 2, included from
+'full-model/fire-sims/joint/stan/joint_g3_nu.stan', line 6, column 0)
+Exception: variable does not exist; processing stage=data initialization; variable name=int_train; base type=double (in 'full-model/fire-sims/joint/stan///../joint_data.stan', line 62, column 2, included from
+'full-model/fire-sims/joint/stan/joint_g3_nu.stan', line 6, column 0)

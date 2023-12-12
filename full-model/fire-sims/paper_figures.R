@@ -79,9 +79,9 @@ l1_only_map <- ecoregions_geom %>%
           fill = "transparent", lwd = 0.1, inherit.aes = FALSE) +
   theme_void() +
   coord_sf(ndiscr = FALSE)
-ggsave(filename = "full-model/figures/paper/level1_map.png", plot = l1_only_map,
-       dpi = 320, width = 9, height = 9)
-knitr::plot_crop("full-model/figures/paper/level1_map.png")
+ggsave(filename = "full-model/figures/paper/level1_map.pdf", plot = l1_only_map,
+       dpi = 320, width = 8, height = 8)
+knitr::plot_crop("full-model/figures/paper/level1_map.pdf")
 
 er_map_l1 <- ecoregions_geom %>%
   ggplot() +

@@ -8,7 +8,7 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 188> locations_array__ = 
+static constexpr std::array<const char*, 176> locations_array__ = 
 {" (found before start of program)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 58, column 2 to column 22)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 59, column 2 to column 41)",
@@ -46,7 +46,6 @@ static constexpr std::array<const char*, 188> locations_array__ =
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 142, column 2 to column 32)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 143, column 2 to column 33)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 145, column 2 to column 35)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 146, column 2 to column 34)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 151, column 6 to column 64)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 152, column 6 to column 70)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 150, column 19 to line 153, column 5)",
@@ -54,15 +53,6 @@ static constexpr std::array<const char*, 188> locations_array__ =
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 149, column 17 to line 154, column 3)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 149, column 2 to line 154, column 3)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 155, column 2 to column 44)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 165, column 8 to line 166, column 98)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 164, column 13 to line 167, column 7)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 161, column 8 to line 163, column 111)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 160, column 36 to line 164, column 7)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 160, column 6 to line 167, column 7)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 159, column 25 to line 168, column 5)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 159, column 4 to line 168, column 5)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 158, column 17 to line 169, column 3)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 158, column 2 to line 169, column 3)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 179, column 8 to line 180, column 104)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 178, column 13 to line 181, column 7)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 175, column 8 to line 177, column 117)",
@@ -187,8 +177,6 @@ static constexpr std::array<const char*, 188> locations_array__ =
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 143, column 17 to column 18)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 145, column 9 to column 15)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 145, column 17 to column 18)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 146, column 9 to column 16)",
- " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 146, column 18 to column 19)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 3, column 4 to column 14)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 4, column 4 to column 11)",
  " (in '../../../../../../../../gpfs/alpine1/scratch/eslawler@colostate.edu/egpd-fires/full-model/fire-sims/counts/zinb/stan/zinb_all-reg.stan', line 5, column 4 to column 11)",
@@ -237,11 +225,11 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
       local_scalar_t__ lpdf = DUMMY_VAR__;
       local_scalar_t__ r = DUMMY_VAR__;
       local_scalar_t__ p = DUMMY_VAR__;
-      current_statement__ = 183;
+      current_statement__ = 171;
       r = stan::math::rows(corr);
-      current_statement__ = 184;
+      current_statement__ = 172;
       p = stan::math::rows(cov);
-      current_statement__ = 185;
+      current_statement__ = 173;
       lpdf = ((((-((r * p) / 2) * stan::math::log((2 * stan::math::pi()))) -
                  ((p / 2) * stan::math::log_determinant(corr))) -
                 ((r / 2) * stan::math::log_determinant(cov))) -
@@ -251,7 +239,7 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
                      stan::math::mdivide_right_spd(
                        stan::math::mdivide_left_spd(corr,
                          stan::math::transpose(y)), cov), y))));
-      current_statement__ = 186;
+      current_statement__ = 174;
       return lpdf;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -336,63 +324,63 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
     try {
       int pos__ = std::numeric_limits<int>::min();
       pos__ = 1;
-      current_statement__ = 85;
+      current_statement__ = 75;
       context__.validate_dims("data initialization","R","int",
            std::vector<size_t>{});
       R = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 85;
+      current_statement__ = 75;
       R = context__.vals_i("R")[(1 - 1)];
-      current_statement__ = 85;
+      current_statement__ = 75;
       stan::math::check_greater_or_equal(function__, "R", R, 1);
-      current_statement__ = 86;
+      current_statement__ = 76;
       context__.validate_dims("data initialization","p","int",
            std::vector<size_t>{});
       p = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 86;
+      current_statement__ = 76;
       p = context__.vals_i("p")[(1 - 1)];
-      current_statement__ = 86;
+      current_statement__ = 76;
       stan::math::check_greater_or_equal(function__, "p", p, 1);
-      current_statement__ = 87;
+      current_statement__ = 77;
       context__.validate_dims("data initialization","T_all","int",
            std::vector<size_t>{});
       T_all = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 87;
+      current_statement__ = 77;
       T_all = context__.vals_i("T_all")[(1 - 1)];
-      current_statement__ = 87;
+      current_statement__ = 77;
       stan::math::check_greater_or_equal(function__, "T_all", T_all, 1);
-      current_statement__ = 88;
+      current_statement__ = 78;
       context__.validate_dims("data initialization","T_train","int",
            std::vector<size_t>{});
       T_train = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 88;
+      current_statement__ = 78;
       T_train = context__.vals_i("T_train")[(1 - 1)];
-      current_statement__ = 88;
+      current_statement__ = 78;
       stan::math::check_greater_or_equal(function__, "T_train", T_train, 1);
-      current_statement__ = 89;
+      current_statement__ = 79;
       context__.validate_dims("data initialization","T_hold","int",
            std::vector<size_t>{});
       T_hold = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 89;
+      current_statement__ = 79;
       T_hold = context__.vals_i("T_hold")[(1 - 1)];
-      current_statement__ = 89;
+      current_statement__ = 79;
       stan::math::check_greater_or_equal(function__, "T_hold", T_hold, 1);
-      current_statement__ = 90;
+      current_statement__ = 80;
       stan::math::validate_non_negative_index("X_full", "R", R);
-      current_statement__ = 91;
+      current_statement__ = 81;
       stan::math::validate_non_negative_index("X_full", "T_all", T_all);
-      current_statement__ = 92;
+      current_statement__ = 82;
       stan::math::validate_non_negative_index("X_full", "p", p);
-      current_statement__ = 93;
+      current_statement__ = 83;
       context__.validate_dims("data initialization","X_full","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(T_all), static_cast<size_t>(p)});
@@ -404,34 +392,34 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> X_full_flat__;
-        current_statement__ = 93;
+        current_statement__ = 83;
         X_full_flat__ = context__.vals_r("X_full");
-        current_statement__ = 93;
+        current_statement__ = 83;
         pos__ = 1;
-        current_statement__ = 93;
+        current_statement__ = 83;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 93;
+          current_statement__ = 83;
           for (int sym2__ = 1; sym2__ <= T_all; ++sym2__) {
-            current_statement__ = 93;
+            current_statement__ = 83;
             for (int sym3__ = 1; sym3__ <= R; ++sym3__) {
-              current_statement__ = 93;
+              current_statement__ = 83;
               stan::model::assign(X_full, X_full_flat__[(pos__ - 1)],
                 "assigning variable X_full", stan::model::index_uni(sym3__),
                                                stan::model::index_uni(sym2__),
                                                stan::model::index_uni(sym1__));
-              current_statement__ = 93;
+              current_statement__ = 83;
               pos__ = (pos__ + 1);
             }
           }
         }
       }
-      current_statement__ = 94;
+      current_statement__ = 84;
       stan::math::validate_non_negative_index("X_train", "R", R);
-      current_statement__ = 95;
+      current_statement__ = 85;
       stan::math::validate_non_negative_index("X_train", "T_train", T_train);
-      current_statement__ = 96;
+      current_statement__ = 86;
       stan::math::validate_non_negative_index("X_train", "p", p);
-      current_statement__ = 97;
+      current_statement__ = 87;
       context__.validate_dims("data initialization","X_train","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(T_train), static_cast<size_t>(p)});
@@ -443,59 +431,59 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> X_train_flat__;
-        current_statement__ = 97;
+        current_statement__ = 87;
         X_train_flat__ = context__.vals_r("X_train");
-        current_statement__ = 97;
+        current_statement__ = 87;
         pos__ = 1;
-        current_statement__ = 97;
+        current_statement__ = 87;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 97;
+          current_statement__ = 87;
           for (int sym2__ = 1; sym2__ <= T_train; ++sym2__) {
-            current_statement__ = 97;
+            current_statement__ = 87;
             for (int sym3__ = 1; sym3__ <= R; ++sym3__) {
-              current_statement__ = 97;
+              current_statement__ = 87;
               stan::model::assign(X_train, X_train_flat__[(pos__ - 1)],
                 "assigning variable X_train", stan::model::index_uni(sym3__),
                                                 stan::model::index_uni(sym2__),
                                                 stan::model::index_uni(sym1__));
-              current_statement__ = 97;
+              current_statement__ = 87;
               pos__ = (pos__ + 1);
             }
           }
         }
       }
-      current_statement__ = 98;
+      current_statement__ = 88;
       stan::math::validate_non_negative_index("area_offset", "R", R);
-      current_statement__ = 99;
+      current_statement__ = 89;
       context__.validate_dims("data initialization","area_offset","double",
            std::vector<size_t>{static_cast<size_t>(R)});
       area_offset = 
         std::vector<double>(R, std::numeric_limits<double>::quiet_NaN());
       
       
-      current_statement__ = 99;
+      current_statement__ = 89;
       area_offset = context__.vals_r("area_offset");
-      current_statement__ = 100;
+      current_statement__ = 90;
       stan::math::validate_non_negative_index("idx_train_er", "T_train",
                                               T_train);
-      current_statement__ = 101;
+      current_statement__ = 91;
       context__.validate_dims("data initialization","idx_train_er","int",
            std::vector<size_t>{static_cast<size_t>(T_train)});
       idx_train_er = 
         std::vector<int>(T_train, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 101;
+      current_statement__ = 91;
       idx_train_er = context__.vals_i("idx_train_er");
-      current_statement__ = 101;
+      current_statement__ = 91;
       stan::math::check_greater_or_equal(function__, "idx_train_er",
                                             idx_train_er, 1);
-      current_statement__ = 102;
+      current_statement__ = 92;
       stan::math::validate_non_negative_index("y_train_count", "T_train",
                                               T_train);
-      current_statement__ = 103;
+      current_statement__ = 93;
       stan::math::validate_non_negative_index("y_train_count", "R", R);
-      current_statement__ = 104;
+      current_statement__ = 94;
       context__.validate_dims("data initialization","y_train_count","int",
            std::vector<size_t>{static_cast<size_t>(T_train),
             static_cast<size_t>(R)});
@@ -506,47 +494,47 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<int> y_train_count_flat__;
-        current_statement__ = 104;
+        current_statement__ = 94;
         y_train_count_flat__ = context__.vals_i("y_train_count");
-        current_statement__ = 104;
+        current_statement__ = 94;
         pos__ = 1;
-        current_statement__ = 104;
+        current_statement__ = 94;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 104;
+          current_statement__ = 94;
           for (int sym2__ = 1; sym2__ <= T_train; ++sym2__) {
-            current_statement__ = 104;
+            current_statement__ = 94;
             stan::model::assign(y_train_count,
               y_train_count_flat__[(pos__ - 1)],
               "assigning variable y_train_count", stan::model::index_uni(sym2__),
                                                     stan::model::index_uni(sym1__));
-            current_statement__ = 104;
+            current_statement__ = 94;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 104;
+      current_statement__ = 94;
       stan::math::check_greater_or_equal(function__, "y_train_count",
                                             y_train_count, 0);
-      current_statement__ = 105;
+      current_statement__ = 95;
       stan::math::validate_non_negative_index("idx_hold_er", "T_hold", T_hold);
-      current_statement__ = 106;
+      current_statement__ = 96;
       context__.validate_dims("data initialization","idx_hold_er","int",
            std::vector<size_t>{static_cast<size_t>(T_hold)});
       idx_hold_er = 
         std::vector<int>(T_hold, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 106;
+      current_statement__ = 96;
       idx_hold_er = context__.vals_i("idx_hold_er");
-      current_statement__ = 106;
+      current_statement__ = 96;
       stan::math::check_greater_or_equal(function__, "idx_hold_er",
                                             idx_hold_er, 1);
-      current_statement__ = 107;
+      current_statement__ = 97;
       stan::math::validate_non_negative_index("y_hold_count", "T_hold",
                                               T_hold);
-      current_statement__ = 108;
+      current_statement__ = 98;
       stan::math::validate_non_negative_index("y_hold_count", "R", R);
-      current_statement__ = 109;
+      current_statement__ = 99;
       context__.validate_dims("data initialization","y_hold_count","int",
            std::vector<size_t>{static_cast<size_t>(T_hold),
             static_cast<size_t>(R)});
@@ -557,70 +545,70 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<int> y_hold_count_flat__;
-        current_statement__ = 109;
+        current_statement__ = 99;
         y_hold_count_flat__ = context__.vals_i("y_hold_count");
-        current_statement__ = 109;
+        current_statement__ = 99;
         pos__ = 1;
-        current_statement__ = 109;
+        current_statement__ = 99;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 109;
+          current_statement__ = 99;
           for (int sym2__ = 1; sym2__ <= T_hold; ++sym2__) {
-            current_statement__ = 109;
+            current_statement__ = 99;
             stan::model::assign(y_hold_count,
               y_hold_count_flat__[(pos__ - 1)],
               "assigning variable y_hold_count", stan::model::index_uni(sym2__),
                                                    stan::model::index_uni(sym1__));
-            current_statement__ = 109;
+            current_statement__ = 99;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 109;
+      current_statement__ = 99;
       stan::math::check_greater_or_equal(function__, "y_hold_count",
                                             y_hold_count, 0);
-      current_statement__ = 110;
+      current_statement__ = 100;
       context__.validate_dims("data initialization","n_edges","int",
            std::vector<size_t>{});
       n_edges = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 110;
+      current_statement__ = 100;
       n_edges = context__.vals_i("n_edges")[(1 - 1)];
-      current_statement__ = 110;
+      current_statement__ = 100;
       stan::math::check_greater_or_equal(function__, "n_edges", n_edges, 0);
-      current_statement__ = 111;
+      current_statement__ = 101;
       stan::math::validate_non_negative_index("node1", "n_edges", n_edges);
-      current_statement__ = 112;
+      current_statement__ = 102;
       context__.validate_dims("data initialization","node1","int",
            std::vector<size_t>{static_cast<size_t>(n_edges)});
       node1 = std::vector<int>(n_edges, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 112;
+      current_statement__ = 102;
       node1 = context__.vals_i("node1");
-      current_statement__ = 112;
+      current_statement__ = 102;
       stan::math::check_greater_or_equal(function__, "node1", node1, 1);
-      current_statement__ = 112;
+      current_statement__ = 102;
       stan::math::check_less_or_equal(function__, "node1", node1, R);
-      current_statement__ = 113;
+      current_statement__ = 103;
       stan::math::validate_non_negative_index("node2", "n_edges", n_edges);
-      current_statement__ = 114;
+      current_statement__ = 104;
       context__.validate_dims("data initialization","node2","int",
            std::vector<size_t>{static_cast<size_t>(n_edges)});
       node2 = std::vector<int>(n_edges, std::numeric_limits<int>::min());
       
       
-      current_statement__ = 114;
+      current_statement__ = 104;
       node2 = context__.vals_i("node2");
-      current_statement__ = 114;
+      current_statement__ = 104;
       stan::math::check_greater_or_equal(function__, "node2", node2, 1);
-      current_statement__ = 114;
+      current_statement__ = 104;
       stan::math::check_less_or_equal(function__, "node2", node2, R);
-      current_statement__ = 115;
+      current_statement__ = 105;
       stan::math::validate_non_negative_index("l3", "R", R);
-      current_statement__ = 116;
+      current_statement__ = 106;
       stan::math::validate_non_negative_index("l3", "R", R);
-      current_statement__ = 117;
+      current_statement__ = 107;
       context__.validate_dims("data initialization","l3","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -632,28 +620,28 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> l3_flat__;
-        current_statement__ = 117;
+        current_statement__ = 107;
         l3_flat__ = context__.vals_r("l3");
-        current_statement__ = 117;
+        current_statement__ = 107;
         pos__ = 1;
-        current_statement__ = 117;
+        current_statement__ = 107;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 117;
+          current_statement__ = 107;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 117;
+            current_statement__ = 107;
             stan::model::assign(l3, l3_flat__[(pos__ - 1)],
               "assigning variable l3", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 117;
+            current_statement__ = 107;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 118;
+      current_statement__ = 108;
       stan::math::validate_non_negative_index("l2", "R", R);
-      current_statement__ = 119;
+      current_statement__ = 109;
       stan::math::validate_non_negative_index("l2", "R", R);
-      current_statement__ = 120;
+      current_statement__ = 110;
       context__.validate_dims("data initialization","l2","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -665,28 +653,28 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> l2_flat__;
-        current_statement__ = 120;
+        current_statement__ = 110;
         l2_flat__ = context__.vals_r("l2");
-        current_statement__ = 120;
+        current_statement__ = 110;
         pos__ = 1;
-        current_statement__ = 120;
+        current_statement__ = 110;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 120;
+          current_statement__ = 110;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 120;
+            current_statement__ = 110;
             stan::model::assign(l2, l2_flat__[(pos__ - 1)],
               "assigning variable l2", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 120;
+            current_statement__ = 110;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 121;
+      current_statement__ = 111;
       stan::math::validate_non_negative_index("l1", "R", R);
-      current_statement__ = 122;
+      current_statement__ = 112;
       stan::math::validate_non_negative_index("l1", "R", R);
-      current_statement__ = 123;
+      current_statement__ = 113;
       context__.validate_dims("data initialization","l1","double",
            std::vector<size_t>{static_cast<size_t>(R),
             static_cast<size_t>(R)});
@@ -698,28 +686,28 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> l1_flat__;
-        current_statement__ = 123;
+        current_statement__ = 113;
         l1_flat__ = context__.vals_r("l1");
-        current_statement__ = 123;
+        current_statement__ = 113;
         pos__ = 1;
-        current_statement__ = 123;
+        current_statement__ = 113;
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-          current_statement__ = 123;
+          current_statement__ = 113;
           for (int sym2__ = 1; sym2__ <= R; ++sym2__) {
-            current_statement__ = 123;
+            current_statement__ = 113;
             stan::model::assign(l1, l1_flat__[(pos__ - 1)],
               "assigning variable l1", stan::model::index_uni(sym2__),
                                          stan::model::index_uni(sym1__));
-            current_statement__ = 123;
+            current_statement__ = 113;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 124;
+      current_statement__ = 114;
       stan::math::validate_non_negative_index("equal", "p", p);
-      current_statement__ = 125;
+      current_statement__ = 115;
       stan::math::validate_non_negative_index("equal", "p", p);
-      current_statement__ = 126;
+      current_statement__ = 116;
       context__.validate_dims("data initialization","equal","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -731,28 +719,28 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> equal_flat__;
-        current_statement__ = 126;
+        current_statement__ = 116;
         equal_flat__ = context__.vals_r("equal");
-        current_statement__ = 126;
+        current_statement__ = 116;
         pos__ = 1;
-        current_statement__ = 126;
+        current_statement__ = 116;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 126;
+          current_statement__ = 116;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 126;
+            current_statement__ = 116;
             stan::model::assign(equal, equal_flat__[(pos__ - 1)],
               "assigning variable equal", stan::model::index_uni(sym2__),
                                             stan::model::index_uni(sym1__));
-            current_statement__ = 126;
+            current_statement__ = 116;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 127;
+      current_statement__ = 117;
       stan::math::validate_non_negative_index("bp_lin", "p", p);
-      current_statement__ = 128;
+      current_statement__ = 118;
       stan::math::validate_non_negative_index("bp_lin", "p", p);
-      current_statement__ = 129;
+      current_statement__ = 119;
       context__.validate_dims("data initialization","bp_lin","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -764,28 +752,28 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> bp_lin_flat__;
-        current_statement__ = 129;
+        current_statement__ = 119;
         bp_lin_flat__ = context__.vals_r("bp_lin");
-        current_statement__ = 129;
+        current_statement__ = 119;
         pos__ = 1;
-        current_statement__ = 129;
+        current_statement__ = 119;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 129;
+          current_statement__ = 119;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 129;
+            current_statement__ = 119;
             stan::model::assign(bp_lin, bp_lin_flat__[(pos__ - 1)],
               "assigning variable bp_lin", stan::model::index_uni(sym2__),
                                              stan::model::index_uni(sym1__));
-            current_statement__ = 129;
+            current_statement__ = 119;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 130;
+      current_statement__ = 120;
       stan::math::validate_non_negative_index("bp_square", "p", p);
-      current_statement__ = 131;
+      current_statement__ = 121;
       stan::math::validate_non_negative_index("bp_square", "p", p);
-      current_statement__ = 132;
+      current_statement__ = 122;
       context__.validate_dims("data initialization","bp_square","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -797,28 +785,28 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> bp_square_flat__;
-        current_statement__ = 132;
+        current_statement__ = 122;
         bp_square_flat__ = context__.vals_r("bp_square");
-        current_statement__ = 132;
+        current_statement__ = 122;
         pos__ = 1;
-        current_statement__ = 132;
+        current_statement__ = 122;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 132;
+          current_statement__ = 122;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 132;
+            current_statement__ = 122;
             stan::model::assign(bp_square, bp_square_flat__[(pos__ - 1)],
               "assigning variable bp_square", stan::model::index_uni(sym2__),
                                                 stan::model::index_uni(sym1__));
-            current_statement__ = 132;
+            current_statement__ = 122;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 133;
+      current_statement__ = 123;
       stan::math::validate_non_negative_index("bp_cube", "p", p);
-      current_statement__ = 134;
+      current_statement__ = 124;
       stan::math::validate_non_negative_index("bp_cube", "p", p);
-      current_statement__ = 135;
+      current_statement__ = 125;
       context__.validate_dims("data initialization","bp_cube","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -830,28 +818,28 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> bp_cube_flat__;
-        current_statement__ = 135;
+        current_statement__ = 125;
         bp_cube_flat__ = context__.vals_r("bp_cube");
-        current_statement__ = 135;
+        current_statement__ = 125;
         pos__ = 1;
-        current_statement__ = 135;
+        current_statement__ = 125;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 135;
+          current_statement__ = 125;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 135;
+            current_statement__ = 125;
             stan::model::assign(bp_cube, bp_cube_flat__[(pos__ - 1)],
               "assigning variable bp_cube", stan::model::index_uni(sym2__),
                                               stan::model::index_uni(sym1__));
-            current_statement__ = 135;
+            current_statement__ = 125;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 136;
+      current_statement__ = 126;
       stan::math::validate_non_negative_index("bp_quart", "p", p);
-      current_statement__ = 137;
+      current_statement__ = 127;
       stan::math::validate_non_negative_index("bp_quart", "p", p);
-      current_statement__ = 138;
+      current_statement__ = 128;
       context__.validate_dims("data initialization","bp_quart","double",
            std::vector<size_t>{static_cast<size_t>(p),
             static_cast<size_t>(p)});
@@ -863,120 +851,115 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       
       {
         std::vector<local_scalar_t__> bp_quart_flat__;
-        current_statement__ = 138;
+        current_statement__ = 128;
         bp_quart_flat__ = context__.vals_r("bp_quart");
-        current_statement__ = 138;
+        current_statement__ = 128;
         pos__ = 1;
-        current_statement__ = 138;
+        current_statement__ = 128;
         for (int sym1__ = 1; sym1__ <= p; ++sym1__) {
-          current_statement__ = 138;
+          current_statement__ = 128;
           for (int sym2__ = 1; sym2__ <= p; ++sym2__) {
-            current_statement__ = 138;
+            current_statement__ = 128;
             stan::model::assign(bp_quart, bp_quart_flat__[(pos__ - 1)],
               "assigning variable bp_quart", stan::model::index_uni(sym2__),
                                                stan::model::index_uni(sym1__));
-            current_statement__ = 138;
+            current_statement__ = 128;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 139;
+      current_statement__ = 129;
       S = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 139;
+      current_statement__ = 129;
       S = 2;
-      current_statement__ = 140;
+      current_statement__ = 130;
       C = std::numeric_limits<int>::min();
       
       
-      current_statement__ = 140;
+      current_statement__ = 130;
       C = 2;
-      current_statement__ = 141;
+      current_statement__ = 131;
       stan::math::validate_non_negative_index("phi_init", "T_all", T_all);
-      current_statement__ = 142;
+      current_statement__ = 132;
       stan::math::validate_non_negative_index("phi_init", "S", S);
-      current_statement__ = 143;
+      current_statement__ = 133;
       stan::math::validate_non_negative_index("phi_init", "R", R);
-      current_statement__ = 144;
+      current_statement__ = 134;
       stan::math::validate_non_negative_index("beta", "S", S);
-      current_statement__ = 145;
+      current_statement__ = 135;
       stan::math::validate_non_negative_index("beta", "p", p);
-      current_statement__ = 146;
+      current_statement__ = 136;
       stan::math::validate_non_negative_index("beta", "R", R);
-      current_statement__ = 147;
+      current_statement__ = 137;
       stan::math::validate_non_negative_index("tau_init", "S", S);
-      current_statement__ = 148;
+      current_statement__ = 138;
       stan::math::validate_non_negative_index("eta", "S", S);
-      current_statement__ = 149;
+      current_statement__ = 139;
       stan::math::validate_non_negative_index("bp_init", "S", S);
-      current_statement__ = 150;
+      current_statement__ = 140;
       stan::math::validate_non_negative_index("rho1", "C", C);
-      current_statement__ = 151;
+      current_statement__ = 141;
       stan::math::validate_non_negative_index("rho_sum", "C", C);
-      current_statement__ = 152;
+      current_statement__ = 142;
       stan::math::validate_non_negative_index("phi", "S", S);
-      current_statement__ = 153;
+      current_statement__ = 143;
       stan::math::validate_non_negative_index("phi", "T_all", T_all);
-      current_statement__ = 154;
+      current_statement__ = 144;
       stan::math::validate_non_negative_index("phi", "R", R);
-      current_statement__ = 155;
+      current_statement__ = 145;
       stan::math::validate_non_negative_index("reg", "S", S);
-      current_statement__ = 156;
+      current_statement__ = 146;
       stan::math::validate_non_negative_index("reg", "T_train", T_train);
-      current_statement__ = 157;
+      current_statement__ = 147;
       stan::math::validate_non_negative_index("reg", "R", R);
-      current_statement__ = 158;
+      current_statement__ = 148;
       stan::math::validate_non_negative_index("bp", "S", S);
-      current_statement__ = 159;
+      current_statement__ = 149;
       stan::math::validate_non_negative_index("tau", "S", S);
-      current_statement__ = 160;
+      current_statement__ = 150;
       stan::math::validate_non_negative_index("rho2", "C", C);
-      current_statement__ = 161;
+      current_statement__ = 151;
       stan::math::validate_non_negative_index("cov_ar1", "S", S);
-      current_statement__ = 162;
+      current_statement__ = 152;
       stan::math::validate_non_negative_index("cov_ar1", "p", p);
-      current_statement__ = 162;
+      current_statement__ = 152;
       stan::math::validate_non_negative_index("cov_ar1", "p", p);
-      current_statement__ = 163;
+      current_statement__ = 153;
       stan::math::validate_non_negative_index("corr", "C", C);
-      current_statement__ = 164;
+      current_statement__ = 154;
       stan::math::validate_non_negative_index("corr", "R", R);
-      current_statement__ = 164;
+      current_statement__ = 154;
       stan::math::validate_non_negative_index("corr", "R", R);
-      current_statement__ = 165;
+      current_statement__ = 155;
       stan::math::validate_non_negative_index("lambda", "T_train", T_train);
-      current_statement__ = 166;
+      current_statement__ = 156;
       stan::math::validate_non_negative_index("lambda", "R", R);
-      current_statement__ = 167;
+      current_statement__ = 157;
       stan::math::validate_non_negative_index("pi_prob", "T_train", T_train);
-      current_statement__ = 168;
+      current_statement__ = 158;
       stan::math::validate_non_negative_index("pi_prob", "R", R);
-      current_statement__ = 169;
+      current_statement__ = 159;
       stan::math::validate_non_negative_index("reg_full", "S", S);
-      current_statement__ = 170;
+      current_statement__ = 160;
       stan::math::validate_non_negative_index("reg_full", "T_all", T_all);
-      current_statement__ = 171;
+      current_statement__ = 161;
       stan::math::validate_non_negative_index("reg_full", "R", R);
-      current_statement__ = 172;
+      current_statement__ = 162;
       stan::math::validate_non_negative_index("lambda_hold", "T_hold", T_hold);
-      current_statement__ = 173;
+      current_statement__ = 163;
       stan::math::validate_non_negative_index("lambda_hold", "R", R);
-      current_statement__ = 174;
+      current_statement__ = 164;
       stan::math::validate_non_negative_index("pi_prob_hold", "T_hold",
                                               T_hold);
-      current_statement__ = 175;
+      current_statement__ = 165;
       stan::math::validate_non_negative_index("pi_prob_hold", "R", R);
-      current_statement__ = 176;
+      current_statement__ = 166;
       stan::math::validate_non_negative_index("holdout_loglik", "T_hold",
                                               T_hold);
-      current_statement__ = 177;
+      current_statement__ = 167;
       stan::math::validate_non_negative_index("holdout_loglik", "R", R);
-      current_statement__ = 178;
-      stan::math::validate_non_negative_index("train_loglik", "T_train",
-                                              T_train);
-      current_statement__ = 179;
-      stan::math::validate_non_negative_index("train_loglik", "R", R);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -1206,38 +1189,38 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       current_statement__ = 15;
       stan::math::check_corr_matrix(function__, "corr", corr);
       {
-        current_statement__ = 63;
+        current_statement__ = 53;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(delta, 0, 5));
-        current_statement__ = 64;
+        current_statement__ = 54;
         lp_accum__.add(
           stan::math::uniform_lpdf<propto__>(stan::math::to_vector(bp_init),
             0, 1));
-        current_statement__ = 65;
+        current_statement__ = 55;
         lp_accum__.add(
           stan::math::beta_lpdf<propto__>(stan::math::to_vector(eta), 3, 4));
-        current_statement__ = 66;
+        current_statement__ = 56;
         lp_accum__.add(
           stan::math::exponential_lpdf<propto__>(
             stan::math::to_vector(tau_init), 1));
-        current_statement__ = 67;
+        current_statement__ = 57;
         lp_accum__.add(
           stan::math::beta_lpdf<propto__>(stan::math::to_vector(rho1), 3, 4));
-        current_statement__ = 68;
+        current_statement__ = 58;
         lp_accum__.add(
           stan::math::beta_lpdf<propto__>(stan::math::to_vector(rho_sum), 8,
             2));
-        current_statement__ = 75;
+        current_statement__ = 65;
         for (int s = 1; s <= S; ++s) {
-          current_statement__ = 69;
+          current_statement__ = 59;
           lp_accum__.add(
             matnormal_lpdf<false>(
               stan::model::rvalue(beta, "beta", stan::model::index_uni(s)),
               stan::model::rvalue(cov_ar1, "cov_ar1",
                 stan::model::index_uni(s)),
               stan::model::rvalue(corr, "corr", stan::model::index_uni(s)), pstream__));
-          current_statement__ = 73;
+          current_statement__ = 63;
           for (int t = 1; t <= T_all; ++t) {
-            current_statement__ = 70;
+            current_statement__ = 60;
             lp_accum__.add(
               (-.5 *
                 stan::math::dot_self(
@@ -1250,7 +1233,7 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
                       stan::model::rvalue(phi_init, "phi_init",
   stan::model::index_uni(t), stan::model::index_uni(s)),
                       "phi_init[t, s]", stan::model::index_multi(node2))))));
-            current_statement__ = 71;
+            current_statement__ = 61;
             lp_accum__.add(
               stan::math::normal_lpdf<propto__>(
                 stan::math::sum(
@@ -1259,15 +1242,15 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
                 0, (0.001 * R)));
           }
         }
-        current_statement__ = 84;
+        current_statement__ = 74;
         for (int r = 1; r <= R; ++r) {
-          current_statement__ = 82;
+          current_statement__ = 72;
           for (int t = 1; t <= T_train; ++t) {
-            current_statement__ = 80;
+            current_statement__ = 70;
             if (stan::math::logical_eq(
                   stan::model::rvalue(y_train_count, "y_train_count",
                     stan::model::index_uni(t), stan::model::index_uni(r)), 0)) {
-              current_statement__ = 78;
+              current_statement__ = 68;
               lp_accum__.add(
                 stan::math::log_sum_exp(
                   stan::math::bernoulli_logit_lpmf<false>(1,
@@ -1284,7 +1267,7 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
                         stan::model::index_uni(t), stan::model::index_uni(r)),
                       delta))));
             } else {
-              current_statement__ = 76;
+              current_statement__ = 66;
               lp_accum__.add(
                 (stan::math::bernoulli_logit_lpmf<false>(0,
                    stan::model::rvalue(pi_prob, "pi_prob",
@@ -1638,14 +1621,11 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       Eigen::Matrix<double, -1, -1> holdout_loglik =
          Eigen::Matrix<double, -1, -1>::Constant(T_hold, R,
            std::numeric_limits<double>::quiet_NaN());
-      Eigen::Matrix<double, -1, -1> train_loglik =
-         Eigen::Matrix<double, -1, -1>::Constant(T_train, R,
-           std::numeric_limits<double>::quiet_NaN());
-      current_statement__ = 43;
+      current_statement__ = 42;
       for (int s = 1; s <= S; ++s) {
-        current_statement__ = 41;
+        current_statement__ = 40;
         for (int r = 1; r <= R; ++r) {
-          current_statement__ = 38;
+          current_statement__ = 37;
           stan::model::assign(reg_full,
             stan::math::add(
               stan::math::multiply(
@@ -1662,7 +1642,7 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
             "assigning variable reg_full", stan::model::index_uni(s),
                                              stan::model::index_omni(),
                                              stan::model::index_uni(r));
-          current_statement__ = 39;
+          current_statement__ = 38;
           stan::model::assign(lambda_hold,
             stan::math::add(
               stan::model::rvalue(
@@ -1676,64 +1656,22 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
                                                 stan::model::index_uni(r));
         }
       }
-      current_statement__ = 44;
+      current_statement__ = 43;
       stan::model::assign(pi_prob_hold,
         stan::model::rvalue(
           stan::model::rvalue(reg_full, "reg_full", stan::model::index_uni(2)),
           "reg_full[2]",
           stan::model::index_multi(idx_hold_er), stan::model::index_omni()),
         "assigning variable pi_prob_hold");
-      current_statement__ = 53;
+      current_statement__ = 52;
       for (int r = 1; r <= R; ++r) {
-        current_statement__ = 51;
-        for (int t = 1; t <= T_train; ++t) {
-          current_statement__ = 49;
-          if (stan::math::logical_eq(
-                stan::model::rvalue(y_train_count, "y_train_count",
-                  stan::model::index_uni(t), stan::model::index_uni(r)), 0)) {
-            current_statement__ = 47;
-            stan::model::assign(train_loglik,
-              stan::math::log_sum_exp(
-                stan::math::bernoulli_logit_lpmf<false>(1,
-                  stan::model::rvalue(pi_prob, "pi_prob",
-                    stan::model::index_uni(t), stan::model::index_uni(r))),
-                (stan::math::bernoulli_logit_lpmf<false>(0,
-                   stan::model::rvalue(pi_prob, "pi_prob",
-                     stan::model::index_uni(t), stan::model::index_uni(r))) +
-                  stan::math::neg_binomial_2_log_lpmf<false>(
-                    stan::model::rvalue(y_train_count, "y_train_count",
-                      stan::model::index_uni(t), stan::model::index_uni(r)),
-                    stan::model::rvalue(lambda, "lambda",
-                      stan::model::index_uni(t), stan::model::index_uni(r)),
-                    delta))),
-              "assigning variable train_loglik", stan::model::index_uni(t),
-                                                   stan::model::index_uni(r));
-          } else {
-            current_statement__ = 45;
-            stan::model::assign(train_loglik,
-              (stan::math::bernoulli_logit_lpmf<false>(0,
-                 stan::model::rvalue(pi_prob, "pi_prob",
-                   stan::model::index_uni(t), stan::model::index_uni(r))) +
-                stan::math::neg_binomial_2_log_lpmf<false>(
-                  stan::model::rvalue(y_train_count, "y_train_count",
-                    stan::model::index_uni(t), stan::model::index_uni(r)),
-                  stan::model::rvalue(lambda, "lambda",
-                    stan::model::index_uni(t), stan::model::index_uni(r)),
-                  delta)),
-              "assigning variable train_loglik", stan::model::index_uni(t),
-                                                   stan::model::index_uni(r));
-          }
-        }
-      }
-      current_statement__ = 62;
-      for (int r = 1; r <= R; ++r) {
-        current_statement__ = 60;
+        current_statement__ = 50;
         for (int t = 1; t <= T_hold; ++t) {
-          current_statement__ = 58;
+          current_statement__ = 48;
           if (stan::math::logical_eq(
                 stan::model::rvalue(y_hold_count, "y_hold_count",
                   stan::model::index_uni(t), stan::model::index_uni(r)), 0)) {
-            current_statement__ = 56;
+            current_statement__ = 46;
             stan::model::assign(holdout_loglik,
               stan::math::log_sum_exp(
                 stan::math::bernoulli_logit_lpmf<false>(1,
@@ -1751,7 +1689,7 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
               "assigning variable holdout_loglik", stan::model::index_uni(t),
                                                      stan::model::index_uni(r));
           } else {
-            current_statement__ = 54;
+            current_statement__ = 44;
             stan::model::assign(holdout_loglik,
               (stan::math::bernoulli_logit_lpmf<false>(0,
                  stan::model::rvalue(pi_prob_hold, "pi_prob_hold",
@@ -1781,7 +1719,6 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
       out__.write(lambda_hold);
       out__.write(pi_prob_hold);
       out__.write(holdout_loglik);
-      out__.write(train_loglik);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -1881,7 +1818,7 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
     names__ = std::vector<std::string>{"delta", "phi_init", "beta",
       "tau_init", "eta", "bp_init", "rho1", "rho_sum", "phi", "reg", "bp",
       "tau", "rho2", "cov_ar1", "corr", "lambda", "pi_prob", "reg_full",
-      "lambda_hold", "pi_prob_hold", "holdout_loglik", "train_loglik"};
+      "lambda_hold", "pi_prob_hold", "holdout_loglik"};
     
     } // get_param_names() 
     
@@ -1917,9 +1854,7 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
                           static_cast<size_t>(R)},
       std::vector<size_t>{static_cast<size_t>(T_hold), static_cast<size_t>(R)},
       std::vector<size_t>{static_cast<size_t>(T_hold), static_cast<size_t>(R)},
-      std::vector<size_t>{static_cast<size_t>(T_hold), static_cast<size_t>(R)},
-      std::vector<size_t>{static_cast<size_t>(T_train),
-                          static_cast<size_t>(R)}};
+      std::vector<size_t>{static_cast<size_t>(T_hold), static_cast<size_t>(R)}};
     
     } // get_dims() 
     
@@ -2110,15 +2045,6 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
           }
         } 
       }
-      for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-        {
-          for (int sym2__ = 1; sym2__ <= T_train; ++sym2__) {
-            {
-              param_names__.emplace_back(std::string() + "train_loglik" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
-            } 
-          }
-        } 
-      }
     }
     
     } // constrained_param_names() 
@@ -2302,28 +2228,19 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
           }
         } 
       }
-      for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
-        {
-          for (int sym2__ = 1; sym2__ <= T_train; ++sym2__) {
-            {
-              param_names__.emplace_back(std::string() + "train_loglik" + '.' + std::to_string(sym2__) + '.' + std::to_string(sym1__));
-            } 
-          }
-        } 
-      }
     }
     
     } // unconstrained_param_names() 
     
   inline std::string get_constrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"delta\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"pi_prob\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"reg_full\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"generated_quantities\"},{\"name\":\"lambda_hold\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"pi_prob_hold\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"train_loglik\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"}]");
+    return std::string("[{\"name\":\"delta\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"pi_prob\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"reg_full\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"generated_quantities\"},{\"name\":\"lambda_hold\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"pi_prob_hold\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"}]");
     
     } // get_constrained_sizedtypes() 
     
   inline std::string get_unconstrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"delta\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"pi_prob\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"reg_full\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"generated_quantities\"},{\"name\":\"lambda_hold\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"pi_prob_hold\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"train_loglik\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"}]");
+    return std::string("[{\"name\":\"delta\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"pi_prob\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"reg_full\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"generated_quantities\"},{\"name\":\"lambda_hold\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"pi_prob_hold\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"}]");
     
     } // get_unconstrained_sizedtypes() 
     
@@ -2342,8 +2259,7 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
   ((((((((((S * T_all) * R) + ((S * T_train) * R)) + S) + S) + C) +
        ((S * p) * p)) + ((C * R) * R)) + (T_train * R)) + (T_train * R));
       const size_t num_gen_quantities = emit_generated_quantities * 
-  ((((((S * T_all) * R) + (T_hold * R)) + (T_hold * R)) + (T_hold * R)) +
-    (T_train * R));
+  (((((S * T_all) * R) + (T_hold * R)) + (T_hold * R)) + (T_hold * R));
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
       std::vector<int> params_i;
@@ -2366,8 +2282,7 @@ class zinb_all_reg_model final : public model_base_crtp<zinb_all_reg_model> {
   ((((((((((S * T_all) * R) + ((S * T_train) * R)) + S) + S) + C) +
        ((S * p) * p)) + ((C * R) * R)) + (T_train * R)) + (T_train * R));
       const size_t num_gen_quantities = emit_generated_quantities * 
-  ((((((S * T_all) * R) + (T_hold * R)) + (T_hold * R)) + (T_hold * R)) +
-    (T_train * R));
+  (((((S * T_all) * R) + (T_hold * R)) + (T_hold * R)) + (T_hold * R));
       const size_t num_to_write = num_params__ + num_transformed +
         num_gen_quantities;
       vars = std::vector<double>(num_to_write,

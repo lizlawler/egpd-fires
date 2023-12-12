@@ -343,3 +343,71 @@ Iteration:    1 / 2000 [  0%]  (Warmup)
 Iteration:    1 / 2000 [  0%]  (Warmup)
 Iteration:    1 / 2000 [  0%]  (Warmup)
 Iteration:    1 / 2000 [  0%]  (Warmup)
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: delta or kappa <=0; found delta = 0 kappa = inf (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 13, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 77, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 122, column 4 to column 91)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: delta or kappa <=0; found delta = 3.93719e-38 kappa = inf (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 13, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 77, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 122, column 4 to column 91)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: delta or kappa <=0; found delta = 0 kappa = inf (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 13, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 77, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 122, column 4 to column 91)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: delta or kappa <=0; found delta = 3.93719e-38 kappa = inf (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 13, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 77, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 122, column 4 to column 91)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: delta or kappa <=0; found delta = 0 kappa = inf (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 13, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 77, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 122, column 4 to column 91)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: delta or kappa <=0; found delta = 3.93719e-38 kappa = inf (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 13, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 77, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 122, column 4 to column 91)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: cholesky_decompose: Matrix m is not positive definite (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 58, column 2 to column 47)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.23209e-64 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 77, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 122, column 4 to column 91)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: cholesky_decompose: Matrix m is not positive definite (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 58, column 2 to column 47)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+
+Informational Message: The current Metropolis proposal is about to be rejected because of the following issue:
+Exception: Exception: Exception: Exception: sigma<=0; found sigma = 1.23209e-64 (in 'full-model/fire-sims/joint/stan///../../burns/gpd_fcns.stanfunctions', line 53, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 2, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 6, column 6, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan///../../burns/g4/stan/g4_fcns.stanfunctions', line 77, column 4, included from
+'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 3, column 2) (in 'full-model/fire-sims/joint/stan/joint_g4_sigma.stan', line 122, column 4 to column 91)
+If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
+but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
+

@@ -12,13 +12,13 @@ library(MCMCvis)
 library(posterior)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/csv-fits/")
-csvpattern <- paste0(type, "_", model, "_", params, "_", sttime, "_", dataset)
+csvpattern <- paste0(type, "_", model, "_", params, "_", sttime, "_", dataset, "_\\d{1}")
 files <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 print("Filenames being used are:")
 files
 
 print("Creating cmdstan fit object...")
-fit <- as_cmdstan_fit(csvfiles)
+fit <- as_cmdstan_fit(files)
 fit$diagnostic_summary()
 
 print("Creating mcmc list from cmdstan object...")
@@ -32,18 +32,18 @@ MCMCtrace(fitmcmc,
           filename = paste0(plotbase, csvpattern, "_rho.pdf"))
 print("rho traceplots created")
 # 
-print("Creating traceplot of betas for lambda")
-MCMCtrace(fitmcmc,
-          params = 'beta_count',
-          ind = TRUE,
-          open_pdf = FALSE,
-          filename = paste0(plotbase, csvpattern, "_lambda-beta.pdf"))
-print("Creating traceplot of betas for kappa")
-MCMCtrace(fitmcmc,
-          params = 'beta_burn',
-          ind = TRUE,
-          open_pdf = FALSE,
-          filename = paste0(plotbase, csvpattern, "_kappa-beta.pdf"))
+# print("Creating traceplot of betas for lambda")
+# MCMCtrace(fitmcmc,
+#           params = 'beta_count',
+#           ind = TRUE,
+#           open_pdf = FALSE,
+#           filename = paste0(plotbase, csvpattern, "_lambda-beta.pdf"))
+# print("Creating traceplot of betas for kappa")
+# MCMCtrace(fitmcmc,
+#           params = 'beta_burn',
+#           ind = TRUE,
+#           open_pdf = FALSE,
+#           filename = paste0(plotbase, csvpattern, "_kappa-beta.pdf"))
 # print("beta traceplots created")
 # 
 # print("Creating traceplot of phi...")

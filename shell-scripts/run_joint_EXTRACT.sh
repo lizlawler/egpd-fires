@@ -13,11 +13,11 @@ sttime="12Dec2023_1143"
 for dataset in "erc" "erc_fwi"
 do
 export modtype modname params dataset sttime
-sbatch --job-name ${modname}_${params}_${sttime}_${dataset}_draws_take2 \
+sbatch --job-name ${modtype}_${modname}_${params}_${sttime}_${dataset}_draws_take3 \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_joint_extraction.sh
 sleep 1
-sbatch --job-name ${modname}_${params}_${sttime}_${dataset}_scores_take2 \
+sbatch --job-name ${modtype}_${modname}_${params}_${sttime}_${dataset}_scores_take3 \
 --output="./full-model/output/%x_%j.txt" \
 shell-scripts/call_joint_plots.sh
 sleep 1

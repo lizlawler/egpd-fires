@@ -8,7 +8,7 @@ using namespace stan::math;
 
 
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 407> locations_array__ = 
+static constexpr std::array<const char*, 408> locations_array__ = 
 {" (found before start of program)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 14, column 2 to column 53)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 15, column 2 to column 19)",
@@ -22,9 +22,9 @@ static constexpr std::array<const char*, 407> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 23, column 2 to column 43)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 24, column 2 to column 27)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 25, column 2 to column 20)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 26, column 2 to column 13)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 29, column 2 to column 49)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 30, column 2 to column 29)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 28, column 2 to column 49)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 29, column 2 to column 29)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 30, column 2 to column 18)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 31, column 2 to column 28)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 32, column 2 to column 20)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 33, column 2 to column 32)",
@@ -48,21 +48,22 @@ static constexpr std::array<const char*, 407> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 56, column 4 to column 50)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 54, column 17 to line 57, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 54, column 2 to line 57, column 3)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 60, column 4 to line 61, column 62)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 64, column 4 to column 46)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 66, column 6 to line 67, column 53)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 65, column 23 to line 68, column 5)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 65, column 4 to line 68, column 5)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 59, column 17 to line 69, column 3)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 59, column 2 to line 69, column 3)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 72, column 2 to column 27)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 74, column 4 to column 53)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 73, column 21 to line 75, column 3)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 73, column 2 to line 75, column 3)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 79, column 4 to column 118)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 80, column 4 to column 104)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 78, column 17 to line 81, column 3)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 78, column 2 to line 81, column 3)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 58, column 2 to column 47)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 61, column 4 to line 62, column 62)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 65, column 4 to column 46)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 67, column 6 to line 68, column 53)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 66, column 23 to line 69, column 5)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 66, column 4 to line 69, column 5)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 60, column 17 to line 70, column 3)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 60, column 2 to line 70, column 3)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 73, column 2 to column 27)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 75, column 4 to column 53)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 74, column 21 to line 76, column 3)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 74, column 2 to line 76, column 3)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 80, column 4 to column 118)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 81, column 4 to column 107)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 79, column 17 to line 82, column 3)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 79, column 2 to line 82, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 141, column 2 to column 41)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 143, column 2 to column 45)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 145, column 2 to column 40)",
@@ -70,7 +71,7 @@ static constexpr std::array<const char*, 407> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 148, column 2 to column 31)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 149, column 2 to column 29)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 153, column 4 to column 79)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 154, column 4 to column 82)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 154, column 4 to column 85)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 152, column 17 to line 155, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 152, column 2 to line 155, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 172, column 4 to column 76)",
@@ -111,14 +112,13 @@ static constexpr std::array<const char*, 407> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 216, column 4 to line 231, column 5)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 215, column 17 to line 232, column 3)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 215, column 2 to line 232, column 3)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 84, column 9 to column 17)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 84, column 2 to column 58)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 85, column 9 to column 17)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 85, column 2 to column 82)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 85, column 2 to column 58)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 86, column 9 to column 17)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 86, column 2 to column 79)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 88, column 2 to column 30)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 89, column 2 to column 23)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 86, column 2 to column 82)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 87, column 9 to column 17)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 87, column 2 to column 79)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 89, column 2 to column 32)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 92, column 2 to column 37)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 95, column 2 to column 30)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 96, column 2 to column 39)",
@@ -251,8 +251,9 @@ static constexpr std::array<const char*, 407> locations_array__ =
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 22, column 29 to column 30)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 23, column 32 to column 33)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 24, column 9 to column 14)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 29, column 8 to column 16)",
- " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 30, column 20 to column 21)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 28, column 8 to column 16)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 29, column 20 to column 21)",
+ " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 30, column 9 to column 10)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 31, column 9 to column 16)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 31, column 18 to column 19)",
  " (in 'full-model/fire-sims/joint/stan/joint_g1_sigma-ri.stan', line 32, column 9 to column 10)",
@@ -591,13 +592,13 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ inv_xi = DUMMY_VAR__;
-      current_statement__ = 273;
+      current_statement__ = 274;
       inv_xi = stan::math::inv(xi);
-      current_statement__ = 284;
+      current_statement__ = 285;
       if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
           stan::math::primitive_value(
           stan::math::logical_gt((y / sigma), -inv_xi)))) {
-        current_statement__ = 282;
+        current_statement__ = 283;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
         stan::math::stan_print(&errmsg_stream__, -inv_xi);
@@ -605,21 +606,21 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
         stan::math::stan_print(&errmsg_stream__, (y / sigma));
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 281;
+        current_statement__ = 282;
         if (stan::math::logical_lt(sigma, 1e-15)) {
-          current_statement__ = 279;
+          current_statement__ = 280;
           std::stringstream errmsg_stream__;
           stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
           stan::math::stan_print(&errmsg_stream__, sigma);
           throw std::domain_error(errmsg_stream__.str());
         } else {
-          current_statement__ = 278;
+          current_statement__ = 279;
           if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-            current_statement__ = 276;
+            current_statement__ = 277;
             return ((-(1 + inv_xi) * stan::math::log1p((xi * (y / sigma)))) -
                      stan::math::log(sigma));
           } else {
-            current_statement__ = 274;
+            current_statement__ = 275;
             return (-stan::math::log(sigma) - (y / sigma));
           }
         }
@@ -643,13 +644,13 @@ template <typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ inv_xi = DUMMY_VAR__;
-      current_statement__ = 286;
+      current_statement__ = 287;
       inv_xi = stan::math::inv(xi);
-      current_statement__ = 297;
+      current_statement__ = 298;
       if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
           stan::math::primitive_value(
           stan::math::logical_gt((y / sigma), -inv_xi)))) {
-        current_statement__ = 295;
+        current_statement__ = 296;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
         stan::math::stan_print(&errmsg_stream__, -inv_xi);
@@ -657,22 +658,22 @@ template <typename T0__, typename T1__, typename T2__,
         stan::math::stan_print(&errmsg_stream__, (y / sigma));
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 294;
+        current_statement__ = 295;
         if (stan::math::logical_lt(sigma, 1e-15)) {
-          current_statement__ = 292;
+          current_statement__ = 293;
           std::stringstream errmsg_stream__;
           stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
           stan::math::stan_print(&errmsg_stream__, sigma);
           throw std::domain_error(errmsg_stream__.str());
         } else {
-          current_statement__ = 291;
+          current_statement__ = 292;
           if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-            current_statement__ = 289;
+            current_statement__ = 290;
             return stan::math::exp(
                      stan::math::log1m_exp(
                        (-inv_xi * stan::math::log1p((xi * (y / sigma))))));
           } else {
-            current_statement__ = 287;
+            current_statement__ = 288;
             return stan::math::exp(stan::math::log1m_exp((-y / sigma)));
           }
         }
@@ -696,13 +697,13 @@ template <typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ inv_xi = DUMMY_VAR__;
-      current_statement__ = 299;
+      current_statement__ = 300;
       inv_xi = stan::math::inv(xi);
-      current_statement__ = 310;
+      current_statement__ = 311;
       if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
           stan::math::primitive_value(
           stan::math::logical_gt((y / sigma), -inv_xi)))) {
-        current_statement__ = 308;
+        current_statement__ = 309;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
         stan::math::stan_print(&errmsg_stream__, -inv_xi);
@@ -710,21 +711,21 @@ template <typename T0__, typename T1__, typename T2__,
         stan::math::stan_print(&errmsg_stream__, (y / sigma));
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 307;
+        current_statement__ = 308;
         if (stan::math::logical_lt(sigma, 1e-15)) {
-          current_statement__ = 305;
+          current_statement__ = 306;
           std::stringstream errmsg_stream__;
           stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
           stan::math::stan_print(&errmsg_stream__, sigma);
           throw std::domain_error(errmsg_stream__.str());
         } else {
-          current_statement__ = 304;
+          current_statement__ = 305;
           if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-            current_statement__ = 302;
+            current_statement__ = 303;
             return stan::math::log1m_exp(
                      (-inv_xi * stan::math::log1p((xi * (y / sigma)))));
           } else {
-            current_statement__ = 300;
+            current_statement__ = 301;
             return stan::math::log1m_exp((-y / sigma));
           }
         }
@@ -748,13 +749,13 @@ template <typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ inv_xi = DUMMY_VAR__;
-      current_statement__ = 312;
+      current_statement__ = 313;
       inv_xi = stan::math::inv(xi);
-      current_statement__ = 323;
+      current_statement__ = 324;
       if ((stan::math::primitive_value(stan::math::logical_lt(xi, 0)) &&
           stan::math::primitive_value(
           stan::math::logical_gt((y / sigma), -inv_xi)))) {
-        current_statement__ = 321;
+        current_statement__ = 322;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "xi<0 and y/sigma > -1/xi; found -1/xi = ");
         stan::math::stan_print(&errmsg_stream__, -inv_xi);
@@ -762,20 +763,20 @@ template <typename T0__, typename T1__, typename T2__,
         stan::math::stan_print(&errmsg_stream__, (y / sigma));
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 320;
+        current_statement__ = 321;
         if (stan::math::logical_lt(sigma, 1e-15)) {
-          current_statement__ = 318;
+          current_statement__ = 319;
           std::stringstream errmsg_stream__;
           stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma = ");
           stan::math::stan_print(&errmsg_stream__, sigma);
           throw std::domain_error(errmsg_stream__.str());
         } else {
-          current_statement__ = 317;
+          current_statement__ = 318;
           if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-            current_statement__ = 315;
+            current_statement__ = 316;
             return (-inv_xi * stan::math::log1p((xi * (y / sigma))));
           } else {
-            current_statement__ = 313;
+            current_statement__ = 314;
             return (-y / sigma);
           }
         }
@@ -798,23 +799,23 @@ template <typename T0__, typename T1__, typename T2__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 329;
+      current_statement__ = 330;
       if (stan::math::logical_lt(sigma, 1e-15)) {
-        current_statement__ = 328;
+        current_statement__ = 329;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "sigma<=0; found sigma =");
         stan::math::stan_print(&errmsg_stream__, sigma);
         throw std::domain_error(errmsg_stream__.str());
       } else {
-        current_statement__ = 327;
+        current_statement__ = 328;
         if (stan::math::logical_gt(stan::math::abs(xi), 1e-15)) {
-          current_statement__ = 326;
+          current_statement__ = 327;
           return stan::math::exp(
                    ((stan::math::log(
                        (stan::math::exp((-xi * stan::math::log1m(p))) - 1)) +
                       stan::math::log(sigma)) - stan::math::log(xi)));
         } else {
-          current_statement__ = 325;
+          current_statement__ = 326;
           return (-sigma * stan::math::log1m(p));
         }
       }
@@ -836,14 +837,14 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 335;
+      current_statement__ = 336;
       if (stan::math::logical_gt(kappa, 1e-15)) {
-        current_statement__ = 333;
+        current_statement__ = 334;
         return ((stan::math::log(kappa) +
                   ((kappa - 1) * gpareto_lcdf(y, sigma, xi, pstream__))) +
                  gpareto_lpdf<false>(y, sigma, xi, pstream__));
       } else {
-        current_statement__ = 331;
+        current_statement__ = 332;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "kappa<=0; found kappa = ");
         stan::math::stan_print(&errmsg_stream__, kappa);
@@ -868,13 +869,13 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 341;
+      current_statement__ = 342;
       if (stan::math::logical_gt(kappa, 1e-15)) {
-        current_statement__ = 339;
+        current_statement__ = 340;
         return stan::math::exp(
                  (kappa * gpareto_lcdf(y, sigma, xi, pstream__)));
       } else {
-        current_statement__ = 337;
+        current_statement__ = 338;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "kappa<=0; found kappa = ");
         stan::math::stan_print(&errmsg_stream__, kappa);
@@ -899,12 +900,12 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 347;
+      current_statement__ = 348;
       if (stan::math::logical_gt(kappa, 1e-15)) {
-        current_statement__ = 345;
+        current_statement__ = 346;
         return (kappa * gpareto_lcdf(y, sigma, xi, pstream__));
       } else {
-        current_statement__ = 343;
+        current_statement__ = 344;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "kappa<=0; found kappa = ");
         stan::math::stan_print(&errmsg_stream__, kappa);
@@ -929,13 +930,13 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 353;
+      current_statement__ = 354;
       if (stan::math::logical_gt(kappa, 1e-15)) {
-        current_statement__ = 351;
+        current_statement__ = 352;
         return stan::math::log1m_exp(
                  (kappa * gpareto_lcdf(y, sigma, xi, pstream__)));
       } else {
-        current_statement__ = 349;
+        current_statement__ = 350;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "kappa<=0; found kappa = ");
         stan::math::stan_print(&errmsg_stream__, kappa);
@@ -960,17 +961,17 @@ template <typename T0__, typename T1__, typename T2__, typename T3__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 360;
+      current_statement__ = 361;
       if (stan::math::logical_gt(kappa, 1e-15)) {
         local_scalar_t__ p = DUMMY_VAR__;
-        current_statement__ = 357;
+        current_statement__ = 358;
         p = stan::math::exp(
               (stan::math::exp(-stan::math::log(kappa)) *
                 stan::math::log(u_adj)));
-        current_statement__ = 358;
+        current_statement__ = 359;
         return gpareto_icdf(p, sigma, xi, pstream__);
       } else {
-        current_statement__ = 355;
+        current_statement__ = 356;
         std::stringstream errmsg_stream__;
         stan::math::stan_print(&errmsg_stream__, "kappa<=0; found kappa = ");
         stan::math::stan_print(&errmsg_stream__, kappa);
@@ -997,46 +998,46 @@ template <typename T1__, typename T2__, typename T3__, typename T4__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 362;
-      cst = egpd_cdf(ymin, sigma, xi, kappa, pstream__);
       current_statement__ = 363;
+      cst = egpd_cdf(ymin, sigma, xi, kappa, pstream__);
+      current_statement__ = 364;
       stan::math::validate_non_negative_index("rng_val", "n", n);
       Eigen::Matrix<local_scalar_t__, -1, 1> rng_val =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
-      current_statement__ = 365;
+      current_statement__ = 366;
       stan::math::validate_non_negative_index("alpha", "n", n);
       Eigen::Matrix<local_scalar_t__, -1, 1> alpha =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
-      current_statement__ = 366;
+      current_statement__ = 367;
       stan::model::assign(alpha, stan::math::rep_vector(0, n),
         "assigning variable alpha");
-      current_statement__ = 367;
+      current_statement__ = 368;
       stan::math::validate_non_negative_index("beta", "n", n);
       Eigen::Matrix<local_scalar_t__, -1, 1> beta =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n, DUMMY_VAR__);
-      current_statement__ = 368;
+      current_statement__ = 369;
       stan::model::assign(beta, stan::math::rep_vector(1, n),
         "assigning variable beta");
-      current_statement__ = 369;
+      current_statement__ = 370;
       stan::math::validate_non_negative_index("u", "n", n);
       std::vector<local_scalar_t__> u =
          std::vector<local_scalar_t__>(n, DUMMY_VAR__);
-      current_statement__ = 370;
+      current_statement__ = 371;
       stan::model::assign(u,
         stan::math::uniform_rng(alpha, beta, base_rng__),
         "assigning variable u");
-      current_statement__ = 374;
+      current_statement__ = 375;
       for (int i = 1; i <= n; ++i) {
         local_scalar_t__ u_adj = DUMMY_VAR__;
-        current_statement__ = 371;
+        current_statement__ = 372;
         u_adj = ((stan::model::rvalue(u, "u", stan::model::index_uni(i)) *
                    (1 - cst)) + cst);
-        current_statement__ = 372;
+        current_statement__ = 373;
         stan::model::assign(rng_val,
           egpd_icdf(u_adj, sigma, xi, kappa, pstream__),
           "assigning variable rng_val", stan::model::index_uni(i));
       }
-      current_statement__ = 375;
+      current_statement__ = 376;
       return rng_val;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -1059,12 +1060,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
-      current_statement__ = 377;
+      current_statement__ = 378;
       lpdf = egpd_lpdf<false>(y, sigma, xi, kappa, pstream__);
       local_scalar_t__ cst = DUMMY_VAR__;
-      current_statement__ = 378;
-      cst = egpd_lccdf(ymin, sigma, xi, kappa, pstream__);
       current_statement__ = 379;
+      cst = egpd_lccdf(ymin, sigma, xi, kappa, pstream__);
+      current_statement__ = 380;
       return (lpdf - cst);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -1092,31 +1093,31 @@ template <typename T1__, typename T2__, typename T3__, typename T4__,
     local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
     (void) DUMMY_VAR__;  // suppress unused var warning
     try {
-      current_statement__ = 381;
+      current_statement__ = 382;
       stan::math::validate_non_negative_index("pred_probs", "n_int", n_int);
       Eigen::Matrix<local_scalar_t__, -1, 1> pred_probs =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(n_int, DUMMY_VAR__);
       local_scalar_t__ numer_cst = DUMMY_VAR__;
-      current_statement__ = 383;
+      current_statement__ = 384;
       numer_cst = egpd_cdf(ymin, sigma, xi, kappa, pstream__);
       local_scalar_t__ denom_cst = DUMMY_VAR__;
-      current_statement__ = 384;
+      current_statement__ = 385;
       denom_cst = stan::math::exp(
                     egpd_lccdf(ymin, sigma, xi, kappa, pstream__));
-      current_statement__ = 388;
+      current_statement__ = 389;
       for (int n = 1; n <= n_int; ++n) {
         local_scalar_t__ unnorm_pred_prob = DUMMY_VAR__;
-        current_statement__ = 385;
+        current_statement__ = 386;
         unnorm_pred_prob = egpd_cdf(
                              stan::model::rvalue(int_pts, "int_pts",
                                stan::model::index_uni(n)), sigma, xi,
                              kappa, pstream__);
-        current_statement__ = 386;
+        current_statement__ = 387;
         stan::model::assign(pred_probs,
           ((unnorm_pred_prob - numer_cst) / denom_cst),
           "assigning variable pred_probs", stan::model::index_uni(n));
       }
-      current_statement__ = 389;
+      current_statement__ = 390;
       return pred_probs;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -1148,13 +1149,13 @@ template <typename T0__, typename T2__, typename T3__, typename T4__,
       local_scalar_t__ score = DUMMY_VAR__;
       local_scalar_t__ summand = DUMMY_VAR__;
       local_scalar_t__ delta = DUMMY_VAR__;
-      current_statement__ = 393;
-      delta = (interval / (n_int - 1));
       current_statement__ = 394;
+      delta = (interval / (n_int - 1));
+      current_statement__ = 395;
       summand = 0;
-      current_statement__ = 397;
+      current_statement__ = 398;
       for (int n = 1; n <= n_int; ++n) {
-        current_statement__ = 395;
+        current_statement__ = 396;
         summand = (summand +
                     (stan::math::pow(
                        (stan::model::rvalue(pred_probs, "pred_probs",
@@ -1166,9 +1167,9 @@ template <typename T0__, typename T2__, typename T3__, typename T4__,
                         stan::model::rvalue(int_pts, "int_pts",
                           stan::model::index_uni(n)), 21, 9)));
       }
-      current_statement__ = 398;
-      score = (summand * delta);
       current_statement__ = 399;
+      score = (summand * delta);
+      current_statement__ = 400;
       return score;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -1198,12 +1199,12 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
     try {
       local_scalar_t__ lpdf = DUMMY_VAR__;
       local_scalar_t__ r = DUMMY_VAR__;
-      current_statement__ = 402;
+      current_statement__ = 403;
       r = stan::math::rows(corr);
       local_scalar_t__ p = DUMMY_VAR__;
-      current_statement__ = 403;
-      p = stan::math::rows(cov);
       current_statement__ = 404;
+      p = stan::math::rows(cov);
+      current_statement__ = 405;
       lpdf = ((((-((r * p) / 2) * stan::math::log((2 * stan::math::pi()))) -
                  ((p / 2) * stan::math::log_determinant(corr))) -
                 ((r / 2) * stan::math::log_determinant(cov))) -
@@ -1213,7 +1214,7 @@ template <bool propto__, typename T0__, typename T1__, typename T2__,
                      stan::math::mdivide_right_spd(
                        stan::math::mdivide_left_spd(corr,
                          stan::math::transpose(y)), cov), y))));
-      current_statement__ = 405;
+      current_statement__ = 406;
       return lpdf;
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -2386,7 +2387,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       
       
       current_statement__ = 225;
-      C = 6;
+      C = 7;
       current_statement__ = 226;
       stan::math::validate_non_negative_index("y_train_burn_mis", "N_tb_mis",
                                               N_tb_mis);
@@ -2438,75 +2439,77 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       current_statement__ = 243;
       stan::math::validate_non_negative_index("delta", "R", R);
       current_statement__ = 244;
-      stan::math::validate_non_negative_index("lambda", "T_train", T_train);
+      stan::math::validate_non_negative_index("gamma", "R", R);
       current_statement__ = 245;
-      stan::math::validate_non_negative_index("lambda", "R", R);
+      stan::math::validate_non_negative_index("lambda", "T_train", T_train);
       current_statement__ = 246;
-      stan::math::validate_non_negative_index("pi_prob", "R", R);
+      stan::math::validate_non_negative_index("lambda", "R", R);
       current_statement__ = 247;
-      stan::math::validate_non_negative_index("phi", "S", S);
+      stan::math::validate_non_negative_index("pi_prob", "R", R);
       current_statement__ = 248;
-      stan::math::validate_non_negative_index("phi", "T_all", T_all);
+      stan::math::validate_non_negative_index("phi", "S", S);
       current_statement__ = 249;
-      stan::math::validate_non_negative_index("phi", "R", R);
+      stan::math::validate_non_negative_index("phi", "T_all", T_all);
       current_statement__ = 250;
-      stan::math::validate_non_negative_index("reg", "T_train", T_train);
+      stan::math::validate_non_negative_index("phi", "R", R);
       current_statement__ = 251;
-      stan::math::validate_non_negative_index("reg", "R", R);
+      stan::math::validate_non_negative_index("reg", "T_train", T_train);
       current_statement__ = 252;
-      stan::math::validate_non_negative_index("bp", "S", S);
+      stan::math::validate_non_negative_index("reg", "R", R);
       current_statement__ = 253;
-      stan::math::validate_non_negative_index("tau", "S", S);
+      stan::math::validate_non_negative_index("bp", "S", S);
       current_statement__ = 254;
-      stan::math::validate_non_negative_index("rho2", "C", C);
+      stan::math::validate_non_negative_index("tau", "S", S);
       current_statement__ = 255;
+      stan::math::validate_non_negative_index("rho2", "C", C);
+      current_statement__ = 256;
       stan::math::validate_non_negative_index("cov_ar1", "S", S);
-      current_statement__ = 256;
-      stan::math::validate_non_negative_index("cov_ar1", "p", p);
-      current_statement__ = 256;
+      current_statement__ = 257;
       stan::math::validate_non_negative_index("cov_ar1", "p", p);
       current_statement__ = 257;
+      stan::math::validate_non_negative_index("cov_ar1", "p", p);
+      current_statement__ = 258;
       stan::math::validate_non_negative_index("corr", "C", C);
-      current_statement__ = 258;
-      stan::math::validate_non_negative_index("corr", "R", R);
-      current_statement__ = 258;
+      current_statement__ = 259;
       stan::math::validate_non_negative_index("corr", "R", R);
       current_statement__ = 259;
-      stan::math::validate_non_negative_index("theta", "T_all", T_all);
+      stan::math::validate_non_negative_index("corr", "R", R);
       current_statement__ = 260;
-      stan::math::validate_non_negative_index("ri_init", "R", R);
+      stan::math::validate_non_negative_index("theta", "T_all", T_all);
       current_statement__ = 261;
-      stan::math::validate_non_negative_index("ri_matrix", "T_all", T_all);
+      stan::math::validate_non_negative_index("ri_init", "R", R);
       current_statement__ = 262;
-      stan::math::validate_non_negative_index("ri_matrix", "R", R);
+      stan::math::validate_non_negative_index("ri_matrix", "T_all", T_all);
       current_statement__ = 263;
+      stan::math::validate_non_negative_index("ri_matrix", "R", R);
+      current_statement__ = 264;
       stan::math::validate_non_negative_index("holdout_loglik_count",
                                               "T_hold", T_hold);
-      current_statement__ = 264;
-      stan::math::validate_non_negative_index("holdout_loglik_count", "R", R);
       current_statement__ = 265;
+      stan::math::validate_non_negative_index("holdout_loglik_count", "R", R);
+      current_statement__ = 266;
       stan::math::validate_non_negative_index("holdout_loglik_burn",
                                               "N_hold_obs", N_hold_obs);
-      current_statement__ = 266;
+      current_statement__ = 267;
       stan::math::validate_non_negative_index("holdout_twcrps", "N_hold_obs",
                                               N_hold_obs);
-      current_statement__ = 267;
-      stan::math::validate_non_negative_index("reg_full", "T_all", T_all);
       current_statement__ = 268;
-      stan::math::validate_non_negative_index("reg_full", "R", R);
+      stan::math::validate_non_negative_index("reg_full", "T_all", T_all);
       current_statement__ = 269;
-      stan::math::validate_non_negative_index("lambda_full", "T_all", T_all);
+      stan::math::validate_non_negative_index("reg_full", "R", R);
       current_statement__ = 270;
-      stan::math::validate_non_negative_index("lambda_full", "R", R);
+      stan::math::validate_non_negative_index("lambda_full", "T_all", T_all);
       current_statement__ = 271;
-      stan::math::validate_non_negative_index("burn_pred", "T_all", T_all);
+      stan::math::validate_non_negative_index("lambda_full", "R", R);
       current_statement__ = 272;
+      stan::math::validate_non_negative_index("burn_pred", "T_all", T_all);
+      current_statement__ = 273;
       stan::math::validate_non_negative_index("burn_pred", "R", R);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
     num_params_r__ = N_tb_mis + (R * Z_2dim__) + (T_all * S * R) + (p * R)
-       + (p_burn * R) + S + eta_1dim__ + S + C + C + T_all + 1 + 1;
+       + (p_burn * R) + S + eta_1dim__ + S + C + C + T_all + 1;
     
   }
   
@@ -2604,12 +2607,11 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       current_statement__ = 12;
       eps = in__.template read_constrain_lb<local_scalar_t__, jacobian__>(0,
               lp__);
-      local_scalar_t__ gamma = DUMMY_VAR__;
-      current_statement__ = 13;
-      gamma = in__.template read<local_scalar_t__>();
       std::vector<local_scalar_t__> y_train_burn =
          std::vector<local_scalar_t__>(N_tb_all, DUMMY_VAR__);
       Eigen::Matrix<local_scalar_t__, -1, 1> delta =
+         Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(R, DUMMY_VAR__);
+      Eigen::Matrix<local_scalar_t__, -1, 1> gamma =
          Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(R, DUMMY_VAR__);
       Eigen::Matrix<local_scalar_t__, -1, -1> lambda =
          Eigen::Matrix<local_scalar_t__, -1, -1>::Constant(T_train, R,
@@ -2713,9 +2715,18 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                 stan::model::index_uni(i))), T_all),
           "assigning variable ri_matrix", stan::model::index_uni(i));
       }
-      current_statement__ = 45;
+      current_statement__ = 39;
+      stan::model::assign(gamma,
+        stan::math::multiply(
+          stan::math::transpose(
+            stan::math::cholesky_decompose(
+              stan::model::rvalue(corr, "corr", stan::model::index_uni(7)))),
+          stan::model::rvalue(Z, "Z",
+            stan::model::index_omni(), stan::model::index_uni(5))),
+        "assigning variable gamma");
+      current_statement__ = 46;
       for (int s = 1; s <= S; ++s) {
-        current_statement__ = 39;
+        current_statement__ = 40;
         stan::model::assign(cov_ar1,
           stan::math::add(
             stan::math::add(
@@ -2737,7 +2748,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                 stan::model::rvalue(bp, "bp", stan::model::index_uni(s)), 4),
               bp_quart)),
           "assigning variable cov_ar1", stan::model::index_uni(s));
-        current_statement__ = 40;
+        current_statement__ = 41;
         stan::model::assign(phi,
           stan::math::multiply(
             (1 / stan::model::rvalue(tau, "tau", stan::model::index_uni(s))),
@@ -2746,9 +2757,9 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
           "assigning variable phi", stan::model::index_uni(s),
                                       stan::model::index_uni(1),
                                       stan::model::index_omni());
-        current_statement__ = 43;
+        current_statement__ = 44;
         for (int t = 2; t <= T_all; ++t) {
-          current_statement__ = 41;
+          current_statement__ = 42;
           stan::model::assign(phi,
             stan::math::add(
               stan::math::multiply(
@@ -2768,14 +2779,14 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                                         stan::model::index_omni());
         }
       }
-      current_statement__ = 46;
+      current_statement__ = 47;
       stan::model::assign(theta,
         stan::model::rvalue(theta_init, "theta_init",
           stan::model::index_uni(1)),
         "assigning variable theta", stan::model::index_uni(1));
-      current_statement__ = 49;
+      current_statement__ = 50;
       for (int t = 2; t <= T_all; ++t) {
-        current_statement__ = 47;
+        current_statement__ = 48;
         stan::model::assign(theta,
           ((stan::model::rvalue(eta, "eta", stan::model::index_uni((S + 1)))
              *
@@ -2785,9 +2796,9 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
               stan::model::index_uni(t))),
           "assigning variable theta", stan::model::index_uni(t));
       }
-      current_statement__ = 53;
+      current_statement__ = 54;
       for (int r = 1; r <= R; ++r) {
-        current_statement__ = 50;
+        current_statement__ = 51;
         stan::model::assign(lambda,
           stan::math::add(
             stan::math::add(
@@ -2808,7 +2819,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
               stan::model::index_multi(idx_train_er))),
           "assigning variable lambda", stan::model::index_omni(),
                                          stan::model::index_uni(r));
-        current_statement__ = 51;
+        current_statement__ = 52;
         stan::model::assign(reg,
           stan::math::add(
             stan::math::add(
@@ -2822,16 +2833,17 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                 "phi[2]",
                 stan::model::index_multi(idx_train_er),
                   stan::model::index_uni(r))),
-            stan::math::multiply(gamma,
+            stan::math::multiply(
+              stan::model::rvalue(gamma, "gamma", stan::model::index_uni(r)),
               stan::model::rvalue(theta, "theta",
                 stan::model::index_multi(idx_train_er)))),
           "assigning variable reg", stan::model::index_omni(),
                                       stan::model::index_uni(r));
       }
-      current_statement__ = 14;
+      current_statement__ = 13;
       stan::math::check_greater_or_equal(function__, "y_train_burn",
                                             y_train_burn, y_min);
-      current_statement__ = 15;
+      current_statement__ = 14;
       stan::math::check_greater_or_equal(function__, "delta", delta, 0);
       current_statement__ = 20;
       stan::math::check_greater_or_equal(function__, "bp", bp, 0);
@@ -2842,22 +2854,22 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       current_statement__ = 24;
       stan::math::check_corr_matrix(function__, "corr", corr);
       {
-        current_statement__ = 102;
+        current_statement__ = 103;
         stan::math::validate_non_negative_index("kappa", "N_tb_all", N_tb_all);
         Eigen::Matrix<local_scalar_t__, -1, 1> kappa =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
-        current_statement__ = 103;
+        current_statement__ = 104;
         stan::model::assign(kappa,
           stan::model::rvalue(stan::math::exp(stan::math::to_vector(reg)),
             "exp(to_vector(reg))", stan::model::index_multi(ii_tb_all)),
           "assigning variable kappa");
-        current_statement__ = 104;
+        current_statement__ = 105;
         stan::math::validate_non_negative_index("sigma", "N_tb_all", N_tb_all);
         Eigen::Matrix<local_scalar_t__, -1, 1> sigma =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
-        current_statement__ = 105;
+        current_statement__ = 106;
         stan::model::assign(sigma,
           stan::model::rvalue(
             stan::math::exp(
@@ -2868,12 +2880,12 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
             "exp(to_vector(ri_matrix[1][idx_train_er, :]))",
             stan::model::index_multi(ii_tb_all)), "assigning variable sigma");
-        current_statement__ = 106;
+        current_statement__ = 107;
         stan::math::validate_non_negative_index("xi", "N_tb_all", N_tb_all);
         Eigen::Matrix<local_scalar_t__, -1, 1> xi =
            Eigen::Matrix<local_scalar_t__, -1, 1>::Constant(N_tb_all,
              DUMMY_VAR__);
-        current_statement__ = 107;
+        current_statement__ = 108;
         stan::model::assign(xi,
           stan::model::rvalue(
             stan::math::exp(
@@ -2884,11 +2896,9 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       stan::model::index_multi(idx_train_er), stan::model::index_omni()))),
             "exp(to_vector(ri_matrix[2][idx_train_er, :]))",
             stan::model::index_multi(ii_tb_all)), "assigning variable xi");
-        current_statement__ = 108;
-        lp_accum__.add(
-          stan::math::std_normal_lpdf<propto__>(stan::math::to_vector(Z)));
         current_statement__ = 109;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(gamma, 0, 5));
+        lp_accum__.add(
+          stan::math::normal_lpdf<propto__>(stan::math::to_vector(Z), 0, 1.5));
         current_statement__ = 110;
         lp_accum__.add(
           stan::math::uniform_lpdf<propto__>(stan::math::to_vector(bp_init),
@@ -3121,13 +3131,13 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       current_statement__ = 12;
       eps = in__.template read_constrain_lb<local_scalar_t__, jacobian__>(0,
               lp__);
-      double gamma = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 13;
-      gamma = in__.template read<local_scalar_t__>();
       std::vector<double> y_train_burn =
          std::vector<double>(N_tb_all, 
            std::numeric_limits<double>::quiet_NaN());
       Eigen::Matrix<double, -1, 1> delta =
+         Eigen::Matrix<double, -1, 1>::Constant(R,
+           std::numeric_limits<double>::quiet_NaN());
+      Eigen::Matrix<double, -1, 1> gamma =
          Eigen::Matrix<double, -1, 1>::Constant(R,
            std::numeric_limits<double>::quiet_NaN());
       Eigen::Matrix<double, -1, -1> lambda =
@@ -3189,7 +3199,6 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       out__.write(rho_sum);
       out__.write(theta_init);
       out__.write(eps);
-      out__.write(gamma);
       if (stan::math::logical_negation((stan::math::primitive_value(
             emit_transformed_parameters__) || stan::math::primitive_value(
             emit_generated_quantities__)))) {
@@ -3262,9 +3271,18 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                 stan::model::index_uni(i))), T_all),
           "assigning variable ri_matrix", stan::model::index_uni(i));
       }
-      current_statement__ = 45;
+      current_statement__ = 39;
+      stan::model::assign(gamma,
+        stan::math::multiply(
+          stan::math::transpose(
+            stan::math::cholesky_decompose(
+              stan::model::rvalue(corr, "corr", stan::model::index_uni(7)))),
+          stan::model::rvalue(Z, "Z",
+            stan::model::index_omni(), stan::model::index_uni(5))),
+        "assigning variable gamma");
+      current_statement__ = 46;
       for (int s = 1; s <= S; ++s) {
-        current_statement__ = 39;
+        current_statement__ = 40;
         stan::model::assign(cov_ar1,
           stan::math::add(
             stan::math::add(
@@ -3286,7 +3304,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                 stan::model::rvalue(bp, "bp", stan::model::index_uni(s)), 4),
               bp_quart)),
           "assigning variable cov_ar1", stan::model::index_uni(s));
-        current_statement__ = 40;
+        current_statement__ = 41;
         stan::model::assign(phi,
           stan::math::multiply(
             (1 / stan::model::rvalue(tau, "tau", stan::model::index_uni(s))),
@@ -3295,9 +3313,9 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
           "assigning variable phi", stan::model::index_uni(s),
                                       stan::model::index_uni(1),
                                       stan::model::index_omni());
-        current_statement__ = 43;
+        current_statement__ = 44;
         for (int t = 2; t <= T_all; ++t) {
-          current_statement__ = 41;
+          current_statement__ = 42;
           stan::model::assign(phi,
             stan::math::add(
               stan::math::multiply(
@@ -3317,14 +3335,14 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                                         stan::model::index_omni());
         }
       }
-      current_statement__ = 46;
+      current_statement__ = 47;
       stan::model::assign(theta,
         stan::model::rvalue(theta_init, "theta_init",
           stan::model::index_uni(1)),
         "assigning variable theta", stan::model::index_uni(1));
-      current_statement__ = 49;
+      current_statement__ = 50;
       for (int t = 2; t <= T_all; ++t) {
-        current_statement__ = 47;
+        current_statement__ = 48;
         stan::model::assign(theta,
           ((stan::model::rvalue(eta, "eta", stan::model::index_uni((S + 1)))
              *
@@ -3334,9 +3352,9 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
               stan::model::index_uni(t))),
           "assigning variable theta", stan::model::index_uni(t));
       }
-      current_statement__ = 53;
+      current_statement__ = 54;
       for (int r = 1; r <= R; ++r) {
-        current_statement__ = 50;
+        current_statement__ = 51;
         stan::model::assign(lambda,
           stan::math::add(
             stan::math::add(
@@ -3357,7 +3375,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
               stan::model::index_multi(idx_train_er))),
           "assigning variable lambda", stan::model::index_omni(),
                                          stan::model::index_uni(r));
-        current_statement__ = 51;
+        current_statement__ = 52;
         stan::model::assign(reg,
           stan::math::add(
             stan::math::add(
@@ -3371,16 +3389,17 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                 "phi[2]",
                 stan::model::index_multi(idx_train_er),
                   stan::model::index_uni(r))),
-            stan::math::multiply(gamma,
+            stan::math::multiply(
+              stan::model::rvalue(gamma, "gamma", stan::model::index_uni(r)),
               stan::model::rvalue(theta, "theta",
                 stan::model::index_multi(idx_train_er)))),
           "assigning variable reg", stan::model::index_omni(),
                                       stan::model::index_uni(r));
       }
-      current_statement__ = 14;
+      current_statement__ = 13;
       stan::math::check_greater_or_equal(function__, "y_train_burn",
                                             y_train_burn, y_min);
-      current_statement__ = 15;
+      current_statement__ = 14;
       stan::math::check_greater_or_equal(function__, "delta", delta, 0);
       current_statement__ = 20;
       stan::math::check_greater_or_equal(function__, "bp", bp, 0);
@@ -3393,6 +3412,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       if (emit_transformed_parameters__) {
         out__.write(y_train_burn);
         out__.write(delta);
+        out__.write(gamma);
         out__.write(lambda);
         out__.write(pi_prob);
         for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
@@ -3471,9 +3491,9 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       Eigen::Matrix<double, -1, -1> burn_pred =
          Eigen::Matrix<double, -1, -1>::Constant(T_all, R,
            std::numeric_limits<double>::quiet_NaN());
-      current_statement__ = 63;
+      current_statement__ = 64;
       for (int r = 1; r <= R; ++r) {
-        current_statement__ = 60;
+        current_statement__ = 61;
         stan::model::assign(lambda_full,
           stan::math::add(
             stan::math::add(
@@ -3489,7 +3509,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
             theta),
           "assigning variable lambda_full", stan::model::index_omni(),
                                               stan::model::index_uni(r));
-        current_statement__ = 61;
+        current_statement__ = 62;
         stan::model::assign(reg_full,
           stan::math::add(
             stan::math::add(
@@ -3502,14 +3522,16 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                 stan::model::rvalue(phi, "phi", stan::model::index_uni(2)),
                 "phi[2]",
                 stan::model::index_omni(), stan::model::index_uni(r))),
-            stan::math::multiply(gamma, theta)),
+            stan::math::multiply(
+              stan::model::rvalue(gamma, "gamma", stan::model::index_uni(r)),
+              theta)),
           "assigning variable reg_full", stan::model::index_omni(),
                                            stan::model::index_uni(r));
       }
-      current_statement__ = 72;
+      current_statement__ = 73;
       for (int n = 1; n <= N_hold_obs; ++n) {
         double kappa_hold = std::numeric_limits<double>::quiet_NaN();
-        current_statement__ = 64;
+        current_statement__ = 65;
         kappa_hold = stan::model::rvalue(
                        stan::model::rvalue(
   stan::model::rvalue(stan::math::exp(stan::math::to_vector(reg_full)),
@@ -3519,7 +3541,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                        "exp(to_vector(reg_full))[ii_hold_all][ii_hold_obs]",
                        stan::model::index_uni(n));
         double sigma_hold = std::numeric_limits<double>::quiet_NaN();
-        current_statement__ = 65;
+        current_statement__ = 66;
         sigma_hold = stan::model::rvalue(
                        stan::model::rvalue(
   stan::model::rvalue(
@@ -3532,7 +3554,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                        "exp(to_vector(ri_matrix[1]))[ii_hold_all][ii_hold_obs]",
                        stan::model::index_uni(n));
         double xi_hold = std::numeric_limits<double>::quiet_NaN();
-        current_statement__ = 66;
+        current_statement__ = 67;
         xi_hold = stan::model::rvalue(
                     stan::model::rvalue(
   stan::model::rvalue(
@@ -3544,24 +3566,24 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
   stan::model::index_multi(ii_hold_obs)),
                     "exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs]",
                     stan::model::index_uni(n));
-        current_statement__ = 67;
+        current_statement__ = 68;
         stan::model::assign(holdout_loglik_burn,
           egpd_trunc_lpdf<false>(
             stan::model::rvalue(y_hold_burn_obs, "y_hold_burn_obs",
               stan::model::index_uni(n)), y_min, sigma_hold, xi_hold,
             kappa_hold, pstream__),
           "assigning variable holdout_loglik_burn", stan::model::index_uni(n));
-        current_statement__ = 68;
+        current_statement__ = 69;
         stan::math::validate_non_negative_index("pred_probs_hold", "n_int",
                                                 n_int);
         Eigen::Matrix<double, -1, 1> pred_probs_hold =
            Eigen::Matrix<double, -1, 1>::Constant(n_int,
              std::numeric_limits<double>::quiet_NaN());
-        current_statement__ = 69;
+        current_statement__ = 70;
         stan::model::assign(pred_probs_hold,
           prob_forecast(n_int, int_pts_holdout, y_min, sigma_hold, xi_hold,
             kappa_hold, pstream__), "assigning variable pred_probs_hold");
-        current_statement__ = 70;
+        current_statement__ = 71;
         stan::model::assign(holdout_twcrps,
           twCRPS(
             stan::model::rvalue(y_hold_burn_obs, "y_hold_burn_obs",
@@ -3569,26 +3591,26 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
             int_pts_holdout, pred_probs_hold, pstream__),
           "assigning variable holdout_twcrps", stan::model::index_uni(n));
       }
-      current_statement__ = 83;
+      current_statement__ = 84;
       for (int r = 1; r <= R; ++r) {
-        current_statement__ = 73;
+        current_statement__ = 74;
         stan::math::validate_non_negative_index("lambda_hold", "T_hold",
                                                 T_hold);
         Eigen::Matrix<double, -1, 1> lambda_hold =
            Eigen::Matrix<double, -1, 1>::Constant(T_hold,
              std::numeric_limits<double>::quiet_NaN());
-        current_statement__ = 74;
+        current_statement__ = 75;
         stan::model::assign(lambda_hold,
           stan::model::rvalue(lambda_full, "lambda_full",
             stan::model::index_multi(idx_hold_er), stan::model::index_uni(r)),
           "assigning variable lambda_hold");
-        current_statement__ = 81;
+        current_statement__ = 82;
         for (int t = 1; t <= T_hold; ++t) {
-          current_statement__ = 79;
+          current_statement__ = 80;
           if (stan::math::logical_eq(
                 stan::model::rvalue(y_hold_count, "y_hold_count",
                   stan::model::index_uni(t), stan::model::index_uni(r)), 0)) {
-            current_statement__ = 77;
+            current_statement__ = 78;
             stan::model::assign(holdout_loglik_count,
               stan::math::log_sum_exp(
                 stan::math::bernoulli_logit_lpmf<false>(1,
@@ -3607,7 +3629,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
               "assigning variable holdout_loglik_count", stan::model::index_uni(t),
                                                            stan::model::index_uni(r));
           } else {
-            current_statement__ = 75;
+            current_statement__ = 76;
             stan::model::assign(holdout_loglik_count,
               (stan::math::bernoulli_logit_lpmf<false>(0,
                  stan::model::rvalue(pi_prob, "pi_prob",
@@ -3624,39 +3646,39 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
           }
         }
       }
-      current_statement__ = 101;
+      current_statement__ = 102;
       for (int r = 1; r <= R; ++r) {
-        current_statement__ = 99;
+        current_statement__ = 100;
         for (int t = 1; t <= T_all; ++t) {
           Eigen::Matrix<double, -1, 1> burn_draws =
              Eigen::Matrix<double, -1, 1>::Constant(500,
                std::numeric_limits<double>::quiet_NaN());
           double sigma = std::numeric_limits<double>::quiet_NaN();
-          current_statement__ = 85;
+          current_statement__ = 86;
           sigma = stan::math::exp(
                     stan::model::rvalue(
                       stan::model::rvalue(ri_init, "ri_init", stan::model::index_uni(1)),
                       "ri_init[1]", stan::model::index_uni(r)));
           double xi = std::numeric_limits<double>::quiet_NaN();
-          current_statement__ = 86;
+          current_statement__ = 87;
           xi = stan::math::exp(
                  stan::model::rvalue(
                    stan::model::rvalue(ri_init, "ri_init", stan::model::index_uni(2)),
                    "ri_init[2]", stan::model::index_uni(r)));
           double kappa = std::numeric_limits<double>::quiet_NaN();
-          current_statement__ = 87;
+          current_statement__ = 88;
           kappa = stan::math::exp(
                     stan::model::rvalue(reg_full, "reg_full",
                       stan::model::index_uni(t), stan::model::index_uni(r)));
-          current_statement__ = 96;
+          current_statement__ = 97;
           for (int i = 1; i <= 500; ++i) {
             int zero = std::numeric_limits<int>::min();
-            current_statement__ = 88;
+            current_statement__ = 89;
             zero = stan::math::bernoulli_logit_rng(
                      stan::model::rvalue(pi_prob, "pi_prob",
                        stan::model::index_uni(r)), base_rng__);
             int count_draw = std::numeric_limits<int>::min();
-            current_statement__ = 89;
+            current_statement__ = 90;
             count_draw = ((1 - zero) *
                            stan::math::neg_binomial_2_log_rng(
                              stan::model::rvalue(lambda_full, "lambda_full",
@@ -3664,13 +3686,13 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                                  stan::model::index_uni(r)),
                              stan::model::rvalue(delta, "delta",
                                stan::model::index_uni(r)), base_rng__));
-            current_statement__ = 94;
+            current_statement__ = 95;
             if (stan::math::logical_eq(count_draw, 0)) {
-              current_statement__ = 92;
+              current_statement__ = 93;
               stan::model::assign(burn_draws, 0,
                 "assigning variable burn_draws", stan::model::index_uni(i));
             } else {
-              current_statement__ = 90;
+              current_statement__ = 91;
               stan::model::assign(burn_draws,
                 stan::math::sum(
                   egpd_rng(count_draw, y_min, sigma, xi,
@@ -3678,7 +3700,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                 "assigning variable burn_draws", stan::model::index_uni(i));
             }
           }
-          current_statement__ = 97;
+          current_statement__ = 98;
           stan::model::assign(burn_pred, stan::math::mean(burn_draws),
             "assigning variable burn_pred", stan::model::index_uni(t),
                                               stan::model::index_uni(r));
@@ -3810,9 +3832,6 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       local_scalar_t__ eps = DUMMY_VAR__;
       eps = in__.read<local_scalar_t__>();
       out__.write_free_lb(0, eps);
-      local_scalar_t__ gamma = DUMMY_VAR__;
-      gamma = in__.read<local_scalar_t__>();
-      out__.write(gamma);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -3822,7 +3841,7 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
     
     names__ = std::vector<std::string>{"y_train_burn_mis", "Z", "phi_init",
       "beta_count", "beta_burn", "tau_init", "eta", "bp_init", "rho1",
-      "rho_sum", "theta_init", "eps", "gamma", "y_train_burn", "delta",
+      "rho_sum", "theta_init", "eps", "y_train_burn", "delta", "gamma",
       "lambda", "pi_prob", "phi", "reg", "bp", "tau", "rho2", "cov_ar1",
       "corr", "theta", "ri_init", "ri_matrix", "holdout_loglik_count",
       "holdout_loglik_burn", "holdout_twcrps", "reg_full", "lambda_full",
@@ -3847,8 +3866,8 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       std::vector<size_t>{static_cast<size_t>(C)},
       std::vector<size_t>{static_cast<size_t>(C)},
       std::vector<size_t>{static_cast<size_t>(T_all)}, std::vector<size_t>{
-      }, std::vector<size_t>{},
-      std::vector<size_t>{static_cast<size_t>(N_tb_all)},
+      }, std::vector<size_t>{static_cast<size_t>(N_tb_all)},
+      std::vector<size_t>{static_cast<size_t>(R)},
       std::vector<size_t>{static_cast<size_t>(R)},
       std::vector<size_t>{static_cast<size_t>(T_train),
                           static_cast<size_t>(R)},
@@ -3959,7 +3978,6 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       } 
     }
     param_names__.emplace_back(std::string() + "eps");
-    param_names__.emplace_back(std::string() + "gamma");
     if (emit_transformed_parameters__) {
       for (int sym1__ = 1; sym1__ <= N_tb_all; ++sym1__) {
         {
@@ -3969,6 +3987,11 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
         {
           param_names__.emplace_back(std::string() + "delta" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "gamma" + '.' + std::to_string(sym1__));
         } 
       }
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
@@ -4210,7 +4233,6 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       } 
     }
     param_names__.emplace_back(std::string() + "eps");
-    param_names__.emplace_back(std::string() + "gamma");
     if (emit_transformed_parameters__) {
       for (int sym1__ = 1; sym1__ <= N_tb_all; ++sym1__) {
         {
@@ -4220,6 +4242,11 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
         {
           param_names__.emplace_back(std::string() + "delta" + '.' + std::to_string(sym1__));
+        } 
+      }
+      for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
+        {
+          param_names__.emplace_back(std::string() + "gamma" + '.' + std::to_string(sym1__));
         } 
       }
       for (int sym1__ = 1; sym1__ <= R; ++sym1__) {
@@ -4373,13 +4400,13 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
     
   inline std::string get_constrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"y_train_burn_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(Z_2dim__) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta_count\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"beta_burn\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p_burn) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(eta_1dim__) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"theta_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T_all) + "},\"block\":\"parameters\"},{\"name\":\"eps\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"gamma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_train_burn\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"delta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"pi_prob\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T_all) + "},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"holdout_loglik_count\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik_burn\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"holdout_twcrps\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"reg_full\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"lambda_full\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"burn_pred\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"}]");
+    return std::string("[{\"name\":\"y_train_burn_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(Z_2dim__) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta_count\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"beta_burn\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p_burn) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(eta_1dim__) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"theta_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T_all) + "},\"block\":\"parameters\"},{\"name\":\"eps\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_train_burn\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"delta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"gamma\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"pi_prob\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(p) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T_all) + "},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"holdout_loglik_count\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik_burn\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"holdout_twcrps\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"reg_full\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"lambda_full\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"burn_pred\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"}]");
     
     } // get_constrained_sizedtypes() 
     
   inline std::string get_unconstrained_sizedtypes() const {
     
-    return std::string("[{\"name\":\"y_train_burn_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(Z_2dim__) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta_count\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"beta_burn\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p_burn) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(eta_1dim__) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"theta_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T_all) + "},\"block\":\"parameters\"},{\"name\":\"eps\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"gamma\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_train_burn\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"delta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"pi_prob\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T_all) + "},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"holdout_loglik_count\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik_burn\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"holdout_twcrps\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"reg_full\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"lambda_full\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"burn_pred\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"}]");
+    return std::string("[{\"name\":\"y_train_burn_mis\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_mis) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"parameters\"},{\"name\":\"Z\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(R) + ",\"cols\":" + std::to_string(Z_2dim__) + "},\"block\":\"parameters\"},{\"name\":\"phi_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(T_all) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}}},\"block\":\"parameters\"},{\"name\":\"beta_count\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"beta_burn\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(p_burn) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"parameters\"},{\"name\":\"tau_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(eta_1dim__) + "},\"block\":\"parameters\"},{\"name\":\"bp_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"parameters\"},{\"name\":\"rho1\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"rho_sum\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"parameters\"},{\"name\":\"theta_init\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T_all) + "},\"block\":\"parameters\"},{\"name\":\"eps\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"y_train_burn\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_tb_all) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"delta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"gamma\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"pi_prob\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"phi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"reg\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_train) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"transformed_parameters\"},{\"name\":\"bp\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"tau\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(S) + "},\"block\":\"transformed_parameters\"},{\"name\":\"rho2\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(C) + "},\"block\":\"transformed_parameters\"},{\"name\":\"cov_ar1\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(S) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string((p + ((p * (p - 1)) / 2))) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"corr\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(C) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(((R * (R - 1)) / 2)) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(T_all) + "},\"block\":\"transformed_parameters\"},{\"name\":\"ri_init\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"vector\",\"length\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"ri_matrix\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(2) + ",\"element_type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "}},\"block\":\"transformed_parameters\"},{\"name\":\"holdout_loglik_count\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_hold) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"holdout_loglik_burn\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"holdout_twcrps\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(N_hold_obs) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"generated_quantities\"},{\"name\":\"reg_full\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"lambda_full\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"},{\"name\":\"burn_pred\",\"type\":{\"name\":\"matrix\",\"rows\":" + std::to_string(T_all) + ",\"cols\":" + std::to_string(R) + "},\"block\":\"generated_quantities\"}]");
     
     } // get_unconstrained_sizedtypes() 
     
@@ -4393,13 +4420,12 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                             const bool emit_generated_quantities = true,
                             std::ostream* pstream = nullptr) const {
       const size_t num_params__ = 
-  ((((((((((((N_tb_mis + (R * Z_2dim__)) + ((T_all * S) * R)) + (p * R)) +
-            (p_burn * R)) + S) + eta_1dim__) + S) + C) + C) + T_all) + 1) +
-    1);
+  (((((((((((N_tb_mis + (R * Z_2dim__)) + ((T_all * S) * R)) + (p * R)) +
+           (p_burn * R)) + S) + eta_1dim__) + S) + C) + C) + T_all) + 1);
       const size_t num_transformed = emit_transformed_parameters * 
-  (((((((((((((N_tb_all + R) + (T_train * R)) + R) + ((S * T_all) * R)) +
-            (T_train * R)) + S) + S) + C) + ((S * p) * p)) + ((C * R) * R)) +
-      T_all) + (2 * R)) + ((2 * T_all) * R));
+  ((((((((((((((N_tb_all + R) + R) + (T_train * R)) + R) + ((S * T_all) * R))
+            + (T_train * R)) + S) + S) + C) + ((S * p) * p)) + ((C * R) * R))
+      + T_all) + (2 * R)) + ((2 * T_all) * R));
       const size_t num_gen_quantities = emit_generated_quantities * 
   ((((((T_hold * R) + N_hold_obs) + N_hold_obs) + (T_all * R)) + (T_all * R))
     + (T_all * R));
@@ -4420,13 +4446,12 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                             bool emit_generated_quantities = true,
                             std::ostream* pstream = nullptr) const {
       const size_t num_params__ = 
-  ((((((((((((N_tb_mis + (R * Z_2dim__)) + ((T_all * S) * R)) + (p * R)) +
-            (p_burn * R)) + S) + eta_1dim__) + S) + C) + C) + T_all) + 1) +
-    1);
+  (((((((((((N_tb_mis + (R * Z_2dim__)) + ((T_all * S) * R)) + (p * R)) +
+           (p_burn * R)) + S) + eta_1dim__) + S) + C) + C) + T_all) + 1);
       const size_t num_transformed = emit_transformed_parameters * 
-  (((((((((((((N_tb_all + R) + (T_train * R)) + R) + ((S * T_all) * R)) +
-            (T_train * R)) + S) + S) + C) + ((S * p) * p)) + ((C * R) * R)) +
-      T_all) + (2 * R)) + ((2 * T_all) * R));
+  ((((((((((((((N_tb_all + R) + R) + (T_train * R)) + R) + ((S * T_all) * R))
+            + (T_train * R)) + S) + S) + C) + ((S * p) * p)) + ((C * R) * R))
+      + T_all) + (2 * R)) + ((2 * T_all) * R));
       const size_t num_gen_quantities = emit_generated_quantities * 
   ((((((T_hold * R) + N_hold_obs) + N_hold_obs) + (T_all * R)) + (T_all * R))
     + (T_all * R));
@@ -4467,12 +4492,12 @@ class joint_g1_sigma_ri_model final : public model_base_crtp<joint_g1_sigma_ri_m
                               std::vector<int>& params_i,
                               std::vector<double>& vars,
                               std::ostream* pstream__ = nullptr) const {
-     constexpr std::array<const char*, 13> names__{"y_train_burn_mis", "Z",
+     constexpr std::array<const char*, 12> names__{"y_train_burn_mis", "Z",
       "phi_init", "beta_count", "beta_burn", "tau_init", "eta", "bp_init",
-      "rho1", "rho_sum", "theta_init", "eps", "gamma"};
-      const std::array<Eigen::Index, 13> constrain_param_sizes__{N_tb_mis,
+      "rho1", "rho_sum", "theta_init", "eps"};
+      const std::array<Eigen::Index, 12> constrain_param_sizes__{N_tb_mis,
        (R * Z_2dim__), (T_all * S * R), (p * R), (p_burn * R), S, eta_1dim__,
-       S, C, C, T_all, 1, 1};
+       S, C, C, T_all, 1};
       const auto num_constrained_params__ = std::accumulate(
         constrain_param_sizes__.begin(), constrain_param_sizes__.end(), 0);
     

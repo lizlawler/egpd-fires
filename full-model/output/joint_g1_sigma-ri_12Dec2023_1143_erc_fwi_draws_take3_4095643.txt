@@ -85,3 +85,14 @@ Dropping 'draws_df' class as required metadata was removed.
           used (Mb) gc trigger    (Mb)   max used    (Mb)
 Ncells 1375085 73.5  101671757  5429.9  342857947 18310.6
 Vcells 4021254 30.7 1366136097 10422.8 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1384417 74.0   81337406 4343.9  342857947 18310.6
+Vcells 4033530 30.8 1092908878 8338.3 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1389213 74.2   65069925 3475.2  342857947 18310.6
+Vcells 4038226 30.9  874327103 6670.6 4103154532 31304.6
+slurmstepd: error: *** JOB 4095643 ON c3cpu-a9-u5-2 CANCELLED AT 2023-12-13T15:45:09 ***

@@ -1,0 +1,87 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+
+A newer version of CmdStan is available. See ?install_cmdstan() to install it.
+To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+This is posterior version 1.4.1
+
+Attaching package: ‘posterior’
+
+The following objects are masked from ‘package:stats’:
+
+    mad, sd, var
+
+The following objects are masked from ‘package:base’:
+
+    %in%, match
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+[1] "Filenames being used are:"
+[1] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_12Dec2023_1143_erc_fwi_1.csv"
+[2] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_12Dec2023_1143_erc_fwi_2.csv"
+[3] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_12Dec2023_1143_erc_fwi_3.csv"
+Warning message:
+In dir.create(path = draws_path, recursive = TRUE) :
+  'full-model/figures/paper/mcmc_draws/g1_sigma-ri_erc_fwi' already exists
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells  941021 50.3   92569114 4943.8  144639240  7724.6
+Vcells 2496987 19.1 1217107185 9285.8 1502612381 11464.1
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1035244 55.3  107845520 5759.6  168508625  8999.4
+Vcells 3650178 27.9 1168486898 8914.9 1502612381 11464.1
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1048541 56.0   86276416 4607.7  168508625  8999.4
+Vcells 3684024 28.2  934789519 7131.9 1502612381 11464.1
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1142272 61.1   88420192  4722.2  168508625  8999.4
+Vcells 3802772 29.1 1326627340 10121.4 1644356182 12545.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1329768 71.1  248222060 13256.5  342857947 18310.6
+Vcells 3927767 30.0 3335293203 25446.3 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1330043 71.1  198577648 10605.2  342857947 18310.6
+Vcells 3934175 30.1 2668234563 20357.1 4103154532 31304.6
+Warning messages:
+1: Dropping 'draws_df' class as required metadata was removed. 
+2: There was 1 warning in `mutate()`.
+ℹ In argument: `region = as.numeric(gsub("\\]", "", region))`.
+Caused by warning:
+! NAs introduced by coercion 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1373722 73.4  158862119  8484.2  342857947 18310.6
+Vcells 4020387 30.7 2134587651 16285.7 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1374827 73.5  127089696  6787.4  342857947 18310.6
+Vcells 4021084 30.7 1707670121 13028.5 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1375085 73.5  101671757  5429.9  342857947 18310.6
+Vcells 4021254 30.7 1366136097 10422.8 4103154532 31304.6

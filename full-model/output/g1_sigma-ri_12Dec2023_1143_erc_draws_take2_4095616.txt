@@ -1,0 +1,41 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+
+A newer version of CmdStan is available. See ?install_cmdstan() to install it.
+To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+This is posterior version 1.4.1
+
+Attaching package: ‘posterior’
+
+The following objects are masked from ‘package:stats’:
+
+    mad, sd, var
+
+The following objects are masked from ‘package:base’:
+
+    %in%, match
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+[1] "Filenames being used are:"
+[1] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_12Dec2023_1143_erc_1.csv"
+[2] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_12Dec2023_1143_erc_2.csv"
+[3] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_12Dec2023_1143_erc_3.csv"
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells  941021 50.3  132166391 7058.5  189276518 10108.5
+Vcells 2496987 19.1 1217091738 9285.7 1502430982 11462.7
+slurmstepd: error: *** JOB 4095616 ON c3cpu-c11-u9-4 CANCELLED AT 2023-12-13T14:46:53 ***

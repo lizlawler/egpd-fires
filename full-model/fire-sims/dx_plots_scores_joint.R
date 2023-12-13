@@ -13,9 +13,8 @@ library(posterior)
 
 csvbase <- paste0("./full-model/fire-sims/", type, "/csv-fits/")
 plotbase <- paste0("./full-model/figures/", type, "/trace/")
-csvpattern <- paste0(type, "_", model, "_", params, "_", sttime, "_", dataset, "_\\d{1}")
+csvpattern <- paste0(type, "_", model, "_", params, "_", dataset, "_", sttime)
 files <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
-csvpattern <- paste0(type, "_", model, "_", params, "_", sttime, "_", dataset)
 print("Filenames being used are:")
 files
 

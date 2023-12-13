@@ -6,28 +6,28 @@ functions {
 #include /../joint_data.stan
 transformed data {
   int S = 2; // # of parameters with regression (ranges from 2 to 3)
-  //ordering of S: 1 = lambda, 2 = sigma
-  int C = 6; // # of parameters with correlation (either regression or random intercept)
-  // ordering: 1=lambda, 2=kappa, 3=pi, 4=delta, 5=sigma, 6=xi
+  //ordering of S: 1 = lambda, 2 = kappa
+  int C = 7; // # of parameters with correlation (either regression or random intercept)
+  // ordering: 1=lambda, 2=kappa, 3=pi, 4=delta, 5=sigma, 6=xi, 7 = gamma
 }
 parameters {
   array[N_tb_mis] real<lower=y_min> y_train_burn_mis;
-  matrix[R, C-S] Z; // ordering: 1 = pi, 2 = delta, 3 = sigma, 4 = xi
+  matrix[R, C-S] Z; // ordering: 1 = pi, 2 = delta, 3 = sigma, 4 = xi, 5 = gamma
   array[T_all, S] row_vector[R] phi_init;
   matrix[p, R] beta_count;
   matrix[p_burn, R] beta_burn;
   vector<lower=0>[S] tau_init;
   vector<lower=0, upper = 1>[S+1] eta; // additional eta for theta AR(1) prior
-  vector<lower=0, upper = 1>[S] bp_init;
+  vector<lower=0, upper = 1>[S] bp_init; // AR(1) param for covariance matrix
   vector<lower=0, upper = 1>[C] rho1;
   vector<lower=rho1, upper = 1>[C] rho_sum;
   vector[T_all] theta_init; // shared random effect, varying in time
   real<lower=0> eps; // noise for AR(1) prior on theta
-  real gamma;
 }
 transformed parameters {
   array[N_tb_all] real<lower=y_min> y_train_burn;
   vector<lower = 0>[R] delta;
+  vector[R] gamma; // modulating parameter, varying by region
   matrix[T_train, R] lambda;
   vector[R] pi_prob;
   array[S] matrix[T_all, R] phi;
@@ -55,6 +55,7 @@ transformed parameters {
     ri_init[i] = cholesky_decompose(corr[i+4])' * Z[,i+2];
     ri_matrix[i] = rep_matrix(ri_init[i]', T_all);
   }
+  gamma = cholesky_decompose(corr[7])' * Z[,5];
 
   for (s in 1:S) {
     cov_ar1[s] = equal + bp[s] * bp_lin + bp[s] ^ 2 * bp_square
@@ -77,7 +78,7 @@ transformed parameters {
   // regression link for lambda (counts) and kappa (burns)
   for (r in 1:R) {
     lambda[, r] = X_train_count[r] * beta_count[, r] + phi[1][idx_train_er, r] + area_offset[r] + theta[idx_train_er];
-    reg[, r] = X_train_burn[r] * beta_burn[, r] + phi[2][idx_train_er, r] + gamma * theta[idx_train_er];
+    reg[, r] = X_train_burn[r] * beta_burn[, r] + phi[2][idx_train_er, r] + gamma[r] * theta[idx_train_er];
   }
 }
 model {
@@ -85,8 +86,7 @@ model {
   vector[N_tb_all] sigma = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
   vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
   
-  to_vector(Z) ~ std_normal();
-  gamma ~ normal(0, 5);
+  to_vector(Z) ~ normal(0, 1.5);
   
   // prior on AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
@@ -151,7 +151,7 @@ generated quantities {
   // expected value of all parameters based on all timepoints, then cut to only be holdout parameters
   for (r in 1:R) {
     lambda_full[, r] = X_full_count[r] * beta_count[, r] + phi[1][, r] + theta;
-    reg_full[, r] = X_full_burn[r] * beta_burn[, r] + phi[2][, r] + gamma * theta;
+    reg_full[, r] = X_full_burn[r] * beta_burn[, r] + phi[2][, r] + gamma[r] * theta;
   }
   
   // burn component scores

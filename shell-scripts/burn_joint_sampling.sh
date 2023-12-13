@@ -8,7 +8,7 @@ datafile="../../data/stan_data_${modtype}_${dataset}.json"
 basedir="./full-model/fire-sims/${modtype}/"
 cd ${basedir}
 model="stan/${modtype}_${modname}_${params}"
-outbase="csv-fits/${modtype}_${modname}_${params}_${sttime}_${dataset}"
+outbase="csv-fits/${modtype}_${modname}_${params}_${dataset}_${sttime}"
 
 # run model with 3 chains
 ./${model} sample num_chains=3 num_warmup=1000 num_samples=1000 \

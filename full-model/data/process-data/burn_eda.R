@@ -12,8 +12,10 @@ library(classInt)
 
 source("./full-model/data/process-data/merge-data.R")
 ecoregions <- read_rds(file = "ecoregions.RDS")
-ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>% 
-  mutate(NA_L2CODE = as.factor(NA_L2CODE),
+ecoregions_geom <- ecoregions %>%
+  mutate(NA_L2NAME = case_when(NA_L2NAME == "UPPER GILA MOUNTAINS (?)" ~ "UPPER GILA MOUNTAINS",
+                               .default = NA_L2NAME),
+         NA_L2CODE = as.factor(NA_L2CODE),
          NA_L1CODE = as.factor(NA_L1CODE),
          NA_L3CODE = as.factor(NA_L3CODE),
          NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))

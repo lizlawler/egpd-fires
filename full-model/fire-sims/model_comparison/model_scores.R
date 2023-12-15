@@ -7,33 +7,37 @@ library(posterior)
 # load in scores extracted at time of model run on Alpine
 score_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
                       list.files("full-model/fire-sims/model_comparison/extracted_values/", 
-                                 "erc"))
+                                 "g1"))
+# process scores from g1 runs only
+g1_files <- score_files[grepl("scores.RDS", score_files)]
+g1_climate <- g1_files[grepl("climate", g1_files)]
+
 # process scores only from "normal" qos - run for 24 hrs or less
 # score_files <- score_files[grepl("normal", score_files)]
-erc_burn_files <- score_files[!grepl("fwi", score_files)]
-erc_burn_files <- erc_burn_files[!grepl("g3", erc_burn_files)]
-erc_burn_files <- erc_burn_files[!grepl("g4", erc_burn_files)]
-erc_burn_files <- erc_burn_files[grepl("long", erc_burn_files)]
-erc_burn_files <- erc_burn_files[grepl("GQ", erc_burn_files)]
-g1_burn_files <- erc_burn_files[grepl("g1", erc_burn_files)]
-g2_files <- erc_burn_files[grepl("nu_erc", erc_burn_files)]
-lognorm_files <- erc_burn_files[grepl("lognorm", erc_burn_files)]
-burn_files <- c(g2_files, lognorm_files)
-
-erc_burn_files <- erc_burn_files[grepl("14Sep", erc_burn_files)]
-g2_gq_files <- score_files[grepl("g1", score_files)]
-g2_gq_files <- g1_gq_files[grepl("_GQ", g1_gq_files)]
-g2_gq_files <- g1_gq_files[grepl("long", g1_gq_files)]
-
-burn_files <- c(score_files[grepl("g1", score_files)], 
-                score_files[grepl("lognorm", score_files)], 
-                score_files[grepl("g2", score_files)])
-burn_files_climate <- burn_files[grepl("climate", burn_files)]
-count_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
-                      list.files("full-model/fire-sims/model_comparison/extracted_values/", 
-                                 "scores"))
-count_files <- c(count_files[grepl("zinb", count_files)], count_files[grepl("zip", count_files)])
-count_files_climate <- count_files[grepl("climate", count_files)]
+# erc_burn_files <- score_files[!grepl("fwi", score_files)]
+# erc_burn_files <- erc_burn_files[!grepl("g3", erc_burn_files)]
+# erc_burn_files <- erc_burn_files[!grepl("g4", erc_burn_files)]
+# erc_burn_files <- erc_burn_files[grepl("long", erc_burn_files)]
+# erc_burn_files <- erc_burn_files[grepl("GQ", erc_burn_files)]
+# g1_burn_files <- erc_burn_files[grepl("g1", erc_burn_files)]
+# g2_files <- erc_burn_files[grepl("nu_erc", erc_burn_files)]
+# lognorm_files <- erc_burn_files[grepl("lognorm", erc_burn_files)]
+# burn_files <- c(g2_files, lognorm_files)
+# 
+# erc_burn_files <- erc_burn_files[grepl("14Sep", erc_burn_files)]
+# g2_gq_files <- score_files[grepl("g1", score_files)]
+# g2_gq_files <- g1_gq_files[grepl("_GQ", g1_gq_files)]
+# g2_gq_files <- g1_gq_files[grepl("long", g1_gq_files)]
+# 
+# burn_files <- c(score_files[grepl("g1", score_files)], 
+#                 score_files[grepl("lognorm", score_files)], 
+#                 score_files[grepl("g2", score_files)])
+# burn_files_climate <- burn_files[grepl("climate", burn_files)]
+# count_files <- paste0("full-model/fire-sims/model_comparison/extracted_values/",
+#                       list.files("full-model/fire-sims/model_comparison/extracted_values/", 
+#                                  "scores"))
+# count_files <- c(count_files[grepl("zinb", count_files)], count_files[grepl("zip", count_files)])
+# count_files_climate <- count_files[grepl("climate", count_files)]
   
 
 ## remove burn models that either didn't mix or had >10% divergences ------
@@ -51,6 +55,12 @@ read_scores <- function(file, model_name) {
   assign(model_name, temp, parent.frame())
   rm(temp)
   gc()
+}
+
+g1_climate_names <- str_remove(str_remove(str_remove(basename(g1_climate), "_climate_\\d{2}\\w{3}2023_\\d{4}"), "_scores.RDS"), "g1_")
+
+for(i in seq_along(g1_climate_names)) {
+  read_scores(g1_climate[i], g1_climate_names[i])
 }
 
 # function to read each burn GQ csv and appropriately rename
@@ -82,6 +92,8 @@ model_names <- lapply(fit_groups, function(x) {
 for(i in seq_along(model_names)) {
   extraction(fit_groups[[i]], model_names[i])
 }
+
+
 
 model_names <- c("g1_sigma-ri_xi-ri", model_names)
 extraction(g1_burn_files, model_names[1])
@@ -183,29 +195,29 @@ test_twcrps_comp <- g1_g3_g4_erc_twcrps %>%
   arrange(mean_diff)
 test_twcrps_comp
 
-
-holdout_loglik <- vector("list", nfits+2)
-train_loglik <- vector("list", nfits+2)
-train_twcrps <- vector("list", nfits+2)
-holdout_twcrps <- vector("list", nfits+2)
-for(i in c(1,3:4)) {
-  holdout_loglik[[i]] <- get(model_names[i])[["holdout_loglik"]]$generated_quantities %>%
+nfits <- length(g1_climate_names)
+holdout_loglik <- vector("list", nfits)
+# train_loglik <- vector("list", nfits+2)
+# train_twcrps <- vector("list", nfits+2)
+holdout_twcrps <- vector("list", nfits)
+for(i in seq_along(g1_climate_names)) {
+  holdout_loglik[[i]] <- get(g1_climate_names[i])[["holdout_loglik"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>%
     pivot_longer(cols = !".draw") %>%
     rename(draw = ".draw") %>%
     group_by(draw) %>%
     summarize(loglik = sum(value)) %>%
-    mutate(model = model_names[i],
+    mutate(model = g1_climate_names[i],
            train = FALSE)
-  holdout_twcrps[[i]] <- get(model_names[i])[["holdout_twcrps"]]$generated_quantities %>%
+  holdout_twcrps[[i]] <- get(g1_climate_names[i])[["holdout_twcrps"]] %>%
     as_draws_df() %>%
     select(-c(".iteration", ".chain")) %>%
     pivot_longer(cols = !".draw") %>%
     rename(draw = ".draw") %>%
     group_by(draw) %>%
     summarize(twcrps = mean(value)) %>%
-    mutate(model = model_names[i],
+    mutate(model = g1_climate_names[i],
            train = FALSE)
   # train_loglik[[i]] <- get(model_names[i])[["train_loglik"]]$generated_quantities %>%
   #   as_draws_df() %>%
@@ -307,10 +319,12 @@ train_twcrps[[1]] <- get(g2_name)[["train_twcrps"]]$generated_quantities %>%
          train = TRUE)
 
 
-holdout_loglik_burns <- bind_rows(holdout_loglik) %>% rbind(g4_holdout_loglik)
+# holdout_loglik_burns <- bind_rows(holdout_loglik) %>% rbind(g4_holdout_loglik)
+holdout_loglik_burns <- bind_rows(holdout_loglik)
 # train_loglik_burns <- bind_rows(train_loglik)
-holdout_twcrps_df <- bind_rows(holdout_twcrps) %>% rbind(g4_holdout_twcrps)
-train_twcrps <- bind_rows(train_twcrps)
+# holdout_twcrps_df <- bind_rows(holdout_twcrps) %>% rbind(g4_holdout_twcrps)
+holdout_twcrps_df <- bind_rows(holdout_twcrps)
+# train_twcrps <- bind_rows(train_twcrps)
 
 ## log-likelihood aggregating and analysis (burns) -------
 ll_full_burns <- holdout_loglik_burns %>%

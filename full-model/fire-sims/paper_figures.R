@@ -23,8 +23,10 @@ full_reg_key <- as_tibble(region_key) %>%
 ecoregions <- read_rds(file = "ecoregions.RDS")
 levels_l1 <- levels(as.factor(as.numeric(ecoregions$NA_L1CODE)))
 levels_l2 <- levels(as.factor(as.numeric(ecoregions$NA_L2CODE)))
-ecoregions_geom <- ecoregions %>% filter(!NA_L2NAME == "UPPER GILA MOUNTAINS (?)") %>% 
-  mutate(NA_L2CODE = factor(NA_L2CODE, levels = levels_l2),
+ecoregions_geom <- ecoregions %>% 
+  mutate(NA_L2NAME = case_when(NA_L2NAME == "UPPER GILA MOUNTAINS (?)" ~ "UPPER GILA MOUNTAINS",
+                               .default = NA_L2NAME),
+         NA_L2CODE = factor(NA_L2CODE, levels = levels_l2),
          NA_L1CODE = factor(NA_L1CODE, levels = levels_l1),
          NA_L3CODE = as.factor(NA_L3CODE),
          NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
@@ -80,7 +82,7 @@ l1_only_map <- ecoregions_geom %>%
   theme_void() +
   coord_sf(ndiscr = FALSE)
 ggsave(filename = "full-model/figures/paper/level1_map.pdf", plot = l1_only_map,
-       dpi = 320, width = 8, height = 8)
+       dpi = 320, width = 6, height = 6)
 knitr::plot_crop("full-model/figures/paper/level1_map.pdf")
 
 er_map_l1 <- ecoregions_geom %>%
@@ -94,9 +96,9 @@ er_map_l1 <- ecoregions_geom %>%
           fill = "transparent", lwd = 0.1, inherit.aes = FALSE) +
   theme_void() +
   coord_sf(ndiscr = FALSE)
-ggsave(filename = "full-model/figures/paper/er_map_l1.png", plot = er_map_l1,
-       dpi = 320, width = 9, height = 9)
-knitr::plot_crop("full-model/figures/paper/er_map_l1.png")
+ggsave(filename = "full-model/figures/paper/er_map_l1.pdf", plot = er_map_l1,
+       dpi = 320, width = 6, height = 6)
+knitr::plot_crop("full-model/figures/paper/er_map_l1.pdf")
 
 er_map_l2 <- ecoregions_geom %>%
   ggplot() +
@@ -107,9 +109,9 @@ er_map_l2 <- ecoregions_geom %>%
           fill = "transparent", lwd = 0.1, inherit.aes = FALSE) +
   theme_void() +
   coord_sf(ndiscr = FALSE)
-ggsave(filename = "full-model/figures/paper/er_map_l2.png", plot = er_map_l2,
-       dpi = 320, width = 9, height = 9)
-knitr::plot_crop("full-model/figures/paper/er_map_l2.png")
+ggsave(filename = "full-model/figures/paper/er_map_l2.pdf", plot = er_map_l2,
+       dpi = 320, width = 6, height = 6)
+knitr::plot_crop("full-model/figures/paper/er_map_l2.pdf")
 
 er_map_l3 <- ecoregions_geom %>% 
   ggplot() +
@@ -118,9 +120,9 @@ er_map_l3 <- ecoregions_geom %>%
           fill = "transparent", lwd = 0.3, inherit.aes = FALSE) +
   theme_void() +
   coord_sf(ndiscr = FALSE)
-ggsave(filename = "full-model/figures/paper/er_map_l3.png", plot = er_map_l3,
-       dpi = 320, width = 9, height = 9)
-knitr::plot_crop("full-model/figures/paper/er_map_l3.png")
+ggsave(filename = "full-model/figures/paper/er_map_l3.pdf", plot = er_map_l3,
+       dpi = 320, width = 6, height = 6)
+knitr::plot_crop("full-model/figures/paper/er_map_l3.pdf")
 
 # read in extracted mcmc draws ------
 # files <- paste0("full-model/figures/paper/mcmc_draws/theta-time_gamma-ri_erc_fwi/",
@@ -164,19 +166,20 @@ p <- returns_regional %>% ggplot() +
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1CODE, alpha = 0.5)) +
   geom_line(aes(x=date, y=med50, group = region, alpha = 0.5), linewidth = 0.5, color = 'darkgrey') + 
   scale_y_log10() +
-  scale_x_date(name = "Year (1990-2020)", date_breaks = "7 years", date_labels = "%Y") + 
+  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y") + 
   ylab("Expected burn area (ha)") +
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) +
+  facet_wrap(. ~ NA_L1NAME, ncol = 2) +
   theme_classic() + 
-  theme(legend.position = "none", 
-        strip.text.x = element_text(size = rel(1.5)), 
-        axis.text.x = element_text(size = rel(1.8)),
-        axis.title.x = element_text(size = rel(1.7)),
-        axis.text.y = element_text(size = rel(1.8)),
-        axis.title.y = element_text(size = rel(1.7)))
-file_name <- "full-model/figures/paper/50yr_returns.pdf"
-ggsave(file_name, p, dpi = 320, bg = "white", width = 15.5, height = 8)
-knitr::plot_crop("full-model/figures/paper/50yr_returns.pdf")
+  theme(legend.position = "none",
+        strip.text.x = element_text(size = rel(1.3)),
+        axis.text.x = element_text(size = rel(1.3)),
+        axis.title.x = element_text(size = rel(1.3)),
+        axis.text.y = element_text(size = rel(1.3)),
+        axis.title.y = element_text(size = rel(1.3)))
+
+file_name <- "full-model/figures/paper/50yr_returns_2col.pdf"
+ggsave(file_name, p, dpi = 320, bg = "white", width = 8.5, height = 8.5)
+knitr::plot_crop("full-model/figures/paper/50yr_returns_2col.pdf")
 ## calculate 98th quantile expected burn areas ----------
 level98_areas <- all_params %>%
   mutate(yr50 = high_quant(50, kappa, sigma, xi)*1000*0.405) # rescale back to 1000s of acres; convert to hectares
@@ -195,19 +198,26 @@ level98_areas_regional <- level98_areas_regional %>% mutate(NA_L1CODE = factor(N
 p <- level98_areas_regional %>% ggplot() + 
   geom_ribbon(aes(x=date, ymin=lower, ymax=upper, group = region, fill = NA_L1CODE, alpha = 0.5)) +
   geom_line(aes(x=date, y=med50, group = region), linewidth = 0.5, color = 'darkgrey') + scale_y_log10() +
-  scale_x_date(name = "Year (1990-2020)", date_breaks = "7 years", date_labels = "%Y",  ) + 
+  scale_x_date(name = "Year (1990-2020)", date_breaks = "5 years", date_labels = "%Y",  ) + 
   ylab("Expected burn area (ha) given fire occurrence") +
-  facet_wrap(. ~ NA_L1NAME, nrow = 2) +
+  facet_wrap(. ~ NA_L1NAME, ncol = 2) +
   theme_classic() + 
-  theme(legend.position = "none", 
-        strip.text.x = element_text(size = rel(1.5)), 
-        axis.text.x = element_text(size = rel(1.8)),
-        axis.title.x = element_text(size = rel(1.7)),
-        axis.text.y = element_text(size = rel(1.8)),
-        axis.title.y = element_text(size = rel(1.7)))
-file_name <- "full-model/figures/paper/98th_quant_burn-areas.pdf"
-ggsave(file_name, p, dpi = 320, bg = "white", width = 15.5, height = 8)
-knitr::plot_crop("full-model/figures/paper/98th_quant_burn-areas.pdf")
+  theme(legend.position = "none",
+        strip.text.x = element_text(size = rel(1.3)),
+        axis.text.x = element_text(size = rel(1.3)),
+        axis.title.x = element_text(size = rel(1.3)),
+        axis.text.y = element_text(size = rel(1.3)),
+        axis.title.y = element_text(size = rel(1.3)))
+
+# , 
+#         strip.text.x = element_text(size = rel(1.5)), 
+#         axis.text.x = element_text(size = rel(1.8)),
+#         axis.title.x = element_text(size = rel(1.7)),
+#         axis.text.y = element_text(size = rel(1.8)),
+#         axis.title.y = element_text(size = rel(1.7)))
+file_name <- "full-model/figures/paper/98th_quant_burn-areas_2col.pdf"
+ggsave(file_name, p, dpi = 320, bg = "white", width = 8.5, height = 8.5)
+knitr::plot_crop("full-model/figures/paper/98th_quant_burn-areas_2col.pdf")
 
 ## area-weighted average of burn area exceedances -------
 eco_areas <- ecoregions_geom %>% as_tibble() %>% group_by(NA_L3CODE) %>% summarise(area = sum(Shape_Area))
@@ -422,8 +432,7 @@ burn_preds_l1 <- burn_preds %>%
 #                                   .default = total_area))
 
 # read in true burn areas -------
-true_burns <- readRDS("full-model/data/burn_df_agg.RDS") %>% 
-  filter(NA_L2NAME != "UPPER GILA MOUNTAINS (?)") %>%
+true_burns <- readRDS("full-model/data/burn_df_agg.RDS") %>%
   mutate(NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
 true_burns_level1 <- true_burns %>% group_by(NA_L1NAME, fire_yr) %>%
   summarize(true_area = sum(total_burns)*0.405) %>% ungroup()
@@ -555,7 +564,7 @@ p_legend <- p + theme(legend.position = c(0.95, 0.4),
                       legend.title = element_text(size = 15))
 ggsave(filename = "full-model/figures/paper/gamma_map.png", plot = p, 
        dpi = 320, 
-       width = 5, height = 5)
+       width = 6, height = 6)
 knitr::plot_crop("full-model/figures/paper/gamma_map.png")
 # parse(text = paste("tau[", 1:2, "]")))
 
@@ -578,7 +587,7 @@ eco_eda <- ecoregions_geom %>% left_join(burn_eda)
 eda_90_plot <- ecoregions_geom %>%
   ggplot() +
   geom_sf(size = .1, fill = 'transparent') +
-  geom_sf(data = eco_eda %>% group_by(NA_L2NAME, shape_inc_90) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))), 
+  geom_sf(data = eco_eda %>% group_by(NA_L2CODE, shape_inc_90) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))), 
           aes(fill=shape_inc_90), alpha = 0.6, lwd = 0.1, inherit.aes = FALSE) +
   theme_void()
 eda_90_hcl <- eda_90_plot + scale_fill_continuous_sequential(palette = 'Mint',
@@ -588,11 +597,11 @@ eda_90_hcl <- eda_90_plot + scale_fill_continuous_sequential(palette = 'Mint',
   #       legend.key.size = unit(1, "cm"),
   #       legend.text = element_text(size = 12),
   #       legend.title = element_text(size = 15))
-ggsave(filename = "full-model/figures/paper/xi_eda_90th-quant.png", 
+ggsave(filename = "full-model/figures/paper/xi_eda_90th-quant.pdf", 
        plot = eda_90_hcl, 
-       width = 5, height = 5,
+       width = 6, height = 6,
        dpi = 320)
-knitr::plot_crop("full-model/figures/paper/xi_eda_90th-quant.png")
+knitr::plot_crop("full-model/figures/paper/xi_eda_90th-quant.pdf")
 
 # eda_90_gradient <- eda_90_plot + scale_fill_gradient2(na.value = "transparent",
 #                                     name = bquote(xi~value)) + 

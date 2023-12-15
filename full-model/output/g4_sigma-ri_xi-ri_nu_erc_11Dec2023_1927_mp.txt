@@ -290,3 +290,5 @@ Exception: Exception: Exception: delta or kappa <=0; found delta = 0 kappa = 2.7
 If this warning occurs sporadically, such as for highly constrained variable types like covariance matrices, then the sampler is fine,
 but if this warning occurs often then your model may be either severely ill-conditioned or misspecified.
 
+Iteration:  100 / 2000 [  5%]  (Warmup)
+Iteration:  100 / 2000 [  5%]  (Warmup)

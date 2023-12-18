@@ -1,0 +1,113 @@
+This is cmdstanr version 0.5.3
+- CmdStanR documentation and vignettes: mc-stan.org/cmdstanr
+- CmdStan path: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+- CmdStan version: 2.31.0
+
+A newer version of CmdStan is available. See ?install_cmdstan() to install it.
+To disable this check set option or environment variable CMDSTANR_NO_VER_CHECK=TRUE.
+CmdStan path set to: /projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan
+This is posterior version 1.4.1
+
+Attaching package: ‘posterior’
+
+The following objects are masked from ‘package:stats’:
+
+    mad, sd, var
+
+The following objects are masked from ‘package:base’:
+
+    %in%, match
+
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+[1] "Filenames being used are:"
+[1] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_erc_fwi_13Dec2023_1558_1.csv"
+[2] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_erc_fwi_13Dec2023_1558_2.csv"
+[3] "./full-model/fire-sims/joint/csv-fits/joint_g1_sigma-ri_erc_fwi_13Dec2023_1558_3.csv"
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells  941021 50.3   94141012 5027.7  147095330  7855.8
+Vcells 2496987 19.1 1217245376 9286.9 1502612362 11464.1
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1035244 55.3  109704029 5858.9  171412545  9154.5
+Vcells 3650178 27.9 1168619561 8915.9 1502612362 11464.1
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1048541 56.0   87763224 4687.1  171412545  9154.5
+Vcells 3684024 28.2  934895649 7132.7 1502612362 11464.1
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1142272 61.1   89942685  4803.5  171412545  9154.5
+Vcells 3802772 29.1 1327260195 10126.2 1644356182 12545.5
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1329768 71.1  246551668 13167.3  342857947 18310.6
+Vcells 3927767 30.0 3335293203 25446.3 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1330043 71.1  197241335 10533.9  342857947 18310.6
+Vcells 3934175 30.1 2668234563 20357.1 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1330300 71.1  157793068  8427.1  342857947 18310.6
+Vcells 3934345 30.1 2134587651 16285.7 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1331424 71.2  126234455  6741.7  342857947 18310.6
+Vcells 3935093 30.1 1707670121 13028.5 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger    (Mb)   max used    (Mb)
+Ncells 1331682 71.2  100987564  5393.4  342857947 18310.6
+Vcells 3935263 30.1 1366136097 10422.8 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1341014 71.7   80790052 4314.7  342857947 18310.6
+Vcells 3947539 30.2 1092908878 8338.3 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1345810 71.9   64632042 3451.8  342857947 18310.6
+Vcells 3952235 30.2  874327103 6670.6 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1345824 71.9   51705634 2761.4  342857947 18310.6
+Vcells 3952240 30.2  699461683 5336.5 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1345838 71.9   41364508 2209.2  342857947 18310.6
+Vcells 3952245 30.2  559569347 4269.2 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1345852 71.9   33091607 1767.3  342857947 18310.6
+Vcells 3952250 30.2  447655478 3415.4 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+          used (Mb) gc trigger   (Mb)   max used    (Mb)
+Ncells 1345881 71.9   26473286 1413.9  342857947 18310.6
+Vcells 3952260 30.2  358124383 2732.3 4103154532 31304.6
+Warning message:
+Dropping 'draws_df' class as required metadata was removed. 
+[1] "All MCMC draws have been successfully written to disk"

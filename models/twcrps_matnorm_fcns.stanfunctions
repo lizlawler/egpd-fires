@@ -1,0 +1,22 @@
+  real twCRPS(real y, int n_int, real interval, vector int_pts, vector pred_probs) {
+    real score;
+    real summand;
+    real delta = interval/(n_int - 1);
+    summand = 0;
+    for (n in 1:n_int) {
+      summand += (pred_probs[n] - step(int_pts[n] - y)) ^ 2
+                 * normal_cdf(int_pts[n] | 21, 9);
+    }
+    score = summand * delta;
+    return score;
+  }
+  
+  real matnormal_lpdf(matrix y, matrix cov, matrix corr) {
+    real lpdf;
+    real r = rows(corr);
+    real p = rows(cov);
+    lpdf = -(r * p / 2) * log(2 * pi()) - (p / 2) * log_determinant(corr)
+           - (r / 2) * log_determinant(cov)
+           - 0.5 * trace(mdivide_right_spd(mdivide_left_spd(corr, y'), cov) * y);
+    return lpdf;
+  }

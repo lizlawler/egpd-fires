@@ -1,0 +1,18 @@
+  // truncated lognormal distribution
+  real lognorm_trunc_lpdf(real y, real ymin, real mu, real sigma) {
+    real cst = lognormal_lccdf(ymin | mu, sigma);
+    real lpdf = lognormal_lpdf(y | mu, sigma);
+    return lpdf - cst;
+  }
+  
+  // probability forecast
+  vector prob_forecast(int n_int, vector int_pts, real ymin, real mu, real sigma) {
+    vector[n_int] pred_probs;
+    real numer_cst = lognormal_cdf(ymin | mu, sigma);
+    real denom_cst = exp(lognormal_lccdf(ymin | mu, sigma));
+    for (n in 1:n_int) {
+      real unnorm_pred_prob = lognormal_cdf(int_pts[n] | mu, sigma);
+      pred_probs[n] = (unnorm_pred_prob - numer_cst)/denom_cst;
+    }
+    return pred_probs;
+  } 

@@ -1,0 +1,92 @@
+  // custom distribution functions of EGPD
+  real egpd_lpdf(real y, real sigma, real xi, real delta, real kappa) {
+    real alpha = 1/delta;
+    real beta = 2;
+    if (delta > 1e-15 && kappa > 1e-15) {
+      return log(kappa) - log(2) + 
+          (kappa/2 - 1) * beta_lccdf(exp(delta * gpareto_lccdf(y | sigma, xi)) | alpha, beta) +
+          log(delta) + (delta-1) * gpareto_lccdf(y | sigma, xi) + 
+          gpareto_lpdf(y | sigma, xi) + 
+          beta_lpdf(exp(delta * gpareto_lccdf(y | sigma, xi)) | alpha, beta);
+    }
+    else {
+      reject("delta or kappa <=0; found delta = ", delta, " kappa = ", kappa);
+    }
+  }  
+  real egpd_cdf(real y, real sigma, real xi, real delta, real kappa) {
+    real alpha = 1/delta;
+    real beta = 2;
+    if (delta > 1e-15 && kappa > 1e-15) {
+      return exp((kappa/2) * beta_lccdf(exp(delta * gpareto_lccdf(y | sigma, xi)) | alpha, beta));
+    }
+    else {
+      reject("delta or kappa <=0; found delta = ", delta, " kappa = ", kappa);
+    }
+  }
+  real egpd_lcdf(real y, real sigma, real xi, real delta, real kappa) {
+    real alpha = 1/delta;
+    real beta = 2;
+    if (delta > 1e-15 && kappa > 1e-15) {
+      return (kappa/2) * beta_lccdf(exp(delta * gpareto_lccdf(y | sigma, xi)) | alpha, beta);
+    }
+    else {
+      reject("delta or kappa <=0; found delta = ", delta, " kappa = ", kappa);
+    }
+  }  
+  real egpd_lccdf(real y, real sigma, real xi, real delta, real kappa) {
+    real alpha = 1/delta;
+    real beta = 2;
+    if (delta > 1e-15 && kappa > 1e-15) {
+      return log1m_exp((kappa/2) * beta_lccdf(exp(delta * gpareto_lccdf(y | sigma, xi)) | alpha, beta));
+    }
+    else {
+      reject("delta or kappa <=0; found delta = ", delta, " kappa = ", kappa);
+    }
+  }  
+  
+  real egpd_icdf(real u_adj, real sigma, real xi, real delta, real kappa) {
+    // input is 'u' adjusted for lower bound truncation
+    real alpha = 1/delta;
+    real beta = 2;
+    if (delta > 1e-15 && kappa > 1e-15) {
+      real q = 1 - u_adj ^ (2 / kappa);
+      real p = exp(log1m(inv_inc_beta(alpha, beta, q) ^ delta));
+      return gpareto_icdf(p, sigma, xi);
+    }
+    else {
+      reject("delta or kappa <=0; found delta = ", delta, " kappa = ", kappa);
+    }
+  } 
+
+  vector egpd_rng(int n, real ymin, real sigma, real xi, real delta, real kappa) {
+    // returns a vector length n of burn area predictions
+    real cst = egpd_cdf(ymin | sigma, xi, delta, kappa);
+    vector[n] rng_val;
+    vector[n] a = rep_vector(0, n);
+    vector[n] b = rep_vector(1, n);
+    array[n] real u = uniform_rng(a, b);
+    for (i in 1:n) {
+      real u_adj = cst * (1 - u[i]) + u[i];
+      rng_val[i] = egpd_icdf(u_adj, sigma, xi, delta, kappa);
+    }
+    return rng_val;
+  }
+  
+  // truncated EGPD distribution
+  real egpd_trunc_lpdf(real y, real ymin, real sigma, real xi, real delta, real kappa) {
+    real lpdf = egpd_lpdf(y | sigma, xi, delta, kappa);
+    real cst = egpd_lccdf(ymin | sigma, xi, delta, kappa);
+    return lpdf - cst;
+  }
+  
+  // probability forecast
+  vector prob_forecast(int n_int, vector int_pts, real ymin, real sigma, real xi, real delta, real kappa) {
+    vector[n_int] pred_probs;
+    real numer_cst = egpd_cdf(ymin | sigma, xi, delta, kappa);
+    real denom_cst = exp(egpd_lccdf(ymin | sigma, xi, delta, kappa));
+    for (n in 1:n_int) {
+      real unnorm_pred_prob = egpd_cdf(int_pts[n] | sigma, xi, delta, kappa);
+      pred_probs[n] = (unnorm_pred_prob - numer_cst)/denom_cst;
+    }
+    return pred_probs;
+  }

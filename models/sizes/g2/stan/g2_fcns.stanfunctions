@@ -1,0 +1,81 @@
+  // custom distribution functions of EGPD
+  real egpd_lpdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
+    if (prob < 0 || prob > 1) {
+      reject("not a valid probability; found prob = ", prob);
+    }
+    // else if (kappa1 > kappa2) {
+    //   reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    // }
+    else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
+      return gpareto_lpdf(y | sigma, xi) + log_sum_exp(
+              log(kappa1) + log(prob) + (kappa1-1) * gpareto_lcdf(y | sigma, xi),
+              log(kappa2) + log1m(prob) + (kappa2-1) * gpareto_lcdf(y | sigma, xi));
+    }
+    else {
+      reject("kappa1 or kappa2 <=0; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    }
+  }  
+  real egpd_cdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
+    if (prob < 0 || prob > 1) {
+      reject("not a valid probability; found prob = ", prob);
+    }
+    // else if (kappa1 > kappa2) {
+    //   reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    // }
+    else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
+      return exp(log(prob) + kappa1 * gpareto_lcdf(y | sigma, xi)) + 
+              exp(log1m(prob) + kappa2 * gpareto_lcdf(y | sigma, xi));
+    }
+    else {
+      reject("kappa1 or kappa2 <=0; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    }
+  }
+  real egpd_lcdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
+    if (prob < 0 || prob > 1) {
+      reject("not a valid probability; found prob = ", prob);
+    }
+    // else if (kappa1 > kappa2) {
+    //   reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    // }
+    else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
+      return log_sum_exp(
+              (log(prob) + kappa1 * gpareto_lcdf(y | sigma, xi)), 
+              (log1m(prob) + kappa2 * gpareto_lcdf(y | sigma, xi)));
+    }
+    else {
+      reject("kappa1 or kappa2 <=0; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    }
+  }  
+  real egpd_lccdf(real y, real sigma, real xi, real kappa1, real kappa2, real prob) {
+    if (prob < 0 || prob > 1) {
+      reject("not a valid probability; found prob = ", prob);
+    }
+    // else if (kappa1 > kappa2) {
+    //   reject("kappa1 > kappa2; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    // }
+    else if (kappa1 > 1e-15 && kappa2 > 1e-15) {
+      return log1m(exp(log(prob) + kappa1 * gpareto_lcdf(y | sigma, xi)) + 
+              exp(log1m(prob) + kappa2 * gpareto_lcdf(y | sigma, xi)));
+    }
+    else {
+      reject("kappa1 or kappa2 <=0; found kappa1 = ", kappa1, ", kappa2 = ", kappa2);
+    }
+  }  
+  // truncated EGPD distribution
+  real egpd_trunc_lpdf(real y, real ymin, real sigma, real xi, real kappa1, real kappa2, real prob) {
+    real lpdf = egpd_lpdf(y | sigma, xi, kappa1, kappa2, prob);
+    real cst = egpd_lccdf(ymin | sigma, xi, kappa1, kappa2, prob);
+    return lpdf - cst;
+  }
+  
+  // probability forecast
+  vector prob_forecast(int n_int, vector int_pts, real ymin, real sigma, real xi, real kappa1, real kappa2, real prob) {
+    vector[n_int] pred_probs;
+    real numer_cst = egpd_cdf(ymin | sigma, xi, kappa1, kappa2, prob);
+    real denom_cst = exp(egpd_lccdf(ymin | sigma, xi, kappa1, kappa2, prob));
+    for (n in 1:n_int) {
+      real unnorm_pred_prob = egpd_cdf(int_pts[n] | sigma, xi, kappa1, kappa2, prob);
+      pred_probs[n] = (unnorm_pred_prob - numer_cst)/denom_cst;
+    }
+    return pred_probs;
+  } 

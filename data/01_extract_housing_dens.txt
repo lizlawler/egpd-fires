@@ -1,0 +1,13 @@
+##############################################################################
+##  The following code is intended for use WITHIN the QGIS python           ##
+##  console. To run in python OUTSIDE of QGIS, further modifications        ##
+##  are required.                                                           ##
+##                                                                          ##
+##  This code extracts the housing density for 2010 (HUDEN2010), but can    ##
+##  easily be modified to extract housing for 1990, 2000, and 2020. Must    ##
+##  run '00_fetch_housing_density_block.sh' prior to running this code.     ##
+##                                                                          ##
+##  NB: User will need to modify directory path prior to '/egpd-fires/'.    ##
+##############################################################################
+
+processing.run("qgis:joinbylocationsummary", {'INPUT':QgsProcessingFeatureSourceDefinition('/Users/lizlawler/Desktop/research/egpd-fires/full-model/data/raw/us_eco_l3/us_eco_l3.shp', selectedFeaturesOnly=False, featureLimit=-1, flags=QgsProcessingFeatureSourceDefinition.FlagOverrideDefaultGeometryCheck, geometryCheck=QgsFeatureRequest.GeometryNoCheck),'PREDICATE':[0],'JOIN':QgsProcessingFeatureSourceDefinition('/Users/lizlawler/Desktop/research/egpd-fires/full-model/data/raw/conus_blk20.gdb|layername=CONUS_block_1990_2020_change', selectedFeaturesOnly=False, featureLimit=-1, flags=QgsProcessingFeatureSourceDefinition.FlagOverrideDefaultGeometryCheck, geometryCheck=QgsFeatureRequest.GeometryNoCheck),'JOIN_FIELDS':['HUDEN2010'],'SUMMARIES':[6],'DISCARD_NONMATCHING':False,'OUTPUT':'/Users/lizlawler/Desktop/research/egpd-fires/full-model/data/processed/housing-density/huden2010.shp'})

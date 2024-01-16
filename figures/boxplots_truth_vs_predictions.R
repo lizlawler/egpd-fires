@@ -10,13 +10,17 @@ library(tidyverse)
 library(stringr)
 library(posterior)
 library(lubridate)
+source("./data/load_eco.R")
 
+# load ecoregion shapes -----------------------------
+ecoregion_shp <- load_ecoregions()
+ecoregion_df <- ecoregion_shp %>% sf::st_as_sf()
+levels_l1 <- levels(as.factor(as.numeric(ecoregion_df$NA_L1CODE)))
+levels_l2 <- levels(as.factor(as.numeric(ecoregion_df$NA_L2CODE)))
 ## read in ecoregion key ---------------------------------------------------
-region_key <- readRDS(file = "./full-model/data/processed/region_key.rds")
-full_reg_key <- as_tibble(region_key) %>% 
-  mutate(region = c(1:84),
-         NA_L2CODE = as.factor(NA_L2CODE),
-         NA_L1CODE = as.factor(NA_L1CODE),
+region_key <- readRDS(file = "./data/processed/region_key.rds") %>%
+  mutate(NA_L2CODE = factor(NA_L2CODE, levels = levels_l2),
+         NA_L1CODE = factor(NA_L1CODE, levels = levels_l1),
          NA_L3CODE = as.factor(NA_L3CODE),
          NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
 
@@ -46,7 +50,7 @@ count_preds <- lambda %>%
   left_join(pi_prob) %>% 
   mutate(preds = exp_count(pi, lambda)) %>% 
   select(c(draw, time, region, preds)) %>%
-  left_join(full_reg_key) %>% 
+  left_join(region_key) %>% 
   left_join(time_df) %>% 
   mutate(year = year(date)) %>% 
   group_by(NA_L1NAME, year, draw) %>% 
@@ -75,7 +79,7 @@ y_train_count <- stan_data$y_train_count %>%
   pivot_longer(!time, names_to = "region", values_to = "value") %>%
   mutate(region = as.numeric(gsub("V", "", region)),
          time = time + 60) %>%
-  left_join(full_reg_key) %>%
+  left_join(region_key) %>%
   left_join(time_df) %>% 
   mutate(year = year(date)) %>%
   group_by(NA_L1NAME, year) %>%
@@ -88,7 +92,7 @@ y_hold_count <- stan_data$y_hold_count %>%
   mutate(region = as.numeric(gsub("V", "", region)),
          time = case_when(time > 60 ~ time + 252,
                           TRUE ~ time)) %>%
-  left_join(full_reg_key) %>%
+  left_join(region_key) %>%
   left_join(time_df) %>% 
   mutate(year = year(date)) %>%
   group_by(NA_L1NAME, year) %>%
@@ -124,13 +128,16 @@ counts_boxplot_winsor <- count_preds_winsor %>%
   theme(legend.position = "none",
         strip.text.x = element_text(size = rel(0.7)),
         axis.text = element_text(size = rel(0.74))) 
-ggsave("./figures/counts_preds_vs_truth_winsor.pdf", counts_boxplot_winsor,
-       dpi = 320, width = 8.5, height = 4)
-knitr::plot_crop("./figures/counts_preds_vs_truth_winsor.pdf")
+ggsave("./figures/paper_figures/counts_preds_vs_truth.pdf", 
+       counts_boxplot_winsor,
+       dpi = 320, 
+       width = 8.5, 
+       height = 4)
+knitr::plot_crop("./figures/paper_figures/counts_preds_vs_truth.pdf")
 
 ## calculations for plot (2): wildfire burned area predictions vs truth -------
 burn_preds <- burn_preds %>% 
-  left_join(full_reg_key) %>% 
+  left_join(region_key) %>% 
   left_join(time_df) %>% 
   mutate(year = year(date)) %>% rename(preds = value) %>%
   group_by(NA_L1NAME, year, draw) %>% 
@@ -151,7 +158,7 @@ burn_preds_winsor <- burn_preds %>%
                                   .default = total_area))
 
 ## read in observed wildfire burned area --------------------------------------
-true_burns <- readRDS("./data/burn_df_agg.RDS") %>%
+true_burns <- readRDS("./data/processed/obs_burned_areas.RDS") %>%
   mutate(NA_L1NAME = as.factor(str_to_title(NA_L1NAME)))
 true_burns <- true_burns %>% group_by(NA_L1NAME, fire_yr) %>%
   summarize(true_area = sum(total_burns)*0.405) %>% 
@@ -176,8 +183,8 @@ areas_boxplot_winsor <- burn_preds_winsor %>%
   ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
   geom_boxplot(outlier.size = 0.2) + 
   scale_color_grey(start = 0.4, end = 0.6) +
-  geom_point(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", size = 0.35) +
-  geom_line(inherit.aes = FALSE, data = true_burns_level1_full, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
+  geom_point(inherit.aes = FALSE, data = true_burns, aes(x = year, y = true_area), col = "red", size = 0.35) +
+  geom_line(inherit.aes = FALSE, data = true_burns, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
   facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
   scale_y_log10() +
   xlab("Year (1990-2020)") + 
@@ -189,6 +196,9 @@ areas_boxplot_winsor <- burn_preds_winsor %>%
         axis.title.x = element_text(size = rel(1.4)),
         axis.text.y = element_text(size = rel(1.3)),
         axis.title.y = element_text(size = rel(1.4)))
-ggsave("./figures/areas_preds_vs_truth_winsor.pdf", areas_boxplot_winsor,
-       dpi = 320, width = 15.3, height = 8)
-knitr::plot_crop("./figures/areas_preds_vs_truth_winsor.pdf")
+ggsave("./figures/paper_figures/areas_preds_vs_truth.pdf", 
+       areas_boxplot_winsor,
+       dpi = 320, 
+       width = 15.3, 
+       height = 8)
+knitr::plot_crop("./figures/paper_figures/areas_preds_vs_truth.pdf")

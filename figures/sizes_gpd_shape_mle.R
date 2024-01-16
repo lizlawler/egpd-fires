@@ -5,14 +5,7 @@
 
 library(tidyverse)
 library(lubridate)
-# library(assertthat)
-# library(raster)
-# library(sp)
-# library(spdep)
-# library(spatialreg)
-# library(splines)
 library(extRemes)
-# library(classInt)
 
 source("./data/03_merge_data.R")
 ecoregions <- ecoregion_shp %>% as_tibble() %>%
@@ -64,7 +57,4 @@ thres_90_df <- as.data.frame(unlist(thres_l2_90)) %>% rownames_to_column(var = "
 
 # add column to determine which regions to exclude from map
 params_l2_90_df <- params_l2_90 %>% right_join(n_20_90_df) %>% mutate(shape_inc_90 = shape90*include90) %>% left_join(thres_90_df)
-
-# params_l2_df <- params_l2_90_df %>% left_join(params_l2_95_df) %>% dplyr::select(c(NA_L2NAME, shape90, n_over_90, shape_inc_90, shape95, n_over_95, shape_inc_95, thres_90, thres_95)) %>%
-#   relocate(c(n_over_90, n_over_95, thres_90, thres_95), .before = "shape90") %>% relocate(shape95, .before = "shape_inc_90")
 saveRDS(params_l2_90_df, file = "./figures/sizes_shape_mle.RDS")

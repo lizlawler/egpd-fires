@@ -17,14 +17,6 @@ library(terra)
 source('data/load_eco.R')
 
 ecoregion_shp <- load_ecoregions()
-# fix names for Chihuahuan Deserts (L3 ecoregion) 
-ecoregion_shp$NA_L3NAME <- ifelse(ecoregion_shp$NA_L3NAME == 'Chihuahuan Desert',
-                                  'Chihuahuan Deserts',
-                                  ecoregion_shp$NA_L3NAME)
-# fix names for Upper Gila Mountains (L2 ecoregion) 
-ecoregion_shp$NA_L2NAME <- ifelse(ecoregion_shp$NA_L2NAME == 'UPPER GILA MOUNTAINS (?)',
-                                  'UPPER GILA MOUNTAINS',
-                                  ecoregion_shp$NA_L2NAME)
 
 ##  Read MTBS fire data -------------------------------------------------------
 if (!dir.exists("./data/raw/mtbs_fod_pts_data/")) {

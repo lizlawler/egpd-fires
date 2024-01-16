@@ -1,0 +1,164 @@
+---
+title: "scores_tables"
+output: 
+  pdf_document: 
+    keep_tex: yes
+date: "2023-06-26"
+---
+```{r G1 parameter scores, echo=FALSE, message=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+g1_params_scores <- readRDS("./g1_parameter_comparison.RDS")
+g1_params_scores_table <- g1_params_scores %>% 
+  mutate(kappa = case_when(grepl('kappa-ri', model) ~ 'ri',
+                               TRUE ~ 'reg'),
+         sigma = case_when(grepl('sigma-ri', model) ~ 'ri',
+                               TRUE ~ 'reg'),
+         xi = case_when(grepl('all-reg', model) ~ 'reg',
+                        TRUE ~ 'ri'))
+
+g1_params_scores_table %>% arrange(twcrps_mean_diff) %>% relocate(c('twcrps_mean_diff', 'twcrps_sd_diff'), .before = 'll_med_diff') %>% 
+  relocate(c('kappa', 'sigma', 'xi'), .before = 'twcrps_mean_diff') %>% mutate_if(is.numeric, round, 2) %>% 
+    mutate(kappa = case_when(kappa == 'reg' ~ "$\\checkmark$", 
+                             kappa == 'ri' ~ "--"),
+           sigma = case_when(sigma == 'reg' ~ "$\\checkmark$",
+                             sigma == 'ri' ~ "--"),
+           xi = case_when(xi == 'reg' ~ "$\\checkmark$",
+                          xi == 'ri' ~ "--"),
+           model = "$G_1$") %>% 
+  rename("$\\kappa$" = kappa, "$\\sigma$" = sigma, "$\\xi$" = xi, "Model" = model, 
+         'Mean' = twcrps_mean_diff, 'SD ' = twcrps_sd_diff, 
+         'Median' = ll_med_diff, 'SD' = ll_sd_diff) %>% 
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% 
+  add_header_above(c(" "=1, "Regression" = 3, "twCRPS" = 2, "Log score" = 2)) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+
+```{r best G1 dataset scores, echo=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+g1_dataset_scores <- readRDS("./g1_dataset_comparison.RDS")
+g1_dataset_scores %>% arrange(twcrps_mean_diff) %>% relocate(c('twcrps_mean_diff', 'twcrps_sd_diff'), .before = 'll_med_diff') %>% 
+  mutate_if(is.numeric, round, 2) %>% 
+    mutate(model = case_when(model == 'erc_fwi' ~ "ERC-FWI", 
+                             model == 'fwi' ~ "FWI",
+                             model == 'erc' ~ "ERC",
+                             model == 'climate' ~ "Climate")) %>% 
+  rename("Dataset" = model, 
+         'Mean' = twcrps_mean_diff, 'SD ' = twcrps_sd_diff, 
+         'Median' = ll_med_diff, 'SD' = ll_sd_diff) %>% 
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% 
+  add_header_above(c(" "=1, "twCRPS" = 2, "Log score" = 2))
+```
+
+```{r Size model scores, echo=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+sizes_model_scores <- readRDS("./sizes_model_comparison.RDS")
+sizes_model_scores_table <- sizes_model_scores %>% 
+  mutate(kappa = case_when(grepl('sigma-ri', model) ~ 'reg',
+                           grepl('lognorm', model) ~ 'reg',
+                               .default = NA),
+         sigma = case_when(grepl('sigma-ri', model) ~ 'ri',
+                           grepl('xi-ri_nu', model) ~ 'reg',
+                               .default = 'cst'),
+         xi = case_when(grepl('xi-ri', model) ~ 'ri',
+                        .default = NA))
+
+sizes_model_scores_table %>% arrange(twcrps_mean_diff) %>% relocate(c('twcrps_mean_diff', 'twcrps_sd_diff'), .before = 'll_med_diff') %>% 
+  relocate(c('kappa', 'sigma', 'xi'), .before = 'twcrps_mean_diff') %>% mutate_if(is.numeric, round, 2) %>% 
+    mutate(kappa = case_when(kappa == 'reg' & !grepl('lognorm', model) ~ "$\\checkmark$", 
+                             kappa == 'reg' & grepl('lognorm', model) ~ "($\\checkmark$)",
+                             kappa == 'ri' ~ "--",
+                             .default = ''),
+           sigma = case_when(sigma == 'reg' ~ "$\\checkmark$",
+                             sigma == 'ri' ~ "--",
+                             sigma == 'cst' ~ "*",
+                             .default = ''),
+           xi = case_when(xi == 'reg' ~ "$\\checkmark$",
+                          xi == 'ri' ~ "--",
+                          .default = ''),
+           model = case_when(grepl('g4', model) ~ "$G_4$",
+                             grepl('g1', model) ~ "$G_1$",
+                             grepl('g2', model) ~ "$G_2$",
+                             grepl('g3', model) ~ "$G_3$",
+                             grepl('lognorm', model) ~ "Lognormal")) %>% 
+  rename("$\\kappa$($\\mu$)" = kappa, "$\\sigma$" = sigma, "$\\xi$" = xi, "Model" = model, 
+         'Mean' = twcrps_mean_diff, 'SD ' = twcrps_sd_diff, 
+         'Median' = ll_med_diff, 'SD' = ll_sd_diff) %>% 
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% 
+  add_header_above(c(" "=1, "Regression" = 3, "twCRPS" = 2, "Log score" = 2))
+```
+
+
+```{r Count model scores, echo=FALSE, message=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+count_model_scores <- readRDS('./counts_model_comparison.RDS')
+count_model_scores_table <- count_model_scores %>%
+  mutate(lambda = 'reg',
+         pi = case_when(grepl('pi-ri', model) ~ 'ri',
+                        grepl('all-reg', model) ~ 'reg',
+                        .default = NA),
+         delta = case_when(grepl('_er_', model)  ~ 'ri',
+                           grepl('zip', model) ~ NA,
+                           .default = 'cst')) %>%
+  separate_wider_delim(cols = model, delim = "_", names = c("model", "submodel"), too_many = "drop") %>%
+  rename(mdiff = ll_med_diff, sdiff = ll_sd_diff)
+
+count_model_scores_table %>% arrange(-mdiff) %>% 
+  relocate(c('lambda', 'pi', 'delta'), .before = 'mdiff') %>% mutate_if(is.numeric, round, 2) %>% 
+    mutate(lambda = case_when(lambda == 'reg' ~ "$\\checkmark$",
+                             TRUE ~ NA ),
+           pi = case_when(pi == 'reg' ~ "$\\checkmark$",
+                             pi == 'ri' ~ "--",
+                             pi == 'cst' ~ "*"),
+           delta = case_when(delta == 'reg' ~ "$\\checkmark$",
+                             delta == 'ri' ~ "--",
+                             delta == 'cst' ~ "*",
+                             .default = ''),
+           model = case_when(model == 'zinb' ~ "ZI-Negative Binomial",
+                             model == 'zip' ~ "ZI-Poisson")) %>% 
+  select(-submodel) %>% 
+  rename("$\\lambda$" = lambda, "$\\pi$" = pi, "$\\delta$" = delta,
+         "Median" = mdiff, "SD" = sdiff, "Model" = model) %>%
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% 
+  add_header_above(c(" "=1, "Regression" = 3, "Difference" = 2)) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+
+```{r ZINB-ER dataset scores, echo=FALSE, message=FALSE}
+library(kableExtra)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+zinb_er_dataset_scores <- readRDS('./zinb_er_dataset_comparison.RDS')
+zinb_er_dataset_scores %>% arrange(-ll_med_diff) %>% 
+  mutate_if(is.numeric, round, 2) %>% 
+    mutate(model = case_when(model == 'erc_fwi' ~ "ERC-FWI", 
+                             model == 'fwi' ~ "FWI",
+                             model == 'erc' ~ "ERC",
+                             model == 'climate' ~ "Climate")) %>%
+  rename("Median" = ll_med_diff, "SD" = ll_sd_diff, "Dataset" = model) %>%
+  kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% 
+  add_header_above(c(" "=1, "Difference" = 2)) 
+```
+

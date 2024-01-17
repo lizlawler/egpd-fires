@@ -14,7 +14,7 @@ library(sf)
 library(colorspace)
 library(patchwork)
 source("./data/load_eco.R")
-source("./fig")
+source("./figures/sizes_gpd_shape_mle.R")
 
 # load ecoregion shapes
 ecoregion_shp <- load_ecoregions()

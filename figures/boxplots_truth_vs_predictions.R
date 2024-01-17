@@ -121,18 +121,16 @@ counts_boxplot_winsor <- count_preds_winsor %>%
   scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_counts, aes(x = year, y = true_count), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) + 
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", ncol = 2) + 
   xlab("Year (1990-2020)") + 
   ylab("Expected number of fires") +
   theme_classic() + 
-  theme(legend.position = "none",
-        strip.text.x = element_text(size = rel(0.7)),
-        axis.text = element_text(size = rel(0.74))) 
+  theme(legend.position = "none") 
 ggsave("./figures/paper_figures/counts_preds_vs_truth.pdf", 
        counts_boxplot_winsor,
-       dpi = 320, 
-       width = 8.5, 
-       height = 4)
+       height = 8,
+       
+       dpi = 320)
 knitr::plot_crop("./figures/paper_figures/counts_preds_vs_truth.pdf")
 
 ## calculations for plot (2): wildfire burned area predictions vs truth -------
@@ -176,7 +174,12 @@ true_burns <- true_burns %>% group_by(NA_L1NAME, fire_yr) %>%
 #   scale_y_log10() +
 #   xlab("Year (1990-2020)") + 
 #   ylab("Expected burn area (ha)") +
-#   theme_classic() + theme(legend.position = "none")
+#   theme_classic() + theme(legend.position = "none",
+# strip.text.x = element_text(size = rel(1.3)), 
+# axis.text.x = element_text(size = rel(1.5)),
+# axis.title.x = element_text(size = rel(1.4)),
+# axis.text.y = element_text(size = rel(1.3)),
+# axis.title.y = element_text(size = rel(1.4)))
 # ggsave("full-model/figures/paper/areas_preds_vs_truth.pdf", width = 15)
 
 areas_boxplot_winsor <- burn_preds_winsor %>% 
@@ -185,20 +188,13 @@ areas_boxplot_winsor <- burn_preds_winsor %>%
   scale_color_grey(start = 0.4, end = 0.6) +
   geom_point(inherit.aes = FALSE, data = true_burns, aes(x = year, y = true_area), col = "red", size = 0.35) +
   geom_line(inherit.aes = FALSE, data = true_burns, aes(x = year, y = true_area), col = "red", linewidth = 0.35) +
-  facet_wrap(. ~ NA_L1NAME, scales = "free_y", nrow = 2) +
+  facet_wrap(. ~ NA_L1NAME, scales = "free_y", ncol = 2) +
   scale_y_log10() +
   xlab("Year (1990-2020)") + 
   ylab("Expected burn area (ha)") +
   theme_classic() + 
-  theme(legend.position = "none", 
-        strip.text.x = element_text(size = rel(1.3)), 
-        axis.text.x = element_text(size = rel(1.5)),
-        axis.title.x = element_text(size = rel(1.4)),
-        axis.text.y = element_text(size = rel(1.3)),
-        axis.title.y = element_text(size = rel(1.4)))
+  theme(legend.position = "none")
 ggsave("./figures/paper_figures/areas_preds_vs_truth.pdf", 
        areas_boxplot_winsor,
-       dpi = 320, 
-       width = 15.3, 
-       height = 8)
+       dpi = 320)
 knitr::plot_crop("./figures/paper_figures/areas_preds_vs_truth.pdf")

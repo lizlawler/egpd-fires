@@ -72,10 +72,17 @@ sizes_model_scores_table <- sizes_model_scores %>%
                            grepl('lognorm', model) ~ 'reg',
                                .default = NA),
          sigma = case_when(grepl('sigma-ri', model) ~ 'ri',
-                           grepl('xi-ri_nu', model) ~ 'reg',
+                           grepl('xi-ri', model) ~ 'reg',
                                .default = 'cst'),
          xi = case_when(grepl('xi-ri', model) ~ 'ri',
-                        .default = NA))
+                        .default = NA),
+         time = case_when(grepl('g4', model) ~ 636903, # grab sampling elapsed time from console output of each model
+                          grepl('g3', model) ~ 332067,
+                          grepl('g2', model) ~ 31936,
+                          grepl('g1', model) ~ 23195,
+                          grepl('cst', model) ~ 19096,
+                          .default = 16157),
+         time = time/3600) # convert to hours
 
 sizes_model_scores_table %>% arrange(twcrps_mean_diff) %>% relocate(c('twcrps_mean_diff', 'twcrps_sd_diff'), .before = 'll_med_diff') %>% 
   relocate(c('kappa', 'sigma', 'xi'), .before = 'twcrps_mean_diff') %>% mutate_if(is.numeric, round, 2) %>% 
@@ -97,9 +104,9 @@ sizes_model_scores_table %>% arrange(twcrps_mean_diff) %>% relocate(c('twcrps_me
                              grepl('lognorm', model) ~ "Lognormal")) %>% 
   rename("$\\kappa$($\\mu$)" = kappa, "$\\sigma$" = sigma, "$\\xi$" = xi, "Model" = model, 
          'Mean' = twcrps_mean_diff, 'SD ' = twcrps_sd_diff, 
-         'Median' = ll_med_diff, 'SD' = ll_sd_diff) %>% 
+         'Median' = ll_med_diff, 'SD' = ll_sd_diff, 'Time (hrs)' = time) %>% 
   kable(., format='latex', align = 'c', booktabs=T, escape = F) %>% 
-  add_header_above(c(" "=1, "Regression" = 3, "twCRPS" = 2, "Log score" = 2))
+  add_header_above(c(" "=1, "Regression" = 3, "twCRPS" = 2, "Log score" = 2, " "=1))
 ```
 
 

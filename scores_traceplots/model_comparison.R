@@ -274,7 +274,7 @@ twcrps_comp
 
 sizes_models_comp <- ll_comp %>% left_join(twcrps_comp)
 # save for use in markdown to create tables
-# saveRDS(sizes_models_comp, "./figures/sizes_model_comparison.RDS")
+saveRDS(sizes_models_comp, "./figures/sizes_model_comparison.RDS")
 
 # Occurrences submodel comparisons and pipeline  ----------------------
 ### Phase one: pick best count model based on climate covariates dataset ### -----

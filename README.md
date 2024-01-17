@@ -16,7 +16,7 @@ Code and data associated with Lawler and Shaby's "Anthropogenic and meteorologic
 
 ## Modeling wildfire counts and sizes {#modeling-wildfire-counts-and-sizes}
 
-All models were run using `cmdstan`, which is executed from the command line. Code to fully execute these models on an HPC with slurm scheduling exists in the [`shell_scripts/slurm_alpine`](shell_scripts/slurm_alpine/) folder. Code to run some of these models on a remote Linux machine exists in the [`mp_server`](shell_scripts/mp_server) folder.
+All models were run using `cmdstan`, which is executed from the command line. Code to fully execute these models on an HPC with slurm scheduling exists in the [`slurm_alpine`](shell_scripts/slurm_alpine/) folder. Code to run some of these models on a remote Linux machine exists in the [`mp_server`](shell_scripts/mp_server) folder.
 
 ### Burned sizes submodel: phased approach
 
@@ -24,13 +24,13 @@ Stan code has been created for every permutation of the EGPD carrier families an
 
 #### Phase one
 
--   Execute [`shell_scripts/slurm_alpine/run_g1_params_NUTS.sh`](shell_scripts/slurm_alpine/run_g1_params_NUTS.sh).
+-   Execute [`run_g1_params_NUTS.sh`](shell_scripts/slurm_alpine/run_g1_params_NUTS.sh).
 
 -   Once the models in phase one have finished running, proceed with 'Phase one' in the [model scoring](scores_traceplots/model_comparison.R) script.
 
 #### Phase two
 
--   Execute [`shell_scripts/slurm_alpine/run_g1_datasets_NUTS.sh`](shell_scripts/slurm_alpine/run_g1_datasets_NUTS.sh).
+-   Execute [`run_g1_datasets_NUTS.sh`](shell_scripts/slurm_alpine/run_g1_datasets_NUTS.sh).
 
 -   Once the models have finished running, proceed with 'Phase two' in the [model scoring](scores_traceplots/model_comparison.R) script.
 
@@ -42,15 +42,15 @@ Stan code has been created for every permutation of the EGPD carrier families an
 
 ### Occurrences submodel: phased approach
 
--   Execute [`shell_scripts/slurm_alpine/run_counts_models_NUTS.sh`](shell_scripts/slurm_alpine/run_counts_models_NUTS.sh).
+-   Execute [`run_counts_models_NUTS.sh`](shell_scripts/slurm_alpine/run_counts_models_NUTS.sh).
 
 -   Once the six models have finished running, proceed with 'Phase one' in the [model scoring](scores_traceplots/model_comparison.R) script.
 
--   Execute [`shell_scripts/slurm_alpine/run_counts_datasets_NUTS.sh`](shell_scripts/slurm_alpine/run_counts_datasets_NUTS.sh), then proceed with 'Phase two' of scoring.
+-   Execute [`run_counts_datasets_NUTS.sh`](shell_scripts/slurm_alpine/run_counts_datasets_NUTS.sh), then proceed with 'Phase two' of scoring.
 
 ### Joint model
 
--   Execute [`shell_scripts/slurm_alpine/run_joint_NUTS.sh`](shell_scripts/slurm_alpine/run_joint_NUTS.sh) , which runs the sampler and then runs [`figures/extract_joint_mcmc_draws.R`](figures/extract_joint_mcmc_draws.R) .
+-   Execute [`run_joint_NUTS.sh`](shell_scripts/slurm_alpine/run_joint_NUTS.sh) , which runs the sampler and then runs [`extract_joint_mcmc_draws.R`](figures/extract_joint_mcmc_draws.R) .
 
 ## Results and figures
 

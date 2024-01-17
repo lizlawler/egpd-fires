@@ -54,4 +54,4 @@ Stan code has been created for every permutation of the EGPD carrier families an
 
 ## Results and figures
 
-All scripts needed to recreate the figures presented in the paper are included in the [`figures/`](figures/) folder. The MCMC draws must be extracted prior to running these scripts.
+All R scripts needed to recreate the figures presented in the paper are included in the [`figures/`](figures/) folder. The MCMC draws and model scores must be extracted prior to running these scripts. The scripts can then be run in no particular order.

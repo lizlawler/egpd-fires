@@ -25,5 +25,5 @@ sleep 1
 sbatch --dependency=afterok:${parentjob} \
 --job-name ${modname}_${params}_${dataset}_plots \
 --output="./shell_scripts/console_output/%x_%j.txt" \
-shell_scripts/slurm_alpine/call_plots.sh
+shell_scripts/slurm_alpine/call_plots_scores.sh
 sleep 1

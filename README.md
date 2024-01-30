@@ -2,19 +2,13 @@
 
 Code and data associated with Lawler and Shaby's "Anthropogenic and meteorological effects on the counts and sizes of moderate and extreme wildfires" (in review).
 
-## Table of contents
-
--   [Data processing](#data-processing)
--   [Modeling wildfire counts and sizes](#modeling-wildfire-counts-and-sizes)
--   [Results and figures](#results)
-
-## Data processing {#data-processing}
+## Data processing
 
 -   The R, python, and shell scripts found in [data/](/data/) are numbered and should be executed in chronological order. Any two scripts with the same number indicate that they do not rely on each other and can therefore be run in parallel.
 -   These scripts begin with downloading the raw data and proceed through the processing, cleaning, and aggregation of the various datasets for use in the models.
 -   Should you wish to skip the downloading, processing, and cleaning steps, you can use the included files in [`data/processed/`](data/processed/) to execute [`data/04_make_stan_data_lists.R`](data/04_make_stan_data_lists.R), which creates the .json and .RDS files found in [`data/stan_lists/`](data/stan_lists/). Alternatively, you can start straight from the the lists of data created for the Stan models.
 
-## Modeling wildfire counts and sizes {#modeling-wildfire-counts-and-sizes}
+## Modeling wildfire counts and sizes
 
 All models were run using `cmdstan`, which is executed from the command line. Code to fully execute these models on an HPC with slurm scheduling exists in the [`slurm_alpine`](shell_scripts/slurm_alpine/) folder. Code to run some of these models on a remote Linux machine exists in the [`mp_server`](shell_scripts/mp_server) folder.
 

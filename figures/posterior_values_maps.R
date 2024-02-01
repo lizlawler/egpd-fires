@@ -48,14 +48,20 @@ gamma_post_map <- ecoregion_df %>%
   geom_sf(data = ecoreg_gamma %>% group_by(NA_L3CODE, gamma) %>% summarise(geometry = st_union(st_set_precision(geometry, 1e8))),
           aes(fill=gamma), alpha = 1, lwd = 0.1, inherit.aes = FALSE) +
   theme_void() + scale_fill_gradient2(name = bquote(gamma~value))
-ggsave(filename = "./figures/paper_figures/gamma_map.pdf", 
+# ggsave(filename = "./figures/paper_figures/gamma_map.pdf", 
+#        plot = gamma_post_map, 
+#        dpi = 320, 
+#        width = 6, height = 6)
+# knitr::plot_crop("./figures/paper_figures/gamma_map.pdf")
+ggsave(filename = "./figures/paper_figures/gamma_map.png", 
        plot = gamma_post_map, 
        dpi = 320, 
        width = 6, height = 6)
-knitr::plot_crop("./figures/paper_figures/gamma_map.pdf")
+knitr::plot_crop("./figures/paper_figures/gamma_map.png")
+
 
 # create map of MLE estimates of GPD shape param by L2 ecoregion
-shape_mle <- readRDS("./figures/sizes_gpd_shape_mle_df.RDS")
+shape_mle <- params_l2_90_df
 ecoreg_shape_mle <- ecoregion_df %>% left_join(shape_mle)
 
 shape_mle_plot <- ecoregion_df %>% 
@@ -66,11 +72,18 @@ shape_mle_plot <- ecoregion_df %>%
 shape_mle_plot_hcl <- shape_mle_plot + scale_fill_continuous_sequential(palette = 'Mint',
                                                              na.value = "transparent",
                                                              name = bquote(xi~value))
-ggsave(filename = "./figures/paper_figures/shape_mle_map.pdf", 
+# ggsave(filename = "./figures/paper_figures/shape_mle_map.pdf", 
+#        plot = shape_mle_plot_hcl, 
+#        width = 6, height = 6,
+#        dpi = 320)
+# knitr::plot_crop("./figures/paper_figures/shape_mle_map.pdf")
+
+ggsave(filename = "./figures/paper_figures/shape_mle_map.png", 
        plot = shape_mle_plot_hcl, 
        width = 6, height = 6,
        dpi = 320)
-knitr::plot_crop("./figures/paper_figures/shape_mle_map.pdf")
+knitr::plot_crop("./figures/paper_figures/shape_mle_map.png")
+
 
 # create map of posterior medians of GPD shape param, with MLE estimates for comparison
 xi_map <- rand_int %>% select(-sigma) %>% group_by(region) %>% summarize(xi = median(xi))
@@ -94,10 +107,18 @@ shape_mle_combo_plot <- shape_mle_plot + scale_fill_continuous_sequential(palett
   theme(legend.position = "none")
 # combine the maps into one plot
 shape_combo_plot <- shape_mle_combo_plot + shape_post_map_hcl + plot_layout(guides = 'collect')
-ggsave("./figures/paper_figures/xi_post_with_mle_map.pdf", 
+# ggsave("./figures/paper_figures/xi_post_with_mle_map.pdf", 
+#        plot = shape_combo_plot,
+#        dpi = 320, 
+#        width = 8, 
+#        height = 8, 
+#        bg = 'transparent')
+# knitr::plot_crop("./figures/paper_figures/xi_post_with_mle_map.pdf")
+
+ggsave("./figures/paper_figures/xi_post_with_mle_map.png", 
        plot = shape_combo_plot,
        dpi = 320, 
        width = 8, 
        height = 8, 
        bg = 'transparent')
-knitr::plot_crop("./figures/paper_figures/xi_post_with_mle_map.pdf")
+knitr::plot_crop("./figures/paper_figures/xi_post_with_mle_map.png")

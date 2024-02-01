@@ -57,4 +57,3 @@ thres_90_df <- as.data.frame(unlist(thres_l2_90)) %>% rownames_to_column(var = "
 
 # add column to determine which regions to exclude from map
 params_l2_90_df <- params_l2_90 %>% right_join(n_20_90_df) %>% mutate(shape_inc_90 = shape90*include90) %>% left_join(thres_90_df)
-saveRDS(params_l2_90_df, file = "./figures/sizes_shape_mle.RDS")

@@ -2,6 +2,10 @@
 ##  This script contains the source code for a function I've modified       ## 
 ##  from the `cffdrs` package so `terra` is used instead of `raster`.       ##
 ##                                                                          ##
+##  At time of manuscript revision in May 2024, `cffdrs` had been           ##
+##  updated to use `terra` instead of `raster`. So the user can utilize     ##
+##  `cffdrs`'s  function `fwiRaster` if preferred.                          ##
+##                                                                          ##
 ##  This script is sourced in '00_aggregate_fwi.R'.                         ##
 ##############################################################################
 

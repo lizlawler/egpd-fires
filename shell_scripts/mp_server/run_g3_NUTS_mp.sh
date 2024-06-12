@@ -7,14 +7,14 @@ trap '' HUP
 stanc_exe="/data/accounts/lawler/.conda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="sizes"
 modname="g3"
-for params in "xi-ri_nu" "xi-ri"
+for params in "xi-ri"
 do
 # compile model and link c++ 
 inc_path="models/${modtype}/${modname}/stan/"
 object="models/${modtype}/${modname}/stan/${modname}_${params}"
 ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
-for dataset in "erc_fwi" "erc"
+for dataset in "erc_fwi"
 do
 sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params dataset sttime

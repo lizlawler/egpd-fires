@@ -15,7 +15,8 @@ inc_path="models/${modtype}/${modname}/stan/"
 object="models/${modtype}/${modname}/stan/${modname}_${params}"
 ${stanc_exe} ${object}.stan --include-paths=${inc_path}
 cmdstan_model ${object}
-for dataset in "erc" "fwi" "erc_fwi"
+# for dataset in "erc" "fwi" "erc_fwi"
+for dataset in "fwi" "erc_fwi"
 do
 sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params dataset sttime 

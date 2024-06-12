@@ -338,6 +338,10 @@ stan_data_climate <- list(
   
   # count data
   area_offset = log(area_df$area * 1e-11) / 2,
+  # the coefficient of an offset variable in Poisson regression is always 1, so we don't want the offset itself
+  # to be huge since it can't be rescaled in the regression; but we still want the magnitude of the areas
+  # to be reflected in the offset. Log of area/10^11 accounts for this, and we further minimize the scale of the offset by
+  # dividing by a factor of 2
   y_train_count = nfire_matrix_train,
   y_hold_count = nfire_matrix_hold,
   idx_train_er = setdiff(1:372, idx_count_hold),

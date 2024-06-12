@@ -17,5 +17,3 @@ sttime=$(date +"%d%b%Y_%H%M")
 export modtype modname params sttime 
 nohup ./shell_scripts/mp_server/jointmodel_sampling_mp.sh > shell_scripts/console_output/${modtype}_${modname}_${params}_${sttime}_mp.txt 2>&1 &
 sleep 1
-done
-done

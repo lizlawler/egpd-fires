@@ -7,7 +7,7 @@ conda activate stan
 stanc_exe="/projects/$USER/software/anaconda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="joint"
 modname="g1"
-params="sigma-ri_xi-ri"
+params="sigma-ri"
 # compile model and link c++ 
 inc_path="models/${modtype}/stan/"
 object="models/${modtype}/stan/${modtype}_${modname}_${params}"

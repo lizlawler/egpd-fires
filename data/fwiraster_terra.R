@@ -2,6 +2,9 @@
 ##  This script contains the source code for a function I've modified       ## 
 ##  from the `cffdrs` package so `terra` is used instead of `raster`.       ##
 ##                                                                          ##
+##  This script also converts 'temperature' from Kelvin to Celsius, and     ##
+##  converts 'wind speed' from m/s to km/h.                                 ##
+##                                                                          ##
 ##  At time of manuscript revision in May 2024, `cffdrs` had been           ##
 ##  updated to use `terra` instead of `raster`. So the user can utilize     ##
 ##  `cffdrs`'s  function `fwiRaster` if preferred.                          ##
@@ -35,8 +38,10 @@ fwiRaster_terra <- function (input, init = c(ffmc = 85, dmc = 6, dc = 15), mon =
     if(units(temp) == "K") {
       temp <- temp - 273.15
       units(temp) <- "C"
-    } else {
-      temp <- temp
+    } 
+    if(units(ws) == "m/s") {
+      ws <- ws * 3.6
+      units(ws) <- "km/h"
     }
     if ("lat" %in% names(input)) {
       lat <- input$lat

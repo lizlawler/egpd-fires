@@ -99,9 +99,9 @@ model {
 }
 
 generated quantities {
-  array[N_hold_obs] real train_loglik;
+  array[N_ts_obs] real train_loglik;
   array[N_hold_obs] real holdout_loglik;
-  array[N_hold_obs] real train_twcrps;
+  array[N_ts_obs] real train_twcrps;
   array[N_hold_obs] real holdout_twcrps;
   
   array[S] matrix[T_all, R] reg_full;

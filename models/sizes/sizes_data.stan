@@ -13,13 +13,13 @@ data {
   real y_min;
 
   // training data
-  int<lower=1> N_tb_obs;
-  int<lower=1> N_tb_mis;
-  int<lower=1> N_tb_all;
-  array[N_tb_obs] real<lower=y_min> y_train_obs; // burn area for observed training timepoints
-  array[N_tb_obs] int<lower=1> ii_tb_obs;
-  array[N_tb_mis] int<lower=1, upper=N_tb_all> ii_tb_mis;
-  array[N_tb_all] int<lower=1, upper=N_tb_all> ii_tb_all; // for broadcasting
+  int<lower=1> N_ts_obs;
+  int<lower=1> N_ts_mis;
+  int<lower=1> N_ts_all;
+  array[N_ts_obs] real<lower=y_min> y_train_obs; // burn area for observed training timepoints
+  array[N_ts_obs] int<lower=1> ii_ts_obs;
+  array[N_ts_mis] int<lower=1, upper=N_ts_all> ii_ts_mis;
+  array[N_ts_all] int<lower=1, upper=N_ts_all> ii_ts_all; // for broadcasting
   array[T_train] int<lower=1> idx_train_er;
 
   // holdout data

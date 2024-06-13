@@ -9,7 +9,7 @@ transformed data {
   int C = 4; // # of parameters with correlation (either regression or random intercept)
 }
 parameters {
-  array[N_tb_mis] real<lower=y_min> y_train_mis;
+  array[N_ts_mis] real<lower=y_min> y_train_mis;
   matrix[R, 3] Z; // 1,2 = kappas, 3 = xi
   real<lower = 0, upper = 1> prob;
   array[T_all, S] row_vector[R] phi_init;
@@ -21,7 +21,7 @@ parameters {
   vector<lower=rho1, upper = 1>[C] rho_sum;  // ordering: 1=sigma, 2,3=kappas, 4 = xi
 }
 transformed parameters {
-  array[N_tb_all] real<lower=y_min> y_train;
+  array[N_ts_all] real<lower=y_min> y_train;
   array[S] matrix[T_all, R] phi;
   array[S] matrix[T_train, R] reg;
   vector<lower=0>[S] bp = bp_init / 2;
@@ -33,8 +33,8 @@ transformed parameters {
   array[3] vector[R] ri_init; // random intercept vector
   array[3] matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
   
-  y_train[ii_tb_obs] = y_train_obs;
-  y_train[ii_tb_mis] = y_train_mis;
+  y_train[ii_ts_obs] = y_train_obs;
+  y_train[ii_ts_mis] = y_train_mis;
   
   for (c in 1:C) {
     corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
@@ -63,10 +63,10 @@ transformed parameters {
   }
 }
 model {
-  vector[N_tb_all] sigma = exp(to_vector(reg[1]))[ii_tb_all];
-  vector[N_tb_all] kappa1 = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] kappa2 = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] xi = exp(to_vector(ri_matrix[3][idx_train_er,]))[ii_tb_all];
+  vector[N_ts_all] sigma = exp(to_vector(reg[1]))[ii_ts_all];
+  vector[N_ts_all] kappa1 = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_ts_all];
+  vector[N_ts_all] kappa2 = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_ts_all];
+  vector[N_ts_all] xi = exp(to_vector(ri_matrix[3][idx_train_er,]))[ii_ts_all];
   
   to_vector(Z) ~ std_normal();
   prob ~ uniform(0, 1);
@@ -93,15 +93,15 @@ model {
   }
   
   // likelihood
-  for (n in 1:N_tb_all) {
+  for (n in 1:N_ts_all) {
     target += egpd_trunc_lpdf(y_train[n] | y_min, sigma[n], xi[n], kappa1[n], kappa2[n], prob);
   }
 }
 
 generated quantities {
-  array[N_tb_obs] real train_loglik;
+  array[N_ts_obs] real train_loglik;
   array[N_hold_obs] real holdout_loglik;
-  array[N_tb_obs] real train_twcrps;
+  array[N_ts_obs] real train_twcrps;
   array[N_hold_obs] real holdout_twcrps;
   
   array[S] matrix[T_all, R] reg_full;
@@ -111,11 +111,11 @@ generated quantities {
     }
   }
   // training scores
-  for (n in 1:N_tb_obs) {
-    real sigma_train = exp(to_vector(reg_full[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real kappa1_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real kappa2_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real xi_train = exp(to_vector(ri_matrix[3][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  for (n in 1:N_ts_obs) {
+    real sigma_train = exp(to_vector(reg_full[1][idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
+    real kappa1_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
+    real kappa2_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
+    real xi_train = exp(to_vector(ri_matrix[3][idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
     
     train_loglik[n] = egpd_trunc_lpdf(y_train_obs[n] | y_min, sigma_train, xi_train, kappa1_train, kappa2_train, prob);
     // forecasting then twCRPS, on training dataset

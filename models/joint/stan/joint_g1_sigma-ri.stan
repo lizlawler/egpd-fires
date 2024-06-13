@@ -11,11 +11,11 @@ transformed data {
   // ordering: 1=lambda, 2=kappa, 3=pi, 4=delta, 5=sigma, 6=xi, 7 = gamma
 }
 parameters {
-  array[N_tb_mis] real<lower=y_min> y_train_burn_mis;
+  array[N_ts_mis] real<lower=y_min> y_train_size_mis;
   matrix[R, C-S] Z; // ordering: 1 = pi, 2 = delta, 3 = sigma, 4 = xi, 5 = gamma
   array[T_all, S] row_vector[R] phi_init;
   matrix[p, R] beta_count;
-  matrix[p_burn, R] beta_burn;
+  matrix[p_size, R] beta_size;
   vector<lower=0>[S] tau_init;
   vector<lower=0, upper = 1>[S+1] eta; // additional eta for theta AR(1) prior
   vector<lower=0, upper = 1>[S] bp_init; // AR(1) param for covariance matrix
@@ -25,7 +25,7 @@ parameters {
   real<lower=0> eps; // noise for AR(1) prior on theta
 }
 transformed parameters {
-  array[N_tb_all] real<lower=y_min> y_train_burn;
+  array[N_ts_all] real<lower=y_min> y_train_size;
   vector<lower = 0>[R] delta;
   vector[R] gamma; // modulating parameter, varying by region
   matrix[T_train, R] lambda;
@@ -42,8 +42,8 @@ transformed parameters {
   array[2] vector[R] ri_init; // random intercept vector
   array[2] matrix[T_all, R] ri_matrix; // broadcast ri_init to full matrix
   
-  y_train_burn[ii_tb_obs] = y_train_burn_obs;
-  y_train_burn[ii_tb_mis] = y_train_burn_mis;
+  y_train_size[ii_ts_obs] = y_train_size_obs;
+  y_train_size[ii_ts_mis] = y_train_size_mis;
   
   for (c in 1:C) {
     corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
@@ -78,13 +78,13 @@ transformed parameters {
   // regression link for lambda (counts) and kappa (sizes)
   for (r in 1:R) {
     lambda[, r] = X_train_count[r] * beta_count[, r] + phi[1][idx_train_er, r] + area_offset[r] + theta[idx_train_er];
-    reg[, r] = X_train_burn[r] * beta_burn[, r] + phi[2][idx_train_er, r] + gamma[r] * theta[idx_train_er];
+    reg[, r] = X_train_size[r] * beta_size[, r] + phi[2][idx_train_er, r] + gamma[r] * theta[idx_train_er];
   }
 }
 model {
-  vector[N_tb_all] kappa = exp(to_vector(reg))[ii_tb_all];
-  vector[N_tb_all] sigma = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all];
-  vector[N_tb_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all];
+  vector[N_ts_all] kappa = exp(to_vector(reg))[ii_ts_all];
+  vector[N_ts_all] sigma = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_ts_all];
+  vector[N_ts_all] xi = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_ts_all];
   
   to_vector(Z) ~ normal(0, 1.5);
   
@@ -107,7 +107,7 @@ model {
   // first, for lambda - has 37 covariates
   target += matnormal_lpdf(beta_count | cov_ar1[1], corr[1]);
   // then, for kappa and simga - each have 13 covariates
-  target += matnormal_lpdf(beta_burn | cov_ar1[2][1:p_burn, 1:p_burn], corr[2]);
+  target += matnormal_lpdf(beta_size | cov_ar1[2][1:p_size, 1:p_size], corr[2]);
   for (s in 1:S) {
     // ICAR spatial prior
     for (t in 1:T_all) {
@@ -116,9 +116,9 @@ model {
     }
   }
   
-  // burn likelihood
-  for (n in 1:N_tb_all) {
-    target += egpd_trunc_lpdf(y_train_burn[n] | y_min, sigma[n], xi[n], kappa[n]);
+  // size likelihood
+  for (n in 1:N_ts_all) {
+    target += egpd_trunc_lpdf(y_train_size[n] | y_min, sigma[n], xi[n], kappa[n]);
   }
 
   // count likelihood
@@ -139,33 +139,33 @@ model {
 generated quantities {
   matrix[T_train, R] train_loglik_count;
   matrix[T_hold, R] holdout_loglik_count;
-  array[N_tb_obs] real train_loglik_burn;
-  array[N_hold_obs] real holdout_loglik_burn;
-  array[N_tb_obs] real train_twcrps;
+  array[N_ts_obs] real train_loglik_size;
+  array[N_hold_obs] real holdout_loglik_size;
+  array[N_ts_obs] real train_twcrps;
   array[N_hold_obs] real holdout_twcrps;  
 
   matrix[T_all, R] reg_full;
   matrix[T_all, R] lambda_full;
-  matrix[T_all, R] burn_pred;
+  matrix[T_all, R] size_pred;
 
   // expected value of all parameters based on all timepoints, then cut to only be holdout parameters
   for (r in 1:R) {
     lambda_full[, r] = X_full_count[r] * beta_count[, r] + phi[1][, r] + theta;
-    reg_full[, r] = X_full_burn[r] * beta_burn[, r] + phi[2][, r] + gamma[r] * theta;
+    reg_full[, r] = X_full_size[r] * beta_size[, r] + phi[2][, r] + gamma[r] * theta;
   }
   
-  // burn component scores
+  // size component scores
   // training scores
-  for (n in 1:N_tb_obs) {
-    real kappa_train = exp(to_vector(reg_full[idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real sigma_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real xi_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  for (n in 1:N_ts_obs) {
+    real kappa_train = exp(to_vector(reg_full[idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
+    real sigma_train = exp(to_vector(ri_matrix[1][idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
+    real xi_train = exp(to_vector(ri_matrix[2][idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
 
-    train_loglik_burn[n] = egpd_trunc_lpdf(y_train_burn_obs[n] | y_min, sigma_train, xi_train, kappa_train);
+    train_loglik_size[n] = egpd_trunc_lpdf(y_train_size_obs[n] | y_min, sigma_train, xi_train, kappa_train);
     // forecasting then twCRPS, on training dataset
     vector[n_int] pred_probs_train = prob_forecast(n_int, int_pts, y_min,
                                             sigma_train, xi_train, kappa_train);
-    train_twcrps[n] = twCRPS(y_train_burn_obs[n], n_int, int_range, int_pts, pred_probs_train);
+    train_twcrps[n] = twCRPS(y_train_size_obs[n], n_int, int_range, int_pts, pred_probs_train);
   }
   // holdout scores
   for (n in 1:N_hold_obs) {
@@ -174,11 +174,11 @@ generated quantities {
     real xi_hold = exp(to_vector(ri_matrix[2]))[ii_hold_all][ii_hold_obs][n];
     
     // log-likelihood
-    holdout_loglik_burn[n] = egpd_trunc_lpdf(y_hold_burn_obs[n] | y_min, sigma_hold, xi_hold, kappa_hold);
+    holdout_loglik_size[n] = egpd_trunc_lpdf(y_hold_size_obs[n] | y_min, sigma_hold, xi_hold, kappa_hold);
       // forecasting then twCRPS, on holdout dataset
     vector[n_int] pred_probs_hold = prob_forecast(n_int, int_pts, y_min, 
                                           sigma_hold, xi_hold, kappa_hold);
-    holdout_twcrps[n] = twCRPS(y_hold_burn_obs[n], n_int, int_range, int_pts, pred_probs_hold);
+    holdout_twcrps[n] = twCRPS(y_hold_size_obs[n], n_int, int_range, int_pts, pred_probs_hold);
   }
 
   // count component scores
@@ -211,10 +211,10 @@ generated quantities {
     }
   }
   
-  // generate burn area predictions, based on how many fires occurred (draw from ZINB)
+  // generate burned area predictions, based on how many fires occurred (draw from ZINB)
   for (r in 1:R) {
     for (t in 1:T_all) {
-      vector[500] burn_draws;
+      vector[500] size_draws;
       real sigma = exp(ri_init[1][r]);
       real xi = exp(ri_init[2][r]);
       real kappa = exp(reg_full[t, r]);
@@ -222,12 +222,12 @@ generated quantities {
         int zero = bernoulli_logit_rng(pi_prob[r]);
         int count_draw = (1 - zero) * neg_binomial_2_log_rng(lambda_full[t, r], delta[r]);
         if (count_draw == 0) {
-          burn_draws[i] = 0; 
+          size_draws[i] = 0; 
         } else {
-          burn_draws[i] = sum(egpd_rng(count_draw, y_min, sigma, xi, kappa));
+          size_draws[i] = sum(egpd_rng(count_draw, y_min, sigma, xi, kappa));
         }
       }
-      burn_pred[t, r] = mean(burn_draws);
+      size_pred[t, r] = mean(size_draws);
     }
   }
 }

@@ -22,17 +22,17 @@ files
 draws_path <- paste0("figures/mcmc_draws/")
 dir.create(path = draws_path, recursive = TRUE)
 
-burn_pred_draws <- read_cmdstan_csv(files, variables = "burn_pred")$post_warmup_draws
-burn_pred <- burn_pred_draws %>%
+size_pred_draws <- read_cmdstan_csv(files, variables = "size_pred")$post_warmup_draws
+size_pred <- size_pred_draws %>%
   as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>%
   pivot_longer(cols = !".draw") %>%
   rename(draw = ".draw") %>%
   separate_wider_delim(cols = "name", delim = ",", names = c("time", "region")) %>%
-  mutate(time = as.numeric(gsub("burn_pred\\[", "", time)),
+  mutate(time = as.numeric(gsub("size_pred\\[", "", time)),
          region = as.numeric(gsub("\\]", "", region)))
-saveRDS(burn_pred, file = paste0(draws_path, "burn_pred", ".RDS"))
-rm(list=ls(pattern = "burn_pred"))
+saveRDS(size_pred, file = paste0(draws_path, "size_pred", ".RDS"))
+rm(list=ls(pattern = "size_pred"))
 gc()
 
 kappa_draws <- read_cmdstan_csv(files, variables = "reg_full")$post_warmup_draws
@@ -163,13 +163,13 @@ saveRDS(beta_count, file = paste0(draws_path, "beta_count", ".RDS"))
 rm(list=ls(pattern = "beta_count"))
 gc()
 
-beta_burn_draws <- read_cmdstan_csv(files, variables = "beta_burn")$post_warmup_draws
-beta_burn <- beta_burn_draws %>% as_draws_df() %>%
+beta_size_draws <- read_cmdstan_csv(files, variables = "beta_size")$post_warmup_draws
+beta_size <- beta_size_draws %>% as_draws_df() %>%
   select(-c(".iteration", ".chain")) %>%
   pivot_longer(cols = !".draw") %>%
   rename(draw = ".draw")
-saveRDS(beta_burn, file = paste0(draws_path, "beta_burn", ".RDS"))
-rm(list=ls(pattern = "beta_burn"))
+saveRDS(beta_size, file = paste0(draws_path, "beta_size", ".RDS"))
+rm(list=ls(pattern = "beta_size"))
 gc()
 
 tau_draws <- read_cmdstan_csv(files, variables = "tau")$post_warmup_draws

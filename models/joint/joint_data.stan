@@ -1,7 +1,7 @@
 data {
   int<lower=1> R; // # of regions
   int<lower=1> p; // # of parameters in largest model component (count model in this case)
-  int<lower=1> p_burn; // # of parameters in burn model component
+  int<lower=1> p_size; // # of parameters in size model component
   int<lower=1> T_all; // # of timepoints in full dataset
   int<lower=1> T_train;
   int<lower=1> T_hold;
@@ -9,24 +9,24 @@ data {
   // covariate data
   array[R] matrix[T_all, p] X_full_count; // full design matrix for count component
   array[R] matrix[T_train, p] X_train_count; // training data only
-  array[R] matrix[T_all, p_burn] X_full_burn; // full design matrix for burn component
-  array[R] matrix[T_train, p_burn] X_train_burn; // training data only
+  array[R] matrix[T_all, p_size] X_full_size; // full design matrix for size component
+  array[R] matrix[T_train, p_size] X_train_size; // training data only
 
   // area offset
   array[R] real area_offset; // known offset vector of areas
   
-  // lower bound of burns
+  // lower bound of sizes
   real y_min;
 
   // training data
-  int<lower=1> N_tb_obs;
-  int<lower=1> N_tb_mis;
-  int<lower=1> N_tb_all;
-  array[N_tb_obs] real<lower=y_min> y_train_burn_obs; // burn area for observed training timepoints
+  int<lower=1> N_ts_obs;
+  int<lower=1> N_ts_mis;
+  int<lower=1> N_ts_all;
+  array[N_ts_obs] real<lower=y_min> y_train_size_obs; // burned area for observed training timepoints
   array[T_train, R] int<lower=0> y_train_count; // response data for counts
-  array[N_tb_obs] int<lower=1> ii_tb_obs;
-  array[N_tb_mis] int<lower=1, upper=N_tb_all> ii_tb_mis;
-  array[N_tb_all] int<lower=1, upper=N_tb_all> ii_tb_all; // for broadcasting
+  array[N_ts_obs] int<lower=1> ii_ts_obs;
+  array[N_ts_mis] int<lower=1, upper=N_ts_all> ii_ts_mis;
+  array[N_ts_all] int<lower=1, upper=N_ts_all> ii_ts_all; // for broadcasting
   array[T_train] int<lower=1> idx_train_er;
 
   // holdout data
@@ -34,7 +34,7 @@ data {
   int<lower=1> N_hold_all; // includes 'missing' and observed
   array[N_hold_obs] int<lower=1> ii_hold_obs; // vector of indices for holdout data timepoints
   array[N_hold_all] int<lower=1> ii_hold_all; // vector of indices for broadcasting to entire holdout dataset
-  array[N_hold_obs] real<lower=1> y_hold_burn_obs; // burn area for observed holdout timepoints
+  array[N_hold_obs] real<lower=1> y_hold_size_obs; // burned area for observed holdout timepoints
   array[T_hold, R] int<lower=0> y_hold_count; // holdout data for count
   array[T_hold] int<lower=1> idx_hold_er;
 

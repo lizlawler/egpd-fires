@@ -245,11 +245,11 @@ assert_that(all(iden_vec) == TRUE)
 
 ## Wildfire burned areas ## ----------
 # pull indices from train_sizes_full for use in stan model
-idx_tb_mis <- which(is.na(train_sizes_full$BurnBndAc)) # indices of 'missing' burned areas
-idx_tb_obs <- which(!is.na(train_sizes_full$BurnBndAc)) # indices of observed burned areas; subset of all of the rows in the training dataframe
-idx_tb_all <- match(train_sizes_full$er_ym, X_train$er_ym) # indices to broadcast kappa, sigma, and xi in the model for observed and missing sizes
-assert_that(all(X_train$er_ym[idx_tb_all] == train_sizes_full$er_ym)) # check broadcasting works
-assert_that(all(X_train$er_ym[idx_tb_all][idx_tb_obs] == train_sizes_full$er_ym[idx_tb_obs]))
+idx_ts_mis <- which(is.na(train_sizes_full$BurnBndAc)) # indices of 'missing' burned areas
+idx_ts_obs <- which(!is.na(train_sizes_full$BurnBndAc)) # indices of observed burned areas; subset of all of the rows in the training dataframe
+idx_ts_all <- match(train_sizes_full$er_ym, X_train$er_ym) # indices to broadcast kappa, sigma, and xi in the model for observed and missing sizes
+assert_that(all(X_train$er_ym[idx_ts_all] == train_sizes_full$er_ym)) # check broadcasting works
+assert_that(all(X_train$er_ym[idx_ts_all][idx_ts_obs] == train_sizes_full$er_ym[idx_ts_obs]))
 
 # pull indices from holdout_sizes_full for use in log scores
 idx_hold_obs <- which(!is.na(holdout_sizes_full$BurnBndAc)) # pulls indices wrt holdout dataset
@@ -258,7 +258,7 @@ assert_that(all(X_full$er_ym[idx_hold_all] == holdout_sizes_full$er_ym))
 assert_that(all(X_full$er_ym[idx_hold_all][idx_hold_obs] == holdout_sizes_full$er_ym[idx_hold_obs]))
 
 # scale burned areas down by 1000
-size_train_obs <- train_sizes_full$BurnBndAc[idx_tb_obs]/1000
+size_train_obs <- train_sizes_full$BurnBndAc[idx_ts_obs]/1000
 assert_that(all(!is.na(size_train_obs)))
 size_hold_obs <- holdout_sizes_full$BurnBndAc[idx_hold_obs]/1000
 assert_that(all(!is.na(size_hold_obs)))
@@ -351,12 +351,12 @@ stan_data_climate <- list(
   # training data
   y_min = min(size_hold_obs, size_train_obs),
   y_train_obs = size_train_obs,
-  ii_tb_obs = idx_tb_obs,
-  ii_tb_mis = idx_tb_mis,
-  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
-  N_tb_obs = length(idx_tb_obs),
-  N_tb_mis = length(idx_tb_mis),
-  N_tb_all = length(idx_tb_all),
+  ii_ts_obs = idx_ts_obs,
+  ii_ts_mis = idx_ts_mis,
+  ii_ts_all = idx_ts_all, # for broadcasting params in likelihood
+  N_ts_obs = length(idx_ts_obs),
+  N_ts_mis = length(idx_ts_mis),
+  N_ts_all = length(idx_ts_all),
   
   # holdout data
   y_hold_obs = size_hold_obs,
@@ -412,12 +412,12 @@ stan_data_erc <- list(
   # training data
   y_min = min(size_hold_obs, size_train_obs),
   y_train_obs = size_train_obs,
-  ii_tb_obs = idx_tb_obs,
-  ii_tb_mis = idx_tb_mis,
-  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
-  N_tb_obs = length(idx_tb_obs),
-  N_tb_mis = length(idx_tb_mis),
-  N_tb_all = length(idx_tb_all),
+  ii_ts_obs = idx_ts_obs,
+  ii_ts_mis = idx_ts_mis,
+  ii_ts_all = idx_ts_all, # for broadcasting params in likelihood
+  N_ts_obs = length(idx_ts_obs),
+  N_ts_mis = length(idx_ts_mis),
+  N_ts_all = length(idx_ts_all),
   
   # holdout data
   y_hold_obs = size_hold_obs,
@@ -472,12 +472,12 @@ stan_data_fwi <- list(
   # training data
   y_min = min(size_hold_obs, size_train_obs),
   y_train_obs = size_train_obs,
-  ii_tb_obs = idx_tb_obs,
-  ii_tb_mis = idx_tb_mis,
-  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
-  N_tb_obs = length(idx_tb_obs),
-  N_tb_mis = length(idx_tb_mis),
-  N_tb_all = length(idx_tb_all),
+  ii_ts_obs = idx_ts_obs,
+  ii_ts_mis = idx_ts_mis,
+  ii_ts_all = idx_ts_all, # for broadcasting params in likelihood
+  N_ts_obs = length(idx_ts_obs),
+  N_ts_mis = length(idx_ts_mis),
+  N_ts_all = length(idx_ts_all),
   
   # holdout data
   y_hold_obs = size_hold_obs,
@@ -532,12 +532,12 @@ stan_data_erc_fwi <- list(
   # training data
   y_min = min(size_hold_obs, size_train_obs),
   y_train_obs = size_train_obs,
-  ii_tb_obs = idx_tb_obs,
-  ii_tb_mis = idx_tb_mis,
-  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
-  N_tb_obs = length(idx_tb_obs),
-  N_tb_mis = length(idx_tb_mis),
-  N_tb_all = length(idx_tb_all),
+  ii_ts_obs = idx_ts_obs,
+  ii_ts_mis = idx_ts_mis,
+  ii_ts_all = idx_ts_all, # for broadcasting params in likelihood
+  N_ts_obs = length(idx_ts_obs),
+  N_ts_mis = length(idx_ts_mis),
+  N_ts_all = length(idx_ts_all),
   
   # holdout data
   y_hold_obs = size_hold_obs,
@@ -574,7 +574,7 @@ p <- 37
 stan_data_joint <- list(
   R = 84,
   p = p,
-  p_burn = as.numeric(dim(X_array_full_erc_fwi)[3]),
+  p_size = as.numeric(dim(X_array_full_erc_fwi)[3]),
   T_all = t_all,
   T_train = t_train,
   T_hold = t_all - t_train,
@@ -582,8 +582,8 @@ stan_data_joint <- list(
   # covariate data
   X_full_count = X_array_full_climate,
   X_train_count = X_array_train_climate,
-  X_full_burn = X_array_full_erc_fwi,
-  X_train_burn = X_array_train_erc_fwi,
+  X_full_size = X_array_full_erc_fwi,
+  X_train_size = X_array_train_erc_fwi,
   
   # count data
   area_offset = log(area_df$area * 1e-11) / 2,
@@ -592,16 +592,16 @@ stan_data_joint <- list(
   idx_train_er = setdiff(1:372, idx_count_hold),
   idx_hold_er = idx_count_hold,
   
-  # burn data 
+  # sizes data 
   # training data
   y_min = min(size_hold_obs, size_train_obs),
   y_train_size_obs = size_train_obs,
-  ii_tb_obs = idx_tb_obs,
-  ii_tb_mis = idx_tb_mis,
-  ii_tb_all = idx_tb_all, # for broadcasting params in likelihood
-  N_tb_obs = length(idx_tb_obs),
-  N_tb_mis = length(idx_tb_mis),
-  N_tb_all = length(idx_tb_all),
+  ii_ts_obs = idx_ts_obs,
+  ii_ts_mis = idx_ts_mis,
+  ii_ts_all = idx_ts_all, # for broadcasting params in likelihood
+  N_ts_obs = length(idx_ts_obs),
+  N_ts_mis = length(idx_ts_mis),
+  N_ts_all = length(idx_ts_all),
   
   # holdout data
   y_hold_size_obs = size_hold_obs,

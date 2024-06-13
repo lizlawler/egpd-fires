@@ -8,7 +8,7 @@ transformed data {
   int C = 2; // # of parameters with correlation (either regression or random intercept)
 }
 parameters {
-  array[N_tb_mis] real<lower=y_min> y_train_mis;
+  array[N_ts_mis] real<lower=y_min> y_train_mis;
   array[T_all, S] row_vector[R] phi_init;
   array[S] matrix[p, R] beta;
   vector<lower=0>[S] tau_init;
@@ -18,7 +18,7 @@ parameters {
   vector<lower=rho1, upper = 1>[C] rho_sum; 
 }
 transformed parameters {
-  array[N_tb_all] real<lower=y_min> y_train;
+  array[N_ts_all] real<lower=y_min> y_train;
   array[S] matrix[T_all, R] phi;
   array[S] matrix[T_train, R] reg;
   vector<lower=0>[S] bp = bp_init / 2;
@@ -27,8 +27,8 @@ transformed parameters {
   array[S] cov_matrix[p] cov_ar1;
   array[C] corr_matrix[R] corr; // 1 = mu, 2= sigma
   
-  y_train[ii_tb_obs] = y_train_obs;
-  y_train[ii_tb_mis] = y_train_mis;
+  y_train[ii_ts_obs] = y_train_obs;
+  y_train[ii_ts_mis] = y_train_mis;
   
   for (c in 1:C) {
     corr[c] = l3 + rho2[c] * l2 + rho1[c] * l1;
@@ -52,8 +52,8 @@ transformed parameters {
   }
 }
 model {
-  vector[N_tb_all] mu = to_vector(reg[1])[ii_tb_all];
-  vector[N_tb_all] sigma = exp(to_vector(reg[2]))[ii_tb_all];
+  vector[N_ts_all] mu = to_vector(reg[1])[ii_ts_all];
+  vector[N_ts_all] sigma = exp(to_vector(reg[2]))[ii_ts_all];
   
   // prior on AR(1) penalization of splines
   to_vector(bp_init) ~ uniform(0, 1);
@@ -77,14 +77,14 @@ model {
   }
   
   // likelihood
-  for (n in 1:N_tb_all) {
+  for (n in 1:N_ts_all) {
     target += lognorm_trunc_lpdf(y_train[n] | y_min, mu[n], sigma[n]);
   }
 }
 generated quantities {
-  array[N_tb_obs] real train_loglik;
+  array[N_ts_obs] real train_loglik;
   array[N_hold_obs] real holdout_loglik;
-  array[N_tb_obs] real train_twcrps;
+  array[N_ts_obs] real train_twcrps;
   array[N_hold_obs] real holdout_twcrps;
 
   array[S] matrix[T_all, R] reg_full;
@@ -94,9 +94,9 @@ generated quantities {
     }
   }
   // training scores
-  for (n in 1:N_tb_obs) {
-    real mu_train = exp(to_vector(reg_full[1][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
-    real sigma_train = exp(to_vector(reg_full[2][idx_train_er,]))[ii_tb_all][ii_tb_obs][n];
+  for (n in 1:N_ts_obs) {
+    real mu_train = exp(to_vector(reg_full[1][idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
+    real sigma_train = exp(to_vector(reg_full[2][idx_train_er,]))[ii_ts_all][ii_ts_obs][n];
     
     train_loglik[n] = lognorm_trunc_lpdf(y_train_obs[n] | y_min, mu_train, sigma_train);
     // forecasting then twCRPS, on training dataset

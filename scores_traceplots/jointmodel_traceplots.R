@@ -40,7 +40,7 @@ MCMCtrace(fitmcmc,
           filename = paste0(plotbase, csvpattern, "_lambda-beta.pdf"))
 print("Creating traceplot of betas for kappa")
 MCMCtrace(fitmcmc,
-          params = 'beta_burn',
+          params = 'beta_size',
           ind = TRUE,
           open_pdf = FALSE,
           filename = paste0(plotbase, csvpattern, "_kappa-beta.pdf"))

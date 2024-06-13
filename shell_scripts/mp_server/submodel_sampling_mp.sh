@@ -8,10 +8,18 @@ model="stan/${modname}_${params}"
 outbase="csv_fits/${modname}_${params}_${dataset}_${sttime}"
 
 # run model with 3 chains
-for i in {1..4}
-  do
-    ./${model} sample num_warmup=1000 num_samples=1000 \
+# for i in {1..4}
+#   do
+#     ./${model} sample num_warmup=1000 num_samples=1000 \
+#                   data file=${datafile} \
+#                   init=0.01 \
+#                   output file=${outbase}_${i}.csv &
+#   done
+
+./${model} sample num_chains=3 num_warmup=1000 num_samples=1000 \
                   data file=${datafile} \
                   init=0.01 \
-                  output file=${outbase}_${i}.csv &
-  done
+                  output file=${outbase}.csv \
+                  num_threads=3
+
+echo "Model has finished running all 3 chains"

@@ -7,7 +7,7 @@ trap '' HUP
 stanc_exe="/data/accounts/lawler/.conda/envs/stan/bin/cmdstan/bin/stanc"
 modtype="sizes"
 modname="g3"
-for params in "xi-ri"
+for params in "xi-ri" "xi-ri_nu"
 do
 # compile model and link c++ 
 inc_path="models/${modtype}/${modname}/stan/"

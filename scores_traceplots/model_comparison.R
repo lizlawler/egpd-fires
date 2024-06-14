@@ -1,5 +1,5 @@
 ##############################################################################
-##  This script produces tables of scores in for the burned areas           ##
+##  This script produces tables of scores for the burned areas              ##
 ##  and occurrences submodels, according to the approach outlined in the    ##
 ##  paper.                                                                  ##
 ##                                                                          ##
@@ -20,7 +20,7 @@ read_scores <- function(file, model_name) {
   rm(temp)
   gc()
 }
-# function to extract scores from stan csvs
+# function to extract scores from stan csvs, if not already completed ------
 extraction <- function(file_group, model) {
   holdout_loglik <- read_cmdstan_csv(file_group, variables = "holdout_loglik")$post_warmup_draws
   holdout_twcrps <- read_cmdstan_csv(file_group, variables = "holdout_twcrps")$post_warmup_draws
@@ -36,7 +36,7 @@ score_files <- paste0("./scores_traceplots/extracted_scores/",
                                  "g1"))
 # score_files <- score_files[grepl("climate", score_files)]
 g1_model_names <- basename(score_files) %>% 
-  str_remove(., "_climate_\\d{2}\\w{3}2023_\\d{4}_scores.RDS") %>%
+  str_remove(., "_climate_\\d{2}\\w{3}\\d{4}_\\d{4}_scores.RDS") %>%
   str_remove(., "g1_")
 
 for(i in seq_along(g1_model_names)) {
@@ -113,7 +113,7 @@ score_files <- paste0("./scores_traceplots/extracted_scores/",
                       list.files("./scores_traceplots/extracted_scores/", 
                                  "g1_sigma-ri"))
 g1_model_names <- basename(score_files) %>% 
-  str_remove(., "_\\d{2}\\w{3}2023_\\d{4}_scores.RDS") %>%
+  str_remove(., "_\\d{2}\\w{3}\\d{4}_\\d{4}_scores.RDS") %>%
   str_remove(., "g1_sigma-ri_xi-ri_")
 
 for(i in seq_along(g1_model_names)) {
@@ -193,7 +193,7 @@ score_files <- paste0("./scores_traceplots/extracted_scores/",
                                  "erc_fwi"))
 score_files <- score_files[!grepl("zinb", score_files)]
 sizes_model_names <- basename(score_files) %>% 
-  str_remove(., "_erc_fwi_\\d{2}\\w{3}2023_\\d{4}_scores.RDS")
+  str_remove(., "_erc_fwi_\\d{2}\\w{3}\\d{4}_\\d{4}_scores.RDS")
 
 for(i in seq_along(sizes_model_names)) {
   read_scores(score_files[i], sizes_model_names[i])
@@ -203,13 +203,13 @@ g3_files <- paste0("./models/sizes/g3/csv_fits/",
                    list.files("./models/sizes/g3/csv_fits/", 
                               "erc_fwi"))
 g3_files <- g3_files[!grepl("nu", g3_files)]
-g3_name <- basename(g3_files[1]) %>% str_remove(., "_erc_fwi_\\d{2}\\w{3}2023_\\d{4}_1.csv")
+g3_name <- basename(g3_files[1]) %>% str_remove(., "_erc_fwi_\\d{2}\\w{3}\\d{4}_\\d{4}_1.csv")
 extraction(g3_files, g3_name)
 
 g4_files <- paste0("./models/sizes/g4/csv_fits/",
                    list.files("./models/sizes/g4/csv_fits/", 
                               "erc_fwi"))
-g4_name <- basename(g4_files[1]) %>% str_remove(., "_erc_fwi_\\d{2}\\w{3}2023_\\d{4}_1.csv")
+g4_name <- basename(g4_files[1]) %>% str_remove(., "_erc_fwi_\\d{2}\\w{3}\\d{4}_\\d{4}_1.csv")
 extraction(g4_files, g4_name)
 
 size_model_names <- c(sizes_model_names, g3_name, g4_name)
@@ -282,7 +282,7 @@ score_files <- paste0("./scores_traceplots/extracted_scores/",
                       list.files("./scores_traceplots/extracted_scores/", 
                                  "zi"))
 count_model_names <- basename(score_files) %>% 
-  str_remove(., "_climate_\\d{2}\\w{3}2023_\\d{4}_scores.RDS")
+  str_remove(., "_climate_\\d{2}\\w{3}\\d{4}_\\d{4}_scores.RDS")
 
 for(i in seq_along(count_model_names)) {
   read_scores(score_files[i], count_model_names[i])
@@ -326,14 +326,15 @@ score_files <- paste0("./scores_traceplots/extracted_scores/",
                       list.files("./scores_traceplots/extracted_scores/", 
                                  "zinb_er_pi-ri"))
 count_model_names <- basename(score_files) %>% 
-  str_remove(., "_\\d{2}\\w{3}2023_\\d{4}_scores.RDS") %>%
+  str_remove(., "_\\d{2}\\w{3}\\d{4}_\\d{4}") %>%
+  str_remove(., "_scores.RDS") %>%
   str_remove(., "zinb_er_pi-ri_")
 
 for(i in seq_along(count_model_names)) {
   read_scores(score_files[i], count_model_names[i])
 }
 
-## aggregate scores across the six models
+## aggregate scores across the four models
 nfits <- length(count_model_names)
 holdout_loglik <- vector("list", nfits)
 for(i in seq_along(count_model_names)) {

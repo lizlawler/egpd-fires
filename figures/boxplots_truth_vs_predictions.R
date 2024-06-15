@@ -43,7 +43,7 @@ exp_count <- function(pi, lambda) {
 ## read in extracted MCMC draws -----------------------------------------------
 lambda <- readRDS("./figures/mcmc_draws/lambda.RDS")
 pi_prob <- readRDS("./figures/mcmc_draws/pi_prob.RDS")
-burn_preds <- readRDS("./figures/mcmc_draws/burn_pred.RDS")
+size_preds <- readRDS("./figures/mcmc_draws/size_pred.RDS")
 
 ## calculations for plot (1): wildfire count predictions vs truth -------------
 count_preds <- lambda %>% 
@@ -128,13 +128,12 @@ counts_boxplot_winsor <- count_preds_winsor %>%
   theme(legend.position = "none") 
 ggsave("./figures/paper_figures/counts_preds_vs_truth.pdf", 
        counts_boxplot_winsor,
-       height = 8,
-       
+       bg = 'transparent',
        dpi = 320)
 knitr::plot_crop("./figures/paper_figures/counts_preds_vs_truth.pdf")
 
 ## calculations for plot (2): wildfire burned area predictions vs truth -------
-burn_preds <- burn_preds %>% 
+size_preds <- size_preds %>% 
   left_join(region_key) %>% 
   left_join(time_df) %>% 
   mutate(year = year(date)) %>% rename(preds = value) %>%
@@ -144,13 +143,13 @@ burn_preds <- burn_preds %>%
   mutate(train = case_when(year %in% train_years ~ TRUE,
                            year %in% test_years ~ FALSE))
 
-burn_preds_winsor_limits <- burn_preds %>% 
+size_preds_winsor_limits <- size_preds %>% 
   group_by(NA_L1NAME, year) %>%
   summarize(lower = quantile(total_area, 0.025, na.rm = TRUE),
             upper = quantile(total_area, 0.975, na.rm = TRUE)) %>%
   ungroup()
-burn_preds_winsor <- burn_preds %>%
-  left_join(burn_preds_winsor_limits) %>%
+size_preds_winsor <- size_preds %>%
+  left_join(size_preds_winsor_limits) %>%
   mutate(winsor_total = case_when(total_area <= lower ~ lower,
                                   total_area >= upper ~ upper,
                                   .default = total_area))
@@ -164,7 +163,7 @@ true_burns <- true_burns %>% group_by(NA_L1NAME, fire_yr) %>%
   complete(NA_L1NAME, fire_yr) %>% 
   rename(year = fire_yr)
 
-# areas_boxplot <- burn_preds %>% 
+# areas_boxplot <- size_preds %>% 
 #   ggplot(aes(x = year, y = total_area, group = year, color = train)) + 
 #   geom_boxplot(outlier.size = 0.2) + 
 #   scale_color_grey(start = 0.4, end = 0.6) +
@@ -182,7 +181,7 @@ true_burns <- true_burns %>% group_by(NA_L1NAME, fire_yr) %>%
 # axis.title.y = element_text(size = rel(1.4)))
 # ggsave("full-model/figures/paper/areas_preds_vs_truth.pdf", width = 15)
 
-areas_boxplot_winsor <- burn_preds_winsor %>% 
+areas_boxplot_winsor <- size_preds_winsor %>% 
   ggplot(aes(x = year, y = winsor_total, group = year, color = train)) + 
   geom_boxplot(outlier.size = 0.2) + 
   scale_color_grey(start = 0.4, end = 0.6) +
@@ -196,5 +195,6 @@ areas_boxplot_winsor <- burn_preds_winsor %>%
   theme(legend.position = "none")
 ggsave("./figures/paper_figures/areas_preds_vs_truth.pdf", 
        areas_boxplot_winsor,
+       bg = 'transparent',
        dpi = 320)
 knitr::plot_crop("./figures/paper_figures/areas_preds_vs_truth.pdf")

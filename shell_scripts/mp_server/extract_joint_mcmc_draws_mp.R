@@ -1,11 +1,8 @@
-args <- commandArgs(trailingOnly=TRUE)
-type <- args[1]
-model <- args[2]
-params <- args[3]
-sttime <- args[4]
+type <- "joint"
+model <- "g1"
+params <- "sigma-ri"
 
 library(cmdstanr)
-set_cmdstan_path(path = "/projects/eslawler@colostate.edu/software/anaconda/envs/lawler/bin/cmdstan") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(MCMCvis)
 library(posterior)
@@ -13,8 +10,9 @@ library(tidyr)
 library(dplyr)
 
 csvbase <- paste0("./models/", type, "/csv_fits/")
-csvpattern <- paste0(type, "_", model, "_", params, "_", sttime)
+csvpattern <- paste0(type, "_", model, "_", params)
 files <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
+csvpattern <- stringr::str_remove(basename(files[1]), "_\\d{4}_\\d{1}.csv")
 print("Filenames being used are:")
 files
 

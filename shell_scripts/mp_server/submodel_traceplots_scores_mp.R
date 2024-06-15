@@ -1,11 +1,9 @@
-args <- commandArgs(trailingOnly=TRUE)
-type <- args[1]
-model <- args[2]
-params <- args[3]
-dataset <- args[4]
+type <- "sizes"
+model <- "g1"
+params <- "sigma-ri_xi-ri"
+dataset <- "fwi"
 
 library(cmdstanr)
-set_cmdstan_path(path = "/data/accounts/lawler/.conda/envs/stan/bin/cmdstan") # this is only relevant to Alpine
 check_cmdstan_toolchain(fix = TRUE, quiet = TRUE)
 library(posterior)
 
@@ -36,6 +34,7 @@ if (type == "sizes") {
   names(scores) <- c("train_loglik", "holdout_loglik")  
 }
 
+csvpattern <- stringr::str_remove(basename(csvfiles[1]), "_\\d{1}.csv")
 filename <- paste0("scores_traceplots/extracted_scores/", csvpattern, "_scores.RDS")
 saveRDS(scores, file = filename)
 print("Scores have been extracted and saved to disk")

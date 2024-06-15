@@ -116,7 +116,7 @@ returns_plot <- returns_regional %>%
 ggsave("./figures/paper_figures/50yr_returns.pdf", 
        returns_plot, 
        dpi = 320, 
-       bg = "white", 
+       bg = "transparent", 
        width = 8.5, 
        height = 8.5)
 knitr::plot_crop("./figures/paper_figures/50yr_returns.pdf")
@@ -151,7 +151,7 @@ quant98_plot <- quant98_summary_regional %>%
 ggsave("./figures/paper_figures/98th_quant_sizes.pdf", 
        quant98_plot, 
        dpi = 320, 
-       bg = "white", 
+       bg = "transparent", 
        width = 8.5, 
        height = 8.5)
 knitr::plot_crop("./figures/paper_figures/98th_quant_sizes.pdf")

@@ -36,7 +36,7 @@ region_key <- readRDS(file = "./data/processed/region_key.rds") %>%
 
 ## read in posterior beta values --------------------------------------------
 beta_count <- readRDS("./figures/mcmc_draws/beta_count.RDS")
-beta_burn <- readRDS("./figures/mcmc_draws/beta_burn.RDS")
+beta_size <- readRDS("./figures/mcmc_draws/beta_size.RDS")
 r <- 84
 t <- 12*21 
 
@@ -116,7 +116,9 @@ lambda_plot <- lambda_effects %>%
 ggsave("./figures/paper_figures/lambda_partial_effects.pdf", 
        lambda_plot, 
        width = 7, 
-       height = 4)
+       height = 4,
+       bg = 'transparent')
+knitr::plot_crop("./figures/paper_figures/lambda_partial_effects.pdf")
 
 # determine regions with particularly prominent effects
 lambda_effects %>% filter(covar == 'vs', effect > 0.5, linear > 5) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
@@ -124,7 +126,7 @@ lambda_effects %>% filter(covar == 'pr', effect < -2.5, linear > 290) %>% group_
 lambda_effects %>% filter(covar == 'pr', effect > 0, linear > 200) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
 
 # partial effects on kappa
-X <- stan_data$X_train_burn
+X <- stan_data$X_train_size
 vars <- c('log_housing_density', 'erc', 'fwi')
 X_covar <- c()
 X_cols <- vector("list", length(vars))
@@ -135,9 +137,9 @@ for(i in seq_along(vars)) {
   start = start + 6
 }
 
-kappa_betas <- beta_burn %>%
+kappa_betas <- beta_size %>%
   separate_wider_delim(cols = "name", delim = ",", names = c("coef", "region")) %>%
-  mutate(coef = as.numeric(gsub("beta_burn\\[", "", coef)),
+  mutate(coef = as.numeric(gsub("beta_size\\[", "", coef)),
          region = as.numeric(gsub("\\]", "", region))) %>%
   group_by(region, coef) %>% summarize(med_val = median(value)) %>% ungroup() %>%
   pivot_wider(names_from = "region", values_from = "med_val") %>% select(-coef) %>% as.matrix()
@@ -173,14 +175,28 @@ kappa_plot <- kappa_effects %>%
                            TRUE ~ covar)) %>% 
   ggplot(aes(x = linear, y = effect, group = region)) + 
   geom_line(aes(color = NA_L2CODE)) +
-  facet_wrap(. ~ covar, scales = "free_x") + theme_classic() + theme(legend.position = "none") +
+  facet_wrap(. ~ covar, scales = "free_x") + theme_classic() + 
+  theme(legend.position = "none") +
   ylab("Partial effect") + xlab("")
 ggsave("./figures/paper_figures/kappa_partial_effects.pdf", 
        kappa_plot, 
        width = 7, 
-       height = 2)
+       height = 2,
+       bg = 'transparent')
+knitr::plot_crop("./figures/paper_figures/kappa_partial_effects.pdf")
 
 # determine regions with particularly prominent effects
-kappa_effects %>% filter(covar == 'erc', effect > 0, linear < 10) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
-kappa_effects %>% filter(covar == 'erc', effect > -0.5, effect <0, linear < 10) %>% group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% count() %>% arrange(-n)
-kappa_effects %>% filter(covar == 'fwi', effect < -2) %>% group_by(NA_L2CODE, NA_L1NAME) %>% count() %>% arrange(-n)
+kappa_effects %>% filter(covar == 'erc', effect > 0, linear < 10) %>% 
+  group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% 
+  count() %>% arrange(-n)
+kappa_effects %>% filter(covar == 'erc', effect > -0.5, effect < 0, linear < 10) %>% 
+  group_by(NA_L2CODE, NA_L1NAME, NA_L3NAME) %>% 
+  count() %>% arrange(-n)
+kappa_effects %>% filter(covar == 'erc', effect > 0.25, linear > 60) %>% 
+  group_by(NA_L2CODE) %>% 
+  count() %>% arrange(-n) 
+kappa_effects %>% filter(covar == 'fwi', linear > 40, effect > 0) %>% 
+  group_by(NA_L2CODE) %>% count() %>% arrange(-n)
+
+kappa_effects |> filter(covar == 'fwi', NA_L2CODE == 12.1) |> arrange(-effect)
+kappa_effects |> filter(covar == 'erc', NA_L2CODE == 12.1) |> arrange(-effect)

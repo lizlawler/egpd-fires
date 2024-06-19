@@ -10,7 +10,7 @@ outbase="csv_fits/${modname}_${params}_${dataset}_${sttime}"
 # run model with 5 chains
 for i in {1..4}
   do
-    ./${model} sample num_warmup=1000 num_samples=1000 save_warmup=true \
+    ./${model} sample num_warmup=1000 num_samples=1000 save_warmup=1 \
                   data file=${datafile} \
                   init=0.01 \
                   output file=${outbase}_${i}.csv \

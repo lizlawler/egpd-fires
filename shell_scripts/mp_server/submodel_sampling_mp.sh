@@ -7,13 +7,14 @@ cd ${basedir}
 model="stan/${modname}_${params}"
 outbase="csv_fits/${modname}_${params}_${dataset}_${sttime}"
 
-# run model with 3 chains
+# run model with 5 chains
 for i in {1..4}
   do
-    ./${model} sample num_warmup=1000 num_samples=1000 \
+    ./${model} sample num_warmup=1000 num_samples=1000 save_warmup=true \
                   data file=${datafile} \
                   init=0.01 \
-                  output file=${outbase}_${i}.csv &
+                  output file=${outbase}_${i}.csv \
+                  refresh=25 &
   done
 
 # ./${model} sample num_chains=3 num_warmup=1000 num_samples=1000 \

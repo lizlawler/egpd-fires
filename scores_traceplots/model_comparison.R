@@ -183,9 +183,7 @@ g1_dataset_comp <- ll_comp %>% left_join(twcrps_comp)
 # saveRDS(g1_dataset_comp, "./figures/g1_dataset_comparison.RDS")
 
 ### Phase three: pick best burned sizes model run on best dataset -----
-# NB: while 'ERC-FWI' is the best dataset, the G3 and G4 carrier families did not 
-# mix well on this dataset, so scores here are shown for 'ERC' dataset
-# G3 and G4 were run on a different machine since they take longer than 
+# NB: G3 and G4 were run on a different machine since they take longer than 
 # seven days to run, so those scores were not extracted like G1, G2, and lognorm
 # models. These will need to be read directly from the csvs
 score_files <- paste0("./scores_traceplots/extracted_scores/",
@@ -274,7 +272,7 @@ twcrps_comp
 
 sizes_models_comp <- ll_comp %>% left_join(twcrps_comp)
 # save for use in markdown to create tables
-saveRDS(sizes_models_comp, "./figures/sizes_model_comparison.RDS")
+# saveRDS(sizes_models_comp, "./figures/sizes_model_comparison.RDS")
 
 # Occurrences submodel comparisons and pipeline  ----------------------
 ### Phase one: pick best count model based on climate covariates dataset ### -----

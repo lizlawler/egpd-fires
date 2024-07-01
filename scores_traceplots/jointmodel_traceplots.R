@@ -11,7 +11,7 @@ library(MCMCvis)
 library(posterior)
 
 csvbase <- paste0("./models/", type, "/csv_fits/")
-plotbase <- paste0("./scores_traceplots/", type, "/")
+plotbase <- paste0("./scores_traceplots/traceplots/", type, "/")
 csvpattern <- paste0(type, "_", model, "_", params, "_", sttime)
 files <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 print("Filenames being used are:")

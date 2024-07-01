@@ -12,7 +12,7 @@ library(MCMCvis)
 library(posterior)
 
 csvbase <- paste0("./models/", type, "/", model, "/csv_fits/")
-plotbase <- paste0("./scores_traceplots/", type, "/", model, "/")
+plotbase <- paste0("./scores_traceplots/traceplots/", type, "/", model, "/")
 csvpattern <- paste0(model, "_", params, "_", dataset, "_", sttime)
 csvfiles <- paste0(csvbase, list.files(path = csvbase, pattern = csvpattern))
 

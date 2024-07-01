@@ -76,12 +76,12 @@ sizes_model_scores_table <- sizes_model_scores %>%
                                .default = 'cst'),
          xi = case_when(grepl('xi-ri', model) ~ 'ri',
                         .default = NA),
-         time = case_when(grepl('g4', model) ~ 636903, # grab sampling elapsed time from console output of each model
-                          grepl('g3', model) ~ 332067,
-                          grepl('g2', model) ~ 31936,
-                          grepl('g1', model) ~ 23195,
-                          grepl('cst', model) ~ 19096,
-                          .default = 16157),
+         time = case_when(grepl('g4', model) ~ 464731, # grab sampling elapsed time with min(fit$time()$chains$sampling)
+                          grepl('g3', model) ~ 321160,
+                          grepl('g2', model) ~ 41596.8,
+                          grepl('g1', model) ~ 24831.6,
+                          grepl('cst', model) ~ 19155.2, # reflects lognorm sigma-cst
+                          .default = 18820.4), # lognorm sigma-ri
          time = time/3600) # convert to hours
 
 sizes_model_scores_table %>% arrange(twcrps_mean_diff) %>% relocate(c('twcrps_mean_diff', 'twcrps_sd_diff'), .before = 'll_med_diff') %>% 

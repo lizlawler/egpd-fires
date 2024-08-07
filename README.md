@@ -1,6 +1,6 @@
 # EGPD - Wildfires in the contiguous United States
 
-Code and data associated with Lawler and Shaby's "Anthropogenic and meteorological effects on the counts and sizes of moderate and extreme wildfires" (in review).
+Code and data to reproduce results of [Lawler and Shaby (2024)](https://doi.org/10.1002/env.2873). 
 
 ## Data processing
 
@@ -49,3 +49,6 @@ Stan code has been created for every permutation of the EGPD carrier families an
 ## Results and figures
 
 All R scripts needed to recreate the figures presented in the paper are included in the [`figures/`](figures/) folder. The MCMC draws and model scores must be extracted prior to running these scripts. The scripts can then be run in no particular order.
+
+## References
+Lawler, E. S., & Shaby, B. A. (2024). Anthropogenic and meteorological effects on the counts and sizes of moderate and extreme wildfires. _Environmetrics_, e2873. https://doi.org/10.1002/env.2873

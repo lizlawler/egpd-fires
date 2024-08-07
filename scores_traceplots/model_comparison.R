@@ -212,7 +212,7 @@ extraction(g4_files, g4_name)
 
 size_model_names <- c(sizes_model_names, g3_name, g4_name)
 
-## aggregate scores across the four datasets
+## aggregate scores from the different models
 nfits <- length(size_model_names)
 holdout_loglik <- vector("list", nfits)
 holdout_twcrps <- vector("list", nfits)
